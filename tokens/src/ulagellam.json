@@ -1,0 +1,43 @@
+{
+  "ulge": {
+    "color": {
+      "primary":              { "value": "{color.blue.400}",      "type": "color",
+                                "comment": "Placeholder — confirm at Ulagellam design kickoff" },
+      "primaryForeground":    { "value": "{color.neutral.white}",  "type": "color" },
+      "accent":               { "value": "{color.orange.500}",    "type": "color" },
+      "accentForeground":     { "value": "{color.neutral.white}",  "type": "color" },
+      "background":           { "value": "{color.neutral.white}",  "type": "color" },
+      "backgroundSecondary":  { "value": "{color.neutral.50}",    "type": "color" },
+      "foreground":           { "value": "{color.neutral.800}",   "type": "color" },
+      "foregroundSecondary":  { "value": "{color.neutral.500}",   "type": "color" },
+      "border":               { "value": "{color.neutral.200}",   "type": "color" },
+      "success":              { "value": "{color.status.success}", "type": "color" },
+      "warning":              { "value": "{color.status.warning}", "type": "color" },
+      "danger":               { "value": "{color.status.danger}",  "type": "color" }
+    },
+    "font": {
+      "sizeBase":      { "value": "{font.size.base}",      "type": "dimension" },
+      "weightBody":    { "value": "{font.weight.normal}",  "type": "fontWeight" },
+      "weightHeading": { "value": "{font.weight.semibold}", "type": "fontWeight" }
+    },
+    "spacing": {
+      "pagePadding": { "value": "{spacing.4}", "type": "dimension" },
+      "cardPadding": { "value": "{spacing.4}", "type": "dimension" },
+      "sectionGap":  { "value": "{spacing.6}", "type": "dimension" }
+    },
+    "radius": {
+      "default": { "value": "{radius.xl}",   "type": "dimension" },
+      "sm":      { "value": "{radius.md}",   "type": "dimension" },
+      "pill":    { "value": "{radius.full}", "type": "dimension" }
+    },
+    "shadow": {
+      "card":  { "value": "{shadow.sm}", "type": "shadow" },
+      "modal": { "value": "{shadow.lg}", "type": "shadow" }
+    },
+    "icon": {
+      "sm": { "value": "{icon.sm}", "type": "dimension" },
+      "md": { "value": "{icon.md}", "type": "dimension" },
+      "lg": { "value": "{icon.lg}", "type": "dimension" }
+    }
+  }
+}

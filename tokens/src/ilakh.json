@@ -1,0 +1,51 @@
+{
+  "ilkh": {
+    "color": {
+      "primary":              { "value": "{color.blue.400}",      "type": "color",
+                                "comment": "Placeholder — confirm at Ilakh design kickoff" },
+      "primaryForeground":    { "value": "{color.neutral.white}",  "type": "color" },
+      "accent":               { "value": "{color.orange.500}",    "type": "color" },
+      "accentForeground":     { "value": "{color.neutral.white}",  "type": "color" },
+      "background":           { "value": "{color.neutral.white}",  "type": "color" },
+      "backgroundSecondary":  { "value": "{color.neutral.50}",    "type": "color" },
+      "backgroundTertiary":   { "value": "{color.neutral.100}",   "type": "color" },
+      "foreground":           { "value": "{color.neutral.800}",   "type": "color" },
+      "foregroundSecondary":  { "value": "{color.neutral.500}",   "type": "color" },
+      "foregroundTertiary":   { "value": "{color.neutral.400}",   "type": "color" },
+      "border":               { "value": "{color.neutral.200}",   "type": "color" },
+      "borderHover":          { "value": "{color.neutral.300}",   "type": "color" },
+      "success":              { "value": "{color.status.success}", "type": "color" },
+      "warning":              { "value": "{color.status.warning}", "type": "color" },
+      "danger":               { "value": "{color.status.danger}",  "type": "color" },
+      "info":                 { "value": "{color.status.info}",    "type": "color" }
+    },
+    "font": {
+      "sizeBase":      { "value": "{font.size.base}",    "type": "dimension",
+                         "comment": "16px — mobile first, same base for web" },
+      "weightBody":    { "value": "{font.weight.normal}", "type": "fontWeight" },
+      "weightHeading": { "value": "{font.weight.medium}", "type": "fontWeight" }
+    },
+    "spacing": {
+      "pagePadding":  { "value": "{spacing.4}", "type": "dimension",
+                        "comment": "16px mobile-first — web wrapper adds more at breakpoint" },
+      "cardPadding":  { "value": "{spacing.4}", "type": "dimension" },
+      "sectionGap":   { "value": "{spacing.6}", "type": "dimension" }
+    },
+    "radius": {
+      "default": { "value": "{radius.lg}",   "type": "dimension" },
+      "sm":      { "value": "{radius.md}",   "type": "dimension" },
+      "lg":      { "value": "{radius.xl}",   "type": "dimension" },
+      "pill":    { "value": "{radius.full}", "type": "dimension" }
+    },
+    "shadow": {
+      "card":     { "value": "{shadow.sm}", "type": "shadow" },
+      "modal":    { "value": "{shadow.lg}", "type": "shadow" },
+      "dropdown": { "value": "{shadow.md}", "type": "shadow" }
+    },
+    "icon": {
+      "sm": { "value": "{icon.sm}", "type": "dimension" },
+      "md": { "value": "{icon.md}", "type": "dimension" },
+      "lg": { "value": "{icon.lg}", "type": "dimension" }
+    }
+  }
+}

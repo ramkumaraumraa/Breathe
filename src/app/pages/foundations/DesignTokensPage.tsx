@@ -65,34 +65,34 @@ const products: Product[] = [
   {
     id: 'technocracy',
     label: 'Technocracy',
-    prefix: 'tech',
+    prefix: 'thcy',
     description: 'Dense admin dashboard with dark surfaces and the same shared base palette.',
     surface: 'dark',
     platforms: ['Web CSS'],
     colors: [
-      { name: 'Primary', token: '--tech-color-primary', value: '#40AAD4', role: 'Interactive elements' },
-      { name: 'Accent', token: '--tech-color-accent', value: '#E07722', role: 'Highlights and alerts' },
-      { name: 'Background', token: '--tech-color-background', value: '#111827', role: 'App shell surface' },
-      { name: 'Background Secondary', token: '--tech-color-background-secondary', value: '#1F2937', role: 'Panels and cards' },
-      { name: 'Sidebar', token: '--tech-color-sidebar', value: '#111827', role: 'Navigation column' },
-      { name: 'Foreground', token: '--tech-color-foreground', value: '#F9FAFB', role: 'Text on dark' },
-      { name: 'Foreground Secondary', token: '--tech-color-foreground-secondary', value: '#9CA3AF', role: 'Metadata' },
-      { name: 'Border', token: '--tech-color-border', value: '#374151', role: 'Dividers' },
+      { name: 'Primary', token: '--thcy-color-primary', value: '#40AAD4', role: 'Interactive elements' },
+      { name: 'Accent', token: '--thcy-color-accent', value: '#E07722', role: 'Highlights and alerts' },
+      { name: 'Background', token: '--thcy-color-background', value: '#111827', role: 'App shell surface' },
+      { name: 'Background Secondary', token: '--thcy-color-background-secondary', value: '#1F2937', role: 'Panels and cards' },
+      { name: 'Sidebar', token: '--thcy-color-sidebar', value: '#111827', role: 'Navigation column' },
+      { name: 'Foreground', token: '--thcy-color-foreground', value: '#F9FAFB', role: 'Text on dark' },
+      { name: 'Foreground Secondary', token: '--thcy-color-foreground-secondary', value: '#9CA3AF', role: 'Metadata' },
+      { name: 'Border', token: '--thcy-color-border', value: '#374151', role: 'Dividers' },
     ],
     typography: [
-      { name: 'Base size', token: '--tech-font-size-base', value: '14px' },
-      { name: 'Body weight', token: '--tech-font-weight-body', value: '400' },
-      { name: 'Heading weight', token: '--tech-font-weight-heading', value: '500' },
+      { name: 'Base size', token: '--thcy-font-size-base', value: '14px' },
+      { name: 'Body weight', token: '--thcy-font-weight-body', value: '400' },
+      { name: 'Heading weight', token: '--thcy-font-weight-heading', value: '500' },
     ],
     radius: [
-      { name: 'Default', token: '--tech-radius-default', value: '8px' },
-      { name: 'Small', token: '--tech-radius-sm', value: '4px' },
-      { name: 'Large', token: '--tech-radius-lg', value: '10px' },
+      { name: 'Default', token: '--thcy-radius-default', value: '8px' },
+      { name: 'Small', token: '--thcy-radius-sm', value: '4px' },
+      { name: 'Large', token: '--thcy-radius-lg', value: '10px' },
     ],
     icons: [
-      { name: 'SM', token: '--tech-icon-sm', value: '16px' },
-      { name: 'MD', token: '--tech-icon-md', value: '20px' },
-      { name: 'LG', token: '--tech-icon-lg', value: '24px' },
+      { name: 'SM', token: '--thcy-icon-sm', value: '16px' },
+      { name: 'MD', token: '--thcy-icon-md', value: '20px' },
+      { name: 'LG', token: '--thcy-icon-lg', value: '24px' },
     ],
   },
   {
@@ -121,9 +121,9 @@ const products: Product[] = [
     id: 'yakaizen',
     label: 'Yakaizen',
     prefix: 'ykai',
-    description: 'Planned multi-platform product. The token schema is in place before the UI starts.',
+    description: 'Health and wellness — mobile, watch, and app widgets',
     surface: 'light',
-    platforms: ['Web CSS', 'React Native', 'iOS Swift', 'Android XML', 'watchOS-ready'],
+    platforms: ['React Native', 'iOS Swift', 'Android XML', 'watchOS', 'iOS WidgetKit', 'Android Glance'],
     colors: [
       { name: 'Primary', token: '--ykai-color-primary', value: '#40AAD4', role: 'Placeholder until kickoff' },
       { name: 'Accent', token: '--ykai-color-accent', value: '#E07722', role: 'Placeholder accent' },
@@ -137,13 +137,121 @@ const products: Product[] = [
       { name: 'MD', token: '--ykai-icon-md', value: '20px' },
     ],
   },
+  {
+    id: 'maligai',
+    label: 'Maligai Manager',
+    prefix: 'mlgm',
+    description: 'Grocery and retail management — mobile primary, web secondary',
+    platforms: ['Web CSS', 'React Native', 'iOS Swift', 'Android XML'],
+    surface: 'light',
+    colors: [
+      { name: 'Primary',              token: '--mlgm-color-primary',              value: '#40AAD4', role: 'Placeholder — confirm at design kickoff' },
+      { name: 'Accent',               token: '--mlgm-color-accent',               value: '#E07722', role: 'Highlights' },
+      { name: 'Background',           token: '--mlgm-color-background',           value: '#ffffff', role: 'Page / screen surface' },
+      { name: 'Background Secondary', token: '--mlgm-color-background-secondary', value: '#F9FAFB', role: 'Cards' },
+      { name: 'Foreground',           token: '--mlgm-color-foreground',           value: '#1F2937', role: 'Body text' },
+      { name: 'Foreground Secondary', token: '--mlgm-color-foreground-secondary', value: '#6B7280', role: 'Captions' },
+      { name: 'Border',               token: '--mlgm-color-border',               value: '#E5E7EB', role: 'Dividers' },
+      { name: 'Success',              token: '--mlgm-color-success',              value: '#16A34A', role: 'Positive states' },
+      { name: 'Warning',              token: '--mlgm-color-warning',              value: '#D97706', role: 'Caution' },
+      { name: 'Danger',               token: '--mlgm-color-danger',               value: '#DC2626', role: 'Errors' },
+    ],
+    typography: [
+      { name: 'Base size',      token: '--mlgm-font-size-base',      value: '16px' },
+      { name: 'Body weight',    token: '--mlgm-font-weight-body',    value: '400' },
+      { name: 'Heading weight', token: '--mlgm-font-weight-heading', value: '600 (mobile readability)' },
+    ],
+    radius: [
+      { name: 'Default', token: '--mlgm-radius-default', value: '16px (mobile-native)' },
+      { name: 'Small',   token: '--mlgm-radius-sm',      value: '8px' },
+      { name: 'Pill',    token: '--mlgm-radius-pill',    value: '9999px' },
+    ],
+    icons: [
+      { name: 'SM', token: '--mlgm-icon-sm', value: '16px' },
+      { name: 'MD', token: '--mlgm-icon-md', value: '20px (default)' },
+      { name: 'LG', token: '--mlgm-icon-lg', value: '24px' },
+    ],
+  },
+  {
+    id: 'ulagellam',
+    label: 'Ulagellam',
+    prefix: 'ulge',
+    description: 'Mobile-only app — React Native, iOS, Android',
+    platforms: ['React Native', 'iOS Swift', 'Android XML'],
+    surface: 'light',
+    colors: [
+      { name: 'Primary',              token: '--ulge-color-primary',              value: '#40AAD4', role: 'Placeholder — confirm at design kickoff' },
+      { name: 'Accent',               token: '--ulge-color-accent',               value: '#E07722', role: 'Highlights' },
+      { name: 'Background',           token: '--ulge-color-background',           value: '#ffffff', role: 'Screen surface' },
+      { name: 'Background Secondary', token: '--ulge-color-background-secondary', value: '#F9FAFB', role: 'Cards' },
+      { name: 'Foreground',           token: '--ulge-color-foreground',           value: '#1F2937', role: 'Body text' },
+      { name: 'Foreground Secondary', token: '--ulge-color-foreground-secondary', value: '#6B7280', role: 'Captions' },
+      { name: 'Border',               token: '--ulge-color-border',               value: '#E5E7EB', role: 'Dividers' },
+      { name: 'Success',              token: '--ulge-color-success',              value: '#16A34A', role: 'Positive states' },
+      { name: 'Danger',               token: '--ulge-color-danger',               value: '#DC2626', role: 'Errors' },
+    ],
+    typography: [
+      { name: 'Base size',      token: '--ulge-font-size-base',      value: '16px' },
+      { name: 'Body weight',    token: '--ulge-font-weight-body',    value: '400' },
+      { name: 'Heading weight', token: '--ulge-font-weight-heading', value: '600' },
+    ],
+    radius: [
+      { name: 'Default', token: '--ulge-radius-default', value: '16px' },
+      { name: 'Small',   token: '--ulge-radius-sm',      value: '8px' },
+      { name: 'Pill',    token: '--ulge-radius-pill',    value: '9999px' },
+    ],
+    icons: [
+      { name: 'SM', token: '--ulge-icon-sm', value: '16px' },
+      { name: 'MD', token: '--ulge-icon-md', value: '20px (default)' },
+      { name: 'LG', token: '--ulge-icon-lg', value: '24px' },
+    ],
+  },
+  {
+    id: 'ilakh',
+    label: 'Ilakh',
+    prefix: 'ilkh',
+    description: 'Web and mobile — mobile-first approach',
+    platforms: ['Web CSS', 'React Native', 'iOS Swift', 'Android XML'],
+    surface: 'light',
+    colors: [
+      { name: 'Primary',              token: '--ilkh-color-primary',              value: '#40AAD4', role: 'Placeholder — confirm at design kickoff' },
+      { name: 'Accent',               token: '--ilkh-color-accent',               value: '#E07722', role: 'Highlights' },
+      { name: 'Background',           token: '--ilkh-color-background',           value: '#ffffff', role: 'Page / screen surface' },
+      { name: 'Background Secondary', token: '--ilkh-color-background-secondary', value: '#F9FAFB', role: 'Cards' },
+      { name: 'Foreground',           token: '--ilkh-color-foreground',           value: '#1F2937', role: 'Body text' },
+      { name: 'Foreground Secondary', token: '--ilkh-color-foreground-secondary', value: '#6B7280', role: 'Captions' },
+      { name: 'Border',               token: '--ilkh-color-border',               value: '#E5E7EB', role: 'Dividers' },
+      { name: 'Success',              token: '--ilkh-color-success',              value: '#16A34A', role: 'Positive states' },
+      { name: 'Warning',              token: '--ilkh-color-warning',              value: '#D97706', role: 'Caution' },
+      { name: 'Danger',               token: '--ilkh-color-danger',               value: '#DC2626', role: 'Errors' },
+    ],
+    typography: [
+      { name: 'Base size',      token: '--ilkh-font-size-base',      value: '16px (mobile-first)' },
+      { name: 'Body weight',    token: '--ilkh-font-weight-body',    value: '400' },
+      { name: 'Heading weight', token: '--ilkh-font-weight-heading', value: '500' },
+    ],
+    radius: [
+      { name: 'Default', token: '--ilkh-radius-default', value: '10px' },
+      { name: 'Small',   token: '--ilkh-radius-sm',      value: '8px' },
+      { name: 'Large',   token: '--ilkh-radius-lg',      value: '16px' },
+      { name: 'Pill',    token: '--ilkh-radius-pill',    value: '9999px' },
+    ],
+    icons: [
+      { name: 'SM', token: '--ilkh-icon-sm', value: '16px' },
+      { name: 'MD', token: '--ilkh-icon-md', value: '20px (default)' },
+      { name: 'LG', token: '--ilkh-icon-lg', value: '24px' },
+    ],
+  },
 ];
 
 const platformMatrix = [
-  { product: 'Lemniscate', web: true, rn: false, ios: false, android: false, watch: false },
-  { product: 'Technocracy', web: true, rn: false, ios: false, android: false, watch: false },
-  { product: 'Aumraa', web: true, rn: false, ios: false, android: false, watch: false },
-  { product: 'Yakaizen', web: true, rn: true, ios: true, android: true, watch: true },
+  { product: 'Aumraa',          web: true,  rn: false, ios: false, android: false, watch: false, widgets: false },
+  { product: 'Technocracy',     web: true,  rn: false, ios: false, android: false, watch: false, widgets: false },
+  { product: 'Lemniscate',      web: true,  rn: false, ios: false, android: false, watch: false, widgets: false },
+  { product: 'Maligai Manager', web: true,  rn: true,  ios: true,  android: true,  watch: false, widgets: false },
+  { product: 'Ulagellam',       web: false, rn: true,  ios: true,  android: true,  watch: false, widgets: false },
+  { product: 'Ilakh',           web: true,  rn: true,  ios: true,  android: true,  watch: false, widgets: false },
+  { product: 'Yakaizen',        web: false, rn: true,  ios: true,  android: true,  watch: true,  widgets: true  },
 ];
 
 function TokenBadge({ token }: { token: string }) {
@@ -318,12 +426,21 @@ export function DesignTokensPage() {
           </p>
         </div>
 
+        {(() => {
+          const isPlaceholder = (id: string) =>
+            ['maligai', 'ulagellam', 'ilakh', 'yakaizen'].includes(id);
+
+          return (
         <Tabs defaultValue="lemniscate">
           <TabsList className="mb-6 h-auto flex-wrap justify-start gap-2 rounded-xl bg-slate-100 p-2 dark:bg-slate-900">
-            {products.map((product) => (
-              <TabsTrigger key={product.id} value={product.id} className="rounded-lg px-4 py-2">
-                <span className="mr-2">{product.label}</span>
-                {product.id === 'yakaizen' && <Badge variant="outline">Stub</Badge>}
+            {products.map((p) => (
+              <TabsTrigger key={p.id} value={p.id} className="flex items-center gap-2 rounded-lg px-4 py-2">
+                {p.label}
+                {isPlaceholder(p.id) && (
+                  <Badge variant="outline" className="text-[10px] py-0 h-4 text-muted-foreground">
+                    Pending kickoff
+                  </Badge>
+                )}
               </TabsTrigger>
             ))}
           </TabsList>
@@ -385,6 +502,8 @@ export function DesignTokensPage() {
             </TabsContent>
           ))}
         </Tabs>
+          );
+        })()}
       </section>
 
       <section className="mb-12">
@@ -401,7 +520,7 @@ export function DesignTokensPage() {
           <table className="w-full border-collapse">
             <thead>
               <tr className="bg-slate-50 dark:bg-slate-900/70">
-                {['Product', 'Web CSS', 'React Native', 'iOS Swift', 'Android XML', 'watchOS'].map((heading) => (
+                {['Product', 'Web CSS', 'React Native', 'iOS Swift', 'Android XML', 'watchOS', 'Widgets'].map((heading) => (
                   <th key={heading} className="px-4 py-3 text-left text-slate-500 dark:text-slate-400" style={{ fontSize: '0.75rem', fontWeight: 600 }}>
                     {heading}
                   </th>
@@ -419,6 +538,7 @@ export function DesignTokensPage() {
                   <td className="border-t border-slate-100 px-4 py-3 dark:border-slate-800"><StatusCell active={row.ios} /></td>
                   <td className="border-t border-slate-100 px-4 py-3 dark:border-slate-800"><StatusCell active={row.android} /></td>
                   <td className="border-t border-slate-100 px-4 py-3 dark:border-slate-800"><StatusCell active={row.watch} /></td>
+                  <td className="border-t border-slate-100 px-4 py-3 dark:border-slate-800"><StatusCell active={row.widgets} /></td>
                 </tr>
               ))}
             </tbody>

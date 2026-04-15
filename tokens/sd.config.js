@@ -37,10 +37,41 @@ StyleDictionary.registerTransformGroup({
 });
 
 const products = [
-  { name: 'lemniscate', prefix: 'lmns', platforms: ['web'] },
-  { name: 'technocracy', prefix: 'tech', platforms: ['web'] },
-  { name: 'aumraa', prefix: 'amra', platforms: ['web'] },
-  { name: 'yakaizen', prefix: 'ykai', platforms: ['web', 'reactNative', 'ios', 'android'] },
+  {
+    name: 'aumraa',
+    prefix: 'amra',
+    platforms: ['web'],
+  },
+  {
+    name: 'technocracy',
+    prefix: 'thcy',
+    platforms: ['web'],
+  },
+  {
+    name: 'lemniscate',
+    prefix: 'lmns',
+    platforms: ['web'],
+  },
+  {
+    name: 'maligai',
+    prefix: 'mlgm',
+    platforms: ['web', 'reactNative', 'ios', 'android'],
+  },
+  {
+    name: 'ulagellam',
+    prefix: 'ulge',
+    platforms: ['reactNative', 'ios', 'android'],
+  },
+  {
+    name: 'ilakh',
+    prefix: 'ilkh',
+    platforms: ['web', 'reactNative', 'ios', 'android'],
+  },
+  {
+    name: 'yakaizen',
+    prefix: 'ykai',
+    platforms: ['reactNative', 'ios', 'android', 'watchos', 'widgets'],
+  },
 ];
 
 for (const product of products) {
@@ -113,6 +144,57 @@ for (const product of products) {
           destination: 'colors.xml',
           format: 'android/colors',
           filter: (token) => token.path[0] === product.prefix && token.type === 'color',
+        },
+      ],
+    };
+  }
+
+  // ── watchOS (Swift – separate from iOS main app) ───────────────────────
+  if (product.platforms.includes('watchos')) {
+    config.platforms.watchos = {
+      transformGroup: 'breathe/ios-swift',
+      buildPath: `tokens/dist/watchos/`,
+      files: [
+        {
+          destination: `${product.name.charAt(0).toUpperCase() + product.name.slice(1)}WatchTokens.swift`,
+          format: 'ios-swift/class.swift',
+          filter: (token) => token.path[0] === product.prefix,
+          options: {
+            className: `${product.name.charAt(0).toUpperCase() + product.name.slice(1)}WatchTokens`,
+            import: 'UIKit',
+          },
+        },
+      ],
+    };
+  }
+
+  // ── Widgets (iOS WidgetKit Swift + Android Glance Kotlin) ─────────────
+  if (product.platforms.includes('widgets')) {
+    config.platforms.widgetsIos = {
+      transformGroup: 'breathe/ios-swift',
+      buildPath: `tokens/dist/widgets/ios/`,
+      files: [
+        {
+          destination: `${product.name.charAt(0).toUpperCase() + product.name.slice(1)}WidgetTokens.swift`,
+          format: 'ios-swift/class.swift',
+          filter: (token) => token.path[0] === product.prefix,
+          options: {
+            className: `${product.name.charAt(0).toUpperCase() + product.name.slice(1)}WidgetTokens`,
+            import: 'UIKit',
+          },
+        },
+      ],
+    };
+    config.platforms.widgetsAndroid = {
+      transformGroup: 'android',
+      buildPath: `tokens/dist/widgets/android/${product.name}/`,
+      files: [
+        {
+          destination: 'widget_colors.xml',
+          format: 'android/colors',
+          filter: (token) =>
+            token.path[0] === product.prefix &&
+            token.type === 'color',
         },
       ],
     };

@@ -1,5 +1,5 @@
 {
-  "tech": {
+  "thcy": {
     "color": {
       "primary": { "value": "{color.blue.400}", "type": "color" },
       "primaryForeground": { "value": "{color.neutral.white}", "type": "color" },

@@ -1,0 +1,78 @@
+/* ============================================================
+   BREATHE — Technocracy Product Tokens
+   Prefix: tech--
+   Product: Technocracy (Aumraa Admin Dashboard)
+   Surface: Dark — dark sidebar, neutral surfaces
+   All values reference global tokens. Never raw hex here.
+   ============================================================ */
+
+@import './global.css';
+
+:root {
+
+  /* --- Colors --- */
+  --tech-primary:              var(--color-blue-400);
+  --tech-primary-foreground:   var(--color-white);
+
+  --tech-accent:               var(--color-orange-500);
+  --tech-accent-foreground:    var(--color-white);
+
+  /* Dark surface theme */
+  --tech-background:           var(--color-gray-900);
+  --tech-background-secondary: var(--color-gray-800);
+  --tech-background-tertiary:  var(--color-gray-700);
+
+  --tech-sidebar:              var(--color-gray-900);
+  --tech-sidebar-foreground:   var(--color-gray-100);
+  --tech-sidebar-accent:       var(--color-gray-800);
+
+  --tech-foreground:           var(--color-gray-50);
+  --tech-foreground-secondary: var(--color-gray-400);
+  --tech-foreground-tertiary:  var(--color-gray-500);
+
+  --tech-border:               var(--color-gray-700);
+  --tech-border-hover:         var(--color-gray-600);
+
+  --tech-success:              var(--color-success);
+  --tech-warning:              var(--color-warning);
+  --tech-danger:               var(--color-danger);
+  --tech-info:                 var(--color-info);
+
+  /* --- Typography --- */
+  --tech-font-body:            var(--font-sans);
+  --tech-font-mono:            var(--font-mono);
+  --tech-font-size-base:       var(--text-sm);       /* 14px — denser admin UI */
+  --tech-font-weight-body:     var(--font-weight-normal);
+  --tech-font-weight-heading:  var(--font-weight-medium);
+
+  /* --- Spacing --- */
+  --tech-spacing-unit:         var(--space-4);
+  --tech-page-padding:         var(--space-6);
+  --tech-card-padding:         var(--space-4);       /* tighter than Lemniscate */
+  --tech-section-gap:          var(--space-6);
+
+  /* --- Radius --- */
+  --tech-radius:               var(--radius-md);     /* 8px — slightly tighter */
+  --tech-radius-sm:            var(--radius-sm);
+  --tech-radius-lg:            var(--radius-lg);
+
+  /* --- Elevation --- */
+  --tech-shadow-card:          var(--shadow-xs);
+  --tech-shadow-modal:         var(--shadow-xl);
+  --tech-shadow-dropdown:      var(--shadow-lg);
+
+  /* --- Icons --- */
+  --tech-icon-xs:              var(--icon-xs);
+  --tech-icon-sm:              var(--icon-sm);       /* 16px — default for dense UI */
+  --tech-icon-md:              var(--icon-md);
+  --tech-icon-lg:              var(--icon-lg);
+
+  /* --- Logos --- */
+  --tech-logo-primary:         '/assets/logos/aumraa/aumraa_standard_light.svg';
+  --tech-logo-icon:            '/assets/logos/aumraa/aumraa_icon.svg';
+  --tech-logo-horizontal:      '/assets/logos/aumraa/aumraa_horizontal_light.svg';
+  --tech-logo-reversed:        '/assets/logos/aumraa/aumraa_reversed_dark.svg';
+  --tech-logo-mono-light:      '/assets/logos/aumraa/aumraa_mono-white.svg';
+  --tech-logo-mono-dark:       '/assets/logos/aumraa/aumraa_mono-black.svg';
+
+}

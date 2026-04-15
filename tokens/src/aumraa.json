@@ -1,0 +1,21 @@
+{
+  "amra": {
+    "color": {
+      "primary": { "value": "{color.blue.700}", "type": "color" },
+      "primaryForeground": { "value": "{color.neutral.white}", "type": "color" },
+      "accent": { "value": "{color.orange.500}", "type": "color" },
+      "accentForeground": { "value": "{color.neutral.white}", "type": "color" },
+      "background": { "value": "{color.neutral.white}", "type": "color" },
+      "foreground": { "value": "{color.neutral.900}", "type": "color" },
+      "gradientStart": { "value": "{color.blue.400}", "type": "color" },
+      "gradientEnd": { "value": "{color.blue.700}", "type": "color" }
+    },
+    "font": {
+      "sizeBase": { "value": "{font.size.base}", "type": "dimension" },
+      "weightHeading": { "value": "{font.weight.semibold}", "type": "fontWeight" }
+    },
+    "icon": {
+      "md": { "value": "{icon.md}", "type": "dimension" }
+    }
+  }
+}

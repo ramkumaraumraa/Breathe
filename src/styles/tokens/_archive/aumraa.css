@@ -1,0 +1,39 @@
+/* ============================================================
+   BREATHE — Aumraa Studio Brand Tokens
+   Prefix: amra--
+   Usage: Marketing site, studio-level brand communications
+   ============================================================ */
+
+@import './global.css';
+
+:root {
+
+  --amra-primary:              var(--color-blue-700);
+  --amra-primary-foreground:   var(--color-white);
+
+  --amra-accent:               var(--color-orange-500);
+  --amra-accent-foreground:    var(--color-white);
+
+  --amra-background:           var(--color-white);
+  --amra-foreground:           var(--color-gray-900);
+
+  --amra-gradient-start:       var(--color-blue-400);
+  --amra-gradient-end:         var(--color-blue-700);
+
+  /* --- Typography --- */
+  --amra-font-body:            var(--font-sans);
+  --amra-font-size-base:       var(--text-base);
+  --amra-font-weight-heading:  var(--font-weight-semibold);
+
+  /* --- Icons --- */
+  --amra-icon-md:              var(--icon-md);
+
+  /* --- Logos --- */
+  --amra-logo-primary:         '/assets/logos/aumraa/aumraa_standard_light.svg';
+  --amra-logo-icon:            '/assets/logos/aumraa/aumraa_icon.svg';
+  --amra-logo-stacked:         '/assets/logos/aumraa/aumraa_stacked_light.svg';
+  --amra-logo-reversed:        '/assets/logos/aumraa/aumraa_reversed_dark.svg';
+  --amra-logo-mono-light:      '/assets/logos/aumraa/aumraa_mono-white.svg';
+  --amra-logo-mono-dark:       '/assets/logos/aumraa/aumraa_mono-black.svg';
+
+}

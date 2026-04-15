@@ -1,0 +1,17 @@
+{
+  "ykai": {
+    "color": {
+      "primary": { "value": "{color.blue.400}", "type": "color", "comment": "Placeholder - confirm at Yakaizen design kickoff" },
+      "accent": { "value": "{color.orange.500}", "type": "color" },
+      "background": { "value": "{color.neutral.white}", "type": "color" },
+      "foreground": { "value": "{color.neutral.900}", "type": "color" }
+    },
+    "font": {
+      "sizeBase": { "value": "{font.size.sm}", "type": "dimension", "comment": "Smaller for watch - confirm at kickoff" }
+    },
+    "icon": {
+      "sm": { "value": "{icon.sm}", "type": "dimension" },
+      "md": { "value": "{icon.md}", "type": "dimension" }
+    }
+  }
+}

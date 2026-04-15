@@ -1,0 +1,49 @@
+{
+  "tech": {
+    "color": {
+      "primary": { "value": "{color.blue.400}", "type": "color" },
+      "primaryForeground": { "value": "{color.neutral.white}", "type": "color" },
+      "accent": { "value": "{color.orange.500}", "type": "color" },
+      "accentForeground": { "value": "{color.neutral.white}", "type": "color" },
+      "background": { "value": "{color.neutral.900}", "type": "color" },
+      "backgroundSecondary": { "value": "{color.neutral.800}", "type": "color" },
+      "backgroundTertiary": { "value": "{color.neutral.700}", "type": "color" },
+      "sidebar": { "value": "#111827", "type": "color" },
+      "sidebarForeground": { "value": "{color.neutral.100}", "type": "color" },
+      "foreground": { "value": "{color.neutral.50}", "type": "color" },
+      "foregroundSecondary": { "value": "{color.neutral.400}", "type": "color" },
+      "foregroundTertiary": { "value": "{color.neutral.500}", "type": "color" },
+      "border": { "value": "{color.neutral.700}", "type": "color" },
+      "borderHover": { "value": "{color.neutral.600}", "type": "color" },
+      "success": { "value": "{color.status.success}", "type": "color" },
+      "warning": { "value": "{color.status.warning}", "type": "color" },
+      "danger": { "value": "{color.status.danger}", "type": "color" },
+      "info": { "value": "{color.status.info}", "type": "color" }
+    },
+    "font": {
+      "sizeBase": { "value": "{font.size.sm}", "type": "dimension", "comment": "14px - denser admin UI" },
+      "weightBody": { "value": "{font.weight.normal}", "type": "fontWeight" },
+      "weightHeading": { "value": "{font.weight.medium}", "type": "fontWeight" }
+    },
+    "spacing": {
+      "pagePadding": { "value": "{spacing.6}", "type": "dimension" },
+      "cardPadding": { "value": "{spacing.4}", "type": "dimension", "comment": "Tighter than Lemniscate" },
+      "sectionGap": { "value": "{spacing.6}", "type": "dimension" }
+    },
+    "radius": {
+      "default": { "value": "{radius.md}", "type": "dimension" },
+      "sm": { "value": "{radius.sm}", "type": "dimension" },
+      "lg": { "value": "{radius.lg}", "type": "dimension" }
+    },
+    "shadow": {
+      "card": { "value": "{shadow.xs}", "type": "shadow" },
+      "modal": { "value": "{shadow.xl}", "type": "shadow" },
+      "dropdown": { "value": "{shadow.lg}", "type": "shadow" }
+    },
+    "icon": {
+      "sm": { "value": "{icon.sm}", "type": "dimension", "comment": "16px default for dense UI" },
+      "md": { "value": "{icon.md}", "type": "dimension" },
+      "lg": { "value": "{icon.lg}", "type": "dimension" }
+    }
+  }
+}

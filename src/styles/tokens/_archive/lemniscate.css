@@ -1,0 +1,102 @@
+/* ============================================================
+   BREATHE — Lemniscate Product Tokens
+   Prefix: lmns--
+   Product: Lemniscate (Community Finance SaaS)
+   Surface: Light — white backgrounds, blue primary
+   All values reference global tokens. Never raw hex here.
+   ============================================================ */
+
+@import './global.css';
+
+:root {
+
+  /* --- Colors --- */
+  --lmns-primary:              var(--color-blue-400);
+  --lmns-primary-dark:         var(--color-blue-700);
+  --lmns-primary-foreground:   var(--color-white);
+
+  --lmns-secondary:            var(--color-blue-700);
+  --lmns-secondary-foreground: var(--color-white);
+
+  --lmns-accent:               var(--color-orange-500);
+  --lmns-accent-foreground:    var(--color-white);
+
+  --lmns-background:           var(--color-white);
+  --lmns-background-secondary: var(--color-gray-50);
+  --lmns-background-tertiary:  var(--color-gray-100);
+
+  --lmns-foreground:           var(--color-gray-800);
+  --lmns-foreground-secondary: var(--color-gray-500);
+  --lmns-foreground-tertiary:  var(--color-gray-400);
+
+  --lmns-border:               var(--color-gray-200);
+  --lmns-border-hover:         var(--color-gray-300);
+
+  --lmns-success:              var(--color-success);
+  --lmns-warning:              var(--color-warning);
+  --lmns-danger:               var(--color-danger);
+  --lmns-info:                 var(--color-info);
+
+  /* Gradient — sky blue → dark blue (brand gradient) */
+  --lmns-gradient-start:       var(--color-blue-400);
+  --lmns-gradient-end:         var(--color-blue-700);
+
+  /* --- Typography --- */
+  --lmns-font-body:            var(--font-sans);
+  --lmns-font-mono:            var(--font-mono);
+  --lmns-font-size-base:       var(--text-base);     /* 16px */
+  --lmns-font-weight-body:     var(--font-weight-normal);
+  --lmns-font-weight-heading:  var(--font-weight-medium);
+  --lmns-line-height:          var(--leading-normal);
+
+  /* --- Spacing --- */
+  --lmns-spacing-unit:         var(--space-4);       /* 16px base unit */
+  --lmns-page-padding:         var(--space-6);
+  --lmns-card-padding:         var(--space-6);
+  --lmns-section-gap:          var(--space-8);
+
+  /* --- Radius --- */
+  --lmns-radius:               var(--radius-lg);     /* 10px — default */
+  --lmns-radius-sm:            var(--radius-md);
+  --lmns-radius-lg:            var(--radius-xl);
+  --lmns-radius-pill:          var(--radius-full);
+
+  /* --- Elevation --- */
+  --lmns-shadow-card:          var(--shadow-sm);
+  --lmns-shadow-modal:         var(--shadow-lg);
+  --lmns-shadow-dropdown:      var(--shadow-md);
+
+  /* --- Icons --- */
+  --lmns-icon-xs:              var(--icon-xs);
+  --lmns-icon-sm:              var(--icon-sm);
+  --lmns-icon-md:              var(--icon-md);       /* 20px — default */
+  --lmns-icon-lg:              var(--icon-lg);
+
+  /* --- Logos --- */
+  --lmns-logo-primary:         '/assets/logos/leminiscate/leminiscate_standard_light.svg';
+  --lmns-logo-icon:            '/assets/logos/leminiscate/leminiscate_icon.svg';
+  --lmns-logo-horizontal:      '/assets/logos/leminiscate/leminiscate_horizontal_light.svg';
+  --lmns-logo-reversed:        '/assets/logos/leminiscate/leminiscate_reversed_dark.svg';
+  --lmns-logo-mono-light:      '/assets/logos/leminiscate/leminiscate_mono-white.svg';
+  --lmns-logo-mono-dark:       '/assets/logos/leminiscate/leminiscate_mono-black.svg';
+
+}
+
+/* --- Dark mode overrides --- */
+.dark {
+  --lmns-primary:              var(--color-blue-300);
+  --lmns-primary-foreground:   var(--color-gray-900);
+
+  --lmns-background:           var(--color-gray-900);
+  --lmns-background-secondary: var(--color-gray-800);
+  --lmns-background-tertiary:  var(--color-gray-700);
+
+  --lmns-foreground:           var(--color-gray-50);
+  --lmns-foreground-secondary: var(--color-gray-400);
+  --lmns-foreground-tertiary:  var(--color-gray-500);
+
+  --lmns-border:               var(--color-gray-700);
+  --lmns-border-hover:         var(--color-gray-600);
+
+  --lmns-logo-primary:         '/assets/logos/leminiscate/leminiscate_reversed_dark.svg';
+}

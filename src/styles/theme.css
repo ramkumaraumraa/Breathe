@@ -1,0 +1,231 @@
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Legacy raw-token aliases retained while the docs site moves to generated names. */
+  --color-white:          var(--color-neutral-white);
+  --color-black:          var(--color-neutral-black);
+  --color-gray-50:        var(--color-neutral-50);
+  --color-gray-100:       var(--color-neutral-100);
+  --color-gray-200:       var(--color-neutral-200);
+  --color-gray-300:       var(--color-neutral-300);
+  --color-gray-400:       var(--color-neutral-400);
+  --color-gray-500:       var(--color-neutral-500);
+  --color-gray-600:       var(--color-neutral-600);
+  --color-gray-700:       var(--color-neutral-700);
+  --color-gray-800:       var(--color-neutral-800);
+  --color-gray-900:       var(--color-neutral-900);
+  --color-success:        var(--color-status-success);
+  --color-success-light:  var(--color-status-success-light);
+  --color-success-dark:   var(--color-status-success-dark);
+  --color-warning:        var(--color-status-warning);
+  --color-warning-light:  var(--color-status-warning-light);
+  --color-warning-dark:   var(--color-status-warning-dark);
+  --color-danger:         var(--color-status-danger);
+  --color-danger-light:   var(--color-status-danger-light);
+  --color-danger-dark:    var(--color-status-danger-dark);
+  --color-info:           var(--color-status-info);
+  --color-info-light:     var(--color-status-info-light);
+  --color-info-dark:      var(--color-status-info-dark);
+  --text-2xs:             var(--font-size-2xs);
+  --text-xs:              var(--font-size-xs);
+  --text-sm:              var(--font-size-sm);
+  --text-base:            var(--font-size-base);
+  --text-lg:              var(--font-size-lg);
+  --text-xl:              var(--font-size-xl);
+  --text-2xl:             var(--font-size-2xl);
+  --text-3xl:             var(--font-size-3xl);
+  --text-4xl:             var(--font-size-4xl);
+  --space-0:              var(--spacing-0);
+  --space-1:              var(--spacing-1);
+  --space-2:              var(--spacing-2);
+  --space-3:              var(--spacing-3);
+  --space-4:              var(--spacing-4);
+  --space-5:              var(--spacing-5);
+  --space-6:              var(--spacing-6);
+  --space-8:              var(--spacing-8);
+  --space-10:             var(--spacing-10);
+  --space-12:             var(--spacing-12);
+  --space-16:             var(--spacing-16);
+}
+
+:root {
+  --background:           var(--lmns-color-background);
+  --foreground:           var(--lmns-color-foreground);
+
+  --card:                 var(--lmns-color-background);
+  --card-foreground:      var(--lmns-color-foreground);
+
+  --popover:              var(--lmns-color-background);
+  --popover-foreground:   var(--lmns-color-foreground);
+
+  --primary:              var(--lmns-color-primary);
+  --primary-foreground:   var(--lmns-color-primary-foreground);
+
+  --secondary:            var(--lmns-color-background-secondary);
+  --secondary-foreground: var(--lmns-color-foreground);
+
+  --muted:                var(--lmns-color-background-tertiary);
+  --muted-foreground:     var(--lmns-color-foreground-secondary);
+
+  --accent:               var(--lmns-color-accent);
+  --accent-foreground:    var(--lmns-color-accent-foreground);
+
+  --destructive:          var(--lmns-color-danger);
+  --destructive-foreground: var(--color-neutral-white);
+
+  --border:               var(--lmns-color-border);
+  --input:                var(--lmns-color-background-secondary);
+  --ring:                 var(--lmns-color-primary);
+
+  --radius:               var(--lmns-radius-default);
+
+  --sidebar:              var(--lmns-color-background-secondary);
+  --sidebar-foreground:   var(--lmns-color-foreground);
+  --sidebar-primary:      var(--lmns-color-primary);
+  --sidebar-primary-foreground: var(--lmns-color-primary-foreground);
+  --sidebar-accent:       var(--lmns-color-background-tertiary);
+  --sidebar-accent-foreground: var(--lmns-color-foreground);
+  --sidebar-border:       var(--lmns-color-border);
+  --sidebar-ring:         var(--lmns-color-primary);
+}
+
+.dark {
+  --background:           var(--lmns-color-background);
+  --foreground:           var(--lmns-color-foreground);
+  --primary:              var(--lmns-color-primary);
+  --border:               var(--lmns-color-border);
+  --muted:                var(--lmns-color-background-secondary);
+  --muted-foreground:     var(--lmns-color-foreground-secondary);
+  --sidebar:              var(--lmns-color-background-secondary);
+  --sidebar-foreground:   var(--lmns-color-foreground);
+  --sidebar-primary:      var(--lmns-color-primary);
+  --sidebar-primary-foreground: var(--lmns-color-primary-foreground);
+  --sidebar-accent:       var(--lmns-color-background-tertiary);
+  --sidebar-accent-foreground: var(--lmns-color-foreground);
+  --sidebar-border:       var(--lmns-color-border);
+  --sidebar-ring:         var(--lmns-color-primary);
+}
+
+:root {
+  --font-size:            var(--text-base);
+  --input-background:     var(--lmns-color-background-secondary);
+  --switch-background:    var(--lmns-color-border-hover);
+  --chart-1:              var(--color-blue-400);
+  --chart-2:              var(--color-orange-500);
+  --chart-3:              var(--color-success);
+  --chart-4:              var(--color-warning);
+  --chart-5:              var(--color-info);
+}
+
+.dark {
+  --font-size:            var(--text-base);
+  --input-background:     var(--lmns-color-background-secondary);
+  --switch-background:    var(--lmns-color-border-hover);
+  --chart-1:              var(--color-blue-300);
+  --chart-2:              var(--color-orange-300);
+  --chart-3:              var(--color-success-light);
+  --chart-4:              var(--color-warning-light);
+  --chart-5:              var(--color-info-light);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /**
+  * Default typography styles for HTML elements (h1-h4, p, label, button, input).
+  * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
+  */
+
+  html {
+    font-size: var(--font-size);
+  }
+
+  h1 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h2 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h3 {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h4 {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  label {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  button {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  input {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.5;
+  }
+}

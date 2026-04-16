@@ -1,21 +1,73 @@
 {
   "amra": {
     "color": {
-      "primary": { "value": "{color.blue.700}", "type": "color" },
-      "primaryForeground": { "value": "{color.neutral.white}", "type": "color" },
-      "accent": { "value": "{color.orange.500}", "type": "color" },
-      "accentForeground": { "value": "{color.neutral.white}", "type": "color" },
-      "background": { "value": "{color.neutral.white}", "type": "color" },
-      "foreground": { "value": "{color.neutral.900}", "type": "color" },
-      "gradientStart": { "value": "{color.blue.400}", "type": "color" },
-      "gradientEnd": { "value": "{color.blue.700}", "type": "color" }
+      "primary":             { "value": "{color.green.500}",      "type": "color",
+                               "comment": "Forest green — stability, long-term thinking" },
+      "primaryLight":        { "value": "{color.green.400}",      "type": "color" },
+      "primaryDark":         { "value": "{color.green.700}",      "type": "color" },
+      "primaryForeground":   { "value": "{color.neutral.white}",  "type": "color" },
+
+      "secondary":           { "value": "{color.yellowGreen.400}","type": "color",
+                               "comment": "Yellow-green — energy, momentum, optimism" },
+      "secondaryForeground": { "value": "{color.green.forest}",   "type": "color" },
+
+      "tertiary":            { "value": "{color.status.info}",    "type": "color",
+                               "comment": "Blue — digital clarity, supporting accent" },
+      "tertiaryForeground":  { "value": "{color.neutral.white}",  "type": "color" },
+
+      "accent":              { "value": "{color.status.warning}", "type": "color",
+                               "comment": "Amber — alert, call to action" },
+      "accentForeground":    { "value": "{color.neutral.white}",  "type": "color" },
+
+      "positive":            { "value": "{color.emerald.400}",    "type": "color",
+                               "comment": "Bright green — success states" },
+      "positiveForeground":  { "value": "{color.neutral.white}",  "type": "color" },
+
+      "negative":            { "value": "{color.status.danger}",  "type": "color" },
+      "negativeForeground":  { "value": "{color.neutral.white}",  "type": "color" },
+
+      "background":          { "value": "{color.neutral.white}",  "type": "color" },
+      "backgroundSecondary": { "value": "{color.neutral.50}",     "type": "color" },
+      "foreground":          { "value": "{color.green.forest}",   "type": "color",
+                               "comment": "Deep forest black — primary text" },
+      "foregroundSecondary": { "value": "{color.neutral.500}",    "type": "color" },
+
+      "border":              { "value": "{color.neutral.200}",    "type": "color" },
+      "danger":              { "value": "{color.status.danger}",  "type": "color" },
+
+      "gradientStart":       { "value": "{color.green.400}",      "type": "color" },
+      "gradientEnd":         { "value": "{color.green.700}",      "type": "color" }
     },
     "font": {
-      "sizeBase": { "value": "{font.size.base}", "type": "dimension" },
-      "weightHeading": { "value": "{font.weight.semibold}", "type": "fontWeight" }
+      "family":        { "value": "{font.family.sourceSans}", "type": "fontFamily",
+                         "comment": "Source Sans 3 — Aumraa brand typeface" },
+      "sizeBase":      { "value": "{font.size.base}",         "type": "dimension" },
+      "weightBody":    { "value": "{font.weight.normal}",     "type": "fontWeight" },
+      "weightHeading": { "value": "{font.weight.bold}",       "type": "fontWeight",
+                         "comment": "Bold for H1–H2 hero/vision statements" },
+      "weightSubhead": { "value": "{font.weight.semibold}",   "type": "fontWeight",
+                         "comment": "Semibold for H3–H6 sub-headings" }
+    },
+    "spacing": {
+      "pagePadding": { "value": "{spacing.8}",  "type": "dimension",
+                       "comment": "Generous — white space is active design" },
+      "cardPadding": { "value": "{spacing.6}",  "type": "dimension" },
+      "sectionGap":  { "value": "{spacing.12}", "type": "dimension" }
+    },
+    "radius": {
+      "default": { "value": "{radius.md}",   "type": "dimension" },
+      "sm":      { "value": "{radius.sm}",   "type": "dimension" },
+      "lg":      { "value": "{radius.lg}",   "type": "dimension" },
+      "pill":    { "value": "{radius.full}", "type": "dimension" }
+    },
+    "shadow": {
+      "card":  { "value": "{shadow.sm}", "type": "shadow" },
+      "modal": { "value": "{shadow.xl}", "type": "shadow" }
     },
     "icon": {
-      "md": { "value": "{icon.md}", "type": "dimension" }
+      "sm": { "value": "{icon.sm}", "type": "dimension" },
+      "md": { "value": "{icon.md}", "type": "dimension" },
+      "lg": { "value": "{icon.lg}", "type": "dimension" }
     }
   }
 }

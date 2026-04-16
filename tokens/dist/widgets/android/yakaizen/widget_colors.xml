@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Do not edit directly, this file was auto-generated.
+-->
+<resources>
+  <color name="ykai_color_primary">#ff40aad4</color><!-- Placeholder - confirm at Yakaizen design kickoff -->
+  <color name="ykai_color_accent">#ffe07722</color>
+  <color name="ykai_color_background">#ffffffff</color>
+  <color name="ykai_color_foreground">#ff111827</color>
+</resources>

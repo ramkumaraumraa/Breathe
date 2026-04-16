@@ -17,7 +17,7 @@ export function PageHeader({ title, description, badge, badgeColor = 'teal', sec
   return (
     <div className="mb-10">
       {section && (
-        <p className="text-teal-600 dark:text-teal-400 mb-2 uppercase tracking-wider"
+        <p className="text-primary mb-2 uppercase tracking-wider"
            style={{ fontSize: '0.72rem', fontWeight: 600, fontFamily: 'var(--font-sans)', letterSpacing: '0.1em' }}>
           {section}
         </p>

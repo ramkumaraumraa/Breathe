@@ -1,0 +1,140 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+:root {
+  --color-blue-300: #6ec6e6; /** Light blue - hover states */
+  --color-blue-400: #40aad4; /** Sky blue - Lemniscate primary */
+  --color-blue-500: #2b7bc5; /** Mid blue - dark primary */
+  --color-blue-700: #1c60c1; /** Dark blue - secondary, gradients */
+  --color-blue-900: #0f3a7a; /** Deep navy */
+  --color-orange-300: #f0a05a; /** Light orange */
+  --color-orange-500: #e07722; /** Brand orange - roof tip accent */
+  --color-orange-700: #b55a10; /** Dark orange */
+  --color-green-50: #f0fdf4;
+  --color-green-100: #dcfce7;
+  --color-green-200: #bbf7d0;
+  --color-green-300: #86efac;
+  --color-green-400: #4ade80;
+  --color-green-500: #2f9e44; /** Aumraa primary — forest green */
+  --color-green-600: #16a34a;
+  --color-green-700: #15803d;
+  --color-green-800: #166534;
+  --color-green-900: #14532d;
+  --color-green-950: #052e16;
+  --color-green-forest: #002100; /** Aumraa deep forest black — primary text */
+  --color-yellow-green-400: #cfcf2a; /** Aumraa secondary — energised yellow-green */
+  --color-yellow-green-500: #b5b520;
+  --color-yellow-green-600: #9a9a18;
+  --color-emerald-400: #00d06d; /** Aumraa positive / success */
+  --color-emerald-500: #00b85f;
+  --color-neutral-50: #f9fafb;
+  --color-neutral-100: #f3f4f6;
+  --color-neutral-200: #e5e7eb;
+  --color-neutral-300: #d1d5db;
+  --color-neutral-400: #9ca3af;
+  --color-neutral-500: #6b7280;
+  --color-neutral-600: #4b5563;
+  --color-neutral-700: #374151;
+  --color-neutral-800: #1f2937;
+  --color-neutral-900: #111827;
+  --color-neutral-white: #ffffff;
+  --color-neutral-black: #000000;
+  --color-status-success: #00d06d; /** Aumraa positive — bright emerald */
+  --color-status-success-light: #dcfce7;
+  --color-status-success-dark: #14532d;
+  --color-status-warning: #f59e0b;
+  --color-status-warning-light: #fef3c7;
+  --color-status-warning-dark: #92400e;
+  --color-status-danger: #e11d2a; /** Aumraa negative */
+  --color-status-danger-light: #fee2e2;
+  --color-status-danger-dark: #7f1d1d;
+  --color-status-info: #2f6fed; /** Aumraa tertiary blue */
+  --color-status-info-light: #e0f2fe;
+  --color-status-info-dark: #0c4a6e;
+  --font-family-sans: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-family-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  --font-family-source-sans: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /** Aumraa brand typeface */
+  --font-size-2xs: 10px; /** 0.625rem */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 30px;
+  --font-size-4xl: 36px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --spacing-0: 0;
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+  --spacing-16: 64px;
+  --radius-none: 0;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 10px; /** Lemniscate default */
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.10), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.10), 0 4px 6px rgba(0,0,0,0.05);
+  --shadow-xl: 0 20px 25px rgba(0,0,0,0.10), 0 10px 10px rgba(0,0,0,0.04);
+  --icon-xs: 12px;
+  --icon-sm: 16px;
+  --icon-md: 20px;
+  --icon-lg: 24px;
+  --icon-xl: 32px;
+  --duration-fast: 100ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --amra-color-primary: #2f9e44; /** Forest green — stability, long-term thinking */
+  --amra-color-primary-light: #4ade80;
+  --amra-color-primary-dark: #15803d;
+  --amra-color-primary-foreground: #ffffff;
+  --amra-color-secondary: #cfcf2a; /** Yellow-green — energy, momentum, optimism */
+  --amra-color-secondary-foreground: #002100;
+  --amra-color-tertiary: #2f6fed; /** Blue — digital clarity, supporting accent */
+  --amra-color-tertiary-foreground: #ffffff;
+  --amra-color-accent: #f59e0b; /** Amber — alert, call to action */
+  --amra-color-accent-foreground: #ffffff;
+  --amra-color-positive: #00d06d; /** Bright green — success states */
+  --amra-color-positive-foreground: #ffffff;
+  --amra-color-negative: #e11d2a;
+  --amra-color-negative-foreground: #ffffff;
+  --amra-color-background: #ffffff;
+  --amra-color-background-secondary: #f9fafb;
+  --amra-color-foreground: #002100; /** Deep forest black — primary text */
+  --amra-color-foreground-secondary: #6b7280;
+  --amra-color-border: #e5e7eb;
+  --amra-color-danger: #e11d2a;
+  --amra-color-gradient-start: #4ade80;
+  --amra-color-gradient-end: #15803d;
+  --amra-font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /** Source Sans 3 — Aumraa brand typeface */
+  --amra-font-size-base: 16px;
+  --amra-font-weight-body: 400;
+  --amra-font-weight-heading: 700; /** Bold for H1–H2 hero/vision statements */
+  --amra-font-weight-subhead: 600; /** Semibold for H3–H6 sub-headings */
+  --amra-spacing-page-padding: 32px; /** Generous — white space is active design */
+  --amra-spacing-card-padding: 24px;
+  --amra-spacing-section-gap: 48px;
+  --amra-radius-default: 8px;
+  --amra-radius-sm: 4px;
+  --amra-radius-lg: 10px;
+  --amra-radius-pill: 9999px;
+  --amra-shadow-card: 0 1px 3px rgba(0,0,0,0.10), 0 1px 2px rgba(0,0,0,0.06);
+  --amra-shadow-modal: 0 20px 25px rgba(0,0,0,0.10), 0 10px 10px rgba(0,0,0,0.04);
+  --amra-icon-sm: 16px;
+  --amra-icon-md: 20px;
+  --amra-icon-lg: 24px;
+}

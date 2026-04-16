@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Do not edit directly, this file was auto-generated.
+-->
+<resources>
+  <color name="mlgm_color_primary">#ff40aad4</color><!-- Confirm at Maligai design kickoff — placeholder uses Aumraa blue -->
+  <color name="mlgm_color_primary_foreground">#ffffffff</color>
+  <color name="mlgm_color_accent">#ffe07722</color>
+  <color name="mlgm_color_accent_foreground">#ffffffff</color>
+  <color name="mlgm_color_background">#ffffffff</color>
+  <color name="mlgm_color_background_secondary">#fff9fafb</color>
+  <color name="mlgm_color_background_tertiary">#fff3f4f6</color>
+  <color name="mlgm_color_foreground">#ff1f2937</color>
+  <color name="mlgm_color_foreground_secondary">#ff6b7280</color>
+  <color name="mlgm_color_foreground_tertiary">#ff9ca3af</color>
+  <color name="mlgm_color_border">#ffe5e7eb</color>
+  <color name="mlgm_color_border_hover">#ffd1d5db</color>
+  <color name="mlgm_color_success">#ff00d06d</color>
+  <color name="mlgm_color_warning">#fff59e0b</color>
+  <color name="mlgm_color_danger">#ffe11d2a</color>
+  <color name="mlgm_color_info">#ff2f6fed</color>
+</resources>

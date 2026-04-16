@@ -58,8 +58,8 @@
   --popover:              var(--lmns-color-background);
   --popover-foreground:   var(--lmns-color-foreground);
 
-  --primary:              var(--lmns-color-primary);
-  --primary-foreground:   var(--lmns-color-primary-foreground);
+  --primary:              var(--amra-color-primary);
+  --primary-foreground:   var(--amra-color-primary-foreground);
 
   --secondary:            var(--lmns-color-background-secondary);
   --secondary-foreground: var(--lmns-color-foreground);
@@ -67,43 +67,43 @@
   --muted:                var(--lmns-color-background-tertiary);
   --muted-foreground:     var(--lmns-color-foreground-secondary);
 
-  --accent:               var(--lmns-color-accent);
-  --accent-foreground:    var(--lmns-color-accent-foreground);
+  --accent:               var(--amra-color-secondary);
+  --accent-foreground:    var(--amra-color-secondary-foreground);
 
   --destructive:          var(--lmns-color-danger);
   --destructive-foreground: var(--color-neutral-white);
 
   --border:               var(--lmns-color-border);
   --input:                var(--lmns-color-background-secondary);
-  --ring:                 var(--lmns-color-primary);
+  --ring:                 var(--amra-color-primary);
 
-  --radius:               var(--lmns-radius-default);
+  --radius:               var(--amra-radius-default);
 
   --sidebar:              var(--lmns-color-background-secondary);
   --sidebar-foreground:   var(--lmns-color-foreground);
-  --sidebar-primary:      var(--lmns-color-primary);
-  --sidebar-primary-foreground: var(--lmns-color-primary-foreground);
+  --sidebar-primary:      var(--amra-color-primary);
+  --sidebar-primary-foreground: var(--amra-color-primary-foreground);
   --sidebar-accent:       var(--lmns-color-background-tertiary);
   --sidebar-accent-foreground: var(--lmns-color-foreground);
   --sidebar-border:       var(--lmns-color-border);
-  --sidebar-ring:         var(--lmns-color-primary);
+  --sidebar-ring:         var(--amra-color-primary);
 }
 
 .dark {
   --background:           var(--lmns-color-background);
   --foreground:           var(--lmns-color-foreground);
-  --primary:              var(--lmns-color-primary);
+  --primary:              var(--amra-color-primary);
   --border:               var(--lmns-color-border);
   --muted:                var(--lmns-color-background-secondary);
   --muted-foreground:     var(--lmns-color-foreground-secondary);
   --sidebar:              var(--lmns-color-background-secondary);
   --sidebar-foreground:   var(--lmns-color-foreground);
-  --sidebar-primary:      var(--lmns-color-primary);
-  --sidebar-primary-foreground: var(--lmns-color-primary-foreground);
+  --sidebar-primary:      var(--amra-color-primary);
+  --sidebar-primary-foreground: var(--amra-color-primary-foreground);
   --sidebar-accent:       var(--lmns-color-background-tertiary);
   --sidebar-accent-foreground: var(--lmns-color-foreground);
   --sidebar-border:       var(--lmns-color-border);
-  --sidebar-ring:         var(--lmns-color-primary);
+  --sidebar-ring:         var(--amra-color-primary);
 }
 
 :root {

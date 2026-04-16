@@ -16,22 +16,47 @@ import { IconsPage }        from './pages/foundations/IconsPage'
 import { MotionPage }       from './pages/foundations/MotionPage'
 
 // Atoms
-import { ButtonPage }   from './pages/atoms/ButtonPage'
-import { InputPage }    from './pages/atoms/InputPage'
-import { CheckboxPage } from './pages/atoms/CheckboxPage'
-import { SwitchPage }   from './pages/atoms/SwitchPage'
-import { AvatarPage }   from './pages/atoms/AvatarPage'
-import { BadgePage }    from './pages/atoms/BadgePage'
+import { ButtonPage }     from './pages/atoms/ButtonPage'
+import { InputPage }      from './pages/atoms/InputPage'
+import { TextareaPage }   from './pages/atoms/TextareaPage'
+import { CheckboxPage }   from './pages/atoms/CheckboxPage'
+import { RadioGroupPage } from './pages/atoms/RadioGroupPage'
+import { SwitchPage }     from './pages/atoms/SwitchPage'
+import { TogglePage }     from './pages/atoms/TogglePage'
+import { SliderPage }     from './pages/atoms/SliderPage'
+import { AvatarPage }     from './pages/atoms/AvatarPage'
+import { BadgePage }      from './pages/atoms/BadgePage'
+import { LabelPage }      from './pages/atoms/LabelPage'
+import { SeparatorPage }  from './pages/atoms/SeparatorPage'
+import { ProgressPage }   from './pages/atoms/ProgressPage'
+import { SkeletonPage }   from './pages/atoms/SkeletonPage'
 
 // Molecules
-import { AlertPage }   from './pages/molecules/AlertPage'
-import { CardPage }    from './pages/molecules/CardPage'
-import { SelectPage }  from './pages/molecules/SelectPage'
-import { TabsPage }    from './pages/molecules/TabsPage'
-import { TooltipPage } from './pages/molecules/TooltipPage'
+import { AlertPage }        from './pages/molecules/AlertPage'
+import { CardPage }         from './pages/molecules/CardPage'
+import { FormPage }         from './pages/molecules/FormPage'
+import { SelectPage }       from './pages/molecules/SelectPage'
+import { DropdownMenuPage } from './pages/molecules/DropdownMenuPage'
+import { TabsPage }         from './pages/molecules/TabsPage'
+import { AccordionPage }    from './pages/molecules/AccordionPage'
+import { CollapsiblePage }  from './pages/molecules/CollapsiblePage'
+import { TooltipPage }      from './pages/molecules/TooltipPage'
+import { HoverCardPage }    from './pages/molecules/HoverCardPage'
+import { BreadcrumbPage }   from './pages/molecules/BreadcrumbPage'
+import { PaginationPage }   from './pages/molecules/PaginationPage'
+import { ScrollAreaPage }   from './pages/molecules/ScrollAreaPage'
+import { SonnerPage }       from './pages/molecules/SonnerPage'
 
 // Organisms
-import { DialogPage } from './pages/organisms/DialogPage'
+import { DialogPage }          from './pages/organisms/DialogPage'
+import { SheetPage }           from './pages/organisms/SheetPage'
+import { DrawerPage }          from './pages/organisms/DrawerPage'
+import { CommandPage }         from './pages/organisms/CommandPage'
+import { TablePage }           from './pages/organisms/TablePage'
+import { CalendarPage }        from './pages/organisms/CalendarPage'
+import { CarouselPage }        from './pages/organisms/CarouselPage'
+import { SidebarPage }         from './pages/organisms/SidebarPage'
+import { NavigationMenuPage }  from './pages/organisms/NavigationMenuPage'
 
 // Templates
 import { StatGridPage }    from './pages/templates/StatGridPage'
@@ -75,22 +100,47 @@ export const router = createBrowserRouter([
       { path: 'components/modal',    element: <Navigate to="/organisms/dialog"  replace /> },
 
       // Atoms
-      { path: 'atoms/button',   Component: ButtonPage },
-      { path: 'atoms/input',    Component: InputPage },
-      { path: 'atoms/checkbox', Component: CheckboxPage },
-      { path: 'atoms/switch',   Component: SwitchPage },
-      { path: 'atoms/avatar',   Component: AvatarPage },
-      { path: 'atoms/badge',    Component: BadgePage },
+      { path: 'atoms/button',      Component: ButtonPage },
+      { path: 'atoms/input',       Component: InputPage },
+      { path: 'atoms/textarea',    Component: TextareaPage },
+      { path: 'atoms/checkbox',    Component: CheckboxPage },
+      { path: 'atoms/radio-group', Component: RadioGroupPage },
+      { path: 'atoms/switch',      Component: SwitchPage },
+      { path: 'atoms/toggle',      Component: TogglePage },
+      { path: 'atoms/slider',      Component: SliderPage },
+      { path: 'atoms/avatar',      Component: AvatarPage },
+      { path: 'atoms/badge',       Component: BadgePage },
+      { path: 'atoms/label',       Component: LabelPage },
+      { path: 'atoms/separator',   Component: SeparatorPage },
+      { path: 'atoms/progress',    Component: ProgressPage },
+      { path: 'atoms/skeleton',    Component: SkeletonPage },
 
       // Molecules
-      { path: 'molecules/alert',   Component: AlertPage },
-      { path: 'molecules/card',    Component: CardPage },
-      { path: 'molecules/select',  Component: SelectPage },
-      { path: 'molecules/tabs',    Component: TabsPage },
-      { path: 'molecules/tooltip', Component: TooltipPage },
+      { path: 'molecules/alert',         Component: AlertPage },
+      { path: 'molecules/card',          Component: CardPage },
+      { path: 'molecules/form',          Component: FormPage },
+      { path: 'molecules/select',        Component: SelectPage },
+      { path: 'molecules/dropdown-menu', Component: DropdownMenuPage },
+      { path: 'molecules/tabs',          Component: TabsPage },
+      { path: 'molecules/accordion',     Component: AccordionPage },
+      { path: 'molecules/collapsible',   Component: CollapsiblePage },
+      { path: 'molecules/tooltip',       Component: TooltipPage },
+      { path: 'molecules/hover-card',    Component: HoverCardPage },
+      { path: 'molecules/breadcrumb',    Component: BreadcrumbPage },
+      { path: 'molecules/pagination',    Component: PaginationPage },
+      { path: 'molecules/scroll-area',   Component: ScrollAreaPage },
+      { path: 'molecules/sonner',        Component: SonnerPage },
 
       // Organisms
-      { path: 'organisms/dialog', Component: DialogPage },
+      { path: 'organisms/dialog',          Component: DialogPage },
+      { path: 'organisms/sheet',           Component: SheetPage },
+      { path: 'organisms/drawer',          Component: DrawerPage },
+      { path: 'organisms/command',         Component: CommandPage },
+      { path: 'organisms/table',           Component: TablePage },
+      { path: 'organisms/calendar',        Component: CalendarPage },
+      { path: 'organisms/carousel',        Component: CarouselPage },
+      { path: 'organisms/sidebar',         Component: SidebarPage },
+      { path: 'organisms/navigation-menu', Component: NavigationMenuPage },
 
       // Templates
       { path: 'templates/stat-grid',    Component: StatGridPage },

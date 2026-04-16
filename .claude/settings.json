@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm tokens *)",
+      "Bash(pnpm build *)",
+      "Read(//Users/ramkumar.ganesh/Downloads/APOS pitch/**)",
+      "Read(//Users/ramkumar.ganesh/Downloads/**)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(list\\(d.keys\\(\\)\\)\\); print\\('color keys:', list\\(d.get\\('color',{}\\).keys\\(\\)\\)\\); print\\('font keys:', list\\(d.get\\('font',{}\\).get\\('family',{}\\).keys\\(\\)\\)\\)\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\('compilerOptions',{}\\).get\\('paths',{}\\), indent=2\\)\\)\")",
+      "Read(//Users/ramkumar.ganesh/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.7/skills/subagent-driven-development/**)",
+      "Bash(python3 -c \"import json; json.load\\(open\\('tokens/src/global.json'\\)\\); print\\('OK'\\)\")",
+      "Bash(node -e \"const fs = require\\('fs'\\); try { JSON.parse\\(fs.readFileSync\\('tokens/src/global.json','utf8'\\)\\); console.log\\('JSON valid'\\); } catch\\(e\\) { console.error\\('JSON INVALID:', e.message\\); }\")",
+      "Bash(python3 -c \"import json; json.load\\(open\\('tokens/src/aumraa.json'\\)\\); print\\('OK'\\)\")"
+    ],
+    "additionalDirectories": [
+      "/Users/ramkumar.ganesh/Downloads/APOS pitch/Product Factory/Breathe Design system/docs/superpowers",
+      "/Users/ramkumar.ganesh/Downloads/APOS\\ pitch/Product\\ Factory/Breathe\\ Design\\ system/src/app/pages/molecules"
+    ]
+  }
+}

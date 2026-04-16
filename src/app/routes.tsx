@@ -15,19 +15,31 @@ import { ElevationPage }    from './pages/foundations/ElevationPage'
 import { IconsPage }        from './pages/foundations/IconsPage'
 import { MotionPage }       from './pages/foundations/MotionPage'
 
-// Legacy component pages — kept until Phase 3 page migrations complete
-import { ButtonPage as LegacyButtonPage }     from './pages/components/ButtonPage'
-import { InputPage as LegacyInputPage }       from './pages/components/InputPage'
-import { CardPage as LegacyCardPage }         from './pages/components/CardPage'
-import { BadgePage as LegacyBadgePage }       from './pages/components/BadgePage'
-import { AvatarPage as LegacyAvatarPage }     from './pages/components/AvatarPage'
-import { AlertPage as LegacyAlertPage }       from './pages/components/AlertPage'
-import { ModalPage as LegacyModalPage }       from './pages/components/ModalPage'
-import { TabsPage as LegacyTabsPage }         from './pages/components/TabsPage'
-import { TooltipPage as LegacyTooltipPage }   from './pages/components/TooltipPage'
-import { SelectPage as LegacySelectPage }     from './pages/components/SelectPage'
-import { CheckboxPage as LegacyCheckboxPage } from './pages/components/CheckboxPage'
-import { SwitchPage as LegacySwitchPage }     from './pages/components/SwitchPage'
+// Atoms
+import { ButtonPage }   from './pages/atoms/ButtonPage'
+import { InputPage }    from './pages/atoms/InputPage'
+import { CheckboxPage } from './pages/atoms/CheckboxPage'
+import { SwitchPage }   from './pages/atoms/SwitchPage'
+import { AvatarPage }   from './pages/atoms/AvatarPage'
+import { BadgePage }    from './pages/atoms/BadgePage'
+
+// Molecules
+import { AlertPage }   from './pages/molecules/AlertPage'
+import { CardPage }    from './pages/molecules/CardPage'
+import { SelectPage }  from './pages/molecules/SelectPage'
+import { TabsPage }    from './pages/molecules/TabsPage'
+import { TooltipPage } from './pages/molecules/TooltipPage'
+
+// Organisms
+import { DialogPage } from './pages/organisms/DialogPage'
+
+// Templates
+import { StatGridPage }    from './pages/templates/StatGridPage'
+import { PageToolbarPage } from './pages/templates/PageToolbarPage'
+import { DataSectionPage } from './pages/templates/DataSectionPage'
+import { PageBodyPage }    from './pages/templates/PageBodyPage'
+import { MobileFabPage }   from './pages/templates/MobileFabPage'
+import { TabBarPage }      from './pages/templates/TabBarPage'
 
 export const router = createBrowserRouter([
   {
@@ -48,7 +60,7 @@ export const router = createBrowserRouter([
       { path: 'foundations/icons',         Component: IconsPage },
       { path: 'foundations/motion',        Component: MotionPage },
 
-      // Legacy /components/* — redirect to new atomic paths
+      // /components/* → redirect to atomic paths
       { path: 'components/button',   element: <Navigate to="/atoms/button"      replace /> },
       { path: 'components/input',    element: <Navigate to="/atoms/input"       replace /> },
       { path: 'components/checkbox', element: <Navigate to="/atoms/checkbox"    replace /> },
@@ -62,26 +74,31 @@ export const router = createBrowserRouter([
       { path: 'components/tooltip',  element: <Navigate to="/molecules/tooltip" replace /> },
       { path: 'components/modal',    element: <Navigate to="/organisms/dialog"  replace /> },
 
-      // Atoms — served by legacy pages until Phase 3 creates new ones
-      { path: 'atoms/button',   Component: LegacyButtonPage },
-      { path: 'atoms/input',    Component: LegacyInputPage },
-      { path: 'atoms/checkbox', Component: LegacyCheckboxPage },
-      { path: 'atoms/switch',   Component: LegacySwitchPage },
-      { path: 'atoms/avatar',   Component: LegacyAvatarPage },
-      { path: 'atoms/badge',    Component: LegacyBadgePage },
+      // Atoms
+      { path: 'atoms/button',   Component: ButtonPage },
+      { path: 'atoms/input',    Component: InputPage },
+      { path: 'atoms/checkbox', Component: CheckboxPage },
+      { path: 'atoms/switch',   Component: SwitchPage },
+      { path: 'atoms/avatar',   Component: AvatarPage },
+      { path: 'atoms/badge',    Component: BadgePage },
 
-      // Molecules — served by legacy pages until Phase 3
-      { path: 'molecules/alert',   Component: LegacyAlertPage },
-      { path: 'molecules/card',    Component: LegacyCardPage },
-      { path: 'molecules/select',  Component: LegacySelectPage },
-      { path: 'molecules/tabs',    Component: LegacyTabsPage },
-      { path: 'molecules/tooltip', Component: LegacyTooltipPage },
+      // Molecules
+      { path: 'molecules/alert',   Component: AlertPage },
+      { path: 'molecules/card',    Component: CardPage },
+      { path: 'molecules/select',  Component: SelectPage },
+      { path: 'molecules/tabs',    Component: TabsPage },
+      { path: 'molecules/tooltip', Component: TooltipPage },
 
-      // Organisms — served by legacy page until Phase 3
-      { path: 'organisms/dialog', Component: LegacyModalPage },
+      // Organisms
+      { path: 'organisms/dialog', Component: DialogPage },
 
-      // Templates — empty until Phase 3 creates pages
-      // (nav links will 404 until Task 18 adds them)
+      // Templates
+      { path: 'templates/stat-grid',    Component: StatGridPage },
+      { path: 'templates/page-toolbar', Component: PageToolbarPage },
+      { path: 'templates/data-section', Component: DataSectionPage },
+      { path: 'templates/page-body',    Component: PageBodyPage },
+      { path: 'templates/mobile-fab',   Component: MobileFabPage },
+      { path: 'templates/tab-bar',      Component: TabBarPage },
 
       { path: '*', Component: NotFoundPage },
     ],

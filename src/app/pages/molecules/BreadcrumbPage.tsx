@@ -4,7 +4,7 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
+  BreadcrumbPage as BreadcrumbCurrentPage,
   BreadcrumbSeparator,
 } from '@/app/components/ui/breadcrumb'
 
@@ -31,7 +31,7 @@ export function BreadcrumbPage() {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Add Expense</BreadcrumbPage>
+                  <BreadcrumbCurrentPage>Add Expense</BreadcrumbCurrentPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -49,7 +49,7 @@ export function BreadcrumbPage() {
     </BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem>
-      <BreadcrumbPage>Add Expense</BreadcrumbPage>
+      <BreadcrumbCurrentPage>Add Expense</BreadcrumbCurrentPage>
     </BreadcrumbItem>
   </BreadcrumbList>
 </Breadcrumb>`,

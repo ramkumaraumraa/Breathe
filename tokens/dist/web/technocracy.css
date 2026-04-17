@@ -28,6 +28,19 @@
   --color-yellow-green-600: #9a9a18;
   --color-emerald-400: #00d06d; /** Aumraa positive / success */
   --color-emerald-500: #00b85f;
+  --color-violet-100: #ede9fe; /** Violet lightest — tints on light bg */
+  --color-violet-200: #ddd6fe;
+  --color-violet-300: #c4b5fd; /** Hover tints on dark backgrounds */
+  --color-violet-400: #a78bfa;
+  --color-violet-500: #8b5cf6; /** Violet-500 — Technocracy interactive */
+  --color-violet-600: #7c3aed; /** Hover/active states */
+  --color-violet-700: #6d28d9; /** Pressed, borders, icon fills */
+  --color-violet-800: #5b21b6;
+  --color-violet-900: #3b1f7c; /** Subtle tinted surfaces on dark bg */
+  --color-indigo-400: #818cf8;
+  --color-indigo-500: #6366f1; /** Indigo-500 — Technocracy secondary accent */
+  --color-indigo-600: #4f46e5;
+  --color-indigo-900: #1e1b4b; /** Deep indigo surface tint */
   --color-neutral-50: #f9fafb;
   --color-neutral-100: #f3f4f6;
   --color-neutral-200: #e5e7eb;
@@ -38,6 +51,8 @@
   --color-neutral-700: #374151;
   --color-neutral-800: #1f2937;
   --color-neutral-900: #111827;
+  --color-neutral-950: #0d1117; /** Near-black — Technocracy deepest background */
+  --color-neutral-1000: #080c12; /** Absolute dark — sidebar rail in dense dashboards */
   --color-neutral-white: #ffffff;
   --color-neutral-black: #000000;
   --color-status-success: #00d06d; /** Aumraa positive — bright emerald */
@@ -55,6 +70,7 @@
   --font-family-sans: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-family-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
   --font-family-source-sans: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /** Aumraa brand typeface */
+  --font-family-fira-sans: 'Fira Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /** Technocracy brand typeface — dense, technical */
   --font-size-2xs: 10px; /** 0.625rem */
   --font-size-xs: 12px;
   --font-size-sm: 14px;
@@ -98,34 +114,34 @@
   --duration-fast: 100ms;
   --duration-normal: 200ms;
   --duration-slow: 300ms;
-  --thcy-color-primary: #40aad4;
-  --thcy-color-primary-light: #6ec6e6;
-  --thcy-color-primary-dark: #2b7bc5;
+  --thcy-color-primary: #8b5cf6; /** Violet-500 — dark dashboard interactive primary */
+  --thcy-color-primary-light: #c4b5fd;
+  --thcy-color-primary-dark: #7c3aed;
   --thcy-color-primary-foreground: #ffffff;
-  --thcy-color-secondary: #1c60c1;
+  --thcy-color-secondary: #6366f1; /** Indigo-500 — secondary accent */
   --thcy-color-secondary-foreground: #ffffff;
-  --thcy-color-tertiary: #e07722;
+  --thcy-color-tertiary: #818cf8;
   --thcy-color-tertiary-foreground: #ffffff;
-  --thcy-color-accent: #e07722;
-  --thcy-color-accent-foreground: #ffffff;
   --thcy-color-positive: #00d06d;
   --thcy-color-positive-foreground: #ffffff;
   --thcy-color-negative: #e11d2a;
   --thcy-color-negative-foreground: #ffffff;
-  --thcy-color-background: #111827;
-  --thcy-color-background-secondary: #1f2937;
-  --thcy-color-background-tertiary: #374151;
-  --thcy-color-sidebar: #111827;
+  --thcy-color-background: #0d1117; /** Near-black — deepest dashboard surface */
+  --thcy-color-background-secondary: #111827;
+  --thcy-color-background-tertiary: #1f2937;
+  --thcy-color-sidebar: #080c12; /** Absolute dark sidebar rail */
   --thcy-color-sidebar-foreground: #f3f4f6;
   --thcy-color-foreground: #f9fafb;
   --thcy-color-foreground-secondary: #9ca3af;
   --thcy-color-foreground-tertiary: #6b7280;
-  --thcy-color-border: #374151;
-  --thcy-color-border-hover: #4b5563;
+  --thcy-color-border: #1f2937;
+  --thcy-color-border-hover: #374151;
   --thcy-color-success: #00d06d;
   --thcy-color-warning: #f59e0b;
   --thcy-color-danger: #e11d2a;
   --thcy-color-info: #2f6fed;
+  --thcy-font-family: 'Fira Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /** Technocracy brand typeface */
+  --thcy-font-family-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
   --thcy-font-size-base: 14px; /** 14px - denser admin UI */
   --thcy-font-weight-body: 400;
   --thcy-font-weight-heading: 500;

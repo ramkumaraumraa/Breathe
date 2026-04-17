@@ -1,70 +1,91 @@
+import { lazy, Suspense } from 'react'
 import { createBrowserRouter, Navigate } from 'react-router'
 import { Root } from './components/layout/Root'
 import { HomePage } from './pages/HomePage'
 import { GettingStartedPage } from './pages/GettingStartedPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 
+const PageLoader = () => (
+  <div className="flex items-center justify-center h-64 text-muted-foreground text-sm">
+    Loading…
+  </div>
+)
+
+function lazy_page(
+  factory: () => Promise<Record<string, React.ComponentType>>
+): React.ComponentType {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const Comp = lazy(async () => {
+    const mod = await factory()
+    const exported = Object.values(mod)[0]
+    return { default: exported }
+  }) as React.ComponentType
+  return function LazyPage() {
+    return <Suspense fallback={<PageLoader />}><Comp /></Suspense>
+  }
+}
+
 // Foundations
-import { LogosPage }        from './pages/foundations/LogosPage'
-import { ColorsPage }       from './pages/foundations/ColorsPage'
-import { DesignTokensPage } from './pages/foundations/DesignTokensPage'
-import { TypographyPage }   from './pages/foundations/TypographyPage'
-import { SpacingPage }      from './pages/foundations/SpacingPage'
-import { GridPage }         from './pages/foundations/GridPage'
-import { ElevationPage }    from './pages/foundations/ElevationPage'
-import { IconsPage }        from './pages/foundations/IconsPage'
-import { MotionPage }       from './pages/foundations/MotionPage'
+const LogosPage        = lazy_page(() => import('./pages/foundations/LogosPage'))
+const ColorsPage       = lazy_page(() => import('./pages/foundations/ColorsPage'))
+const DesignTokensPage = lazy_page(() => import('./pages/foundations/DesignTokensPage'))
+const TypographyPage   = lazy_page(() => import('./pages/foundations/TypographyPage'))
+const SpacingPage      = lazy_page(() => import('./pages/foundations/SpacingPage'))
+const GridPage         = lazy_page(() => import('./pages/foundations/GridPage'))
+const ElevationPage    = lazy_page(() => import('./pages/foundations/ElevationPage'))
+const IconsPage        = lazy_page(() => import('./pages/foundations/IconsPage'))
+const MotionPage       = lazy_page(() => import('./pages/foundations/MotionPage'))
 
 // Atoms
-import { ButtonPage }     from './pages/atoms/ButtonPage'
-import { InputPage }      from './pages/atoms/InputPage'
-import { TextareaPage }   from './pages/atoms/TextareaPage'
-import { CheckboxPage }   from './pages/atoms/CheckboxPage'
-import { RadioGroupPage } from './pages/atoms/RadioGroupPage'
-import { SwitchPage }     from './pages/atoms/SwitchPage'
-import { TogglePage }     from './pages/atoms/TogglePage'
-import { SliderPage }     from './pages/atoms/SliderPage'
-import { AvatarPage }     from './pages/atoms/AvatarPage'
-import { BadgePage }      from './pages/atoms/BadgePage'
-import { LabelPage }      from './pages/atoms/LabelPage'
-import { SeparatorPage }  from './pages/atoms/SeparatorPage'
-import { ProgressPage }   from './pages/atoms/ProgressPage'
-import { SkeletonPage }   from './pages/atoms/SkeletonPage'
+const ButtonPage     = lazy_page(() => import('./pages/atoms/ButtonPage'))
+const InputPage      = lazy_page(() => import('./pages/atoms/InputPage'))
+const TextareaPage   = lazy_page(() => import('./pages/atoms/TextareaPage'))
+const CheckboxPage   = lazy_page(() => import('./pages/atoms/CheckboxPage'))
+const RadioGroupPage = lazy_page(() => import('./pages/atoms/RadioGroupPage'))
+const SwitchPage     = lazy_page(() => import('./pages/atoms/SwitchPage'))
+const TogglePage     = lazy_page(() => import('./pages/atoms/TogglePage'))
+const SliderPage     = lazy_page(() => import('./pages/atoms/SliderPage'))
+const AvatarPage     = lazy_page(() => import('./pages/atoms/AvatarPage'))
+const BadgePage      = lazy_page(() => import('./pages/atoms/BadgePage'))
+const LabelPage      = lazy_page(() => import('./pages/atoms/LabelPage'))
+const SeparatorPage  = lazy_page(() => import('./pages/atoms/SeparatorPage'))
+const ProgressPage   = lazy_page(() => import('./pages/atoms/ProgressPage'))
+const SkeletonPage   = lazy_page(() => import('./pages/atoms/SkeletonPage'))
 
 // Molecules
-import { AlertPage }        from './pages/molecules/AlertPage'
-import { CardPage }         from './pages/molecules/CardPage'
-import { FormPage }         from './pages/molecules/FormPage'
-import { SelectPage }       from './pages/molecules/SelectPage'
-import { DropdownMenuPage } from './pages/molecules/DropdownMenuPage'
-import { TabsPage }         from './pages/molecules/TabsPage'
-import { AccordionPage }    from './pages/molecules/AccordionPage'
-import { CollapsiblePage }  from './pages/molecules/CollapsiblePage'
-import { TooltipPage }      from './pages/molecules/TooltipPage'
-import { HoverCardPage }    from './pages/molecules/HoverCardPage'
-import { BreadcrumbPage }   from './pages/molecules/BreadcrumbPage'
-import { PaginationPage }   from './pages/molecules/PaginationPage'
-import { ScrollAreaPage }   from './pages/molecules/ScrollAreaPage'
-import { SonnerPage }       from './pages/molecules/SonnerPage'
+const AlertPage        = lazy_page(() => import('./pages/molecules/AlertPage'))
+const CardPage         = lazy_page(() => import('./pages/molecules/CardPage'))
+const FormPage         = lazy_page(() => import('./pages/molecules/FormPage'))
+const SelectPage       = lazy_page(() => import('./pages/molecules/SelectPage'))
+const DropdownMenuPage = lazy_page(() => import('./pages/molecules/DropdownMenuPage'))
+const TabsPage         = lazy_page(() => import('./pages/molecules/TabsPage'))
+const AccordionPage    = lazy_page(() => import('./pages/molecules/AccordionPage'))
+const CollapsiblePage  = lazy_page(() => import('./pages/molecules/CollapsiblePage'))
+const TooltipPage      = lazy_page(() => import('./pages/molecules/TooltipPage'))
+const HoverCardPage    = lazy_page(() => import('./pages/molecules/HoverCardPage'))
+const BreadcrumbPage   = lazy_page(() => import('./pages/molecules/BreadcrumbPage'))
+const PaginationPage   = lazy_page(() => import('./pages/molecules/PaginationPage'))
+const ScrollAreaPage   = lazy_page(() => import('./pages/molecules/ScrollAreaPage'))
+const SonnerPage       = lazy_page(() => import('./pages/molecules/SonnerPage'))
 
 // Organisms
-import { DialogPage }          from './pages/organisms/DialogPage'
-import { SheetPage }           from './pages/organisms/SheetPage'
-import { DrawerPage }          from './pages/organisms/DrawerPage'
-import { CommandPage }         from './pages/organisms/CommandPage'
-import { TablePage }           from './pages/organisms/TablePage'
-import { CalendarPage }        from './pages/organisms/CalendarPage'
-import { CarouselPage }        from './pages/organisms/CarouselPage'
-import { SidebarPage }         from './pages/organisms/SidebarPage'
-import { NavigationMenuPage }  from './pages/organisms/NavigationMenuPage'
+const DialogPage         = lazy_page(() => import('./pages/organisms/DialogPage'))
+const SheetPage          = lazy_page(() => import('./pages/organisms/SheetPage'))
+const DrawerPage         = lazy_page(() => import('./pages/organisms/DrawerPage'))
+const CommandPage        = lazy_page(() => import('./pages/organisms/CommandPage'))
+const TablePage          = lazy_page(() => import('./pages/organisms/TablePage'))
+const CalendarPage       = lazy_page(() => import('./pages/organisms/CalendarPage'))
+const CarouselPage       = lazy_page(() => import('./pages/organisms/CarouselPage'))
+const SidebarPage        = lazy_page(() => import('./pages/organisms/SidebarPage'))
+const NavigationMenuPage = lazy_page(() => import('./pages/organisms/NavigationMenuPage'))
 
 // Templates
-import { StatGridPage }    from './pages/templates/StatGridPage'
-import { PageToolbarPage } from './pages/templates/PageToolbarPage'
-import { DataSectionPage } from './pages/templates/DataSectionPage'
-import { PageBodyPage }    from './pages/templates/PageBodyPage'
-import { MobileFabPage }   from './pages/templates/MobileFabPage'
-import { TabBarPage }      from './pages/templates/TabBarPage'
+const StatGridPage    = lazy_page(() => import('./pages/templates/StatGridPage'))
+const PageToolbarPage = lazy_page(() => import('./pages/templates/PageToolbarPage'))
+const DataSectionPage = lazy_page(() => import('./pages/templates/DataSectionPage'))
+const PageBodyPage    = lazy_page(() => import('./pages/templates/PageBodyPage'))
+const MobileFabPage   = lazy_page(() => import('./pages/templates/MobileFabPage'))
+const TabBarPage      = lazy_page(() => import('./pages/templates/TabBarPage'))
 
 export const router = createBrowserRouter([
   {

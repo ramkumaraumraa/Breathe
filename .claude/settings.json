@@ -25,7 +25,22 @@
       "Skill(gstack)",
       "Skill(gstack:*)",
       "Read(//tmp/**)",
-      "Read(//private/tmp/**)"
+      "Read(//private/tmp/**)",
+      "Bash(npm run *)",
+      "mcp__plugin_playwright_playwright__browser_navigate",
+      "mcp__plugin_playwright_playwright__browser_take_screenshot",
+      "Bash(node -e ' *)",
+      "mcp__plugin_playwright_playwright__browser_evaluate",
+      "mcp__plugin_playwright_playwright__browser_snapshot",
+      "mcp__plugin_playwright_playwright__browser_click",
+      "Skill(ship)",
+      "Skill(ship:*)",
+      "Bash([ -d \"$HOME/.claude/skills/gstack/.git\" ])",
+      "Bash([ -f \"$HOME/.claude/skills/gstack/VERSION\" ])",
+      "Bash(~/.claude/skills/gstack/bin/gstack-review-read)",
+      "Bash(pnpm add *)",
+      "Bash(pnpm list *)",
+      "Bash(pnpm test *)"
     ],
     "additionalDirectories": [
       "/Users/ramkumar.ganesh/Downloads/APOS pitch/Product Factory/Breathe Design system/docs/superpowers",

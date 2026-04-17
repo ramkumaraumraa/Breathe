@@ -23,6 +23,8 @@ export interface ComponentSection {
     reactNative?: string
     ios?: string
     android?: string
+    css?: string       // vanilla CSS
+    tailwind?: string  // Tailwind utility classes
   }
 }
 
@@ -107,6 +109,8 @@ export function ComponentPageLayout({
           reactNativeCode={section.code?.reactNative}
           iosCode={section.code?.ios}
           androidCode={section.code?.android}
+          cssCode={section.code?.css}
+          tailwindCode={section.code?.tailwind}
           previewClassName={section.previewClassName}
         >
           <ProductPreviewWrapper>

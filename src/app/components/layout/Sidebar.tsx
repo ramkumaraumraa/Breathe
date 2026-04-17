@@ -45,13 +45,13 @@ export function Sidebar({ onClose }: SidebarProps) {
                       onClick={onClose}
                       className={`flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all duration-150 ${
                         isActive
-                          ? 'bg-primary/8 text-primary border-l-2 border-primary pl-[10px]'
+                          ? 'bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-400'
                           : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-slate-200'
                       }`}
                       style={{ fontFamily: 'var(--font-sans)', fontSize: '0.875rem', fontWeight: isActive ? 500 : 400 }}
                     >
                       {isActive && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-teal-500 dark:bg-teal-400 shrink-0" />
                       )}
                       <span className={isActive ? '' : 'ml-4'}>{item.label}</span>
                       {item.badge && (

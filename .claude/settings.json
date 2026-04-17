@@ -21,7 +21,11 @@
       "Bash(xargs -0 sed -i '' -e 's|@/shared/lib/utils|@/app/components/ui/utils|g' -e 's|@/shared/hooks/use-mobile|@/app/components/ui/use-mobile|g' -e 's|@/shared/hooks/use-toast|@/app/components/ui/use-toast|g' -e 's|\"@/components/ui/|\"@/app/components/ui/|g')",
       "Bash(ls \"/Users/ramkumar.ganesh/Downloads/APOS pitch/Product Factory/Breathe Design system/guidelines/breathe-extract/tsconfig\"*)",
       "Bash(ls \"/Users/ramkumar.ganesh/Downloads/APOS pitch/Product Factory/Breathe Design system/\"tsconfig*)",
-      "Bash(ls \"/Users/ramkumar.ganesh/Downloads/APOS pitch/Product Factory/Breathe Design system/guidelines/breathe-extract/\"tsconfig*)"
+      "Bash(ls \"/Users/ramkumar.ganesh/Downloads/APOS pitch/Product Factory/Breathe Design system/guidelines/breathe-extract/\"tsconfig*)",
+      "Skill(gstack)",
+      "Skill(gstack:*)",
+      "Read(//tmp/**)",
+      "Read(//private/tmp/**)"
     ],
     "additionalDirectories": [
       "/Users/ramkumar.ganesh/Downloads/APOS pitch/Product Factory/Breathe Design system/docs/superpowers",

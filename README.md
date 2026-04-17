@@ -24,6 +24,7 @@ pnpm tokens        # build all token outputs for all 7 products
 pnpm tokens:watch  # rebuild on change
 pnpm dev           # run documentation site
 pnpm build         # production build of docs site
+pnpm test          # run test suite (vitest)
 ```
 
 ## Source structure

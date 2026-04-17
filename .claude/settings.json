@@ -42,7 +42,13 @@
       "Bash(pnpm list *)",
       "Bash(pnpm test *)",
       "Bash(gh pr *)",
-      "Bash(gh repo *)"
+      "Bash(gh repo *)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(list\\(d.keys\\(\\)\\)\\)\")",
+      "Bash(python3 -c \"import json; d=json.load\\(open\\('tokens/src/global.json'\\)\\); print\\(json.dumps\\(list\\(d.get\\('color',{}\\).keys\\(\\)\\), indent=2\\)\\)\")",
+      "Bash(python3 -c \"import json; d=json.load\\(open\\('tokens/src/global.json'\\)\\); print\\(json.dumps\\(d['color']['neutral'], indent=2\\)\\)\")",
+      "Bash(pnpm exec *)",
+      "Skill(design-review)",
+      "Skill(design-review:*)"
     ],
     "additionalDirectories": [
       "/Users/ramkumar.ganesh/Downloads/APOS pitch/Product Factory/Breathe Design system/docs/superpowers",

@@ -1,4 +1,8 @@
 @import '../../tokens/dist/web/lemniscate.css';
+@import '../../tokens/dist/web/aumraa.css';
+@import '../../tokens/dist/web/technocracy.css';
+@import '../../tokens/dist/web/maligai.css';
+@import '../../tokens/dist/web/ilakh.css';
 @import 'tailwindcss' source(none);
 @source '../**/*.{js,ts,jsx,tsx}';
 @custom-variant dark (&:where(.dark, .dark *));

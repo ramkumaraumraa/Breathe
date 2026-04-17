@@ -10,11 +10,24 @@
       "Read(//Users/ramkumar.ganesh/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.7/skills/subagent-driven-development/**)",
       "Bash(python3 -c \"import json; json.load\\(open\\('tokens/src/global.json'\\)\\); print\\('OK'\\)\")",
       "Bash(node -e \"const fs = require\\('fs'\\); try { JSON.parse\\(fs.readFileSync\\('tokens/src/global.json','utf8'\\)\\); console.log\\('JSON valid'\\); } catch\\(e\\) { console.error\\('JSON INVALID:', e.message\\); }\")",
-      "Bash(python3 -c \"import json; json.load\\(open\\('tokens/src/aumraa.json'\\)\\); print\\('OK'\\)\")"
+      "Bash(python3 -c \"import json; json.load\\(open\\('tokens/src/aumraa.json'\\)\\); print\\('OK'\\)\")",
+      "Read(//Users/ramkumar.ganesh/Lemniscate/Dev/**)",
+      "Read(//Users/ramkumar.ganesh/**)",
+      "Bash(grep \"import.*utils\\\\|from.*utils\" \"/Users/ramkumar.ganesh/Downloads/APOS pitch/Product Factory/Breathe Design system/guidelines/breathe-extract/components/custom/template/\"*.tsx)",
+      "Bash(mkdir -p \"/Users/ramkumar.ganesh/Downloads/APOS pitch/Product Factory/Lemniscate/Dev/lemniscate/src/styles\")",
+      "Bash(cp \"/Users/ramkumar.ganesh/Downloads/APOS pitch/Product Factory/Breathe Design system/guidelines/breathe-extract/styles/globals.css\" \"/Users/ramkumar.ganesh/Downloads/APOS pitch/Product Factory/Lemniscate/Dev/lemniscate/src/styles/breathe-tokens.css\")",
+      "Bash(xargs sed *)",
+      "Bash(xargs -0 sed -i '' 's|@/shared/lib/utils|@/lib/utils|g')",
+      "Bash(xargs -0 sed -i '' -e 's|@/shared/lib/utils|@/app/components/ui/utils|g' -e 's|@/shared/hooks/use-mobile|@/app/components/ui/use-mobile|g' -e 's|@/shared/hooks/use-toast|@/app/components/ui/use-toast|g' -e 's|\"@/components/ui/|\"@/app/components/ui/|g')",
+      "Bash(ls \"/Users/ramkumar.ganesh/Downloads/APOS pitch/Product Factory/Breathe Design system/guidelines/breathe-extract/tsconfig\"*)",
+      "Bash(ls \"/Users/ramkumar.ganesh/Downloads/APOS pitch/Product Factory/Breathe Design system/\"tsconfig*)",
+      "Bash(ls \"/Users/ramkumar.ganesh/Downloads/APOS pitch/Product Factory/Breathe Design system/guidelines/breathe-extract/\"tsconfig*)"
     ],
     "additionalDirectories": [
       "/Users/ramkumar.ganesh/Downloads/APOS pitch/Product Factory/Breathe Design system/docs/superpowers",
-      "/Users/ramkumar.ganesh/Downloads/APOS\\ pitch/Product\\ Factory/Breathe\\ Design\\ system/src/app/pages/molecules"
+      "/Users/ramkumar.ganesh/Downloads/APOS\\ pitch/Product\\ Factory/Breathe\\ Design\\ system/src/app/pages/molecules",
+      "/Users/ramkumar.ganesh/Downloads/APOS pitch/Product Factory/Lemniscate/Dev/lemniscate/src",
+      "/Users/ramkumar.ganesh/Downloads/APOS pitch/Product Factory/Lemniscate/Dev/lemniscate"
     ]
   }
 }

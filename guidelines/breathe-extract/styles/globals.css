@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* LEMNISCATE Design System */
+@layer base {
+  :root {
+    /* Brand Gradient Colors */
+    --gradient-start: 193 66% 54%;      /* #3DB5D8 Cyan-Blue */
+    --gradient-end: 221 84% 53%;        /* #2563EB Royal Blue */
+    
+    /* Primary Brand */
+    --primary: 206 63% 47%;             /* #2B7BC5 */
+    --primary-foreground: 0 0% 100%;
+    
+    /* Backgrounds */
+    --background: 0 0% 100%;            /* #FFFFFF */
+    --background-secondary: 210 20% 98%; /* #F9FAFB */
+    --background-tertiary: 204 45% 98%; /* #F7FAFC */
+    
+    /* Foreground / Text */
+    --foreground: 215 28% 17%;          /* #2D3748 */
+    --foreground-secondary: 215 14% 52%; /* #718096 */
+    --foreground-tertiary: 214 15% 65%; /* #A0AEC0 */
+    
+    /* Card */
+    --card: 0 0% 100%;
+    --card-foreground: 215 28% 17%;
+    
+    /* Popover */
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 28% 17%;
+    
+    /* Secondary */
+    --secondary: 210 20% 98%;
+    --secondary-foreground: 215 28% 17%;
+    
+    /* Muted */
+    --muted: 210 20% 96%;
+    --muted-foreground: 215 14% 52%;
+    
+    /* Accent */
+    --accent: 193 66% 54%;
+    --accent-foreground: 0 0% 100%;
+    
+    /* Semantic Colors */
+    --success: 158 64% 40%;             /* #10B981 */
+    --success-light: 152 81% 90%;       /* #D1FAE5 */
+    --success-dark: 162 93% 18%;        /* #047857 */
+    
+    --warning: 38 92% 50%;              /* #F59E0B */
+    --warning-light: 48 96% 89%;        /* #FEF3C7 */
+    --warning-dark: 32 95% 44%;         /* #D97706 */
+    
+    --danger: 0 84% 60%;                /* #EF4444 */
+    --danger-light: 0 86% 94%;          /* #FEE2E2 */
+    --danger-dark: 0 72% 51%;           /* #DC2626 */
+    
+    --info: 217 91% 60%;                /* #3B82F6 */
+    --info-light: 214 95% 93%;          /* #DBEAFE */
+    --info-dark: 224 76% 40%;           /* #1E40AF */
+    
+    /* Destructive */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Border & Input */
+    --border: 220 13% 91%;              /* #E2E8F0 */
+    --border-hover: 216 12% 84%;        /* #CBD5E1 */
+    --input: 220 13% 91%;
+    --ring: 206 63% 47%;
+    
+    /* Radius */
+    --radius: 0.75rem;
+    
+    /* Sidebar */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 215 28% 17%;
+    --sidebar-primary: 206 63% 47%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 20% 96%;
+    --sidebar-accent-foreground: 215 28% 17%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 206 63% 47%;
+    
+    /* Brand Gradient */
+    --gradient-brand: linear-gradient(135deg, hsl(193 66% 54%) 0%, hsl(221 84% 53%) 100%);
+  }
+
+  .dark {
+    --background: 215 28% 10%;
+    --background-secondary: 215 25% 12%;
+    --background-tertiary: 215 22% 14%;
+    
+    --foreground: 210 40% 98%;
+    --foreground-secondary: 214 15% 65%;
+    --foreground-tertiary: 215 14% 52%;
+    
+    --card: 215 25% 12%;
+    --card-foreground: 210 40% 98%;
+    
+    --popover: 215 25% 12%;
+    --popover-foreground: 210 40% 98%;
+    
+    --primary: 193 66% 54%;
+    --primary-foreground: 215 28% 10%;
+    
+    --secondary: 215 22% 18%;
+    --secondary-foreground: 210 40% 98%;
+    
+    --muted: 215 22% 18%;
+    --muted-foreground: 214 15% 65%;
+    
+    --accent: 221 84% 53%;
+    --accent-foreground: 0 0% 100%;
+    
+    --border: 215 22% 22%;
+    --input: 215 22% 22%;
+    --ring: 193 66% 54%;
+    
+    --sidebar-background: 215 28% 10%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 193 66% 54%;
+    --sidebar-primary-foreground: 215 28% 10%;
+    --sidebar-accent: 215 22% 18%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 215 22% 22%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  /* Brand Gradient Utilities */
+  .bg-gradient-brand {
+    background: linear-gradient(135deg, hsl(193 66% 54%) 0%, hsl(221 84% 53%) 100%);
+  }
+  
+  .text-gradient-brand {
+    background: linear-gradient(135deg, hsl(193 66% 54%) 0%, hsl(221 84% 53%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Semantic Background Utilities */
+  .bg-success { background-color: hsl(var(--success)); }
+  .bg-success-light { background-color: hsl(var(--success-light)); }
+  .bg-warning { background-color: hsl(var(--warning)); }
+  .bg-warning-light { background-color: hsl(var(--warning-light)); }
+  .bg-danger { background-color: hsl(var(--danger)); }
+  .bg-danger-light { background-color: hsl(var(--danger-light)); }
+  .bg-info { background-color: hsl(var(--info)); }
+  .bg-info-light { background-color: hsl(var(--info-light)); }
+  
+  /* Semantic Text Utilities */
+  .text-success { color: hsl(var(--success)); }
+  .text-success-dark { color: hsl(var(--success-dark)); }
+  .text-warning { color: hsl(var(--warning)); }
+  .text-warning-dark { color: hsl(var(--warning-dark)); }
+  .text-danger { color: hsl(var(--danger)); }
+  .text-danger-dark { color: hsl(var(--danger-dark)); }
+  .text-info { color: hsl(var(--info)); }
+  .text-info-dark { color: hsl(var(--info-dark)); }
+  .text-secondary { color: hsl(var(--foreground-secondary)); }
+  .text-tertiary { color: hsl(var(--foreground-tertiary)); }
+  
+  /* Card Shadow */
+  .shadow-card {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .shadow-card-hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+  
+  /* Brand Shadow */
+  .shadow-brand {
+    box-shadow: 0 2px 8px rgba(43, 123, 197, 0.2);
+  }
+  
+  .shadow-brand-hover {
+    box-shadow: 0 4px 16px rgba(43, 123, 197, 0.3);
+  }
+}

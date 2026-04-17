@@ -40,9 +40,6 @@ export const brands: BrandLogoConfig[] = [
         previewBg: '#FFFFFF',
         files: {
           svg: '/assets/logos/leminiscate/leminiscate_standard_light.svg',
-          png1x: '/assets/logos/leminiscate/leminiscate_standard_light@1x.png',
-          png2x: '/assets/logos/leminiscate/leminiscate_standard_light@2x.png',
-          png3x: '/assets/logos/leminiscate/leminiscate_standard_light@3x.png',
         },
       },
       {
@@ -53,9 +50,6 @@ export const brands: BrandLogoConfig[] = [
         previewBgDark: '#0F3A7A',
         files: {
           svg: '/assets/logos/leminiscate/leminiscate_reversed_dark.svg',
-          png1x: '/assets/logos/leminiscate/leminiscate_reversed_dark@1x.png',
-          png2x: '/assets/logos/leminiscate/leminiscate_reversed_dark@2x.png',
-          png3x: '/assets/logos/leminiscate/leminiscate_reversed_dark@3x.png',
         },
       },
       {
@@ -65,9 +59,6 @@ export const brands: BrandLogoConfig[] = [
         previewBg: '#FFFFFF',
         files: {
           svg: '/assets/logos/leminiscate/leminiscate_mono-black.svg',
-          png1x: '/assets/logos/leminiscate/leminiscate_mono-black@1x.png',
-          png2x: '/assets/logos/leminiscate/leminiscate_mono-black@2x.png',
-          png3x: '/assets/logos/leminiscate/leminiscate_mono-black@3x.png',
         },
       },
       {
@@ -77,9 +68,6 @@ export const brands: BrandLogoConfig[] = [
         previewBg: '#E3E4E4',
         files: {
           svg: '/assets/logos/leminiscate/leminiscate_mono-white.svg',
-          png1x: '/assets/logos/leminiscate/leminiscate_mono-white@1x.png',
-          png2x: '/assets/logos/leminiscate/leminiscate_mono-white@2x.png',
-          png3x: '/assets/logos/leminiscate/leminiscate_mono-white@3x.png',
         },
       },
       {
@@ -89,9 +77,6 @@ export const brands: BrandLogoConfig[] = [
         previewBg: '#FFFFFF',
         files: {
           svg: '/assets/logos/leminiscate/leminiscate_horizontal_light.svg',
-          png1x: '/assets/logos/leminiscate/leminiscate_horizontal_light@1x.png',
-          png2x: '/assets/logos/leminiscate/leminiscate_horizontal_light@2x.png',
-          png3x: '/assets/logos/leminiscate/leminiscate_horizontal_light@3x.png',
         },
       },
       {
@@ -101,9 +86,6 @@ export const brands: BrandLogoConfig[] = [
         previewBg: '#FFFFFF',
         files: {
           svg: '/assets/logos/leminiscate/leminiscate_stacked_light.svg',
-          png1x: '/assets/logos/leminiscate/leminiscate_stacked_light@1x.png',
-          png2x: '/assets/logos/leminiscate/leminiscate_stacked_light@2x.png',
-          png3x: '/assets/logos/leminiscate/leminiscate_stacked_light@3x.png',
         },
       },
       {
@@ -113,7 +95,6 @@ export const brands: BrandLogoConfig[] = [
         previewBg: '#FFFFFF',
         files: {
           svg: '/assets/logos/leminiscate/leminiscate_icon.svg',
-          png1x: '/assets/logos/leminiscate/leminiscate_icon@512.png',
         },
       },
       {
@@ -123,9 +104,6 @@ export const brands: BrandLogoConfig[] = [
         previewBg: 'checkerboard',
         files: {
           svg: '/assets/logos/leminiscate/leminiscate_alpha.svg',
-          png1x: '/assets/logos/leminiscate/leminiscate_alpha@1x.png',
-          png2x: '/assets/logos/leminiscate/leminiscate_alpha@2x.png',
-          png3x: '/assets/logos/leminiscate/leminiscate_alpha@3x.png',
         },
       },
     ],
@@ -145,9 +123,6 @@ export const brands: BrandLogoConfig[] = [
         previewBg: '#FFFFFF',
         files: {
           svg: '/assets/logos/aumraa/aumraa_standard_light.svg',
-          png1x: '/assets/logos/aumraa/aumraa_standard_light@1x.png',
-          png2x: '/assets/logos/aumraa/aumraa_standard_light@2x.png',
-          png3x: '/assets/logos/aumraa/aumraa_standard_light@3x.png',
         },
       },
       {
@@ -158,9 +133,6 @@ export const brands: BrandLogoConfig[] = [
         previewBgDark: '#1B6028',
         files: {
           svg: '/assets/logos/aumraa/aumraa_reversed_dark.svg',
-          png1x: '/assets/logos/aumraa/aumraa_reversed_dark@1x.png',
-          png2x: '/assets/logos/aumraa/aumraa_reversed_dark@2x.png',
-          png3x: '/assets/logos/aumraa/aumraa_reversed_dark@3x.png',
         },
       },
       {
@@ -170,9 +142,6 @@ export const brands: BrandLogoConfig[] = [
         previewBg: '#FFFFFF',
         files: {
           svg: '/assets/logos/aumraa/aumraa_mono-black.svg',
-          png1x: '/assets/logos/aumraa/aumraa_mono-black@1x.png',
-          png2x: '/assets/logos/aumraa/aumraa_mono-black@2x.png',
-          png3x: '/assets/logos/aumraa/aumraa_mono-black@3x.png',
         },
       },
       {
@@ -182,9 +151,6 @@ export const brands: BrandLogoConfig[] = [
         previewBg: '#E3E4E4',
         files: {
           svg: '/assets/logos/aumraa/aumraa_mono-white.svg',
-          png1x: '/assets/logos/aumraa/aumraa_mono-white@1x.png',
-          png2x: '/assets/logos/aumraa/aumraa_mono-white@2x.png',
-          png3x: '/assets/logos/aumraa/aumraa_mono-white@3x.png',
         },
       },
       {
@@ -194,9 +160,6 @@ export const brands: BrandLogoConfig[] = [
         previewBg: '#FFFFFF',
         files: {
           svg: '/assets/logos/aumraa/aumraa_horizontal_light.svg',
-          png1x: '/assets/logos/aumraa/aumraa_horizontal_light@1x.png',
-          png2x: '/assets/logos/aumraa/aumraa_horizontal_light@2x.png',
-          png3x: '/assets/logos/aumraa/aumraa_horizontal_light@3x.png',
         },
       },
       {
@@ -206,9 +169,6 @@ export const brands: BrandLogoConfig[] = [
         previewBg: '#FFFFFF',
         files: {
           svg: '/assets/logos/aumraa/aumraa_stacked_light.svg',
-          png1x: '/assets/logos/aumraa/aumraa_stacked_light@1x.png',
-          png2x: '/assets/logos/aumraa/aumraa_stacked_light@2x.png',
-          png3x: '/assets/logos/aumraa/aumraa_stacked_light@3x.png',
         },
       },
       {
@@ -218,7 +178,6 @@ export const brands: BrandLogoConfig[] = [
         previewBg: '#FFFFFF',
         files: {
           svg: '/assets/logos/aumraa/aumraa_icon.svg',
-          png1x: '/assets/logos/aumraa/aumraa_icon@512.png',
         },
       },
       {
@@ -228,9 +187,6 @@ export const brands: BrandLogoConfig[] = [
         previewBg: 'checkerboard',
         files: {
           svg: '/assets/logos/aumraa/aumraa_alpha.svg',
-          png1x: '/assets/logos/aumraa/aumraa_alpha@1x.png',
-          png2x: '/assets/logos/aumraa/aumraa_alpha@2x.png',
-          png3x: '/assets/logos/aumraa/aumraa_alpha@3x.png',
         },
       },
     ],

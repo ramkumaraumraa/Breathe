@@ -21,8 +21,8 @@ export function LogosPage() {
         badgeColor="indigo"
       />
 
-      {/* Brand Tabs */}
-      <div className="mb-8 border-b border-slate-200 dark:border-slate-800 overflow-x-auto">
+      {/* Brand Tabs — sticky below TopBar (h-16 = 64px) */}
+      <div className="sticky top-16 z-20 bg-slate-50 dark:bg-slate-950 -mx-6 lg:-mx-10 px-6 lg:px-10 mb-8 border-b border-slate-200 dark:border-slate-800 overflow-x-auto">
         <div className="flex gap-0 min-w-max" role="tablist">
           {brands.map((brand) => {
             const isActive = brand.id === activeBrand;

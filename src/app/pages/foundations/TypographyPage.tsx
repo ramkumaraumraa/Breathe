@@ -296,14 +296,19 @@ function ScaleRow({ entry, displayFont, bodyFont, isDark }: {
   );
 }
 
-export function TypographyPage() {
-  const [activeTab, setActiveTab] = useState('lemniscate');
-  const brand = brands.find(b => b.id === activeTab) || brands[0];
+const TYPO_BRAND_ORDER = ['aumraa', 'technocracy', 'lemniscate', 'maligai', 'ulagellam', 'ilakh', 'yakaizen'];
+const sortedTypoBrands = [...brands].sort((a, b) => {
+  const ai = TYPO_BRAND_ORDER.indexOf(a.id);
+  const bi = TYPO_BRAND_ORDER.indexOf(b.id);
+  return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+});
 
-  const containerBg = brand.isDark ? brand.bgColor : undefined;
+export function TypographyPage() {
+  const [activeTab, setActiveTab] = useState('aumraa');
+  const brand = sortedTypoBrands.find(b => b.id === activeTab) || sortedTypoBrands[0];
+
   const textClass = brand.isDark ? 'text-slate-100' : 'text-slate-900 dark:text-white';
   const textSecondary = brand.isDark ? 'text-slate-400' : 'text-slate-500 dark:text-slate-400';
-  const borderClass = brand.isDark ? 'border-slate-700/60' : 'border-slate-200 dark:border-slate-700/60';
 
   return (
     <div className="max-w-5xl px-6 lg:px-10 py-10">
@@ -315,10 +320,10 @@ export function TypographyPage() {
         badgeColor="teal"
       />
 
-      {/* Brand Tabs */}
-      <div className={`mb-8 border-b ${borderClass} overflow-x-auto`}>
+      {/* Brand Tabs — sticky below TopBar (h-16 = 64px) */}
+      <div className="sticky top-16 z-20 bg-slate-50 dark:bg-slate-950 -mx-6 lg:-mx-10 px-6 lg:px-10 mb-8 border-b border-slate-200 dark:border-slate-700/60 overflow-x-auto">
         <div className="flex gap-1 min-w-max">
-          {brands.map(b => (
+          {sortedTypoBrands.map(b => (
             <button
               key={b.id}
               onClick={() => setActiveTab(b.id)}

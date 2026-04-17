@@ -1034,9 +1034,16 @@ function GradientChip({ gradient }: { gradient: GradientInfo }) {
   );
 }
 
+const BRAND_ORDER = ['aumraa', 'technocracy', 'leminiscate', 'maligai-manager', 'ullagellam', 'ilakh', 'yakaizen'];
+const sortedBrands = [...brandPalettes].sort((a, b) => {
+  const ai = BRAND_ORDER.indexOf(a.id);
+  const bi = BRAND_ORDER.indexOf(b.id);
+  return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+});
+
 export function ColorsPage() {
-  const [activeTab, setActiveTab] = useState('leminiscate');
-  const activeBrand = brandPalettes.find(b => b.id === activeTab) || brandPalettes[0];
+  const [activeTab, setActiveTab] = useState('aumraa');
+  const activeBrand = sortedBrands.find(b => b.id === activeTab) || sortedBrands[0];
 
   return (
     <div className="max-w-6xl px-6 lg:px-10 py-10">
@@ -1048,10 +1055,10 @@ export function ColorsPage() {
         badgeColor="teal"
       />
 
-      {/* Brand Tabs */}
-      <div className="mb-8 border-b border-slate-200 dark:border-slate-700/60 overflow-x-auto">
+      {/* Brand Tabs — sticky below TopBar (h-16 = 64px) */}
+      <div className="sticky top-16 z-20 bg-slate-50 dark:bg-slate-950 -mx-6 lg:-mx-10 px-6 lg:px-10 mb-8 border-b border-slate-200 dark:border-slate-700/60 overflow-x-auto">
         <div className="flex gap-1 min-w-max">
-          {brandPalettes.map(brand => (
+          {sortedBrands.map(brand => (
             <button
               key={brand.id}
               onClick={() => setActiveTab(brand.id)}

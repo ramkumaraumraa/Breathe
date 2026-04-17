@@ -186,12 +186,12 @@ interface ProductThemeContextValue {
 }
 
 const ProductThemeContext = createContext<ProductThemeContextValue>({
-  activeProduct: 'lemniscate',
+  activeProduct: 'aumraa',
   setActiveProduct: () => {},
 })
 
 export function ProductThemeProvider({ children }: { children: ReactNode }) {
-  const [activeProduct, setActiveProduct] = useState<ProductId>('lemniscate')
+  const [activeProduct, setActiveProduct] = useState<ProductId>('aumraa')
   return (
     <ProductThemeContext.Provider value={{ activeProduct, setActiveProduct }}>
       {children}

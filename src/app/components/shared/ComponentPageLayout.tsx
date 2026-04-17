@@ -39,7 +39,16 @@ interface ComponentPageLayoutProps {
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-const ALL_PRODUCTS = Object.keys(productMeta) as ProductId[]
+// Canonical brand order — mirrors Logos, Colors, and Typography pages
+const ALL_PRODUCTS: ProductId[] = [
+  'aumraa',
+  'technocracy',
+  'lemniscate',
+  'maligai',
+  'ulagellam',
+  'ilakh',
+  'yakaizen',
+]
 
 // ─── Product switcher ─────────────────────────────────────────────────────────
 
@@ -47,7 +56,7 @@ function ProductSwitcher({ implemented }: { implemented: ProductId[] }) {
   const { activeProduct, setActiveProduct } = useProductTheme()
 
   return (
-    <div className="flex items-center overflow-x-auto border-b border-slate-200 dark:border-slate-700/60 -mx-6 lg:-mx-10 px-6 lg:px-10">
+    <div className="sticky top-16 z-20 bg-slate-50 dark:bg-slate-950 flex items-center overflow-x-auto border-b border-slate-200 dark:border-slate-700/60 -mx-6 lg:-mx-10 px-6 lg:px-10">
       {ALL_PRODUCTS.map((id) => {
         const meta = productMeta[id]
         const isImpl = implemented.includes(id)

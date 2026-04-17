@@ -93,7 +93,7 @@ import { Wind, Heart, ArrowRight } from 'lucide-react';
         {/* Icon grid */}
         <div className="grid grid-cols-6 sm:grid-cols-8 lg:grid-cols-10 gap-2">
           {filtered.map(name => {
-            const Icon = (LucideIcons as Record<string, LucideIcon>)[name];
+            const Icon = (LucideIcons as unknown as Record<string, LucideIcon>)[name];
             if (!Icon) return null;
             const isCopied = copied === name;
             return (

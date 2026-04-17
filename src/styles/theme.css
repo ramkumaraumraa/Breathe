@@ -49,32 +49,32 @@
 }
 
 :root {
-  --background:           var(--lmns-color-background);
-  --foreground:           var(--lmns-color-foreground);
+  --background:           var(--color-neutral-white);
+  --foreground:           var(--amra-color-foreground);
 
-  --card:                 var(--lmns-color-background);
-  --card-foreground:      var(--lmns-color-foreground);
+  --card:                 var(--color-neutral-white);
+  --card-foreground:      var(--amra-color-foreground);
 
-  --popover:              var(--lmns-color-background);
-  --popover-foreground:   var(--lmns-color-foreground);
+  --popover:              var(--color-neutral-white);
+  --popover-foreground:   var(--amra-color-foreground);
 
   --primary:              var(--amra-color-primary);
   --primary-foreground:   var(--amra-color-primary-foreground);
 
-  --secondary:            var(--lmns-color-background-secondary);
-  --secondary-foreground: var(--lmns-color-foreground);
+  --secondary:            var(--color-neutral-50);
+  --secondary-foreground: var(--amra-color-foreground);
 
-  --muted:                var(--lmns-color-background-tertiary);
-  --muted-foreground:     var(--lmns-color-foreground-secondary);
+  --muted:                var(--color-neutral-100);
+  --muted-foreground:     var(--color-neutral-500);
 
   --accent:               var(--amra-color-secondary);
   --accent-foreground:    var(--amra-color-secondary-foreground);
 
-  --destructive:          var(--lmns-color-danger);
+  --destructive:          var(--color-status-danger);
   --destructive-foreground: var(--color-neutral-white);
 
-  --border:               var(--lmns-color-border);
-  --input:                var(--lmns-color-background-secondary);
+  --border:               var(--color-neutral-200);
+  --input:                var(--color-neutral-50);
   --ring:                 var(--amra-color-primary);
 
   --radius:               var(--amra-radius-default);

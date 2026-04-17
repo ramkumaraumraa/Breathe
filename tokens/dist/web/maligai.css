@@ -98,10 +98,20 @@
   --duration-fast: 100ms;
   --duration-normal: 200ms;
   --duration-slow: 300ms;
-  --mlgm-color-primary: #40aad4; /** Confirm at Maligai design kickoff — placeholder uses Aumraa blue */
+  --mlgm-color-primary: #40aad4; /** Placeholder — confirm at Maligai design kickoff */
+  --mlgm-color-primary-light: #6ec6e6;
+  --mlgm-color-primary-dark: #2b7bc5;
   --mlgm-color-primary-foreground: #ffffff;
-  --mlgm-color-accent: #e07722;
+  --mlgm-color-secondary: #e07722;
+  --mlgm-color-secondary-foreground: #ffffff;
+  --mlgm-color-tertiary: #2f6fed;
+  --mlgm-color-tertiary-foreground: #ffffff;
+  --mlgm-color-accent: #f59e0b;
   --mlgm-color-accent-foreground: #ffffff;
+  --mlgm-color-positive: #00d06d;
+  --mlgm-color-positive-foreground: #ffffff;
+  --mlgm-color-negative: #e11d2a;
+  --mlgm-color-negative-foreground: #ffffff;
   --mlgm-color-background: #ffffff;
   --mlgm-color-background-secondary: #f9fafb;
   --mlgm-color-background-tertiary: #f3f4f6;

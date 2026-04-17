@@ -1,10 +1,30 @@
 {
   "ykai": {
     "color": {
-      "primary": { "value": "{color.blue.400}", "type": "color", "comment": "Placeholder - confirm at Yakaizen design kickoff" },
-      "accent": { "value": "{color.orange.500}", "type": "color" },
-      "background": { "value": "{color.neutral.white}", "type": "color" },
-      "foreground": { "value": "{color.neutral.900}", "type": "color" }
+      "primary":              { "value": "{color.blue.400}",      "type": "color",
+                                "comment": "Placeholder — confirm at Yakaizen design kickoff" },
+      "primaryLight":         { "value": "{color.blue.300}",      "type": "color" },
+      "primaryDark":          { "value": "{color.blue.500}",      "type": "color" },
+      "primaryForeground":    { "value": "{color.neutral.white}",  "type": "color" },
+      "secondary":            { "value": "{color.orange.500}",    "type": "color" },
+      "secondaryForeground":  { "value": "{color.neutral.white}",  "type": "color" },
+      "tertiary":             { "value": "{color.status.info}",    "type": "color" },
+      "tertiaryForeground":   { "value": "{color.neutral.white}",  "type": "color" },
+      "accent":               { "value": "{color.status.warning}", "type": "color" },
+      "accentForeground":     { "value": "{color.neutral.white}",  "type": "color" },
+      "positive":             { "value": "{color.status.success}", "type": "color" },
+      "positiveForeground":   { "value": "{color.neutral.white}",  "type": "color" },
+      "negative":             { "value": "{color.status.danger}",  "type": "color" },
+      "negativeForeground":   { "value": "{color.neutral.white}",  "type": "color" },
+      "background":           { "value": "{color.neutral.white}",  "type": "color" },
+      "backgroundSecondary":  { "value": "{color.neutral.50}",    "type": "color" },
+      "foreground":           { "value": "{color.neutral.900}",   "type": "color" },
+      "foregroundSecondary":  { "value": "{color.neutral.500}",   "type": "color" },
+      "border":               { "value": "{color.neutral.200}",   "type": "color" },
+      "success":              { "value": "{color.status.success}", "type": "color" },
+      "warning":              { "value": "{color.status.warning}", "type": "color" },
+      "danger":               { "value": "{color.status.danger}",  "type": "color" },
+      "info":                 { "value": "{color.status.info}",    "type": "color" }
     },
     "font": {
       "sizeBase": { "value": "{font.size.sm}", "type": "dimension", "comment": "Smaller for watch - confirm at kickoff" }

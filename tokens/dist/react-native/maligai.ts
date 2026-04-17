@@ -2,10 +2,20 @@
  * Do not edit directly, this file was auto-generated.
  */
 
-export const MlgmColorPrimary = "#40aad4"; // Confirm at Maligai design kickoff — placeholder uses Aumraa blue
+export const MlgmColorPrimary = "#40aad4"; // Placeholder — confirm at Maligai design kickoff
+export const MlgmColorPrimaryLight = "#6ec6e6";
+export const MlgmColorPrimaryDark = "#2b7bc5";
 export const MlgmColorPrimaryForeground = "#ffffff";
-export const MlgmColorAccent = "#e07722";
+export const MlgmColorSecondary = "#e07722";
+export const MlgmColorSecondaryForeground = "#ffffff";
+export const MlgmColorTertiary = "#2f6fed";
+export const MlgmColorTertiaryForeground = "#ffffff";
+export const MlgmColorAccent = "#f59e0b";
 export const MlgmColorAccentForeground = "#ffffff";
+export const MlgmColorPositive = "#00d06d";
+export const MlgmColorPositiveForeground = "#ffffff";
+export const MlgmColorNegative = "#e11d2a";
+export const MlgmColorNegativeForeground = "#ffffff";
 export const MlgmColorBackground = "#ffffff";
 export const MlgmColorBackgroundSecondary = "#f9fafb";
 export const MlgmColorBackgroundTertiary = "#f3f4f6";

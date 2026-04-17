@@ -3,9 +3,19 @@
  */
 
 export const IlkhColorPrimary = "#40aad4"; // Placeholder — confirm at Ilakh design kickoff
+export const IlkhColorPrimaryLight = "#6ec6e6";
+export const IlkhColorPrimaryDark = "#2b7bc5";
 export const IlkhColorPrimaryForeground = "#ffffff";
-export const IlkhColorAccent = "#e07722";
+export const IlkhColorSecondary = "#e07722";
+export const IlkhColorSecondaryForeground = "#ffffff";
+export const IlkhColorTertiary = "#2f6fed";
+export const IlkhColorTertiaryForeground = "#ffffff";
+export const IlkhColorAccent = "#f59e0b";
 export const IlkhColorAccentForeground = "#ffffff";
+export const IlkhColorPositive = "#00d06d";
+export const IlkhColorPositiveForeground = "#ffffff";
+export const IlkhColorNegative = "#e11d2a";
+export const IlkhColorNegativeForeground = "#ffffff";
 export const IlkhColorBackground = "#ffffff";
 export const IlkhColorBackgroundSecondary = "#f9fafb";
 export const IlkhColorBackgroundTertiary = "#f3f4f6";

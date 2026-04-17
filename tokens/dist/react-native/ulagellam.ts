@@ -3,9 +3,19 @@
  */
 
 export const UlgeColorPrimary = "#40aad4"; // Placeholder — confirm at Ulagellam design kickoff
+export const UlgeColorPrimaryLight = "#6ec6e6";
+export const UlgeColorPrimaryDark = "#2b7bc5";
 export const UlgeColorPrimaryForeground = "#ffffff";
-export const UlgeColorAccent = "#e07722";
+export const UlgeColorSecondary = "#e07722";
+export const UlgeColorSecondaryForeground = "#ffffff";
+export const UlgeColorTertiary = "#2f6fed";
+export const UlgeColorTertiaryForeground = "#ffffff";
+export const UlgeColorAccent = "#f59e0b";
 export const UlgeColorAccentForeground = "#ffffff";
+export const UlgeColorPositive = "#00d06d";
+export const UlgeColorPositiveForeground = "#ffffff";
+export const UlgeColorNegative = "#e11d2a";
+export const UlgeColorNegativeForeground = "#ffffff";
 export const UlgeColorBackground = "#ffffff";
 export const UlgeColorBackgroundSecondary = "#f9fafb";
 export const UlgeColorForeground = "#1f2937";

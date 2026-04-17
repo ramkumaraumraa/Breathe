@@ -9,7 +9,7 @@
 import UIKit
 
 public class IlakhTokens {
-    public static let ilkhColorAccent = UIColor(red: 0.878, green: 0.467, blue: 0.133, alpha: 1)
+    public static let ilkhColorAccent = UIColor(red: 0.961, green: 0.620, blue: 0.043, alpha: 1)
     public static let ilkhColorAccentForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
     public static let ilkhColorBackground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
     public static let ilkhColorBackgroundSecondary = UIColor(red: 0.976, green: 0.980, blue: 0.984, alpha: 1)
@@ -21,9 +21,19 @@ public class IlakhTokens {
     public static let ilkhColorForegroundSecondary = UIColor(red: 0.420, green: 0.447, blue: 0.502, alpha: 1)
     public static let ilkhColorForegroundTertiary = UIColor(red: 0.612, green: 0.639, blue: 0.686, alpha: 1)
     public static let ilkhColorInfo = UIColor(red: 0.184, green: 0.435, blue: 0.929, alpha: 1)
+    public static let ilkhColorNegative = UIColor(red: 0.882, green: 0.114, blue: 0.165, alpha: 1)
+    public static let ilkhColorNegativeForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
+    public static let ilkhColorPositive = UIColor(red: 0.000, green: 0.816, blue: 0.427, alpha: 1)
+    public static let ilkhColorPositiveForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
     public static let ilkhColorPrimary = UIColor(red: 0.251, green: 0.667, blue: 0.831, alpha: 1) /** Placeholder — confirm at Ilakh design kickoff */
+    public static let ilkhColorPrimaryDark = UIColor(red: 0.169, green: 0.482, blue: 0.773, alpha: 1)
     public static let ilkhColorPrimaryForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
+    public static let ilkhColorPrimaryLight = UIColor(red: 0.431, green: 0.776, blue: 0.902, alpha: 1)
+    public static let ilkhColorSecondary = UIColor(red: 0.878, green: 0.467, blue: 0.133, alpha: 1)
+    public static let ilkhColorSecondaryForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
     public static let ilkhColorSuccess = UIColor(red: 0.000, green: 0.816, blue: 0.427, alpha: 1)
+    public static let ilkhColorTertiary = UIColor(red: 0.184, green: 0.435, blue: 0.929, alpha: 1)
+    public static let ilkhColorTertiaryForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
     public static let ilkhColorWarning = UIColor(red: 0.961, green: 0.620, blue: 0.043, alpha: 1)
     public static let ilkhFontSizeBase = 16 /** 16px — mobile first, same base for web */
     public static let ilkhFontWeightBody = 400

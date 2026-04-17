@@ -9,7 +9,7 @@
 import UIKit
 
 public class UlagellamTokens {
-    public static let ulgeColorAccent = UIColor(red: 0.878, green: 0.467, blue: 0.133, alpha: 1)
+    public static let ulgeColorAccent = UIColor(red: 0.961, green: 0.620, blue: 0.043, alpha: 1)
     public static let ulgeColorAccentForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
     public static let ulgeColorBackground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
     public static let ulgeColorBackgroundSecondary = UIColor(red: 0.976, green: 0.980, blue: 0.984, alpha: 1)
@@ -17,9 +17,19 @@ public class UlagellamTokens {
     public static let ulgeColorDanger = UIColor(red: 0.882, green: 0.114, blue: 0.165, alpha: 1)
     public static let ulgeColorForeground = UIColor(red: 0.122, green: 0.161, blue: 0.216, alpha: 1)
     public static let ulgeColorForegroundSecondary = UIColor(red: 0.420, green: 0.447, blue: 0.502, alpha: 1)
+    public static let ulgeColorNegative = UIColor(red: 0.882, green: 0.114, blue: 0.165, alpha: 1)
+    public static let ulgeColorNegativeForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
+    public static let ulgeColorPositive = UIColor(red: 0.000, green: 0.816, blue: 0.427, alpha: 1)
+    public static let ulgeColorPositiveForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
     public static let ulgeColorPrimary = UIColor(red: 0.251, green: 0.667, blue: 0.831, alpha: 1) /** Placeholder — confirm at Ulagellam design kickoff */
+    public static let ulgeColorPrimaryDark = UIColor(red: 0.169, green: 0.482, blue: 0.773, alpha: 1)
     public static let ulgeColorPrimaryForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
+    public static let ulgeColorPrimaryLight = UIColor(red: 0.431, green: 0.776, blue: 0.902, alpha: 1)
+    public static let ulgeColorSecondary = UIColor(red: 0.878, green: 0.467, blue: 0.133, alpha: 1)
+    public static let ulgeColorSecondaryForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
     public static let ulgeColorSuccess = UIColor(red: 0.000, green: 0.816, blue: 0.427, alpha: 1)
+    public static let ulgeColorTertiary = UIColor(red: 0.184, green: 0.435, blue: 0.929, alpha: 1)
+    public static let ulgeColorTertiaryForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
     public static let ulgeColorWarning = UIColor(red: 0.961, green: 0.620, blue: 0.043, alpha: 1)
     public static let ulgeFontSizeBase = 16
     public static let ulgeFontWeightBody = 400

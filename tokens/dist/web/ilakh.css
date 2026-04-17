@@ -99,9 +99,19 @@
   --duration-normal: 200ms;
   --duration-slow: 300ms;
   --ilkh-color-primary: #40aad4; /** Placeholder — confirm at Ilakh design kickoff */
+  --ilkh-color-primary-light: #6ec6e6;
+  --ilkh-color-primary-dark: #2b7bc5;
   --ilkh-color-primary-foreground: #ffffff;
-  --ilkh-color-accent: #e07722;
+  --ilkh-color-secondary: #e07722;
+  --ilkh-color-secondary-foreground: #ffffff;
+  --ilkh-color-tertiary: #2f6fed;
+  --ilkh-color-tertiary-foreground: #ffffff;
+  --ilkh-color-accent: #f59e0b;
   --ilkh-color-accent-foreground: #ffffff;
+  --ilkh-color-positive: #00d06d;
+  --ilkh-color-positive-foreground: #ffffff;
+  --ilkh-color-negative: #e11d2a;
+  --ilkh-color-negative-foreground: #ffffff;
   --ilkh-color-background: #ffffff;
   --ilkh-color-background-secondary: #f9fafb;
   --ilkh-color-background-tertiary: #f3f4f6;

@@ -5,3 +5,10 @@ dist/
 .env
 .env.*
 .gstack/
+
+# Playwright test artifacts
+.playwright-mcp/
+*.png
+
+# Vite build output (keep tokens/dist tracked separately)
+dist/

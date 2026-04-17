@@ -40,7 +40,9 @@
       "Bash(~/.claude/skills/gstack/bin/gstack-review-read)",
       "Bash(pnpm add *)",
       "Bash(pnpm list *)",
-      "Bash(pnpm test *)"
+      "Bash(pnpm test *)",
+      "Bash(gh pr *)",
+      "Bash(gh repo *)"
     ],
     "additionalDirectories": [
       "/Users/ramkumar.ganesh/Downloads/APOS pitch/Product Factory/Breathe Design system/docs/superpowers",

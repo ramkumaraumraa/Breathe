@@ -68,8 +68,6 @@ export function HomePage() {
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full opacity-10 dark:opacity-5"
                style={{ background: 'radial-gradient(circle, #14B8A6, transparent)' }} />
-          <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full opacity-10 dark:opacity-5"
-               style={{ background: 'radial-gradient(circle, #6366F1, transparent)' }} />
           {/* Subtle grid */}
           <div className="absolute inset-0 opacity-[0.025] dark:opacity-[0.04]"
                style={{ backgroundImage: 'linear-gradient(rgba(0,0,0,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.5) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
@@ -233,7 +231,7 @@ export function HomePage() {
       <section className="px-6 lg:px-10 pb-16">
         <div className="max-w-3xl">
           <div className="rounded-2xl overflow-hidden relative"
-               style={{ background: 'linear-gradient(135deg, #0F766E 0%, #4338CA 100%)' }}>
+               style={{ background: 'linear-gradient(135deg, #0D9488 0%, #0F766E 60%, #115E59 100%)' }}>
             <div className="absolute inset-0 opacity-10"
                  style={{ backgroundImage: 'radial-gradient(circle at 20% 50%, white, transparent)', backgroundSize: '60% 60%', backgroundRepeat: 'no-repeat' }} />
             <div className="relative px-8 py-10">

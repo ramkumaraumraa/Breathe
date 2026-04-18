@@ -84,7 +84,7 @@ export function Sidebar({ onClose }: SidebarProps) {
                         <NavLink
                           to={item.path}
                           onClick={onClose}
-                          className={`flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all duration-150 ${
+                          className={`flex items-center gap-2.5 px-3 py-2.5 min-h-[44px] rounded-lg transition-all duration-150 ${
                             isActive
                               ? 'bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-400'
                               : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-slate-200'
@@ -118,7 +118,7 @@ export function Sidebar({ onClose }: SidebarProps) {
           href="https://github.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-slate-500 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
+          className="flex items-center gap-2.5 px-3 py-2.5 min-h-[44px] rounded-lg text-slate-500 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-slate-700 dark:hover:text-slate-300 transition-colors"
           style={{ fontFamily: 'var(--font-sans)', fontSize: '0.8125rem' }}
         >
           <Github size={14} />

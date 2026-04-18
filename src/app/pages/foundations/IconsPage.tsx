@@ -1,26 +1,41 @@
 import { useState } from 'react';
-import { Search, Copy, Check } from 'lucide-react';
-import * as LucideIcons from 'lucide-react';
+import {
+  Search, Copy, Check,
+  Wind, Leaf, Heart, Star, Sun, Moon, Cloud, Droplets,
+  Waves, Mountain, Flower, Feather, Zap, Sparkles, ArrowRight, ArrowLeft,
+  ChevronDown, ChevronUp, ChevronRight, ChevronLeft, X, Plus, Minus,
+  Settings, Bell, User, Users, Mail, Phone, Lock,
+  Home, Grid, List, Menu, MoreHorizontal, MoreVertical, Edit, Trash2,
+  Share, Download, Upload, Link, ExternalLink, Bookmark, Flag,
+  AlertCircle, AlertTriangle, CheckCircle, XCircle, Info, HelpCircle, Eye, EyeOff,
+  Calendar, Clock, Timer, Map, Globe, MapPin, Navigation, Compass,
+  File, FileText, Folder, FolderOpen, Image, Video, Music, Mic,
+  Camera, Code, Terminal, Database, Server, Cpu, Monitor, Smartphone,
+  Package, Box, Layers, Layout, Sidebar, Columns, Rows, Grid2X2,
+  BarChart, LineChart, PieChart, TrendingUp, TrendingDown, Activity, Gauge, Target,
+} from 'lucide-react';
 import { PageHeader } from '../../components/shared/PageHeader';
 import { CodeBlock } from '../../components/shared/CodeBlock';
 import { PageNavigation } from '../../components/shared/PageNavigation';
 
 type LucideIcon = React.ComponentType<{ size?: number; className?: string; color?: string }>;
 
-const featuredIcons = [
-  'Wind', 'Leaf', 'Heart', 'Star', 'Sun', 'Moon', 'Cloud', 'Droplets',
-  'Waves', 'Mountain', 'Flower', 'Feather', 'Zap', 'Sparkles', 'ArrowRight', 'ArrowLeft',
-  'ChevronDown', 'ChevronUp', 'ChevronRight', 'ChevronLeft', 'Check', 'X', 'Plus', 'Minus',
-  'Search', 'Settings', 'Bell', 'User', 'Users', 'Mail', 'Phone', 'Lock',
-  'Home', 'Grid', 'List', 'Menu', 'MoreHorizontal', 'MoreVertical', 'Edit', 'Trash2',
-  'Copy', 'Share', 'Download', 'Upload', 'Link', 'ExternalLink', 'Bookmark', 'Flag',
-  'AlertCircle', 'AlertTriangle', 'CheckCircle', 'XCircle', 'Info', 'HelpCircle', 'Eye', 'EyeOff',
-  'Calendar', 'Clock', 'Timer', 'Map', 'Globe', 'MapPin', 'Navigation', 'Compass',
-  'File', 'FileText', 'Folder', 'FolderOpen', 'Image', 'Video', 'Music', 'Mic',
-  'Camera', 'Code', 'Terminal', 'Database', 'Server', 'Cpu', 'Monitor', 'Smartphone',
-  'Package', 'Box', 'Layers', 'Layout', 'Sidebar', 'Columns', 'Rows', 'Grid2x2',
-  'BarChart', 'LineChart', 'PieChart', 'TrendingUp', 'TrendingDown', 'Activity', 'Gauge', 'Target',
-];
+const iconMap: Record<string, LucideIcon> = {
+  Wind, Leaf, Heart, Star, Sun, Moon, Cloud, Droplets,
+  Waves, Mountain, Flower, Feather, Zap, Sparkles, ArrowRight, ArrowLeft,
+  ChevronDown, ChevronUp, ChevronRight, ChevronLeft, Check, X, Plus, Minus,
+  Search, Settings, Bell, User, Users, Mail, Phone, Lock,
+  Home, Grid, List, Menu, MoreHorizontal, MoreVertical, Edit, Trash2,
+  Copy, Share, Download, Upload, Link, ExternalLink, Bookmark, Flag,
+  AlertCircle, AlertTriangle, CheckCircle, XCircle, Info, HelpCircle, Eye, EyeOff,
+  Calendar, Clock, Timer, Map, Globe, MapPin, Navigation, Compass,
+  File, FileText, Folder, FolderOpen, Image, Video, Music, Mic,
+  Camera, Code, Terminal, Database, Server, Cpu, Monitor, Smartphone,
+  Package, Box, Layers, Layout, Sidebar, Columns, Rows, Grid2x2: Grid2X2,
+  BarChart, LineChart, PieChart, TrendingUp, TrendingDown, Activity, Gauge, Target,
+};
+
+const featuredIcons = Object.keys(iconMap);
 
 export function IconsPage() {
   const [query, setQuery] = useState('');
@@ -93,7 +108,7 @@ import { Wind, Heart, ArrowRight } from 'lucide-react';
         {/* Icon grid */}
         <div className="grid grid-cols-6 sm:grid-cols-8 lg:grid-cols-10 gap-2">
           {filtered.map(name => {
-            const Icon = (LucideIcons as unknown as Record<string, LucideIcon>)[name];
+            const Icon = iconMap[name];
             if (!Icon) return null;
             const isCopied = copied === name;
             return (

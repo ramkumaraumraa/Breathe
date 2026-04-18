@@ -175,7 +175,7 @@ export function HomePage() {
                   <feature.icon size={18} />
                 </div>
                 <h3 className="text-slate-900 dark:text-slate-100 mb-1.5 m-0"
-                    style={{ fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '0.9375rem' }}>
+                    style={{ fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '1rem' }}>
                   {feature.title}
                 </h3>
                 <p className="text-slate-500 dark:text-slate-400 m-0"

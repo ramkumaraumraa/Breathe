@@ -36,6 +36,7 @@ interface BrandPalette {
   id: string;
   name: string;
   tagline: string;
+  accentColor: string;
   core: ColorScale[];
   gradients: GradientInfo[];
 }
@@ -216,6 +217,7 @@ const brandPalettes: BrandPalette[] = [
     id: 'leminiscate',
     name: 'Leminiscate',
     tagline: 'Real estate intelligence · Web · Mobile',
+    accentColor: '#1C60C1',
     core: [
       {
         name: 'Primary',
@@ -312,6 +314,7 @@ const brandPalettes: BrandPalette[] = [
     id: 'aumraa',
     name: 'Aumraa',
     tagline: 'Design studio & product brand · Web · Marketing',
+    accentColor: '#2F9E44',
     core: [
       {
         name: 'Primary',
@@ -407,6 +410,7 @@ const brandPalettes: BrandPalette[] = [
     id: 'maligai-manager',
     name: 'Maligai Manager',
     tagline: 'Grocery & inventory management · Mobile',
+    accentColor: '#D97706',
     core: [
       {
         name: 'Primary',
@@ -500,6 +504,7 @@ const brandPalettes: BrandPalette[] = [
     id: 'ullagellam',
     name: 'Ullagellam',
     tagline: 'Explore & discover around you · Mobile',
+    accentColor: '#7C3AED',
     core: [
       {
         name: 'Primary',
@@ -593,6 +598,7 @@ const brandPalettes: BrandPalette[] = [
     id: 'ilakh',
     name: 'Ilakh',
     tagline: 'Goal tracking & personal finance · Web · Mobile',
+    accentColor: '#0369A1',
     core: [
       {
         name: 'Primary',
@@ -686,6 +692,7 @@ const brandPalettes: BrandPalette[] = [
     id: 'technocracy',
     name: 'Technocracy',
     tagline: 'Admin dashboard & analytics · Web · Dark-mode first',
+    accentColor: '#8B5CF6',
     core: [
       {
         name: 'Primary',
@@ -781,6 +788,7 @@ const brandPalettes: BrandPalette[] = [
     id: 'yakaizen',
     name: 'Yakaizen',
     tagline: 'Habit & continuous improvement · Mobile · Smartwatch',
+    accentColor: '#06B6D4',
     core: [
       {
         name: 'Primary',
@@ -1056,22 +1064,32 @@ export function ColorsPage() {
       />
 
       {/* Brand Tabs — sticky below TopBar (h-16 = 64px) */}
-      <div className="sticky top-16 z-20 bg-slate-50 dark:bg-slate-950 -mx-6 lg:-mx-10 px-6 lg:px-10 mb-8 border-b border-slate-200 dark:border-slate-700/60 overflow-x-auto">
-        <div className="flex gap-1 min-w-max">
-          {sortedBrands.map(brand => (
-            <button
-              key={brand.id}
-              onClick={() => setActiveTab(brand.id)}
-              className={`px-4 py-2.5 transition-colors border-b-2 whitespace-nowrap ${
-                activeTab === brand.id
-                  ? 'border-teal-500 text-teal-600 dark:text-teal-400'
-                  : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
-              }`}
-              style={{ fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '0.875rem' }}
-            >
-              {brand.name}
-            </button>
-          ))}
+      <div className="sticky top-16 z-20 bg-slate-50 dark:bg-slate-950 -mx-6 lg:-mx-10 px-6 lg:px-10 mb-8 border-b border-slate-200 dark:border-slate-800 overflow-x-auto">
+        <div className="flex gap-0 min-w-max" role="tablist">
+          {sortedBrands.map(brand => {
+            const isActive = brand.id === activeTab;
+            return (
+              <button
+                key={brand.id}
+                onClick={() => setActiveTab(brand.id)}
+                role="tab"
+                aria-selected={isActive}
+                className={`relative px-4 py-2.5 border-b-2 transition-colors whitespace-nowrap ${
+                  isActive
+                    ? 'text-slate-900 dark:text-white'
+                    : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:border-slate-300 dark:hover:border-slate-600'
+                }`}
+                style={{
+                  borderBottomColor: isActive ? brand.accentColor : undefined,
+                  fontFamily: 'var(--font-sans)',
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
+                }}
+              >
+                {brand.name}
+              </button>
+            );
+          })}
         </div>
       </div>
 

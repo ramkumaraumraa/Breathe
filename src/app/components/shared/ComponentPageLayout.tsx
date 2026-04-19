@@ -50,36 +50,55 @@ const ALL_PRODUCTS: ProductId[] = [
   'yakaizen',
 ]
 
+const PRODUCT_ACCENT: Record<ProductId, string> = {
+  aumraa:      '#2F9E44',
+  technocracy: '#8B5CF6',
+  lemniscate:  '#1C60C1',
+  maligai:     '#D97706',
+  ulagellam:   '#7C3AED',
+  ilakh:       '#0369A1',
+  yakaizen:    '#06B6D4',
+}
+
 // ─── Product switcher ─────────────────────────────────────────────────────────
 
 function ProductSwitcher({ implemented }: { implemented: ProductId[] }) {
   const { activeProduct, setActiveProduct } = useProductTheme()
 
   return (
-    <div className="sticky top-16 z-20 bg-slate-50 dark:bg-slate-950 flex items-center overflow-x-auto border-b border-slate-200 dark:border-slate-700/60 -mx-6 lg:-mx-10 px-6 lg:px-10">
-      {ALL_PRODUCTS.map((id) => {
-        const meta = productMeta[id]
-        const isImpl = implemented.includes(id)
-        const isActive = activeProduct === id
-        return (
-          <button
-            key={id}
-            onClick={() => setActiveProduct(id)}
-            title={!isImpl ? 'Placeholder — confirm at product design kickoff' : meta.description}
-            className={[
-              'flex items-center gap-1.5 px-4 py-2.5 border-b-2 transition-colors whitespace-nowrap shrink-0',
-              isActive
-                ? 'border-teal-500 text-teal-600 dark:text-teal-400'
-                : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300',
-              !isImpl ? 'opacity-50' : '',
-            ].join(' ')}
-            style={{ fontSize: '0.8125rem', fontWeight: isActive ? 500 : 400 }}
-          >
-            {meta.label}
-            {!isImpl && <span className="text-slate-400">·</span>}
-          </button>
-        )
-      })}
+    <div className="sticky top-16 z-20 bg-slate-50 dark:bg-slate-950 overflow-x-auto border-b border-slate-200 dark:border-slate-800 -mx-6 lg:-mx-10 px-6 lg:px-10">
+      <div className="flex gap-0 min-w-max" role="tablist">
+        {ALL_PRODUCTS.map((id) => {
+          const meta = productMeta[id]
+          const isImpl = implemented.includes(id)
+          const isActive = activeProduct === id
+          return (
+            <button
+              key={id}
+              onClick={() => setActiveProduct(id)}
+              role="tab"
+              aria-selected={isActive}
+              title={!isImpl ? 'Placeholder — confirm at product design kickoff' : meta.description}
+              className={[
+                'relative flex items-center gap-1.5 px-4 py-2.5 border-b-2 transition-colors whitespace-nowrap shrink-0',
+                isActive
+                  ? 'text-slate-900 dark:text-white'
+                  : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:border-slate-300 dark:hover:border-slate-600',
+                !isImpl ? 'opacity-50' : '',
+              ].join(' ')}
+              style={{
+                borderBottomColor: isActive ? PRODUCT_ACCENT[id] : undefined,
+                fontFamily: 'var(--font-sans)',
+                fontWeight: 600,
+                fontSize: '0.875rem',
+              }}
+            >
+              {meta.label}
+              {!isImpl && <span className="text-slate-400">·</span>}
+            </button>
+          )
+        })}
+      </div>
     </div>
   )
 }
@@ -95,7 +114,7 @@ export function ComponentPageLayout({
   implemented = ['lemniscate', 'aumraa'],
 }: ComponentPageLayoutProps) {
   return (
-    <div className="max-w-3xl px-6 lg:px-10 py-10 space-y-8">
+    <div className="max-w-5xl px-6 lg:px-10 py-10 space-y-8">
       {/* Header */}
       <PageHeader
         title={title}

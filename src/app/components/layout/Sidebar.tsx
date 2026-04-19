@@ -60,18 +60,18 @@ export function Sidebar({ onClose }: SidebarProps) {
               {/* Section header — clickable to collapse */}
               <button
                 onClick={() => toggleSection(section.section)}
-                className="w-full flex items-center justify-between px-3 py-1.5 mb-0.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors group"
+                className="w-full flex items-center gap-2 px-3 py-1.5 mb-0.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors group"
               >
+                <ChevronDown
+                  size={12}
+                  className={`text-slate-400 dark:text-slate-600 transition-transform duration-200 shrink-0 ${isOpen ? 'rotate-0' : '-rotate-90'}`}
+                />
                 <span
                   className={hasActiveItem ? 'text-teal-600 dark:text-teal-400' : 'text-slate-400 dark:text-slate-600'}
                   style={{ fontSize: '0.68rem', fontWeight: 600, letterSpacing: '0.08em', fontFamily: 'var(--font-sans)', textTransform: 'uppercase' }}
                 >
                   {section.section}
                 </span>
-                <ChevronDown
-                  size={12}
-                  className={`text-slate-400 dark:text-slate-600 transition-transform duration-200 ${isOpen ? 'rotate-0' : '-rotate-90'}`}
-                />
               </button>
 
               {/* Section items — collapsible */}

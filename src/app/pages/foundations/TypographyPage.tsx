@@ -321,22 +321,32 @@ export function TypographyPage() {
       />
 
       {/* Brand Tabs — sticky below TopBar (h-16 = 64px) */}
-      <div className="sticky top-16 z-20 bg-slate-50 dark:bg-slate-950 -mx-6 lg:-mx-10 px-6 lg:px-10 mb-8 border-b border-slate-200 dark:border-slate-700/60 overflow-x-auto">
-        <div className="flex gap-1 min-w-max">
-          {sortedTypoBrands.map(b => (
-            <button
-              key={b.id}
-              onClick={() => setActiveTab(b.id)}
-              className={`px-4 py-2.5 transition-colors border-b-2 whitespace-nowrap ${
-                activeTab === b.id
-                  ? 'border-teal-500 text-teal-600 dark:text-teal-400'
-                  : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300'
-              }`}
-              style={{ fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '0.875rem' }}
-            >
-              {b.label}
-            </button>
-          ))}
+      <div className="sticky top-16 z-20 bg-slate-50 dark:bg-slate-950 -mx-6 lg:-mx-10 px-6 lg:px-10 mb-8 border-b border-slate-200 dark:border-slate-800 overflow-x-auto">
+        <div className="flex gap-0 min-w-max" role="tablist">
+          {sortedTypoBrands.map(b => {
+            const isActive = b.id === activeTab;
+            return (
+              <button
+                key={b.id}
+                onClick={() => setActiveTab(b.id)}
+                role="tab"
+                aria-selected={isActive}
+                className={`relative px-4 py-2.5 border-b-2 transition-colors whitespace-nowrap ${
+                  isActive
+                    ? 'text-slate-900 dark:text-white'
+                    : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:border-slate-300 dark:hover:border-slate-600'
+                }`}
+                style={{
+                  borderBottomColor: isActive ? b.accentColor : undefined,
+                  fontFamily: 'var(--font-sans)',
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
+                }}
+              >
+                {b.label}
+              </button>
+            );
+          })}
         </div>
       </div>
 

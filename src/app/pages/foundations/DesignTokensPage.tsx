@@ -29,22 +29,24 @@ const products: Product[] = [
     id: 'lemniscate',
     label: 'Lemniscate',
     prefix: 'lmns',
-    description: 'Community finance SaaS with light surfaces and a sky-blue primary.',
+    description: 'Community finance SaaS with light surfaces, dark-blue primary actions, and sky-blue support accents.',
     surface: 'light',
     platforms: ['Web CSS'],
     colors: [
-      { name: 'Primary', token: '--lmns-color-primary', value: '#40AAD4', role: 'Buttons, links, selected states' },
-      { name: 'Primary Light', token: '--lmns-color-primary-light', value: '#6EC6E6', role: 'Hover states, tints' },
-      { name: 'Primary Dark', token: '--lmns-color-primary-dark', value: '#1C60C1', role: 'Active states, gradients' },
-      { name: 'Secondary', token: '--lmns-color-secondary', value: '#1C60C1', role: 'Secondary actions' },
-      { name: 'Tertiary', token: '--lmns-color-tertiary', value: '#E07722', role: 'Accent, highlights' },
-      { name: 'Positive', token: '--lmns-color-positive', value: '#00D06D', role: 'Success states' },
-      { name: 'Negative', token: '--lmns-color-negative', value: '#E11D2A', role: 'Errors, destructive' },
+      { name: 'Primary', token: '--lmns-color-primary', value: '#1C60C1', role: 'Buttons, links, selected states' },
+      { name: 'Primary Light', token: '--lmns-color-primary-light', value: '#ADC6E9', role: 'Hover states, tints' },
+      { name: 'Primary Dark', token: '--lmns-color-primary-dark', value: '#1B4A8D', role: 'Active states, borders' },
+      { name: 'Secondary', token: '--lmns-color-secondary', value: '#40AAD4', role: 'Secondary accents, highlights' },
+      { name: 'Tertiary', token: '--lmns-color-tertiary', value: '#ED651C', role: 'Accent, highlights' },
+      { name: 'Positive', token: '--lmns-color-positive', value: '#16A34A', role: 'Success states' },
+      { name: 'Negative', token: '--lmns-color-negative', value: '#DC2626', role: 'Errors, destructive' },
       { name: 'Background', token: '--lmns-color-background', value: '#FFFFFF', role: 'Page surface' },
       { name: 'Background Secondary', token: '--lmns-color-background-secondary', value: '#F9FAFB', role: 'Cards, sidebars' },
-      { name: 'Foreground', token: '--lmns-color-foreground', value: '#1F2937', role: 'Body text' },
-      { name: 'Foreground Secondary', token: '--lmns-color-foreground-secondary', value: '#6B7280', role: 'Captions, metadata' },
+      { name: 'Foreground', token: '--lmns-color-foreground', value: '#2E3033', role: 'Body text' },
+      { name: 'Foreground Secondary', token: '--lmns-color-foreground-secondary', value: '#57595B', role: 'Captions, metadata' },
       { name: 'Border', token: '--lmns-color-border', value: '#E5E7EB', role: 'Inputs, dividers' },
+      { name: 'Gradient Start', token: '--lmns-color-gradient-start', value: '#1C60C1', role: 'Brand gradient start' },
+      { name: 'Gradient End', token: '--lmns-color-gradient-end', value: '#40AAD4', role: 'Brand gradient end' },
     ],
     typography: [
       { name: 'Base size', token: '--lmns-font-size-base', value: '16px' },
@@ -368,7 +370,7 @@ function TokenTable({
 
 export function DesignTokensPage() {
   return (
-    <div className="max-w-6xl px-6 py-10 lg:px-10">
+    <div className="max-w-7xl px-6 py-10 lg:px-10">
       <PageHeader
         title="Design Tokens"
         description="Breathe stores every shared design decision in JSON, then distributes those tokens automatically to product-specific outputs for web, mobile, iOS, and Android."

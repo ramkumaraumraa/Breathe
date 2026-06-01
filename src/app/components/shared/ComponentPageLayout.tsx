@@ -114,7 +114,7 @@ export function ComponentPageLayout({
   implemented = ['lemniscate', 'aumraa'],
 }: ComponentPageLayoutProps) {
   return (
-    <div className="max-w-5xl px-6 lg:px-10 py-10 space-y-8">
+    <div className="max-w-7xl px-6 lg:px-10 py-10 space-y-8">
       {/* Header */}
       <PageHeader
         title={title}

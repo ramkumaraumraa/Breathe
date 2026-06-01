@@ -1,12 +1,12 @@
 {
   "lmns": {
     "color": {
-      "primary": { "value": "{color.blue.400}", "type": "color" },
-      "primaryLight": { "value": "{color.blue.300}", "type": "color" },
+      "primary": { "value": "{color.blue.500}", "type": "color" },
+      "primaryLight": { "value": "{color.blue.100}", "type": "color" },
       "primaryDark": { "value": "{color.blue.700}", "type": "color" },
       "primaryForeground": { "value": "{color.neutral.white}", "type": "color" },
-      "secondary": { "value": "{color.blue.700}", "type": "color" },
-      "secondaryForeground": { "value": "{color.neutral.white}", "type": "color" },
+      "secondary": { "value": "{color.sky.500}", "type": "color" },
+      "secondaryForeground": { "value": "{color.ink.500}", "type": "color" },
       "tertiary": { "value": "{color.orange.500}", "type": "color" },
       "tertiaryForeground": { "value": "{color.neutral.white}", "type": "color" },
       "accent": { "value": "{color.orange.500}", "type": "color" },
@@ -18,17 +18,17 @@
       "background": { "value": "{color.neutral.white}", "type": "color" },
       "backgroundSecondary": { "value": "{color.neutral.50}", "type": "color" },
       "backgroundTertiary": { "value": "{color.neutral.100}", "type": "color" },
-      "foreground": { "value": "{color.neutral.800}", "type": "color" },
-      "foregroundSecondary": { "value": "{color.neutral.500}", "type": "color" },
-      "foregroundTertiary": { "value": "{color.neutral.400}", "type": "color" },
+      "foreground": { "value": "{color.ink.500}", "type": "color" },
+      "foregroundSecondary": { "value": "{color.ink.200}", "type": "color" },
+      "foregroundTertiary": { "value": "{color.ink.100}", "type": "color" },
       "border": { "value": "{color.neutral.200}", "type": "color" },
-      "borderHover": { "value": "{color.neutral.300}", "type": "color" },
+      "borderHover": { "value": "{color.neutral.400}", "type": "color" },
       "success": { "value": "{color.status.success}", "type": "color" },
       "warning": { "value": "{color.status.warning}", "type": "color" },
       "danger": { "value": "{color.status.danger}", "type": "color" },
       "info": { "value": "{color.status.info}", "type": "color" },
-      "gradientStart": { "value": "{color.blue.400}", "type": "color" },
-      "gradientEnd": { "value": "{color.blue.700}", "type": "color" }
+      "gradientStart": { "value": "{color.blue.500}", "type": "color" },
+      "gradientEnd": { "value": "{color.sky.500}", "type": "color" }
     },
     "font": {
       "sizeBase": { "value": "{font.size.base}", "type": "dimension" },

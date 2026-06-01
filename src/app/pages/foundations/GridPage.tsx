@@ -1,6 +1,6 @@
 import { PageHeader } from '../../components/shared/PageHeader';
 import { ComponentPreview } from '../../components/shared/ComponentPreview';
-import { CodeBlock } from '../../components/shared/CodeBlock';
+import { FoundationCodeCard } from '../../components/shared/FoundationCodeCard';
 import { PageNavigation } from '../../components/shared/PageNavigation';
 import { Monitor, Tablet, Smartphone } from 'lucide-react';
 
@@ -23,7 +23,7 @@ const containerMaxWidths = [
 
 export function GridPage() {
   return (
-    <div className="max-w-4xl px-6 lg:px-10 py-10">
+    <div className="max-w-7xl px-6 lg:px-10 py-10">
       <PageHeader
         title="Grid System"
         description="Breathe uses a flexible, responsive 12-column grid system that adapts seamlessly across mobile, tablet, and desktop devices. The grid creates consistent layouts and maintains visual hierarchy across all screen sizes."
@@ -660,13 +660,11 @@ struct ColumnSpanning: View {
           Implementation Examples
         </h2>
 
-        <div className="space-y-6">
-          <div>
-            <h3 className="text-slate-700 dark:text-slate-300 mb-3 m-0" style={{ fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '0.9375rem' }}>
-              Tailwind CSS
-            </h3>
-            <CodeBlock
-              code={`<!-- Responsive grid with breakpoints -->
+        <div className="space-y-4">
+          <FoundationCodeCard
+            title="Tailwind CSS"
+            description="Responsive grid via Tailwind breakpoint utilities."
+            code={`<!-- Responsive grid with breakpoints -->
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
   <!-- Grid items -->
 </div>
@@ -681,16 +679,13 @@ struct ColumnSpanning: View {
   <div class="col-span-12 md:col-span-6 lg:col-span-4">Item 1</div>
   <div class="col-span-12 md:col-span-6 lg:col-span-8">Item 2</div>
 </div>`}
-              language="html"
-            />
-          </div>
+            language="html"
+          />
 
-          <div>
-            <h3 className="text-slate-700 dark:text-slate-300 mb-3 m-0" style={{ fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '0.9375rem' }}>
-              CSS Grid
-            </h3>
-            <CodeBlock
-              code={`/* Mobile-first responsive grid */
+          <FoundationCodeCard
+            title="CSS Grid"
+            description="Mobile-first responsive grid using native CSS. Matches the 4 → 8 → 12 column breakpoint system."
+            code={`/* Mobile-first responsive grid */
 .grid-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -726,9 +721,8 @@ struct ColumnSpanning: View {
 .span-full {
   grid-column: 1 / -1;
 }`}
-              language="css"
-            />
-          </div>
+            language="css"
+          />
         </div>
       </section>
 

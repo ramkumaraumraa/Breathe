@@ -40,6 +40,9 @@ export const productMeta: Record<ProductId, {
       '--radius':                   'var(--lmns-radius-default)',
       '--destructive':              'var(--lmns-color-negative)',
       '--destructive-foreground':   'var(--lmns-color-negative-foreground)',
+      '--gradient-brand-start':      'var(--lmns-color-gradient-start)',
+      '--gradient-brand-end':        'var(--lmns-color-gradient-end)',
+      '--gradient-brand':            'linear-gradient(135deg, var(--gradient-brand-start) 0%, var(--gradient-brand-end) 100%)',
     },
   },
   aumraa: {
@@ -62,6 +65,9 @@ export const productMeta: Record<ProductId, {
       '--radius':                   'var(--amra-radius-default)',
       '--destructive':              'var(--amra-color-danger)',
       '--destructive-foreground':   'var(--color-neutral-white)',
+      '--gradient-brand-start':      'var(--amra-color-gradient-start)',
+      '--gradient-brand-end':        'var(--amra-color-gradient-end)',
+      '--gradient-brand':            'linear-gradient(135deg, var(--gradient-brand-start) 0%, var(--gradient-brand-end) 100%)',
     },
   },
   technocracy: {
@@ -84,6 +90,9 @@ export const productMeta: Record<ProductId, {
       '--radius':                   'var(--thcy-radius-default)',
       '--destructive':              'var(--thcy-color-negative)',
       '--destructive-foreground':   'var(--thcy-color-negative-foreground)',
+      '--gradient-brand-start':      'var(--thcy-color-primary)',
+      '--gradient-brand-end':        'var(--thcy-color-secondary)',
+      '--gradient-brand':            'linear-gradient(135deg, var(--gradient-brand-start) 0%, var(--gradient-brand-end) 100%)',
     },
   },
   maligai: {
@@ -106,6 +115,9 @@ export const productMeta: Record<ProductId, {
       '--radius':                   'var(--mlgm-radius-default)',
       '--destructive':              'var(--mlgm-color-negative)',
       '--destructive-foreground':   'var(--mlgm-color-negative-foreground)',
+      '--gradient-brand-start':      'var(--mlgm-color-primary)',
+      '--gradient-brand-end':        'var(--mlgm-color-secondary)',
+      '--gradient-brand':            'linear-gradient(135deg, var(--gradient-brand-start) 0%, var(--gradient-brand-end) 100%)',
     },
   },
   ulagellam: {
@@ -129,6 +141,9 @@ export const productMeta: Record<ProductId, {
       '--radius':                   '1rem',
       '--destructive':              '#E11D2A',
       '--destructive-foreground':   '#ffffff',
+      '--gradient-brand-start':      '#40AAD4',
+      '--gradient-brand-end':        '#E07722',
+      '--gradient-brand':            'linear-gradient(135deg, var(--gradient-brand-start) 0%, var(--gradient-brand-end) 100%)',
     },
   },
   ilakh: {
@@ -151,6 +166,9 @@ export const productMeta: Record<ProductId, {
       '--radius':                   'var(--ilkh-radius-default)',
       '--destructive':              'var(--ilkh-color-negative)',
       '--destructive-foreground':   'var(--ilkh-color-negative-foreground)',
+      '--gradient-brand-start':      'var(--ilkh-color-primary)',
+      '--gradient-brand-end':        'var(--ilkh-color-secondary)',
+      '--gradient-brand':            'linear-gradient(135deg, var(--gradient-brand-start) 0%, var(--gradient-brand-end) 100%)',
     },
   },
   yakaizen: {
@@ -174,6 +192,9 @@ export const productMeta: Record<ProductId, {
       '--radius':                   '1rem',
       '--destructive':              '#E11D2A',
       '--destructive-foreground':   '#ffffff',
+      '--gradient-brand-start':      '#334155',
+      '--gradient-brand-end':        '#06B6D4',
+      '--gradient-brand':            'linear-gradient(135deg, var(--gradient-brand-start) 0%, var(--gradient-brand-end) 100%)',
     },
   },
 }

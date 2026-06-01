@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { PageHeader } from '../../components/shared/PageHeader';
-import { CodeBlock } from '../../components/shared/CodeBlock';
+import { FoundationCodeCard } from '../../components/shared/FoundationCodeCard';
 import { PageNavigation } from '../../components/shared/PageNavigation';
 
 interface TypeScaleEntry {
@@ -311,7 +311,7 @@ export function TypographyPage() {
   const textSecondary = brand.isDark ? 'text-slate-400' : 'text-slate-500 dark:text-slate-400';
 
   return (
-    <div className="max-w-5xl px-6 lg:px-10 py-10">
+    <div className="max-w-7xl px-6 lg:px-10 py-10">
       <PageHeader
         title="Typography"
         description="Each product in the Breathe family has its own font pairing — chosen to match its audience, density, and brand character. Shared mono font across all products."
@@ -433,10 +433,12 @@ export function TypographyPage() {
 
       {/* CSS snippet */}
       <section className="mb-12">
-        <h2 className={`${textClass} mb-4 m-0`} style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.25rem' }}>
-          Usage in CSS
-        </h2>
-        <CodeBlock code={brand.cssSnippet} language="css" />
+        <FoundationCodeCard
+          title="Usage in CSS"
+          description={`Reference ${brand.displayFont.name} tokens via CSS custom properties. Never hardcode font-family strings in components.`}
+          code={brand.cssSnippet}
+          language="css"
+        />
       </section>
 
       {/* Shared standards */}

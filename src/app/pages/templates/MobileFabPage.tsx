@@ -5,7 +5,7 @@ export function MobileFabPage() {
   return (
     <ComponentPageLayout
       title="Mobile FAB"
-      description="Fixed floating action button — visible only on mobile (hidden at md breakpoint). Use for the primary action on a screen."
+      description="Fixed floating action button — visible only on mobile (hidden at md breakpoint). Uses the active product brand treatment for primary mobile actions."
       level="Template"
       status="Stable"
       sections={[
@@ -18,7 +18,7 @@ export function MobileFabPage() {
               <div className="absolute bottom-4 right-4">
                 <button
                   type="button"
-                  className="flex h-14 w-14 items-center justify-center rounded-full bg-primary shadow-lg"
+                  className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-brand shadow-brand-hover"
                 >
                   <Plus className="h-6 w-6 text-primary-foreground" />
                 </button>
@@ -54,7 +54,7 @@ import { tokens } from '@breathe/tokens/react-native/lemniscate'
             <div className="relative h-32 bg-muted/40 rounded-lg overflow-hidden border border-border">
               <p className="text-xs text-muted-foreground p-4">Screen content</p>
               <div className="absolute bottom-4 right-4 opacity-60">
-                <button className="flex h-14 w-14 items-center justify-center rounded-full bg-primary shadow-lg">
+	                <button className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-brand shadow-brand-hover">
                   <Plus className="h-6 w-6 text-primary-foreground" />
                 </button>
               </div>

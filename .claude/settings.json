@@ -53,7 +53,13 @@
       "Bash(python3 -c \"import json; d=json.load\\(open\\('tokens/src/lemniscate.json'\\)\\); print\\(list\\(d.keys\\(\\)\\)\\)\" python3 -c \"import json; d=json.load\\(open\\('tokens/src/lemniscate.json'\\)\\); def find_bg\\(obj, path=''\\): if isinstance\\(obj, dict\\): for k,v in obj.items\\(\\): find_bg\\(v, f'{path}.{k}'\\) elif isinstance\\(obj, str\\) and 'background' in path.lower\\(\\): print\\(f'{path}: {obj}'\\) find_bg\\(d\\)\")",
       "Bash(~/.claude/skills/gstack/bin/gstack-learnings-log '{\"skill\":\"design-review\",\"type\":\"pitfall\",\"key\":\"lucide-wildcard-import\",\"insight\":\"import * as LucideIcons from lucide-react prevents tree-shaking — all 1600+ icons bundle \\(790KB\\). Always use named imports or an explicit iconMap. Fixed by replacing with named imports + Record map.\",\"confidence\":10,\"source\":\"observed\",\"files\":[\"src/app/pages/foundations/IconsPage.tsx\"]}')",
       "Bash(~/.claude/skills/gstack/bin/gstack-learnings-log '{\"skill\":\"design-review\",\"type\":\"pitfall\",\"key\":\"dark-mode-token-mapping\",\"insight\":\"theme.css .dark{} remapped --background to --lmns-color-background which is #ffffff \\(light token\\). Visual dark mode worked via Tailwind dark: classes but var\\(--background\\) returned white in dark mode. Fix: use concrete slate values in .dark{} block.\",\"confidence\":10,\"source\":\"observed\",\"files\":[\"src/styles/theme.css\"]}')",
-      "Bash(~/.claude/skills/gstack/bin/gstack-learnings-log '{\"skill\":\"design-review\",\"type\":\"pitfall\",\"key\":\"index-html-placeholder-title\",\"insight\":\"Vite scaffolding left placeholder title Create Breathe Design System in index.html. Always check index.html for placeholder title, missing description, OG tags, and color-scheme meta before deployment.\",\"confidence\":10,\"source\":\"observed\",\"files\":[\"index.html\"]}')"
+      "Bash(~/.claude/skills/gstack/bin/gstack-learnings-log '{\"skill\":\"design-review\",\"type\":\"pitfall\",\"key\":\"index-html-placeholder-title\",\"insight\":\"Vite scaffolding left placeholder title Create Breathe Design System in index.html. Always check index.html for placeholder title, missing description, OG tags, and color-scheme meta before deployment.\",\"confidence\":10,\"source\":\"observed\",\"files\":[\"index.html\"]}')",
+      "Skill(design-consultation)",
+      "Skill(design-consultation:*)",
+      "Bash(ls tokens/dist/web/)",
+      "Bash(head -40 tokens/dist/web/lemniscate.css)",
+      "Bash(head -40 tokens/dist/web/technocracy.css)",
+      "Bash(pnpm tsc *)"
     ],
     "additionalDirectories": [
       "/Users/ramkumar.ganesh/Downloads/APOS pitch/Product Factory/Breathe Design system/docs/superpowers",

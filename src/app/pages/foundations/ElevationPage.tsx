@@ -1,5 +1,5 @@
 import { PageHeader } from '../../components/shared/PageHeader';
-import { CodeBlock } from '../../components/shared/CodeBlock';
+import { FoundationCodeCard } from '../../components/shared/FoundationCodeCard';
 import { PageNavigation } from '../../components/shared/PageNavigation';
 
 const elevations = [
@@ -56,7 +56,7 @@ const coloredShadows = [
 
 export function ElevationPage() {
   return (
-    <div className="max-w-4xl px-6 lg:px-10 py-10">
+    <div className="max-w-7xl px-6 lg:px-10 py-10">
       <PageHeader
         title="Elevation"
         description="Elevation communicates hierarchy and depth through shadows. Breathe's shadow system has 6 levels, each serving a distinct purpose in the interface."
@@ -179,10 +179,9 @@ export function ElevationPage() {
       </section>
 
       <section>
-        <h2 className="text-slate-900 dark:text-white mb-4 m-0" style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.25rem' }}>
-          Usage in CSS
-        </h2>
-        <CodeBlock
+        <FoundationCodeCard
+          title="Usage in CSS"
+          description="Reference shadow tokens via CSS custom properties. Use colored shadows for brand-accented hover states."
           code={`/* Elevation tokens */
 .card { box-shadow: var(--breathe-shadow-1); }
 .card:hover { box-shadow: var(--breathe-shadow-2); }

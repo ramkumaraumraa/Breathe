@@ -2,19 +2,19 @@
  * Do not edit directly, this file was auto-generated.
  */
 
-export const MlgmColorPrimary = "#40aad4"; // Placeholder — confirm at Maligai design kickoff
-export const MlgmColorPrimaryLight = "#6ec6e6";
-export const MlgmColorPrimaryDark = "#2b7bc5";
+export const MlgmColorPrimary = "#4079cb"; // Placeholder — confirm at Maligai design kickoff
+export const MlgmColorPrimaryLight = "#6593d5";
+export const MlgmColorPrimaryDark = "#1c60c1";
 export const MlgmColorPrimaryForeground = "#ffffff";
-export const MlgmColorSecondary = "#e07722";
+export const MlgmColorSecondary = "#ed651c";
 export const MlgmColorSecondaryForeground = "#ffffff";
-export const MlgmColorTertiary = "#2f6fed";
+export const MlgmColorTertiary = "#40aad4";
 export const MlgmColorTertiaryForeground = "#ffffff";
 export const MlgmColorAccent = "#f59e0b";
 export const MlgmColorAccentForeground = "#ffffff";
-export const MlgmColorPositive = "#00d06d";
+export const MlgmColorPositive = "#16a34a";
 export const MlgmColorPositiveForeground = "#ffffff";
-export const MlgmColorNegative = "#e11d2a";
+export const MlgmColorNegative = "#dc2626";
 export const MlgmColorNegativeForeground = "#ffffff";
 export const MlgmColorBackground = "#ffffff";
 export const MlgmColorBackgroundSecondary = "#f9fafb";
@@ -24,10 +24,10 @@ export const MlgmColorForegroundSecondary = "#6b7280";
 export const MlgmColorForegroundTertiary = "#9ca3af";
 export const MlgmColorBorder = "#e5e7eb";
 export const MlgmColorBorderHover = "#d1d5db";
-export const MlgmColorSuccess = "#00d06d";
+export const MlgmColorSuccess = "#16a34a";
 export const MlgmColorWarning = "#f59e0b";
-export const MlgmColorDanger = "#e11d2a";
-export const MlgmColorInfo = "#2f6fed";
+export const MlgmColorDanger = "#dc2626";
+export const MlgmColorInfo = "#40aad4";
 export const MlgmFontSizeBase = 16; // 16px for web, RN uses sp units — Style Dictionary handles conversion
 export const MlgmFontWeightBody = "400";
 export const MlgmFontWeightHeading = "600"; // Semibold for mobile readability

@@ -74,6 +74,18 @@
 
   --destructive:          var(--color-status-danger);
   --destructive-foreground: var(--color-neutral-white);
+  --success:              var(--color-status-success);
+  --success-light:        var(--color-status-success-light);
+  --success-dark:         var(--color-status-success-dark);
+  --warning:              var(--color-status-warning);
+  --warning-light:        var(--color-status-warning-light);
+  --warning-dark:         var(--color-status-warning-dark);
+  --danger:               var(--color-status-danger);
+  --danger-light:         var(--color-status-danger-light);
+  --danger-dark:          var(--color-status-danger-dark);
+  --info:                 var(--color-status-info);
+  --info-light:           var(--color-status-info-light);
+  --info-dark:            var(--color-status-info-dark);
 
   --border:               var(--color-neutral-200);
   --input:                var(--color-neutral-50);
@@ -89,6 +101,10 @@
   --sidebar-accent-foreground: var(--lmns-color-foreground);
   --sidebar-border:       var(--lmns-color-border);
   --sidebar-ring:         var(--amra-color-primary);
+
+  --gradient-brand-start: var(--amra-color-gradient-start);
+  --gradient-brand-end:   var(--amra-color-gradient-end);
+  --gradient-brand:       linear-gradient(135deg, var(--gradient-brand-start) 0%, var(--gradient-brand-end) 100%);
 }
 
 .dark {
@@ -118,6 +134,18 @@
 
   --destructive:          var(--color-status-danger);
   --destructive-foreground: #e2e8f0;
+  --success:              var(--color-status-success);
+  --success-light:        var(--color-status-success-light);
+  --success-dark:         var(--color-status-success-dark);
+  --warning:              var(--color-status-warning);
+  --warning-light:        var(--color-status-warning-light);
+  --warning-dark:         var(--color-status-warning-dark);
+  --danger:               var(--color-status-danger);
+  --danger-light:         var(--color-status-danger-light);
+  --danger-dark:          var(--color-status-danger-dark);
+  --info:                 var(--color-status-info);
+  --info-light:           var(--color-status-info-light);
+  --info-dark:            var(--color-status-info-dark);
 
   --border:               #1e293b;   /* slate-800 */
   --input:                #1e293b;
@@ -131,6 +159,10 @@
   --sidebar-accent-foreground: #e2e8f0;
   --sidebar-border:       #1e293b;
   --sidebar-ring:         var(--amra-color-primary);
+
+  --gradient-brand-start: var(--amra-color-gradient-start);
+  --gradient-brand-end:   var(--amra-color-gradient-end);
+  --gradient-brand:       linear-gradient(135deg, var(--gradient-brand-start) 0%, var(--gradient-brand-end) 100%);
 }
 
 :root {
@@ -214,5 +246,26 @@
     font-size: var(--text-base);
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
+  }
+}
+
+@layer utilities {
+  .bg-gradient-brand {
+    background: var(--gradient-brand);
+  }
+
+  .text-gradient-brand {
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .shadow-brand {
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--gradient-brand-start) 28%, transparent);
+  }
+
+  .shadow-brand-hover {
+    box-shadow: 0 4px 16px color-mix(in srgb, var(--gradient-brand-start) 34%, transparent);
   }
 }

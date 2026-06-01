@@ -5,7 +5,7 @@ export function ProgressPage() {
   return (
     <ComponentPageLayout
       title="Progress"
-      description="Communicates task completion status to the user."
+      description="Communicates task completion status with the active product's brand gradient."
       level="Atom"
       status="Stable"
       implemented={['lemniscate', 'aumraa']}

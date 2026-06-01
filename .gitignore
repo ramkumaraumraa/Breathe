@@ -12,3 +12,4 @@ dist/
 
 # Vite build output (keep tokens/dist tracked separately)
 dist/
+.vercel

@@ -3,45 +3,130 @@
  */
 
 :root {
-  --color-blue-300: #6ec6e6; /** Light blue - hover states */
-  --color-blue-400: #40aad4; /** Sky blue - Lemniscate primary */
-  --color-blue-500: #2b7bc5; /** Mid blue - dark primary */
-  --color-blue-700: #1c60c1; /** Dark blue - secondary, gradients */
-  --color-blue-900: #0f3a7a; /** Deep navy */
-  --color-orange-300: #f0a05a; /** Light orange */
-  --color-orange-500: #e07722; /** Brand orange - roof tip accent */
-  --color-orange-700: #b55a10; /** Dark orange */
-  --color-green-50: #f0fdf4;
-  --color-green-100: #dcfce7;
-  --color-green-200: #bbf7d0;
-  --color-green-300: #86efac;
-  --color-green-400: #4ade80;
+  --color-blue-25: #e8effe;
+  --color-blue-50: #d2dff3;
+  --color-blue-75: #bfcfed;
+  --color-blue-100: #adc6e9;
+  --color-blue-200: #89acdf;
+  --color-blue-300: #6593d5;
+  --color-blue-400: #4079cb;
+  --color-blue-500: #1c60c1; /** Lemniscate primary dark blue root */
+  --color-blue-600: #1c55a7;
+  --color-blue-700: #1b4a8d;
+  --color-blue-800: #1b3f73;
+  --color-blue-900: #1a3459;
+  --color-blue-925: #162a48;
+  --color-blue-950: #111c2a;
+  --color-blue-975: #081018;
+  --color-sky-25: #ebf7fb;
+  --color-sky-50: #d9eef6;
+  --color-sky-75: #c6e6f2;
+  --color-sky-100: #bae0f0;
+  --color-sky-200: #9cd3e9;
+  --color-sky-300: #7dc5e2;
+  --color-sky-400: #5fb8db;
+  --color-sky-500: #40aad4; /** Lemniscate secondary sky blue root */
+  --color-sky-600: #3a93b7;
+  --color-sky-700: #347c9a;
+  --color-sky-800: #2d657d;
+  --color-sky-900: #274e60;
+  --color-sky-925: #1e3d4c;
+  --color-sky-950: #152530;
+  --color-sky-975: #08131a;
+  --color-orange-25: #fef3eb;
+  --color-orange-50: #fbe6d2;
+  --color-orange-75: #f9d5bb;
+  --color-orange-100: #f9c8ad;
+  --color-orange-200: #f6af89;
+  --color-orange-300: #f39665;
+  --color-orange-400: #f07e40;
+  --color-orange-500: #ed651c; /** Lemniscate tertiary orange root */
+  --color-orange-600: #cb591c;
+  --color-orange-700: #a94d1d;
+  --color-orange-800: #87411d;
+  --color-orange-900: #65361e;
+  --color-orange-925: #4f2c18;
+  --color-orange-950: #432a1e;
+  --color-orange-975: #2c1a10;
+  --color-green-25: #edfaf1;
+  --color-green-50: #d3f5dc;
+  --color-green-75: #b8efc6;
+  --color-green-100: #9fe8b3;
+  --color-green-200: #78d98d;
+  --color-green-300: #55ca6c;
+  --color-green-400: #3bb554;
   --color-green-500: #2f9e44; /** Aumraa primary — forest green */
-  --color-green-600: #16a34a;
-  --color-green-700: #15803d;
-  --color-green-800: #166534;
-  --color-green-900: #14532d;
-  --color-green-950: #052e16;
+  --color-green-600: #288b3b;
+  --color-green-700: #227832;
+  --color-green-800: #1c6429;
+  --color-green-900: #175121;
+  --color-green-925: #123f1a;
+  --color-green-950: #0c2d13;
+  --color-green-975: #061a0b;
   --color-green-forest: #002100; /** Aumraa deep forest black — primary text */
-  --color-yellow-green-400: #cfcf2a; /** Aumraa secondary — energised yellow-green */
-  --color-yellow-green-500: #b5b520;
-  --color-yellow-green-600: #9a9a18;
-  --color-emerald-400: #00d06d; /** Aumraa positive / success */
-  --color-emerald-500: #00b85f;
-  --color-violet-100: #ede9fe; /** Violet lightest — tints on light bg */
-  --color-violet-200: #ddd6fe;
-  --color-violet-300: #c4b5fd; /** Hover tints on dark backgrounds */
-  --color-violet-400: #a78bfa;
-  --color-violet-500: #8b5cf6; /** Violet-500 — Technocracy interactive */
-  --color-violet-600: #7c3aed; /** Hover/active states */
-  --color-violet-700: #6d28d9; /** Pressed, borders, icon fills */
-  --color-violet-800: #5b21b6;
-  --color-violet-900: #3b1f7c; /** Subtle tinted surfaces on dark bg */
-  --color-indigo-400: #818cf8;
-  --color-indigo-500: #6366f1; /** Indigo-500 — Technocracy secondary accent */
-  --color-indigo-600: #4f46e5;
+  --color-yellow-green-25: #fafae6;
+  --color-yellow-green-50: #f4f4c3;
+  --color-yellow-green-75: #eeee9f;
+  --color-yellow-green-100: #e8e87c;
+  --color-yellow-green-200: #dede55;
+  --color-yellow-green-300: #d6d63d;
+  --color-yellow-green-400: #cecf30; /** Aumraa secondary — energised yellow-green */
+  --color-yellow-green-500: #cfcf2a;
+  --color-yellow-green-600: #b4b424;
+  --color-yellow-green-700: #98981e;
+  --color-yellow-green-800: #7d7d18;
+  --color-yellow-green-900: #636312;
+  --color-yellow-green-925: #4e4e0d;
+  --color-yellow-green-950: #383807;
+  --color-yellow-green-975: #222201;
+  --color-emerald-25: #ecfdf5;
+  --color-emerald-50: #d1fae5;
+  --color-emerald-75: #a7f3d0;
+  --color-emerald-100: #6ee7b7;
+  --color-emerald-200: #34d399;
+  --color-emerald-300: #10b981;
+  --color-emerald-400: #059669; /** Aumraa positive / success */
+  --color-emerald-500: #047857;
+  --color-emerald-600: #065f46;
+  --color-emerald-700: #064e3b;
+  --color-emerald-800: #053d2f;
+  --color-emerald-900: #042c22;
+  --color-emerald-925: #031a14;
+  --color-emerald-950: #010d0a;
+  --color-emerald-975: #000402;
+  --color-violet-25: #f5f3ff;
+  --color-violet-50: #ede9fe;
+  --color-violet-75: #ddd6fe;
+  --color-violet-100: #c4b5fd; /** Violet lightest — tints on light bg */
+  --color-violet-200: #a78bfa;
+  --color-violet-300: #8b5cf6; /** Technocracy interactive primary */
+  --color-violet-400: #7c3aed; /** Hover/active states */
+  --color-violet-500: #6d28d9;
+  --color-violet-600: #5b21b6;
+  --color-violet-700: #4c1d95;
+  --color-violet-800: #3b1f7c; /** Subtle tinted surfaces on dark bg */
+  --color-violet-900: #2a1660;
+  --color-violet-925: #1c0e47;
+  --color-violet-950: #100830;
+  --color-violet-975: #060318;
+  --color-indigo-25: #eef2ff;
+  --color-indigo-50: #e0e7ff;
+  --color-indigo-75: #c7d2fe;
+  --color-indigo-100: #a5b4fc;
+  --color-indigo-200: #818cf8;
+  --color-indigo-300: #6366f1; /** Technocracy secondary accent */
+  --color-indigo-400: #4f46e5;
+  --color-indigo-500: #4338ca;
+  --color-indigo-600: #3730a3;
+  --color-indigo-700: #312e81;
+  --color-indigo-800: #271f6a;
   --color-indigo-900: #1e1b4b; /** Deep indigo surface tint */
+  --color-indigo-925: #130e36;
+  --color-indigo-950: #090621;
+  --color-indigo-975: #03020e;
+  --color-neutral-25: #f8fafc;
   --color-neutral-50: #f9fafb;
+  --color-neutral-75: #e2e8f0;
   --color-neutral-100: #f3f4f6;
   --color-neutral-200: #e5e7eb;
   --color-neutral-300: #d1d5db;
@@ -51,22 +136,84 @@
   --color-neutral-700: #374151;
   --color-neutral-800: #1f2937;
   --color-neutral-900: #111827;
+  --color-neutral-925: #04060d;
   --color-neutral-950: #0d1117; /** Near-black — Technocracy deepest background */
+  --color-neutral-975: #010203;
   --color-neutral-1000: #080c12; /** Absolute dark — sidebar rail in dense dashboards */
   --color-neutral-white: #ffffff;
   --color-neutral-black: #000000;
-  --color-status-success: #00d06d; /** Aumraa positive — bright emerald */
-  --color-status-success-light: #dcfce7;
-  --color-status-success-dark: #14532d;
+  --color-ink-25: #808284;
+  --color-ink-50: #737577;
+  --color-ink-75: #676869;
+  --color-ink-100: #6c6d70;
+  --color-ink-200: #57595b;
+  --color-ink-300: #494b4d;
+  --color-ink-400: #3b3d3f;
+  --color-ink-500: #2e3033;
+  --color-ink-600: #262829;
+  --color-ink-700: #1f2122;
+  --color-ink-800: #191b1f;
+  --color-ink-900: #131519;
+  --color-ink-925: #0e1013;
+  --color-ink-950: #09090b;
+  --color-ink-975: #050507;
+  --color-status-success: #16a34a;
+  --color-status-success-light: #d0eddb;
+  --color-status-success-dark: #17773c;
   --color-status-warning: #f59e0b;
-  --color-status-warning-light: #fef3c7;
-  --color-status-warning-dark: #92400e;
-  --color-status-danger: #e11d2a; /** Aumraa negative */
-  --color-status-danger-light: #fee2e2;
-  --color-status-danger-dark: #7f1d1d;
-  --color-status-info: #2f6fed; /** Aumraa tertiary blue */
-  --color-status-info-light: #e0f2fe;
-  --color-status-info-dark: #0c4a6e;
+  --color-status-warning-light: #fdecce;
+  --color-status-warning-dark: #af7411;
+  --color-status-danger: #dc2626;
+  --color-status-danger-light: #f8d4d4;
+  --color-status-danger-dark: #9e2224;
+  --color-status-info: #40aad4;
+  --color-status-info-light: #d9eef6;
+  --color-status-info-dark: #347c9a;
+  --color-feedback-positive-25: #e8f8ee;
+  --color-feedback-positive-50: #d0eddb;
+  --color-feedback-positive-75: #bbdfc8;
+  --color-feedback-positive-100: #abdebe;
+  --color-feedback-positive-200: #86cfa1;
+  --color-feedback-positive-300: #61c084;
+  --color-feedback-positive-400: #3bb267;
+  --color-feedback-positive-500: #16a34a;
+  --color-feedback-positive-600: #168d43;
+  --color-feedback-positive-700: #17773c;
+  --color-feedback-positive-800: #176235;
+  --color-feedback-positive-900: #184c2e;
+  --color-feedback-positive-925: #183628;
+  --color-feedback-positive-950: #0f2218;
+  --color-feedback-positive-975: #060e09;
+  --color-feedback-warning-25: #fffbf0;
+  --color-feedback-warning-50: #fdecce;
+  --color-feedback-warning-75: #fce2b5;
+  --color-feedback-warning-100: #fbdca7;
+  --color-feedback-warning-200: #facd80;
+  --color-feedback-warning-300: #f8bd59;
+  --color-feedback-warning-400: #f7ae32;
+  --color-feedback-warning-500: #f59e0b;
+  --color-feedback-warning-600: #d2890e;
+  --color-feedback-warning-700: #af7411;
+  --color-feedback-warning-800: #8b5f15;
+  --color-feedback-warning-900: #684a18;
+  --color-feedback-warning-925: #45351b;
+  --color-feedback-warning-950: #2c2110;
+  --color-feedback-warning-975: #130d04;
+  --color-feedback-negative-25: #feecec;
+  --color-feedback-negative-50: #f8d4d4;
+  --color-feedback-negative-75: #f5c0c0;
+  --color-feedback-negative-100: #f2b1b1;
+  --color-feedback-negative-200: #ed8e8e;
+  --color-feedback-negative-300: #e76b6b;
+  --color-feedback-negative-400: #e24949;
+  --color-feedback-negative-500: #dc2626;
+  --color-feedback-negative-600: #bd2425;
+  --color-feedback-negative-700: #9e2224;
+  --color-feedback-negative-800: #7e2123;
+  --color-feedback-negative-900: #5f1f22;
+  --color-feedback-negative-925: #401d20;
+  --color-feedback-negative-950: #280f11;
+  --color-feedback-negative-975: #100406;
   --font-family-sans: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-family-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
   --font-family-source-sans: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /** Aumraa brand typeface */
@@ -114,34 +261,34 @@
   --duration-fast: 100ms;
   --duration-normal: 200ms;
   --duration-slow: 300ms;
-  --lmns-color-primary: #40aad4;
-  --lmns-color-primary-light: #6ec6e6;
-  --lmns-color-primary-dark: #1c60c1;
+  --lmns-color-primary: #1c60c1;
+  --lmns-color-primary-light: #adc6e9;
+  --lmns-color-primary-dark: #1b4a8d;
   --lmns-color-primary-foreground: #ffffff;
-  --lmns-color-secondary: #1c60c1;
-  --lmns-color-secondary-foreground: #ffffff;
-  --lmns-color-tertiary: #e07722;
+  --lmns-color-secondary: #40aad4;
+  --lmns-color-secondary-foreground: #2e3033;
+  --lmns-color-tertiary: #ed651c;
   --lmns-color-tertiary-foreground: #ffffff;
-  --lmns-color-accent: #e07722;
+  --lmns-color-accent: #ed651c;
   --lmns-color-accent-foreground: #ffffff;
-  --lmns-color-positive: #00d06d;
+  --lmns-color-positive: #16a34a;
   --lmns-color-positive-foreground: #ffffff;
-  --lmns-color-negative: #e11d2a;
+  --lmns-color-negative: #dc2626;
   --lmns-color-negative-foreground: #ffffff;
   --lmns-color-background: #ffffff;
   --lmns-color-background-secondary: #f9fafb;
   --lmns-color-background-tertiary: #f3f4f6;
-  --lmns-color-foreground: #1f2937;
-  --lmns-color-foreground-secondary: #6b7280;
-  --lmns-color-foreground-tertiary: #9ca3af;
+  --lmns-color-foreground: #2e3033;
+  --lmns-color-foreground-secondary: #57595b;
+  --lmns-color-foreground-tertiary: #6c6d70;
   --lmns-color-border: #e5e7eb;
-  --lmns-color-border-hover: #d1d5db;
-  --lmns-color-success: #00d06d;
+  --lmns-color-border-hover: #9ca3af;
+  --lmns-color-success: #16a34a;
   --lmns-color-warning: #f59e0b;
-  --lmns-color-danger: #e11d2a;
-  --lmns-color-info: #2f6fed;
-  --lmns-color-gradient-start: #40aad4;
-  --lmns-color-gradient-end: #1c60c1;
+  --lmns-color-danger: #dc2626;
+  --lmns-color-info: #40aad4;
+  --lmns-color-gradient-start: #1c60c1;
+  --lmns-color-gradient-end: #40aad4;
   --lmns-font-size-base: 16px;
   --lmns-font-weight-body: 400;
   --lmns-font-weight-heading: 500;

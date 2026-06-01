@@ -1,5 +1,5 @@
 import { PageHeader } from '../../components/shared/PageHeader';
-import { CodeBlock } from '../../components/shared/CodeBlock';
+import { FoundationCodeCard } from '../../components/shared/FoundationCodeCard';
 import { PageNavigation } from '../../components/shared/PageNavigation';
 
 const spacingScale = [
@@ -38,7 +38,7 @@ const MAX_PX = 96;
 
 export function SpacingPage() {
   return (
-    <div className="max-w-4xl px-6 lg:px-10 py-10">
+    <div className="max-w-7xl px-6 lg:px-10 py-10">
       <PageHeader
         title="Spacing"
         description="Breathe uses a base-4 spacing scale (4px = 1 unit). Consistent spacing creates visual rhythm and breathing room that makes interfaces feel calm and organized."
@@ -168,10 +168,9 @@ export function SpacingPage() {
       </section>
 
       <section>
-        <h2 className="text-slate-900 dark:text-white mb-4 m-0" style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.25rem' }}>
-          Usage in CSS
-        </h2>
-        <CodeBlock
+        <FoundationCodeCard
+          title="Usage in CSS"
+          description="Reference spacing tokens via CSS custom properties. Tailwind utilities map directly to these values."
           code={`/* Using spacing tokens */
 .card {
   padding: var(--breathe-space-lg);   /* 24px */

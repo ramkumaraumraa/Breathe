@@ -53,7 +53,7 @@ export function IconsPage() {
   };
 
   return (
-    <div className="max-w-4xl px-6 lg:px-10 py-10">
+    <div className="max-w-7xl px-6 lg:px-10 py-10">
       <PageHeader
         title="Iconography"
         description="Breathe uses Lucide React as its icon library — a clean, consistent set of open-source icons that follow a minimal stroke style."

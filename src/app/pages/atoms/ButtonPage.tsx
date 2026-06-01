@@ -1,6 +1,6 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
 import { Button } from '@/app/components/ui/button'
-import { ArrowRight, Download, Trash2 } from 'lucide-react'
+import { ArrowRight, Download, Send, Sparkles, Trash2 } from 'lucide-react'
 
 export function ButtonPage() {
   return (
@@ -12,31 +12,51 @@ export function ButtonPage() {
       sections={[
         {
           title: 'Variants',
-          description: 'Six variants for different levels of emphasis.',
+          description: 'Action styles for primary, brand, secondary, destructive, and low-emphasis commands.',
           preview: (
             <div className="flex flex-wrap gap-3">
-              <Button variant="default">Primary</Button>
+              <Button variant="gradient"><Sparkles className="h-4 w-4" />Gradient</Button>
+              <Button variant="default">Default Primary</Button>
+              <Button variant="brandOutline">Brand Outline</Button>
               <Button variant="secondary">Secondary</Button>
               <Button variant="outline">Outline</Button>
               <Button variant="ghost">Ghost</Button>
               <Button variant="destructive">Danger</Button>
+              <Button variant="success">Success</Button>
+              <Button variant="warning">Warning</Button>
               <Button variant="link">Link</Button>
             </div>
           ),
           code: {
             react: `import { Button } from '@breathe/ui'
 
+<Button variant="gradient">Gradient</Button>
 <Button variant="default">Primary</Button>
+<Button variant="brandOutline">Brand Outline</Button>
 <Button variant="secondary">Secondary</Button>
 <Button variant="outline">Outline</Button>
 <Button variant="ghost">Ghost</Button>
 <Button variant="destructive">Danger</Button>
+<Button variant="success">Success</Button>
+<Button variant="warning">Warning</Button>
 <Button variant="link">Link</Button>`,
 
             tailwind: `<!-- Primary -->
 <button class="inline-flex items-center justify-center gap-2 rounded-lg px-6 py-2.5 text-sm font-semibold
                bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 transition-all">
   Primary
+</button>
+
+<!-- Gradient -->
+<button class="inline-flex items-center justify-center gap-2 rounded-lg px-6 py-2.5 text-sm font-semibold
+               bg-gradient-brand text-primary-foreground shadow-sm hover:shadow-md transition-all">
+  Gradient
+</button>
+
+<!-- Brand outline -->
+<button class="inline-flex items-center justify-center gap-2 rounded-lg px-6 py-2.5 text-sm font-normal
+               border border-primary/40 text-primary hover:bg-primary/5 transition-all">
+  Brand Outline
 </button>
 
 <!-- Secondary -->
@@ -79,6 +99,21 @@ export function ButtonPage() {
   transition: background-color 150ms, box-shadow 150ms;
 }
 .btn-primary:hover { background-color: color-mix(in srgb, var(--color-primary) 90%, transparent); }
+
+/* Gradient */
+.btn-gradient {
+  background: var(--gradient-brand);
+  color: var(--color-primary-foreground);
+  box-shadow: 0 1px 2px rgba(0,0,0,.05);
+}
+
+/* Brand outline */
+.btn-brand-outline {
+  border: 1px solid color-mix(in srgb, var(--color-primary) 40%, transparent);
+  background: transparent;
+  color: var(--color-primary);
+  font-weight: 400;
+}
 
 /* Secondary */
 .btn-secondary {
@@ -234,22 +269,34 @@ fun ButtonVariants() {
         },
         {
           title: 'Sizes',
-          description: 'Five sizes from sm to xl.',
+          description: 'Seven supported sizes including compact and icon-only controls.',
           preview: (
             <div className="flex flex-wrap items-center gap-3">
+              <Button size="xs">Extra Small</Button>
               <Button size="sm">Small</Button>
               <Button size="default">Default</Button>
               <Button size="lg">Large</Button>
+              <Button size="xl">Extra Large</Button>
+              <Button size="icon-sm" aria-label="Send"><Send className="h-4 w-4" /></Button>
+              <Button size="icon" aria-label="Download"><Download className="h-4 w-4" /></Button>
             </div>
           ),
           code: {
-            react: `<Button size="sm">Small</Button>
+            react: `<Button size="xs">Extra Small</Button>
+<Button size="sm">Small</Button>
 <Button size="default">Default</Button>
-<Button size="lg">Large</Button>`,
+<Button size="lg">Large</Button>
+<Button size="xl">Extra Large</Button>
+<Button size="icon-sm" aria-label="Send"><Send /></Button>
+<Button size="icon" aria-label="Download"><Download /></Button>`,
 
-            tailwind: `<button class="h-9 rounded-md px-4 text-xs font-semibold bg-primary text-primary-foreground">Small</button>
+            tailwind: `<button class="h-6 rounded px-2 text-[10px] font-semibold bg-primary text-primary-foreground">Extra Small</button>
+<button class="h-9 rounded-md px-4 text-xs font-semibold bg-primary text-primary-foreground">Small</button>
 <button class="h-11 rounded-lg px-6 py-2.5 text-sm font-semibold bg-primary text-primary-foreground">Default</button>
-<button class="h-12 rounded-lg px-8 text-base font-semibold bg-primary text-primary-foreground">Large</button>`,
+<button class="h-12 rounded-lg px-8 text-base font-semibold bg-primary text-primary-foreground">Large</button>
+<button class="h-14 rounded-xl px-10 text-lg font-semibold bg-primary text-primary-foreground">Extra Large</button>
+<button class="h-9 w-9 inline-flex items-center justify-center rounded-md bg-primary text-primary-foreground">Icon small</button>
+<button class="h-11 w-11 inline-flex items-center justify-center rounded-lg bg-primary text-primary-foreground">Icon</button>`,
 
             css: `/* Sizes are set via height + padding. Apply alongside the base .btn class. */
 .btn-sm  { height: 2.25rem; padding: 0 1rem;   font-size: 0.75rem;  border-radius: 0.375rem; }

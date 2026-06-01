@@ -2,19 +2,19 @@
  * Do not edit directly, this file was auto-generated.
  */
 
-export const IlkhColorPrimary = "#40aad4"; // Placeholder — confirm at Ilakh design kickoff
-export const IlkhColorPrimaryLight = "#6ec6e6";
-export const IlkhColorPrimaryDark = "#2b7bc5";
+export const IlkhColorPrimary = "#4079cb"; // Placeholder — confirm at Ilakh design kickoff
+export const IlkhColorPrimaryLight = "#6593d5";
+export const IlkhColorPrimaryDark = "#1c60c1";
 export const IlkhColorPrimaryForeground = "#ffffff";
-export const IlkhColorSecondary = "#e07722";
+export const IlkhColorSecondary = "#ed651c";
 export const IlkhColorSecondaryForeground = "#ffffff";
-export const IlkhColorTertiary = "#2f6fed";
+export const IlkhColorTertiary = "#40aad4";
 export const IlkhColorTertiaryForeground = "#ffffff";
 export const IlkhColorAccent = "#f59e0b";
 export const IlkhColorAccentForeground = "#ffffff";
-export const IlkhColorPositive = "#00d06d";
+export const IlkhColorPositive = "#16a34a";
 export const IlkhColorPositiveForeground = "#ffffff";
-export const IlkhColorNegative = "#e11d2a";
+export const IlkhColorNegative = "#dc2626";
 export const IlkhColorNegativeForeground = "#ffffff";
 export const IlkhColorBackground = "#ffffff";
 export const IlkhColorBackgroundSecondary = "#f9fafb";
@@ -24,10 +24,10 @@ export const IlkhColorForegroundSecondary = "#6b7280";
 export const IlkhColorForegroundTertiary = "#9ca3af";
 export const IlkhColorBorder = "#e5e7eb";
 export const IlkhColorBorderHover = "#d1d5db";
-export const IlkhColorSuccess = "#00d06d";
+export const IlkhColorSuccess = "#16a34a";
 export const IlkhColorWarning = "#f59e0b";
-export const IlkhColorDanger = "#e11d2a";
-export const IlkhColorInfo = "#2f6fed";
+export const IlkhColorDanger = "#dc2626";
+export const IlkhColorInfo = "#40aad4";
 export const IlkhFontSizeBase = 16; // 16px — mobile first, same base for web
 export const IlkhFontWeightBody = "400";
 export const IlkhFontWeightHeading = "500";

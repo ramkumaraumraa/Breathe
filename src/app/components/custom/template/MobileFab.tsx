@@ -30,14 +30,14 @@ export function MobileFab({ onClick, actions, icon, className }: MobileFabProps)
           <DropdownMenuTrigger asChild>
             <button
               type="button"
-              className="flex h-14 w-14 items-center justify-center rounded-full bg-primary shadow-lg transition-transform hover:scale-105 active:scale-95"
+              className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-brand shadow-brand-hover transition-transform hover:scale-105 active:scale-95"
             >
               {icon ?? <Plus className="h-6 w-6 text-primary-foreground" />}
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="mb-2 w-48">
             {actions.map((action) => (
-              <DropdownMenuItem key={action.label} onClick={action.onClick}>
+              <DropdownMenuItem key={action.label} onClick={action.onClick} className="gap-2">
                 {action.icon}
                 <span>{action.label}</span>
               </DropdownMenuItem>
@@ -51,8 +51,9 @@ export function MobileFab({ onClick, actions, icon, className }: MobileFabProps)
   return (
     <div className={cn('fixed bottom-6 right-4 z-50 md:hidden', className)}>
       <Button
-        size="icon"
-        className="h-14 w-14 rounded-full shadow-lg"
+        type="button"
+        size="lg"
+        className="h-14 w-14 rounded-full p-0 shadow-lg"
         onClick={onClick}
       >
         {icon ?? <Plus className="h-6 w-6" />}

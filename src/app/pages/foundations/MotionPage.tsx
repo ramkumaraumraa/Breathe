@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { PageHeader } from '../../components/shared/PageHeader';
-import { CodeBlock } from '../../components/shared/CodeBlock';
+import { FoundationCodeCard } from '../../components/shared/FoundationCodeCard';
 import { PageNavigation } from '../../components/shared/PageNavigation';
 import { Play, RefreshCw } from 'lucide-react';
 
@@ -63,7 +63,7 @@ function AnimationDemo({ title, description, code, children }: {
 
 export function MotionPage() {
   return (
-    <div className="max-w-4xl px-6 lg:px-10 py-10">
+    <div className="max-w-7xl px-6 lg:px-10 py-10">
       <PageHeader
         title="Motion"
         description="Breathe's motion system brings interfaces to life with purposeful, calm animations. Movement should guide attention, not distract from it."
@@ -211,10 +211,9 @@ export function MotionPage() {
       </section>
 
       <section>
-        <h2 className="text-slate-900 dark:text-white mb-4 m-0" style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.25rem' }}>
-          Using Motion in Breathe
-        </h2>
-        <CodeBlock
+        <FoundationCodeCard
+          title="Using Motion in Breathe"
+          description="Motion uses motion/react (Framer Motion). Keep durations within the token scale — never exceed 400ms for UI transitions."
           code={`import { motion, AnimatePresence } from 'motion/react';
 
 // Fade in on mount

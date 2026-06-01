@@ -11,7 +11,7 @@ export function LogosPage() {
   const currentBrand = brands.find(b => b.id === activeBrand) || brands[0];
 
   return (
-    <div className="max-w-6xl px-6 lg:px-10 py-10">
+    <div className="max-w-7xl px-6 lg:px-10 py-10">
       {/* Page Header */}
       <PageHeader
         title="Logos"

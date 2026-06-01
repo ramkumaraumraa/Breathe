@@ -2,28 +2,28 @@
  * Do not edit directly, this file was auto-generated.
  */
 
-export const UlgeColorPrimary = "#40aad4"; // Placeholder — confirm at Ulagellam design kickoff
-export const UlgeColorPrimaryLight = "#6ec6e6";
-export const UlgeColorPrimaryDark = "#2b7bc5";
+export const UlgeColorPrimary = "#4079cb"; // Placeholder — confirm at Ulagellam design kickoff
+export const UlgeColorPrimaryLight = "#6593d5";
+export const UlgeColorPrimaryDark = "#1c60c1";
 export const UlgeColorPrimaryForeground = "#ffffff";
-export const UlgeColorSecondary = "#e07722";
+export const UlgeColorSecondary = "#ed651c";
 export const UlgeColorSecondaryForeground = "#ffffff";
-export const UlgeColorTertiary = "#2f6fed";
+export const UlgeColorTertiary = "#40aad4";
 export const UlgeColorTertiaryForeground = "#ffffff";
 export const UlgeColorAccent = "#f59e0b";
 export const UlgeColorAccentForeground = "#ffffff";
-export const UlgeColorPositive = "#00d06d";
+export const UlgeColorPositive = "#16a34a";
 export const UlgeColorPositiveForeground = "#ffffff";
-export const UlgeColorNegative = "#e11d2a";
+export const UlgeColorNegative = "#dc2626";
 export const UlgeColorNegativeForeground = "#ffffff";
 export const UlgeColorBackground = "#ffffff";
 export const UlgeColorBackgroundSecondary = "#f9fafb";
 export const UlgeColorForeground = "#1f2937";
 export const UlgeColorForegroundSecondary = "#6b7280";
 export const UlgeColorBorder = "#e5e7eb";
-export const UlgeColorSuccess = "#00d06d";
+export const UlgeColorSuccess = "#16a34a";
 export const UlgeColorWarning = "#f59e0b";
-export const UlgeColorDanger = "#e11d2a";
+export const UlgeColorDanger = "#dc2626";
 export const UlgeFontSizeBase = 16;
 export const UlgeFontWeightBody = "400";
 export const UlgeFontWeightHeading = "600";

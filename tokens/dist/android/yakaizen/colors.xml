@@ -4,27 +4,27 @@
   Do not edit directly, this file was auto-generated.
 -->
 <resources>
-  <color name="ykai_color_primary">#ff40aad4</color><!-- Placeholder — confirm at Yakaizen design kickoff -->
-  <color name="ykai_color_primary_light">#ff6ec6e6</color>
-  <color name="ykai_color_primary_dark">#ff2b7bc5</color>
+  <color name="ykai_color_primary">#ff4079cb</color><!-- Placeholder — confirm at Yakaizen design kickoff -->
+  <color name="ykai_color_primary_light">#ff6593d5</color>
+  <color name="ykai_color_primary_dark">#ff1c60c1</color>
   <color name="ykai_color_primary_foreground">#ffffffff</color>
-  <color name="ykai_color_secondary">#ffe07722</color>
+  <color name="ykai_color_secondary">#ffed651c</color>
   <color name="ykai_color_secondary_foreground">#ffffffff</color>
-  <color name="ykai_color_tertiary">#ff2f6fed</color>
+  <color name="ykai_color_tertiary">#ff40aad4</color>
   <color name="ykai_color_tertiary_foreground">#ffffffff</color>
   <color name="ykai_color_accent">#fff59e0b</color>
   <color name="ykai_color_accent_foreground">#ffffffff</color>
-  <color name="ykai_color_positive">#ff00d06d</color>
+  <color name="ykai_color_positive">#ff16a34a</color>
   <color name="ykai_color_positive_foreground">#ffffffff</color>
-  <color name="ykai_color_negative">#ffe11d2a</color>
+  <color name="ykai_color_negative">#ffdc2626</color>
   <color name="ykai_color_negative_foreground">#ffffffff</color>
   <color name="ykai_color_background">#ffffffff</color>
   <color name="ykai_color_background_secondary">#fff9fafb</color>
   <color name="ykai_color_foreground">#ff111827</color>
   <color name="ykai_color_foreground_secondary">#ff6b7280</color>
   <color name="ykai_color_border">#ffe5e7eb</color>
-  <color name="ykai_color_success">#ff00d06d</color>
+  <color name="ykai_color_success">#ff16a34a</color>
   <color name="ykai_color_warning">#fff59e0b</color>
-  <color name="ykai_color_danger">#ffe11d2a</color>
-  <color name="ykai_color_info">#ff2f6fed</color>
+  <color name="ykai_color_danger">#ffdc2626</color>
+  <color name="ykai_color_info">#ff40aad4</color>
 </resources>

@@ -14,15 +14,28 @@ interface ColorScale {
   description: string;
   root: string;
   stops: ColorStop[];
-  tokens: TokenInfo[];
+  tokenPath: string;   // e.g. 'color.core.primary' → generates 'color.core.primary.500'
+  cssPrefix: string;   // e.g. '--color-core-primary' → generates 'var(--color-core-primary500)'
+  keyStops?: number[]; // stops to highlight with ★
 }
 
-interface TokenInfo {
-  jsonToken: string;
-  cssVar: string;
-  stop: number;
-  usage: string;
-}
+const STOP_USAGE: Record<number, string> = {
+  25:  'Lightest tint — subtle hover overlays, faint backgrounds',
+  50:  'Ultra-light fill — selected row & chip backgrounds',
+  75:  'Subtle fill — hover states, skeleton loaders',
+  100: 'Backgrounds, tinted surfaces, disabled fills',
+  200: 'Subtle fills, hover tints, skeleton states',
+  300: 'Light accents, placeholder graphic fills',
+  400: 'Secondary interactive, mid-tone accents',
+  500: '★ Root — default interactive, primary brand usage',
+  600: 'Hover/active state on default interactive element',
+  700: 'Active states, pressed buttons, border fills',
+  800: 'Text on light bg, dark borders, high emphasis',
+  900: 'Dark text values, near-black UI fills',
+  925: 'Near-black fills, deep surface layers',
+  950: 'Dark backgrounds, inverse surface fills',
+  975: 'Deepest tint — pure darkness anchor',
+};
 
 interface GradientInfo {
   name: string;
@@ -64,11 +77,9 @@ const feedbackScales: ColorScale[] = [
       { stop: 950, hex: '#0F2218', textColor: '#fff' },
       { stop: 975, hex: '#060E09', textColor: '#fff' },
     ],
-    tokens: [
-      { jsonToken: 'color.feedback.positive.500', cssVar: 'var(--color-feedback-positive500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-      { jsonToken: 'color.feedback.positive.50', cssVar: 'var(--color-feedback-positive50)', stop: 50, usage: 'Success message backgrounds' },
-      { jsonToken: 'color.feedback.positive.700', cssVar: 'var(--color-feedback-positive700)', stop: 700, usage: 'Active states, borders, icon fills' },
-    ],
+    tokenPath: 'color.feedback.positive',
+    cssPrefix: '--color-feedback-positive',
+    keyStops: [500, 50, 700],
   },
   {
     name: 'Warning',
@@ -91,11 +102,9 @@ const feedbackScales: ColorScale[] = [
       { stop: 950, hex: '#2C2110', textColor: '#fff' },
       { stop: 975, hex: '#130D04', textColor: '#fff' },
     ],
-    tokens: [
-      { jsonToken: 'color.feedback.warning.500', cssVar: 'var(--color-feedback-warning500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-      { jsonToken: 'color.feedback.warning.50', cssVar: 'var(--color-feedback-warning50)', stop: 50, usage: 'Warning message backgrounds' },
-      { jsonToken: 'color.feedback.warning.700', cssVar: 'var(--color-feedback-warning700)', stop: 700, usage: 'Active states, borders, icon fills' },
-    ],
+    tokenPath: 'color.feedback.warning',
+    cssPrefix: '--color-feedback-warning',
+    keyStops: [500, 50, 700],
   },
   {
     name: 'Negative',
@@ -118,11 +127,9 @@ const feedbackScales: ColorScale[] = [
       { stop: 950, hex: '#280F11', textColor: '#fff' },
       { stop: 975, hex: '#100406', textColor: '#fff' },
     ],
-    tokens: [
-      { jsonToken: 'color.feedback.negative.500', cssVar: 'var(--color-feedback-negative500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-      { jsonToken: 'color.feedback.negative.50', cssVar: 'var(--color-feedback-negative50)', stop: 50, usage: 'Error message backgrounds' },
-      { jsonToken: 'color.feedback.negative.700', cssVar: 'var(--color-feedback-negative700)', stop: 700, usage: 'Active states, borders, icon fills' },
-    ],
+    tokenPath: 'color.feedback.negative',
+    cssPrefix: '--color-feedback-negative',
+    keyStops: [500, 50, 700],
   },
 ];
 
@@ -149,11 +156,9 @@ const neutralScales: ColorScale[] = [
       { stop: 950, hex: '#AEAEB0', textColor: '#0F172A' },
       { stop: 975, hex: '#A8A8AA', textColor: '#0F172A' },
     ],
-    tokens: [
-      { jsonToken: 'color.neutral.white.500', cssVar: 'var(--color-neutral-white500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-      { jsonToken: 'color.neutral.white.25', cssVar: 'var(--color-neutral-white25)', stop: 25, usage: 'Page background (pure white)' },
-      { jsonToken: 'color.neutral.white.200', cssVar: 'var(--color-neutral-white200)', stop: 200, usage: 'Subtle fills, hover tints, skeleton states' },
-    ],
+    tokenPath: 'color.neutral.white',
+    cssPrefix: '--color-neutral-white',
+    keyStops: [500, 25, 200],
   },
   {
     name: 'Grey',
@@ -176,11 +181,9 @@ const neutralScales: ColorScale[] = [
       { stop: 950, hex: '#111112', textColor: '#fff' },
       { stop: 975, hex: '#070708', textColor: '#fff' },
     ],
-    tokens: [
-      { jsonToken: 'color.neutral.grey.500', cssVar: 'var(--color-neutral-grey500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-      { jsonToken: 'color.neutral.grey.200', cssVar: 'var(--color-neutral-grey200)', stop: 200, usage: 'Default borders, dividers' },
-      { jsonToken: 'color.neutral.grey.400', cssVar: 'var(--color-neutral-grey400)', stop: 400, usage: 'Emphasis borders, focus rings' },
-    ],
+    tokenPath: 'color.neutral.grey',
+    cssPrefix: '--color-neutral-grey',
+    keyStops: [500, 200, 400],
   },
   {
     name: 'Ink',
@@ -203,11 +206,9 @@ const neutralScales: ColorScale[] = [
       { stop: 950, hex: '#09090B', textColor: '#fff' },
       { stop: 975, hex: '#050507', textColor: '#fff' },
     ],
-    tokens: [
-      { jsonToken: 'color.neutral.ink.500', cssVar: 'var(--color-neutral-ink500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-      { jsonToken: 'color.neutral.ink.200', cssVar: 'var(--color-neutral-ink200)', stop: 200, usage: 'Supporting text, descriptions' },
-      { jsonToken: 'color.neutral.ink.800', cssVar: 'var(--color-neutral-ink800)', stop: 800, usage: 'Text on light bg, dark borders, emphasis' },
-    ],
+    tokenPath: 'color.neutral.ink',
+    cssPrefix: '--color-neutral-ink',
+    keyStops: [500, 200, 800],
   },
 ];
 
@@ -240,11 +241,9 @@ const brandPalettes: BrandPalette[] = [
           { stop: 950, hex: '#111C2A', textColor: '#fff' },
           { stop: 975, hex: '#081018', textColor: '#fff' },
         ],
-        tokens: [
-          { jsonToken: 'color.core.primary.500', cssVar: 'var(--color-core-primary500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-          { jsonToken: 'color.core.primary.100', cssVar: 'var(--color-core-primary100)', stop: 100, usage: 'Backgrounds, tinted surfaces, disabled fills' },
-          { jsonToken: 'color.core.primary.700', cssVar: 'var(--color-core-primary700)', stop: 700, usage: 'Active states, borders, icon fills' },
-        ],
+        tokenPath: 'color.core.primary',
+        cssPrefix: '--color-core-primary',
+        keyStops: [500, 100, 700],
       },
       {
         name: 'Secondary',
@@ -267,11 +266,9 @@ const brandPalettes: BrandPalette[] = [
           { stop: 950, hex: '#152530', textColor: '#fff' },
           { stop: 975, hex: '#08131A', textColor: '#fff' },
         ],
-        tokens: [
-          { jsonToken: 'color.core.secondary.500', cssVar: 'var(--color-core-secondary500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-          { jsonToken: 'color.core.secondary.200', cssVar: 'var(--color-core-secondary200)', stop: 200, usage: 'Subtle fills, hover tints, skeleton states' },
-          { jsonToken: 'color.core.secondary.600', cssVar: 'var(--color-core-secondary600)', stop: 600, usage: 'Active states, borders, icon fills' },
-        ],
+        tokenPath: 'color.core.secondary',
+        cssPrefix: '--color-core-secondary',
+        keyStops: [500, 200, 600],
       },
       {
         name: 'Tertiary',
@@ -294,11 +291,9 @@ const brandPalettes: BrandPalette[] = [
           { stop: 950, hex: '#432A1E', textColor: '#fff' },
           { stop: 975, hex: '#2C1A10', textColor: '#fff' },
         ],
-        tokens: [
-          { jsonToken: 'color.core.tertiary.500', cssVar: 'var(--color-core-tertiary500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-          { jsonToken: 'color.core.tertiary.100', cssVar: 'var(--color-core-tertiary100)', stop: 100, usage: 'Backgrounds, tinted surfaces, disabled fills' },
-          { jsonToken: 'color.core.tertiary.700', cssVar: 'var(--color-core-tertiary700)', stop: 700, usage: 'Active states, borders, icon fills' },
-        ],
+        tokenPath: 'color.core.tertiary',
+        cssPrefix: '--color-core-tertiary',
+        keyStops: [500, 100, 700],
       },
     ],
     gradients: [
@@ -337,11 +332,9 @@ const brandPalettes: BrandPalette[] = [
           { stop: 950, hex: '#0C2D13', textColor: '#fff' },
           { stop: 975, hex: '#061A0B', textColor: '#fff' },
         ],
-        tokens: [
-          { jsonToken: 'color.core.primary.500', cssVar: 'var(--color-core-primary500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-          { jsonToken: 'color.core.primary.100', cssVar: 'var(--color-core-primary100)', stop: 100, usage: 'Backgrounds, tinted surfaces, disabled fills' },
-          { jsonToken: 'color.core.primary.700', cssVar: 'var(--color-core-primary700)', stop: 700, usage: 'Active states, borders, icon fills' },
-        ],
+        tokenPath: 'color.core.primary',
+        cssPrefix: '--color-core-primary',
+        keyStops: [500, 100, 700],
       },
       {
         name: 'Secondary',
@@ -364,11 +357,9 @@ const brandPalettes: BrandPalette[] = [
           { stop: 950, hex: '#383807', textColor: '#fff' },
           { stop: 975, hex: '#222201', textColor: '#fff' },
         ],
-        tokens: [
-          { jsonToken: 'color.core.secondary.500', cssVar: 'var(--color-core-secondary500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-          { jsonToken: 'color.core.secondary.200', cssVar: 'var(--color-core-secondary200)', stop: 200, usage: 'Subtle fills, hover tints, skeleton states' },
-          { jsonToken: 'color.core.secondary.600', cssVar: 'var(--color-core-secondary600)', stop: 600, usage: 'Active states, borders, icon fills' },
-        ],
+        tokenPath: 'color.core.secondary',
+        cssPrefix: '--color-core-secondary',
+        keyStops: [500, 200, 600],
       },
       {
         name: 'Tertiary',
@@ -391,11 +382,9 @@ const brandPalettes: BrandPalette[] = [
           { stop: 950, hex: '#091A3C', textColor: '#fff' },
           { stop: 975, hex: '#040D1E', textColor: '#fff' },
         ],
-        tokens: [
-          { jsonToken: 'color.core.tertiary.500', cssVar: 'var(--color-core-tertiary500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-          { jsonToken: 'color.core.tertiary.100', cssVar: 'var(--color-core-tertiary100)', stop: 100, usage: 'Backgrounds, tinted surfaces, disabled fills' },
-          { jsonToken: 'color.core.tertiary.700', cssVar: 'var(--color-core-tertiary700)', stop: 700, usage: 'Active states, borders, icon fills' },
-        ],
+        tokenPath: 'color.core.tertiary',
+        cssPrefix: '--color-core-tertiary',
+        keyStops: [500, 100, 700],
       },
     ],
     gradients: [
@@ -433,11 +422,9 @@ const brandPalettes: BrandPalette[] = [
           { stop: 950, hex: '#341E01', textColor: '#fff' },
           { stop: 975, hex: '#1C0F00', textColor: '#fff' },
         ],
-        tokens: [
-          { jsonToken: 'color.core.primary.500', cssVar: 'var(--color-core-primary500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-          { jsonToken: 'color.core.primary.100', cssVar: 'var(--color-core-primary100)', stop: 100, usage: 'Backgrounds, tinted surfaces, disabled fills' },
-          { jsonToken: 'color.core.primary.700', cssVar: 'var(--color-core-primary700)', stop: 700, usage: 'Active states, borders, icon fills' },
-        ],
+        tokenPath: 'color.core.primary',
+        cssPrefix: '--color-core-primary',
+        keyStops: [500, 100, 700],
       },
       {
         name: 'Secondary',
@@ -460,11 +447,9 @@ const brandPalettes: BrandPalette[] = [
           { stop: 950, hex: '#0F2218', textColor: '#fff' },
           { stop: 975, hex: '#060E09', textColor: '#fff' },
         ],
-        tokens: [
-          { jsonToken: 'color.core.secondary.500', cssVar: 'var(--color-core-secondary500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-          { jsonToken: 'color.core.secondary.200', cssVar: 'var(--color-core-secondary200)', stop: 200, usage: 'Subtle fills, hover tints, skeleton states' },
-          { jsonToken: 'color.core.secondary.600', cssVar: 'var(--color-core-secondary600)', stop: 600, usage: 'Active states, borders, icon fills' },
-        ],
+        tokenPath: 'color.core.secondary',
+        cssPrefix: '--color-core-secondary',
+        keyStops: [500, 200, 600],
       },
       {
         name: 'Tertiary',
@@ -487,11 +472,9 @@ const brandPalettes: BrandPalette[] = [
           { stop: 950, hex: '#2C1003', textColor: '#fff' },
           { stop: 975, hex: '#160801', textColor: '#fff' },
         ],
-        tokens: [
-          { jsonToken: 'color.core.tertiary.500', cssVar: 'var(--color-core-tertiary500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-          { jsonToken: 'color.core.tertiary.100', cssVar: 'var(--color-core-tertiary100)', stop: 100, usage: 'Backgrounds, tinted surfaces, disabled fills' },
-          { jsonToken: 'color.core.tertiary.700', cssVar: 'var(--color-core-tertiary700)', stop: 700, usage: 'Active states, borders, icon fills' },
-        ],
+        tokenPath: 'color.core.tertiary',
+        cssPrefix: '--color-core-tertiary',
+        keyStops: [500, 100, 700],
       },
     ],
     gradients: [
@@ -527,11 +510,9 @@ const brandPalettes: BrandPalette[] = [
           { stop: 950, hex: '#110620', textColor: '#fff' },
           { stop: 975, hex: '#060210', textColor: '#fff' },
         ],
-        tokens: [
-          { jsonToken: 'color.core.primary.500', cssVar: 'var(--color-core-primary500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-          { jsonToken: 'color.core.primary.100', cssVar: 'var(--color-core-primary100)', stop: 100, usage: 'Backgrounds, tinted surfaces, disabled fills' },
-          { jsonToken: 'color.core.primary.700', cssVar: 'var(--color-core-primary700)', stop: 700, usage: 'Active states, borders, icon fills' },
-        ],
+        tokenPath: 'color.core.primary',
+        cssPrefix: '--color-core-primary',
+        keyStops: [500, 100, 700],
       },
       {
         name: 'Secondary',
@@ -554,11 +535,9 @@ const brandPalettes: BrandPalette[] = [
           { stop: 950, hex: '#040F14', textColor: '#fff' },
           { stop: 975, hex: '#010507', textColor: '#fff' },
         ],
-        tokens: [
-          { jsonToken: 'color.core.secondary.500', cssVar: 'var(--color-core-secondary500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-          { jsonToken: 'color.core.secondary.200', cssVar: 'var(--color-core-secondary200)', stop: 200, usage: 'Subtle fills, hover tints, skeleton states' },
-          { jsonToken: 'color.core.secondary.600', cssVar: 'var(--color-core-secondary600)', stop: 600, usage: 'Active states, borders, icon fills' },
-        ],
+        tokenPath: 'color.core.secondary',
+        cssPrefix: '--color-core-secondary',
+        keyStops: [500, 200, 600],
       },
       {
         name: 'Tertiary',
@@ -581,11 +560,9 @@ const brandPalettes: BrandPalette[] = [
           { stop: 950, hex: '#2B0511', textColor: '#fff' },
           { stop: 975, hex: '#140208', textColor: '#fff' },
         ],
-        tokens: [
-          { jsonToken: 'color.core.tertiary.500', cssVar: 'var(--color-core-tertiary500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-          { jsonToken: 'color.core.tertiary.100', cssVar: 'var(--color-core-tertiary100)', stop: 100, usage: 'Backgrounds, tinted surfaces, disabled fills' },
-          { jsonToken: 'color.core.tertiary.700', cssVar: 'var(--color-core-tertiary700)', stop: 700, usage: 'Active states, borders, icon fills' },
-        ],
+        tokenPath: 'color.core.tertiary',
+        cssPrefix: '--color-core-tertiary',
+        keyStops: [500, 100, 700],
       },
     ],
     gradients: [
@@ -621,11 +598,9 @@ const brandPalettes: BrandPalette[] = [
           { stop: 950, hex: '#000912', textColor: '#fff' },
           { stop: 975, hex: '#000406', textColor: '#fff' },
         ],
-        tokens: [
-          { jsonToken: 'color.core.primary.500', cssVar: 'var(--color-core-primary500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-          { jsonToken: 'color.core.primary.100', cssVar: 'var(--color-core-primary100)', stop: 100, usage: 'Backgrounds, tinted surfaces, disabled fills' },
-          { jsonToken: 'color.core.primary.700', cssVar: 'var(--color-core-primary700)', stop: 700, usage: 'Active states, borders, icon fills' },
-        ],
+        tokenPath: 'color.core.primary',
+        cssPrefix: '--color-core-primary',
+        keyStops: [500, 100, 700],
       },
       {
         name: 'Secondary',
@@ -648,11 +623,9 @@ const brandPalettes: BrandPalette[] = [
           { stop: 950, hex: '#010D0A', textColor: '#fff' },
           { stop: 975, hex: '#000402', textColor: '#fff' },
         ],
-        tokens: [
-          { jsonToken: 'color.core.secondary.500', cssVar: 'var(--color-core-secondary500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-          { jsonToken: 'color.core.secondary.200', cssVar: 'var(--color-core-secondary200)', stop: 200, usage: 'Subtle fills, hover tints, skeleton states' },
-          { jsonToken: 'color.core.secondary.600', cssVar: 'var(--color-core-secondary600)', stop: 600, usage: 'Active states, borders, icon fills' },
-        ],
+        tokenPath: 'color.core.secondary',
+        cssPrefix: '--color-core-secondary',
+        keyStops: [500, 200, 600],
       },
       {
         name: 'Tertiary',
@@ -675,11 +648,9 @@ const brandPalettes: BrandPalette[] = [
           { stop: 950, hex: '#090622', textColor: '#fff' },
           { stop: 975, hex: '#03020A', textColor: '#fff' },
         ],
-        tokens: [
-          { jsonToken: 'color.core.tertiary.500', cssVar: 'var(--color-core-tertiary500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-          { jsonToken: 'color.core.tertiary.100', cssVar: 'var(--color-core-tertiary100)', stop: 100, usage: 'Backgrounds, tinted surfaces, disabled fills' },
-          { jsonToken: 'color.core.tertiary.700', cssVar: 'var(--color-core-tertiary700)', stop: 700, usage: 'Active states, borders, icon fills' },
-        ],
+        tokenPath: 'color.core.tertiary',
+        cssPrefix: '--color-core-tertiary',
+        keyStops: [500, 100, 700],
       },
     ],
     gradients: [
@@ -715,11 +686,9 @@ const brandPalettes: BrandPalette[] = [
           { stop: 950, hex: '#100830', textColor: '#fff' },
           { stop: 975, hex: '#060318', textColor: '#fff' },
         ],
-        tokens: [
-          { jsonToken: 'thcy.color.primary', cssVar: 'var(--thcy-color-primary)', stop: 300, usage: '★ Root — Violet 500 interactive primary; CTAs, active nav, focus rings' },
-          { jsonToken: 'thcy.color.primaryLight', cssVar: 'var(--thcy-color-primaryLight)', stop: 100, usage: 'Subtle tinted surfaces, hover overlays on dark bg' },
-          { jsonToken: 'thcy.color.primaryDark', cssVar: 'var(--thcy-color-primaryDark)', stop: 400, usage: 'Hover/active states, pressed buttons, borders' },
-        ],
+        tokenPath: 'thcy.color.primary',
+        cssPrefix: '--thcy-color-primary',
+        keyStops: [300, 100, 400],
       },
       {
         name: 'Secondary',
@@ -742,11 +711,9 @@ const brandPalettes: BrandPalette[] = [
           { stop: 950, hex: '#090621', textColor: '#fff' },
           { stop: 975, hex: '#03020E', textColor: '#fff' },
         ],
-        tokens: [
-          { jsonToken: 'thcy.color.secondary', cssVar: 'var(--thcy-color-secondary)', stop: 300, usage: '★ Root — Indigo 500 secondary accent, chart lines, tag fills' },
-          { jsonToken: 'thcy.color.secondaryLight', cssVar: 'var(--thcy-color-secondary-light)', stop: 100, usage: 'Data vis fills, subtle chip backgrounds' },
-          { jsonToken: 'thcy.color.secondaryDark', cssVar: 'var(--thcy-color-secondary-dark)', stop: 400, usage: 'Active data series, deep borders' },
-        ],
+        tokenPath: 'thcy.color.secondary',
+        cssPrefix: '--thcy-color-secondary',
+        keyStops: [300, 100, 400],
       },
       {
         name: 'Dark Surface',
@@ -769,11 +736,9 @@ const brandPalettes: BrandPalette[] = [
           { stop: 950, hex: '#030407', textColor: '#fff' },
           { stop: 975, hex: '#010203', textColor: '#fff' },
         ],
-        tokens: [
-          { jsonToken: 'thcy.color.background', cssVar: 'var(--thcy-color-background)', stop: 500, usage: '★ Root — Deepest dashboard page background' },
-          { jsonToken: 'thcy.color.backgroundSecondary', cssVar: 'var(--thcy-color-backgroundSecondary)', stop: 400, usage: 'Card surfaces, panel backgrounds' },
-          { jsonToken: 'thcy.color.sidebar', cssVar: 'var(--thcy-color-sidebar)', stop: 800, usage: 'Sidebar rail — absolute dark anchor' },
-        ],
+        tokenPath: 'thcy.color.dark-surface',
+        cssPrefix: '--thcy-color-dark-surface',
+        keyStops: [500, 400, 800],
       },
     ],
     gradients: [
@@ -811,11 +776,9 @@ const brandPalettes: BrandPalette[] = [
           { stop: 950, hex: '#020408', textColor: '#fff' },
           { stop: 975, hex: '#010203', textColor: '#fff' },
         ],
-        tokens: [
-          { jsonToken: 'color.core.primary.500', cssVar: 'var(--color-core-primary500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-          { jsonToken: 'color.core.primary.100', cssVar: 'var(--color-core-primary100)', stop: 100, usage: 'Backgrounds, tinted surfaces, disabled fills' },
-          { jsonToken: 'color.core.primary.700', cssVar: 'var(--color-core-primary700)', stop: 700, usage: 'Active states, borders, icon fills' },
-        ],
+        tokenPath: 'color.core.primary',
+        cssPrefix: '--color-core-primary',
+        keyStops: [500, 100, 700],
       },
       {
         name: 'Secondary',
@@ -838,11 +801,9 @@ const brandPalettes: BrandPalette[] = [
           { stop: 950, hex: '#040F14', textColor: '#fff' },
           { stop: 975, hex: '#010507', textColor: '#fff' },
         ],
-        tokens: [
-          { jsonToken: 'color.core.secondary.500', cssVar: 'var(--color-core-secondary500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-          { jsonToken: 'color.core.secondary.200', cssVar: 'var(--color-core-secondary200)', stop: 200, usage: 'Subtle fills, hover tints, skeleton states' },
-          { jsonToken: 'color.core.secondary.600', cssVar: 'var(--color-core-secondary600)', stop: 600, usage: 'Active states, borders, icon fills' },
-        ],
+        tokenPath: 'color.core.secondary',
+        cssPrefix: '--color-core-secondary',
+        keyStops: [500, 200, 600],
       },
       {
         name: 'Tertiary',
@@ -865,11 +826,9 @@ const brandPalettes: BrandPalette[] = [
           { stop: 950, hex: '#090E03', textColor: '#fff' },
           { stop: 975, hex: '#030501', textColor: '#fff' },
         ],
-        tokens: [
-          { jsonToken: 'color.core.tertiary.500', cssVar: 'var(--color-core-tertiary500)', stop: 500, usage: '★ Root — default interactive, primary brand usage' },
-          { jsonToken: 'color.core.tertiary.100', cssVar: 'var(--color-core-tertiary100)', stop: 100, usage: 'Backgrounds, tinted surfaces, disabled fills' },
-          { jsonToken: 'color.core.tertiary.700', cssVar: 'var(--color-core-tertiary700)', stop: 700, usage: 'Active states, borders, icon fills' },
-        ],
+        tokenPath: 'color.core.tertiary',
+        cssPrefix: '--color-core-tertiary',
+        keyStops: [500, 100, 700],
       },
     ],
     gradients: [
@@ -972,47 +931,58 @@ function ScaleRow({ scale, locked = false }: { scale: ColorScale; locked?: boole
         ))}
       </div>
 
-      {scale.tokens.length > 0 && (
-        <div className="mt-3">
-          <button
-            onClick={() => setExpanded(!expanded)}
-            className="text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 flex items-center gap-1 transition-colors"
-            style={{ fontSize: '0.75rem', fontFamily: 'var(--font-sans)', fontWeight: 500 }}
-          >
-            {expanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-            {expanded ? 'Hide' : 'View'} token definitions
-          </button>
+      <div className="mt-3">
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 flex items-center gap-1 transition-colors"
+          style={{ fontSize: '0.75rem', fontFamily: 'var(--font-sans)', fontWeight: 500 }}
+        >
+          {expanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+          {expanded ? 'Hide' : 'View'} all {scale.stops.length} token definitions
+        </button>
 
-          {expanded && (
-            <div className="mt-3 overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-700/60">
-              <table className="w-full border-collapse text-left">
-                <thead>
-                  <tr className="bg-slate-50 dark:bg-slate-800/60">
-                    <th className="px-3 py-2 text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700/60" style={{ fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '0.7rem' }}>JSON Token</th>
-                    <th className="px-3 py-2 text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700/60" style={{ fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '0.7rem' }}>CSS Variable</th>
-                    <th className="px-3 py-2 text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700/60" style={{ fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '0.7rem' }}>Stop</th>
-                    <th className="px-3 py-2 text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700/60" style={{ fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '0.7rem' }}>Primary Usage</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {scale.tokens.map((token, i) => (
-                    <tr key={token.jsonToken} className={i % 2 === 0 ? 'bg-white dark:bg-slate-900' : 'bg-slate-50/50 dark:bg-slate-800/20'}>
+        {expanded && (
+          <div className="mt-3 overflow-x-auto rounded-lg border border-slate-200 dark:border-slate-700/60">
+            <table className="w-full border-collapse text-left">
+              <thead>
+                <tr className="bg-slate-50 dark:bg-slate-800/60">
+                  <th className="px-3 py-2 text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700/60" style={{ fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '0.7rem' }}>JSON Token</th>
+                  <th className="px-3 py-2 text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700/60" style={{ fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '0.7rem' }}>CSS Variable</th>
+                  <th className="px-3 py-2 text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700/60" style={{ fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '0.7rem' }}>Stop</th>
+                  <th className="px-3 py-2 text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700/60" style={{ fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '0.7rem' }}>Primary Usage</th>
+                </tr>
+              </thead>
+              <tbody>
+                {scale.stops.map((s, i) => {
+                  const isKey = scale.keyStops?.includes(s.stop) ?? s.stop === 500;
+                  return (
+                    <tr key={s.stop} className={i % 2 === 0 ? 'bg-white dark:bg-slate-900' : 'bg-slate-50/50 dark:bg-slate-800/20'}>
                       <td className="px-3 py-2 border-b border-slate-100 dark:border-slate-800">
-                        <code className="text-teal-600 dark:text-teal-400" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem' }}>{token.jsonToken}</code>
+                        <code className={isKey ? 'text-teal-600 dark:text-teal-400 font-semibold' : 'text-slate-500 dark:text-slate-500'} style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem' }}>
+                          {scale.tokenPath}.{s.stop}
+                        </code>
                       </td>
                       <td className="px-3 py-2 border-b border-slate-100 dark:border-slate-800">
-                        <code className="text-slate-600 dark:text-slate-400" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem' }}>{token.cssVar}</code>
+                        <code className="text-slate-600 dark:text-slate-400" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem' }}>
+                          var({scale.cssPrefix}{s.stop})
+                        </code>
                       </td>
-                      <td className="px-3 py-2 border-b border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-400" style={{ fontFamily: 'var(--font-sans)', fontSize: '0.75rem' }}>{token.stop}</td>
-                      <td className="px-3 py-2 border-b border-slate-100 dark:border-slate-800 text-slate-500 dark:text-slate-400" style={{ fontFamily: 'var(--font-sans)', fontSize: '0.75rem' }}>{token.usage}</td>
+                      <td className="px-3 py-2 border-b border-slate-100 dark:border-slate-800" style={{ fontFamily: 'var(--font-sans)', fontSize: '0.75rem' }}>
+                        <span className={isKey ? 'text-slate-800 dark:text-slate-200 font-semibold' : 'text-slate-500 dark:text-slate-500'}>
+                          {s.stop}{isKey ? ' ★' : ''}
+                        </span>
+                      </td>
+                      <td className="px-3 py-2 border-b border-slate-100 dark:border-slate-800 text-slate-500 dark:text-slate-400" style={{ fontFamily: 'var(--font-sans)', fontSize: '0.75rem' }}>
+                        {STOP_USAGE[s.stop] ?? ''}
+                      </td>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-      )}
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -1054,7 +1024,7 @@ export function ColorsPage() {
   const activeBrand = sortedBrands.find(b => b.id === activeTab) || sortedBrands[0];
 
   return (
-    <div className="max-w-6xl px-6 lg:px-10 py-10">
+    <div className="max-w-7xl px-6 lg:px-10 py-10">
       <PageHeader
         title="Colors"
         description="Breathe's multi-brand color system with 10 scales per brand: 3 Core (brand-specific), 3 Feedback (shared), 3 Neutral (shared). Each scale has 15 stops with stop 500 as the root."

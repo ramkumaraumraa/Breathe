@@ -837,6 +837,94 @@ const brandPalettes: BrandPalette[] = [
       { name: 'Night Mode', token: 'gradient.night-mode', stops: 'primary.900 → secondary.500', usage: 'Smartwatch face, dark dashboard', gradient: 'linear-gradient(135deg, #070B16 0%, #0E7490 100%)' },
     ],
   },
+  {
+    id: 'kaayo',
+    name: 'Kaayo',
+    tagline: 'Tutor & class operations · Mobile · Tablet',
+    accentColor: '#970103',
+    core: [
+      {
+        name: 'Primary',
+        description: 'Tutor Crimson — Brand identity. Rooted in power, passion, and discipline. Drives all primary actions and brand presence.',
+        root: '#970103',
+        stops: [
+          { stop: 25, hex: '#FDF2F3', textColor: '#0F172A' },
+          { stop: 50, hex: '#FAD5D6', textColor: '#0F172A' },
+          { stop: 75, hex: '#F6B8BA', textColor: '#0F172A' },
+          { stop: 100, hex: '#F29D9F', textColor: '#0F172A' },
+          { stop: 200, hex: '#EA6B6E', textColor: '#0F172A' },
+          { stop: 300, hex: '#E14144', textColor: '#0F172A' },
+          { stop: 400, hex: '#C31E21', textColor: '#fff' },
+          { stop: 500, hex: '#970103', textColor: '#fff' },
+          { stop: 600, hex: '#740102', textColor: '#fff' },
+          { stop: 700, hex: '#570001', textColor: '#fff' },
+          { stop: 800, hex: '#3F0000', textColor: '#fff' },
+          { stop: 900, hex: '#2B0000', textColor: '#fff' },
+          { stop: 925, hex: '#200000', textColor: '#fff' },
+          { stop: 950, hex: '#160000', textColor: '#fff' },
+          { stop: 975, hex: '#0E0000', textColor: '#fff' },
+        ],
+        tokenPath: 'color.core.primary',
+        cssPrefix: '--color-core-primary',
+        keyStops: [500, 100, 700],
+      },
+      {
+        name: 'Secondary',
+        description: 'Warm Peach — Secondary branding. Reflects energy, approachable warmth, and class community feel.',
+        root: '#FDA581',
+        stops: [
+          { stop: 25, hex: '#FFFDFB', textColor: '#0F172A' },
+          { stop: 50, hex: '#FFF3ED', textColor: '#0F172A' },
+          { stop: 75, hex: '#FFE4D8', textColor: '#0F172A' },
+          { stop: 100, hex: '#FED3C1', textColor: '#0F172A' },
+          { stop: 200, hex: '#FDBBA1', textColor: '#0F172A' },
+          { stop: 300, hex: '#FCA78B', textColor: '#0F172A' },
+          { stop: 400, hex: '#FD9271', textColor: '#0F172A' },
+          { stop: 500, hex: '#FDA581', textColor: '#0F172A' },
+          { stop: 600, hex: '#E38865', textColor: '#fff' },
+          { stop: 700, hex: '#C96D4B', textColor: '#fff' },
+          { stop: 800, hex: '#AE5333', textColor: '#fff' },
+          { stop: 900, hex: '#943C1D', textColor: '#fff' },
+          { stop: 925, hex: '#7D2A0D', textColor: '#fff' },
+          { stop: 950, hex: '#641D06', textColor: '#fff' },
+          { stop: 975, hex: '#471101', textColor: '#fff' },
+        ],
+        tokenPath: 'color.core.secondary',
+        cssPrefix: '--color-core-secondary',
+        keyStops: [500, 200, 600],
+      },
+      {
+        name: 'Tertiary',
+        description: 'Deep Navy — Contrast scale. Solid foundation for administrative and tracking elements, high stability.',
+        root: '#37415C',
+        stops: [
+          { stop: 25, hex: '#EFF1F5', textColor: '#0F172A' },
+          { stop: 50, hex: '#DDE1EC', textColor: '#0F172A' },
+          { stop: 75, hex: '#CBD1E2', textColor: '#0F172A' },
+          { stop: 100, hex: '#B9C0D7', textColor: '#0F172A' },
+          { stop: 200, hex: '#96A1C0', textColor: '#0F172A' },
+          { stop: 300, hex: '#7583A8', textColor: '#0F172A' },
+          { stop: 400, hex: '#55668F', textColor: '#0F172A' },
+          { stop: 500, hex: '#37415C', textColor: '#fff' },
+          { stop: 600, hex: '#2D354B', textColor: '#fff' },
+          { stop: 700, hex: '#232A3B', textColor: '#fff' },
+          { stop: 800, hex: '#1A202D', textColor: '#fff' },
+          { stop: 900, hex: '#12161F', textColor: '#fff' },
+          { stop: 925, hex: '#0D1016', textColor: '#fff' },
+          { stop: 950, hex: '#080A0E', textColor: '#fff' },
+          { stop: 975, hex: '#040507', textColor: '#fff' },
+        ],
+        tokenPath: 'color.core.tertiary',
+        cssPrefix: '--color-core-tertiary',
+        keyStops: [500, 100, 700],
+      },
+    ],
+    gradients: [
+      { name: 'Tutor Collection', token: 'gradient.tutor-collection', stops: 'primary.500 → secondary.500', usage: 'Dashboards, payment status tiles', gradient: 'linear-gradient(135deg, #970103 0%, #FDA581 100%)' },
+      { name: 'Mastery', token: 'gradient.mastery', stops: 'primary.500 → tertiary.500', usage: 'Feature badges, class headings', gradient: 'linear-gradient(135deg, #970103 0%, #37415C 100%)' },
+      { name: 'Zen', token: 'gradient.zen', stops: 'secondary.500 → tertiary.500', usage: 'Attendance rings, wellness trackers', gradient: 'linear-gradient(135deg, #FDA581 0%, #37415C 100%)' },
+    ],
+  },
 ];
 
 // Semantic tokens (shared)
@@ -973,7 +1061,7 @@ function ScaleRow({ scale, locked = false }: { scale: ColorScale; locked?: boole
                         </span>
                       </td>
                       <td className="px-3 py-2 border-b border-slate-100 dark:border-slate-800 text-slate-500 dark:text-slate-400" style={{ fontFamily: 'var(--font-sans)', fontSize: '0.75rem' }}>
-                        {STOP_USAGE[s.stop] ?? ''}
+                        {Object.prototype.hasOwnProperty.call(STOP_USAGE, s.stop) ? STOP_USAGE[s.stop] : ''}
                       </td>
                     </tr>
                   );
@@ -1012,16 +1100,22 @@ function GradientChip({ gradient }: { gradient: GradientInfo }) {
   );
 }
 
-const BRAND_ORDER = ['aumraa', 'technocracy', 'leminiscate', 'maligai-manager', 'ullagellam', 'ilakh', 'yakaizen'];
+const BRAND_ORDER = ['aumraa', 'technocracy', 'leminiscate', 'maligai-manager', 'ullagellam', 'yakaizen'];
 const sortedBrands = [...brandPalettes].sort((a, b) => {
   const ai = BRAND_ORDER.indexOf(a.id);
   const bi = BRAND_ORDER.indexOf(b.id);
   return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
 });
 
+const topLevelBrands = sortedBrands.filter(b => b.id !== 'kaayo' && b.id !== 'ilakh');
+
 export function ColorsPage() {
   const [activeTab, setActiveTab] = useState('aumraa');
-  const activeBrand = sortedBrands.find(b => b.id === activeTab) || sortedBrands[0];
+  const [ulagellamSubTab, setUlagellamSubTab] = useState('kaayo');
+  
+  const activeBrand = activeTab === 'ullagellam'
+    ? (sortedBrands.find(b => b.id === ulagellamSubTab) || sortedBrands.find(b => b.id === 'ullagellam')!)
+    : (sortedBrands.find(b => b.id === activeTab) || sortedBrands[0]);
 
   return (
     <div className="max-w-7xl px-6 lg:px-10 py-10">
@@ -1036,7 +1130,7 @@ export function ColorsPage() {
       {/* Brand Tabs — sticky below TopBar (h-16 = 64px) */}
       <div className="sticky top-16 z-20 bg-slate-50 dark:bg-slate-950 -mx-6 lg:-mx-10 px-6 lg:px-10 mb-8 border-b border-slate-200 dark:border-slate-800 overflow-x-auto">
         <div className="flex gap-0 min-w-max" role="tablist">
-          {sortedBrands.map(brand => {
+          {topLevelBrands.map(brand => {
             const isActive = brand.id === activeTab;
             return (
               <button
@@ -1064,9 +1158,47 @@ export function ColorsPage() {
       </div>
 
       {/* Brand Tagline */}
-      <p className="text-slate-500 dark:text-slate-400 mb-10 italic" style={{ fontFamily: 'var(--font-sans)', fontSize: '0.875rem' }}>
-        {activeBrand.tagline}
+      <p className="text-slate-500 dark:text-slate-400 mb-6 italic" style={{ fontFamily: 'var(--font-sans)', fontSize: '0.875rem' }}>
+        {activeTab === 'ullagellam' ? 'Regional & mobile suite umbrella · Multi-product filters below' : activeBrand.tagline}
       </p>
+
+      {/* Ulagellam Sub-tabs Segment Selector */}
+      {activeTab === 'ullagellam' && (
+        <div className="mb-10 p-1.5 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl inline-flex flex-wrap gap-1.5 max-w-full shadow-sm">
+          {[
+            { id: 'kaayo', label: '🎓 Kaayo (Tutor Ops)', accent: '#970103', tagline: 'Tutor & class operations · Mobile · Tablet' },
+            { id: 'ilakh', label: '📈 Ilakh (Finance)', accent: '#0369A1', tagline: 'Goal tracking & personal finance · Web · Mobile' },
+            { id: 'ullagellam', label: '🗺️ Ulagellam (Explorer)', accent: '#7C3AED', tagline: 'Explore & discover around you · Mobile' }
+          ].map(sub => {
+            const isSubActive = ulagellamSubTab === sub.id;
+            return (
+              <button
+                key={sub.id}
+                onClick={() => setUlagellamSubTab(sub.id)}
+                className={`px-5 py-2.5 rounded-xl font-semibold transition-all cursor-pointer whitespace-nowrap text-sm ${
+                  isSubActive
+                    ? 'bg-white dark:bg-slate-950 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-800 shadow-sm'
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 border border-transparent'
+                }`}
+                style={{
+                  borderBottomColor: isSubActive ? sub.accent : undefined,
+                  borderBottomWidth: isSubActive ? '2px' : undefined
+                }}
+                title={sub.tagline}
+              >
+                {sub.label}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Selected Product Sub-Tagline */}
+      {activeTab === 'ullagellam' && (
+        <p className="text-slate-400 dark:text-slate-500 mb-10 -mt-6 italic" style={{ fontFamily: 'var(--font-sans)', fontSize: '0.82rem' }}>
+          Active Selection: <span className="font-semibold text-slate-500 dark:text-slate-400">{activeBrand.name}</span> — {activeBrand.tagline}
+        </p>
+      )}
 
       {/* Group 1: Core */}
       <section className="mb-12">

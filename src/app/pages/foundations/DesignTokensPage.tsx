@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Badge } from '../../components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
 import { CodeBlock } from '../../components/shared/CodeBlock';
@@ -229,6 +230,47 @@ const products: Product[] = [
     ],
   },
   {
+    id: 'kaayo',
+    label: 'Kaayo',
+    prefix: 'kayo',
+    description: 'Tutor & class operations — mobile-first, Neo-Brutalist. Crimson primary, Warm Peach secondary, Deep Navy tertiary.',
+    surface: 'light' as const,
+    platforms: ['Web CSS', 'React Native', 'iOS Swift', 'Android XML'],
+    colors: [
+      { name: 'Primary',              token: '--kayo-color-primary',              value: '#970103', role: 'Tutor Crimson — buttons, brand presence, primary actions' },
+      { name: 'Primary Light',        token: '--kayo-color-primary-light',        value: '#E14144', role: 'Hover states, tinted highlights' },
+      { name: 'Primary Dark',         token: '--kayo-color-primary-dark',         value: '#570001', role: 'Active states, pressed borders' },
+      { name: 'Secondary',            token: '--kayo-color-secondary',            value: '#FDA581', role: 'Warm Peach — energy, community warmth' },
+      { name: 'Tertiary',             token: '--kayo-color-tertiary',             value: '#37415C', role: 'Deep Navy — admin, tracking elements' },
+      { name: 'Positive',             token: '--kayo-color-positive',             value: '#15803D', role: 'Success, paid states' },
+      { name: 'Negative',             token: '--kayo-color-negative',             value: '#A81818', role: 'Errors, overdue, destructive' },
+      { name: 'Warning',              token: '--kayo-color-warning',              value: '#B86508', role: 'Partial payment, pending' },
+      { name: 'Background',           token: '--kayo-color-background',           value: '#FFFFFF', role: 'Screen surface' },
+      { name: 'Background Secondary', token: '--kayo-color-background-secondary', value: '#F8F8F9', role: 'Cards, raised surfaces' },
+      { name: 'Foreground',           token: '--kayo-color-foreground',           value: '#191B1F', role: 'Primary text' },
+      { name: 'Foreground Secondary', token: '--kayo-color-foreground-secondary', value: '#2E3033', role: 'Secondary text, captions' },
+      { name: 'Border',               token: '--kayo-color-border',               value: '#191B1F', role: 'Hard brutalist borders' },
+      { name: 'Gradient Start',       token: '--kayo-color-gradient-start',       value: '#970103', role: 'Tutor Collection gradient start' },
+      { name: 'Gradient End',         token: '--kayo-color-gradient-end',         value: '#FDA581', role: 'Tutor Collection gradient end' },
+    ],
+    typography: [
+      { name: 'Typeface',       token: '--kayo-font-family',         value: 'DM Sans' },
+      { name: 'Base size',      token: '--kayo-font-size-base',      value: '16px' },
+      { name: 'Body weight',    token: '--kayo-font-weight-body',    value: '400' },
+      { name: 'Heading weight', token: '--kayo-font-weight-heading', value: '700 (Neo-Brutalist bold)' },
+    ],
+    radius: [
+      { name: 'Default', token: '--kayo-radius-default', value: '8px (Neo-Brutalist — no rounding >12)' },
+      { name: 'Small',   token: '--kayo-radius-sm',      value: '4px' },
+      { name: 'Pill',    token: '--kayo-radius-pill',    value: '9999px' },
+    ],
+    icons: [
+      { name: 'SM', token: '--kayo-icon-sm', value: '16px' },
+      { name: 'MD', token: '--kayo-icon-md', value: '20px (default)' },
+      { name: 'LG', token: '--kayo-icon-lg', value: '24px' },
+    ],
+  },
+  {
     id: 'ilakh',
     label: 'Ilakh',
     prefix: 'ilkh',
@@ -273,6 +315,7 @@ const platformMatrix = [
   { product: 'Lemniscate',      web: true,  rn: false, ios: false, android: false, watch: false, widgets: false },
   { product: 'Maligai Manager', web: true,  rn: true,  ios: true,  android: true,  watch: false, widgets: false },
   { product: 'Ulagellam',       web: false, rn: true,  ios: true,  android: true,  watch: false, widgets: false },
+  { product: 'Kaayo',          web: true,  rn: true,  ios: true,  android: true,  watch: false, widgets: false },
   { product: 'Ilakh',           web: true,  rn: true,  ios: true,  android: true,  watch: false, widgets: false },
   { product: 'Yakaizen',        web: false, rn: true,  ios: true,  android: true,  watch: true,  widgets: true  },
 ];
@@ -368,6 +411,91 @@ function TokenTable({
   );
 }
 
+type UlagellamSubTab = 'kaayo' | 'ilakh' | 'ulagellam';
+
+const ULAGELLAM_SUBS: { id: UlagellamSubTab; label: string; accent: string }[] = [
+  { id: 'kaayo',     label: '🎓 Kaayo (Tutor Ops)',   accent: '#970103' },
+  { id: 'ilakh',     label: '📈 Ilakh (Finance)',      accent: '#0369A1' },
+  { id: 'ulagellam', label: '🗺️ Ulagellam (Explorer)', accent: '#7C3AED' },
+];
+
+function UlagellamTokenTabs({ products }: { products: Product[] }) {
+  const [subTab, setSubTab] = useState<UlagellamSubTab>('kaayo');
+  const product = products.find(p => p.id === subTab) ?? products.find(p => p.id === 'ulagellam')!;
+  const isPlaceholderProduct = (id: string) => ['maligai', 'ulagellam', 'ilakh', 'yakaizen', 'kaayo'].includes(id);
+
+  return (
+    <div className="mt-0 space-y-8">
+      <div className="flex gap-2 flex-wrap">
+        {ULAGELLAM_SUBS.map((sub) => {
+          const isActive = subTab === sub.id;
+          return (
+            <button
+              key={sub.id}
+              onClick={() => setSubTab(sub.id)}
+              className={`px-4 py-1.5 rounded-full text-sm font-semibold border-2 transition-colors ${
+                isActive ? 'text-white' : 'bg-transparent text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700'
+              }`}
+              style={{
+                borderColor: isActive ? sub.accent : undefined,
+                backgroundColor: isActive ? sub.accent : undefined,
+              }}
+            >
+              {sub.label}
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-950 lg:flex-row lg:items-start lg:justify-between">
+        <div>
+          <p className="m-0 text-slate-900 dark:text-slate-100" style={{ fontWeight: 700, fontSize: '1rem' }}>
+            {product.label}
+          </p>
+          <p className="m-0 mt-2 max-w-2xl text-slate-500 dark:text-slate-400" style={{ fontSize: '0.9rem', lineHeight: 1.7 }}>
+            {product.description}
+          </p>
+          {isPlaceholderProduct(product.id) && (
+            <Badge variant="outline" className="mt-3 text-amber-600 border-amber-300">
+              Pending design kickoff — token values are placeholders
+            </Badge>
+          )}
+        </div>
+        <div className="flex flex-wrap gap-2 shrink-0">
+          {product.platforms.map(p => (
+            <Badge key={p} variant="secondary" className="text-xs">{p}</Badge>
+          ))}
+        </div>
+      </div>
+
+      {product.colors.length > 0 && (
+        <div>
+          <h3 className="m-0 mb-4 text-slate-900 dark:text-white" style={{ fontWeight: 700, fontSize: '1rem' }}>Colors</h3>
+          <TokenTable rows={product.colors} showSwatch showRole />
+        </div>
+      )}
+      {product.typography.length > 0 && (
+        <div>
+          <h3 className="m-0 mb-4 text-slate-900 dark:text-white" style={{ fontWeight: 700, fontSize: '1rem' }}>Typography</h3>
+          <TokenTable rows={product.typography} />
+        </div>
+      )}
+      {product.radius.length > 0 && (
+        <div>
+          <h3 className="m-0 mb-4 text-slate-900 dark:text-white" style={{ fontWeight: 700, fontSize: '1rem' }}>Radius</h3>
+          <TokenTable rows={product.radius} />
+        </div>
+      )}
+      {product.icons.length > 0 && (
+        <div>
+          <h3 className="m-0 mb-4 text-slate-900 dark:text-white" style={{ fontWeight: 700, fontSize: '1rem' }}>Icons</h3>
+          <TokenTable rows={product.icons} />
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function DesignTokensPage() {
   return (
     <div className="max-w-7xl px-6 py-10 lg:px-10">
@@ -456,7 +584,7 @@ export function DesignTokensPage() {
           return (
         <Tabs defaultValue="lemniscate">
           <TabsList className="mb-6 h-auto flex-wrap justify-start gap-2 rounded-xl bg-slate-100 p-2 dark:bg-slate-900">
-            {products.map((p) => (
+            {products.filter(p => p.id !== 'kaayo' && p.id !== 'ilakh').map((p) => (
               <TabsTrigger key={p.id} value={p.id} className="flex items-center gap-2 rounded-lg px-4 py-2">
                 {p.label}
                 {isPlaceholder(p.id) && (
@@ -468,7 +596,11 @@ export function DesignTokensPage() {
             ))}
           </TabsList>
 
-          {products.map((product) => (
+          <TabsContent key="ulagellam" value="ulagellam" className="mt-0">
+            <UlagellamTokenTabs products={products} />
+          </TabsContent>
+
+          {products.filter(p => p.id !== 'ulagellam' && p.id !== 'kaayo' && p.id !== 'ilakh').map((product) => (
             <TabsContent key={product.id} value={product.id} className="mt-0 space-y-8">
               <div className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-950 lg:flex-row lg:items-start lg:justify-between">
                 <div>

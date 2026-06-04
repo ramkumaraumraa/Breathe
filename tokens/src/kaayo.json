@@ -1,0 +1,50 @@
+{
+  "kayo": {
+    "color": {
+      "primary":             { "value": "{color.crimson.500}", "type": "color" },
+      "primaryLight":        { "value": "{color.crimson.300}", "type": "color" },
+      "primaryDark":         { "value": "{color.crimson.700}", "type": "color" },
+      "primaryForeground":   { "value": "{color.neutral.white}", "type": "color" },
+      "secondary":           { "value": "{color.peach.500}", "type": "color" },
+      "secondaryForeground": { "value": "{color.neutral.white}", "type": "color" },
+      "tertiary":            { "value": "{color.navy.500}", "type": "color" },
+      "tertiaryForeground":  { "value": "{color.neutral.white}", "type": "color" },
+      "background":          { "value": "{color.neutral.white}", "type": "color" },
+      "backgroundSecondary": { "value": "{color.neutral.50}", "type": "color" },
+      "foreground":          { "value": "{color.ink.400}", "type": "color" },
+      "foregroundSecondary": { "value": "{color.ink.100}", "type": "color" },
+      "border":              { "value": "{color.ink.400}", "type": "color" },
+      "positive":            { "value": "{color.status.success}", "type": "color" },
+      "positiveForeground":  { "value": "{color.neutral.white}", "type": "color" },
+      "negative":            { "value": "{color.status.danger}", "type": "color" },
+      "negativeForeground":  { "value": "{color.neutral.white}", "type": "color" },
+      "warning":             { "value": "{color.status.warning}", "type": "color" },
+      "gradientStart":       { "value": "{color.crimson.500}", "type": "color" },
+      "gradientEnd":         { "value": "{color.peach.500}", "type": "color" }
+    },
+    "font": {
+      "sizeBase":      { "value": "{font.size.base}", "type": "dimension" },
+      "weightBody":    { "value": "{font.weight.normal}", "type": "fontWeight" },
+      "weightHeading": { "value": "{font.weight.bold}", "type": "fontWeight" }
+    },
+    "spacing": {
+      "pagePadding": { "value": "{spacing.4}", "type": "dimension" },
+      "cardPadding": { "value": "{spacing.4}", "type": "dimension" },
+      "sectionGap":  { "value": "{spacing.6}", "type": "dimension" }
+    },
+    "radius": {
+      "default": { "value": "{radius.md}", "type": "dimension" },
+      "sm":      { "value": "{radius.sm}", "type": "dimension" },
+      "pill":    { "value": "{radius.full}", "type": "dimension" }
+    },
+    "shadow": {
+      "card":  { "value": "{shadow.sm}", "type": "shadow" },
+      "modal": { "value": "{shadow.md}", "type": "shadow" }
+    },
+    "icon": {
+      "sm": { "value": "{icon.sm}", "type": "dimension" },
+      "md": { "value": "{icon.md}", "type": "dimension" },
+      "lg": { "value": "{icon.lg}", "type": "dimension" }
+    }
+  }
+}

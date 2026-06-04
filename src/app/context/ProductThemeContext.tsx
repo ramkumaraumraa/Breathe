@@ -8,6 +8,7 @@ export type ProductId =
   | 'maligai'
   | 'ulagellam'
   | 'ilakh'
+  | 'kaayo'
   | 'yakaizen'
 
 // ─── Product metadata + CSS variable overrides ──────────────────────────────
@@ -169,6 +170,31 @@ export const productMeta: Record<ProductId, {
       '--gradient-brand-start':      'var(--ilkh-color-primary)',
       '--gradient-brand-end':        'var(--ilkh-color-secondary)',
       '--gradient-brand':            'linear-gradient(135deg, var(--gradient-brand-start) 0%, var(--gradient-brand-end) 100%)',
+    },
+  },
+  kaayo: {
+    label: 'Kaayo',
+    prefix: 'kayo',
+    description: 'Tutor & class operations — Mobile · Neo-Brutalist',
+    vars: {
+      '--primary':                'var(--kayo-color-primary)',
+      '--primary-foreground':     'var(--kayo-color-primary-foreground)',
+      '--secondary':              'var(--kayo-color-background-secondary)',
+      '--secondary-foreground':   'var(--kayo-color-foreground)',
+      '--accent':                 'var(--kayo-color-secondary)',
+      '--accent-foreground':      'var(--kayo-color-secondary-foreground)',
+      '--background':             'var(--kayo-color-background)',
+      '--foreground':             'var(--kayo-color-foreground)',
+      '--muted':                  'var(--kayo-color-background-secondary)',
+      '--muted-foreground':       'var(--kayo-color-foreground-secondary)',
+      '--border':                 'var(--kayo-color-border)',
+      '--ring':                   'var(--kayo-color-primary)',
+      '--radius':                 'var(--kayo-radius-default)',
+      '--destructive':            'var(--kayo-color-negative)',
+      '--destructive-foreground': 'var(--kayo-color-negative-foreground)',
+      '--gradient-brand-start':   'var(--kayo-color-gradient-start)',
+      '--gradient-brand-end':     'var(--kayo-color-gradient-end)',
+      '--gradient-brand':         'linear-gradient(135deg, var(--gradient-brand-start) 0%, var(--gradient-brand-end) 100%)',
     },
   },
   yakaizen: {

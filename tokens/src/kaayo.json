@@ -38,8 +38,10 @@
       "pill":    { "value": "{radius.full}", "type": "dimension" }
     },
     "shadow": {
-      "card":  { "value": "{shadow.sm}", "type": "shadow" },
-      "modal": { "value": "{shadow.md}", "type": "shadow" }
+      "sm": { "value": "2px 2px 0 {color.ink.800}", "type": "shadow", "comment": "Neo-Brutalist hard offset — no blur" },
+      "md": { "value": "4px 4px 0 {color.ink.800}", "type": "shadow", "comment": "Neo-Brutalist hard offset — no blur" },
+      "lg": { "value": "6px 6px 0 {color.ink.800}", "type": "shadow", "comment": "Neo-Brutalist hard offset — no blur" },
+      "xl": { "value": "8px 8px 0 {color.ink.800}", "type": "shadow", "comment": "Neo-Brutalist hard offset — no blur" }
     },
     "icon": {
       "sm": { "value": "{icon.sm}", "type": "dimension" },

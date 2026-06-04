@@ -124,6 +124,51 @@
   --color-indigo-925: #130e36;
   --color-indigo-950: #090621;
   --color-indigo-975: #03020e;
+  --color-crimson-25: #fdf2f3; /** Kaayo primary — Tutor Crimson */
+  --color-crimson-50: #fad5d6;
+  --color-crimson-75: #f6b8ba;
+  --color-crimson-100: #f29d9f;
+  --color-crimson-200: #ea6b6e;
+  --color-crimson-300: #e14144;
+  --color-crimson-400: #c31e21;
+  --color-crimson-500: #970103; /** Kaayo primary root */
+  --color-crimson-600: #740102;
+  --color-crimson-700: #570001;
+  --color-crimson-800: #3f0000;
+  --color-crimson-900: #2b0000;
+  --color-crimson-925: #200000;
+  --color-crimson-950: #160000;
+  --color-crimson-975: #0e0000;
+  --color-peach-25: #fffdfb; /** Kaayo secondary — Warm Peach */
+  --color-peach-50: #fff3ed;
+  --color-peach-75: #ffe4d8;
+  --color-peach-100: #fed3c1;
+  --color-peach-200: #fdbba1;
+  --color-peach-300: #fca78b;
+  --color-peach-400: #fd9271;
+  --color-peach-500: #fda581; /** Kaayo secondary root */
+  --color-peach-600: #e38865;
+  --color-peach-700: #c96d4b;
+  --color-peach-800: #ae5333;
+  --color-peach-900: #943c1d;
+  --color-peach-925: #7d2a0d;
+  --color-peach-950: #641d06;
+  --color-peach-975: #471101;
+  --color-navy-25: #eff1f5; /** Kaayo tertiary — Deep Navy */
+  --color-navy-50: #dde1ec;
+  --color-navy-75: #cbd1e2;
+  --color-navy-100: #b9c0d7;
+  --color-navy-200: #96a1c0;
+  --color-navy-300: #7583a8;
+  --color-navy-400: #55668f;
+  --color-navy-500: #37415c; /** Kaayo tertiary root */
+  --color-navy-600: #2d354b;
+  --color-navy-700: #232a3b;
+  --color-navy-800: #1a202d;
+  --color-navy-900: #12161f;
+  --color-navy-925: #0d1016;
+  --color-navy-950: #080a0e;
+  --color-navy-975: #040507;
   --color-neutral-25: #f8fafc;
   --color-neutral-50: #f9fafb;
   --color-neutral-75: #e2e8f0;

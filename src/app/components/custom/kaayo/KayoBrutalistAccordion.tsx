@@ -90,7 +90,6 @@ export function KayoBrutalistAccordion({
                 border: 'none',
                 cursor: isDisabled ? 'not-allowed' : 'pointer',
                 textAlign: 'left',
-                fontFamily: "'DM Sans', system-ui, sans-serif",
                 fontSize: '14px',
                 fontWeight: 600,
                 color: isDisabled

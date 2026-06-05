@@ -41,7 +41,7 @@ export function KayoBrutalistTabs({
         border: '2px solid var(--kayo-color-border, #3b3d3f)',
         borderRadius: '6px',
         boxShadow: '2px 2px 0 #191b1f',
-        background: '#f4f4f4',
+        background: 'var(--kayo-color-muted, #f4f4f4)',
         overflow: 'hidden',
       }}>
         {tabs.map((tab, i) => {
@@ -66,7 +66,6 @@ export function KayoBrutalistTabs({
                 minHeight: minH,
                 fontSize,
                 fontWeight: isActive ? 600 : 400,
-                fontFamily: "'DM Sans', system-ui, sans-serif",
                 background: isActive
                   ? 'var(--kayo-color-primary, #970103)'
                   : 'transparent',

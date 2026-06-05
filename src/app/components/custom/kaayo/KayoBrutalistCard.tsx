@@ -52,17 +52,19 @@ export function KayoBrutalistCard({
   )
 }
 
+export interface KayoBrutalistCardHeaderProps {
+  title: string
+  description?: string
+  badge?: ReactNode
+  action?: ReactNode
+}
+
 export function KayoBrutalistCardHeader({
   title,
   description,
   badge,
   action,
-}: {
-  title: string
-  description?: string
-  badge?: ReactNode
-  action?: ReactNode
-}) {
+}: KayoBrutalistCardHeaderProps) {
   return (
     <div style={{
       padding: '16px',
@@ -84,7 +86,7 @@ export function KayoBrutalistCardHeader({
           {badge}
         </div>
         {description && (
-          <p style={{ fontSize: '13px', color: '#6b7280', margin: '4px 0 0' }}>
+          <p style={{ fontSize: '13px', color: 'var(--kayo-color-foreground-secondary, #6b7280)', margin: '4px 0 0' }}>
             {description}
           </p>
         )}
@@ -94,7 +96,11 @@ export function KayoBrutalistCardHeader({
   )
 }
 
-export function KayoBrutalistCardBody({ children }: { children: ReactNode }) {
+export interface KayoBrutalistCardBodyProps {
+  children: ReactNode
+}
+
+export function KayoBrutalistCardBody({ children }: KayoBrutalistCardBodyProps) {
   return (
     <div style={{
       padding: '16px',
@@ -107,13 +113,15 @@ export function KayoBrutalistCardBody({ children }: { children: ReactNode }) {
   )
 }
 
+export interface KayoBrutalistCardFooterProps {
+  justify?: 'start' | 'end' | 'between'
+  children: ReactNode
+}
+
 export function KayoBrutalistCardFooter({
   justify = 'end',
   children,
-}: {
-  justify?: 'start' | 'end' | 'between'
-  children: ReactNode
-}) {
+}: KayoBrutalistCardFooterProps) {
   const justifyMap = {
     start:   'flex-start',
     end:     'flex-end',

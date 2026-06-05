@@ -5,7 +5,7 @@ export type KayoAlertVariant = 'info' | 'success' | 'warning' | 'error'
 export interface KayoBrutalistAlertProps {
   variant?: KayoAlertVariant
   title?: string
-  description?: string
+  description?: string | ReactNode
   icon?: ReactNode
   dismissible?: boolean
   onDismiss?: () => void
@@ -14,10 +14,10 @@ export interface KayoBrutalistAlertProps {
 const variantConfig: Record<KayoAlertVariant, {
   border: string; accent: string; bg: string; iconColor: string
 }> = {
-  info:    { border: '#3b3d3f', accent: '#3b3d3f', bg: '#f9f9f9', iconColor: '#3b3d3f' },
+  info:    { border: 'var(--kayo-color-border, #3b3d3f)', accent: 'var(--kayo-color-border, #3b3d3f)', bg: '#f9f9f9', iconColor: 'var(--kayo-color-border, #3b3d3f)' },
   success: { border: '#166534', accent: '#166534', bg: '#f0fdf4', iconColor: '#166534' },
   warning: { border: '#92400e', accent: '#d97706', bg: '#fffbeb', iconColor: '#d97706' },
-  error:   { border: '#970103', accent: '#970103', bg: '#fff5f5', iconColor: '#970103' },
+  error:   { border: 'var(--kayo-color-primary, #970103)', accent: 'var(--kayo-color-primary, #970103)', bg: '#fff5f5', iconColor: 'var(--kayo-color-primary, #970103)' },
 }
 
 export function KayoBrutalistAlert({
@@ -63,7 +63,7 @@ export function KayoBrutalistAlert({
           <div style={{
             fontSize: '14px',
             fontWeight: 600,
-            color: '#191b1f',
+            color: 'var(--kayo-color-foreground, #191b1f)',
             marginBottom: description ? '4px' : 0,
           }}>
             {title}

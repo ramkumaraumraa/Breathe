@@ -1,19 +1,32 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
 import { Button } from '@/app/components/ui/button'
 import { ArrowRight, Download, Send, Sparkles, Trash2 } from 'lucide-react'
+import { useProductTheme } from '@/app/context/ProductThemeContext'
+import { KayoBrutalistButton } from '@/app/components/custom/kaayo/KayoBrutalistButton'
 
 export function ButtonPage() {
+  const { activeProduct } = useProductTheme()
+  const isKaayo = activeProduct === 'kaayo'
+
   return (
     <ComponentPageLayout
       title="Button"
       description="Triggers an action or navigates the user. Choose the variant that matches the importance and nature of the action."
       level="Atom"
       status="Stable"
+      implemented={['lemniscate', 'aumraa', 'kaayo']}
       sections={[
         {
           title: 'Variants',
           description: 'Action styles for primary, brand, secondary, destructive, and low-emphasis commands.',
-          preview: (
+          preview: isKaayo ? (
+            <div className="flex flex-wrap gap-4">
+              <KayoBrutalistButton variant="primary" label="Primary" />
+              <KayoBrutalistButton variant="secondary" label="Secondary" />
+              <KayoBrutalistButton variant="destructive" label="Destructive" />
+              <KayoBrutalistButton variant="ghost" label="Ghost" />
+            </div>
+          ) : (
             <div className="flex flex-wrap gap-3">
               <Button variant="gradient"><Sparkles className="h-4 w-4" />Gradient</Button>
               <Button variant="default">Default Primary</Button>
@@ -148,44 +161,21 @@ export function ButtonPage() {
 }
 .btn-outline:hover { background-color: color-mix(in srgb, var(--color-primary) 5%, transparent); }`,
 
-            reactNative: `import { TouchableOpacity, Text, StyleSheet } from 'react-native'
-// Tokens from: @breathe/tokens/react-native/lemniscate
-import { tokens } from '@breathe/tokens/react-native/lemniscate'
+            reactNative: `import { Button } from '@kaayo/components/atoms/Button'
 
-// Primary
-<TouchableOpacity style={[styles.btn, { backgroundColor: tokens.lmnsColorPrimary }]}>
-  <Text style={[styles.label, { color: tokens.lmnsColorPrimaryForeground }]}>Primary</Text>
-</TouchableOpacity>
+// 4 variants — all share the 2px hard border + 8px radius
+<Button variant="primary"     label="Primary"     onPress={() => {}} />
+<Button variant="secondary"   label="Secondary"   onPress={() => {}} />
+<Button variant="destructive" label="Destructive" onPress={() => {}} />
+<Button variant="ghost"       label="Ghost"       onPress={() => {}} />
 
-// Secondary
-<TouchableOpacity style={[styles.btn, { backgroundColor: tokens.lmnsColorBackgroundSecondary }]}>
-  <Text style={[styles.label, { color: tokens.lmnsColorForeground }]}>Secondary</Text>
-</TouchableOpacity>
-
-// Outline
-<TouchableOpacity style={[styles.btn, styles.outline, { borderColor: tokens.lmnsColorPrimary }]}>
-  <Text style={[styles.label, { color: tokens.lmnsColorPrimary }]}>Outline</Text>
-</TouchableOpacity>
-
-const styles = StyleSheet.create({
-  btn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: tokens.lmnsRadiusDefault,
-    paddingHorizontal: 24,
-    paddingVertical: 10,
-    gap: 8,
-  },
-  outline: {
-    borderWidth: 2,
-    backgroundColor: 'transparent',
-  },
-  label: {
-    fontSize: 14,
-    fontWeight: '600',
-  },
-})`,
+// Token reference (lib/theme.ts + lib/tokens.ts):
+// primary   → theme.action.primary   { bg: #970103, fg: #ffffff }
+// secondary → theme.action.secondary { bg: #ffffff, fg: #3b3d3f }
+// destructive → theme.action.destructive { bg: #dc2626, fg: #ffffff }
+// ghost     → { bg: 'transparent', fg: theme.text.primary }
+// All variants: borderWidth: kayoBorder.width (2), borderColor: theme.border.strong (#191B1F)
+// Non-ghost:   boxShadow: kayoShadow.sm  →  '2px 2px 0 #191B1F'`,
 
             ios: `import SwiftUI
 
@@ -270,7 +260,13 @@ fun ButtonVariants() {
         {
           title: 'Sizes',
           description: 'Seven supported sizes including compact and icon-only controls.',
-          preview: (
+          preview: isKaayo ? (
+            <div className="flex flex-wrap items-center gap-4">
+              <KayoBrutalistButton size="sm" label="Small" />
+              <KayoBrutalistButton size="md" label="Medium" />
+              <KayoBrutalistButton size="lg" label="Large" />
+            </div>
+          ) : (
             <div className="flex flex-wrap items-center gap-3">
               <Button size="xs">Extra Small</Button>
               <Button size="sm">Small</Button>
@@ -304,23 +300,30 @@ fun ButtonVariants() {
 .btn-lg  { height: 3rem;    padding: 0 2rem;   font-size: 1rem;     border-radius: 0.5rem; }
 .btn-xl  { height: 3.5rem;  padding: 0 2.5rem; font-size: 1.125rem; border-radius: 0.5rem; }`,
 
-            reactNative: `import { tokens } from '@breathe/tokens/react-native/lemniscate'
+            reactNative: `import { Button } from '@kaayo/components/atoms/Button'
+import { kayoSpace } from '@kaayo/lib/tokens'
+import { typography } from '@kaayo/lib/typography'
 
-const sizes = {
-  sm:  { paddingHorizontal: 16, paddingVertical: 6,  fontSize: 12 },
-  md:  { paddingHorizontal: 24, paddingVertical: 10, fontSize: 14 },
-  lg:  { paddingHorizontal: 32, paddingVertical: 12, fontSize: 16 },
-}
+<Button size="sm" label="Small"  onPress={() => {}} />
+<Button size="md" label="Medium" onPress={() => {}} />   // default
+<Button size="lg" label="Large"  onPress={() => {}} />
 
-<TouchableOpacity style={[styles.btn, sizes.sm]}>
-  <Text style={{ fontSize: sizes.sm.fontSize, fontWeight: '600' }}>Small</Text>
-</TouchableOpacity>`,
+// Size specs:
+// sm: paddingHorizontal: kayoSpace[3] (12), paddingVertical: kayoSpace[2] (8),  minHeight: 36, font: typography.label_sm
+// md: paddingHorizontal: kayoSpace[4] (16), paddingVertical: kayoSpace[3] (12), minHeight: 44, font: typography.label_lg
+// lg: paddingHorizontal: kayoSpace[5] (20), paddingVertical: kayoSpace[4] (16), minHeight: 52, font: typography.label_lg`,
           },
         },
         {
           title: 'With icons',
-          description: 'Left icon, right icon, or icon-only.',
-          preview: (
+          description: 'Left icon, right icon, or icon-only. Note: Kaayo Button requires a label — pure icon-only is not supported; use an icon wrapped in Pressable directly.',
+          preview: isKaayo ? (
+            <div className="flex flex-wrap items-center gap-4">
+              <KayoBrutalistButton variant="primary" label="Download" iconLeft={<Download size={16} color="#fff" strokeWidth={2.5} />} />
+              <KayoBrutalistButton variant="secondary" label="Continue" iconRight={<ArrowRight size={16} color="#3b3d3f" strokeWidth={2.5} />} />
+              <KayoBrutalistButton variant="destructive" label="Delete" iconLeft={<Trash2 size={16} color="#fff" strokeWidth={2.5} />} />
+            </div>
+          ) : (
             <div className="flex flex-wrap items-center gap-3">
               <Button><Download className="mr-2 h-4 w-4" />Download</Button>
               <Button variant="outline">Continue <ArrowRight className="ml-2 h-4 w-4" /></Button>
@@ -351,24 +354,41 @@ const sizes = {
   <svg class="h-4 w-4" .../>
 </button>`,
 
-            reactNative: `import { MaterialIcons } from '@expo/vector-icons'
+            reactNative: `import { Button } from '@kaayo/components/atoms/Button'
+import { Download, ArrowRight, Trash2 } from 'lucide-react-native'
+import { theme } from '@kaayo/lib/theme'
 
-// Left icon
-<TouchableOpacity style={styles.btn}>
-  <MaterialIcons name="file-download" size={16} color="#fff" />
-  <Text style={styles.label}>Download</Text>
-</TouchableOpacity>
+// Icon left
+<Button
+  variant="primary"
+  label="Download"
+  iconLeft={<Download size={16} color={theme.text.onPrimary} strokeWidth={2.5} />}
+  onPress={() => {}}
+/>
 
-// Icon only
-<TouchableOpacity style={styles.iconBtn}>
-  <MaterialIcons name="delete" size={16} color="#fff" />
-</TouchableOpacity>`,
+// Icon right
+<Button
+  variant="secondary"
+  label="Continue"
+  iconRight={<ArrowRight size={16} color={theme.text.primary} strokeWidth={2.5} />}
+  onPress={() => {}}
+/>
+
+// Note: Kaayo Button requires a label — pure icon-only is not supported.
+// For icon-only actions, use an icon wrapped in Pressable directly.`,
           },
         },
         {
           title: 'States',
-          description: 'Disabled state.',
-          preview: (
+          description: 'Disabled and loading states.',
+          preview: isKaayo ? (
+            <div className="flex flex-wrap items-center gap-4">
+              <KayoBrutalistButton variant="primary" label="Disabled" disabled />
+              <KayoBrutalistButton variant="secondary" label="Disabled" disabled />
+              <KayoBrutalistButton variant="primary" label="Loading…" loading />
+              <KayoBrutalistButton variant="secondary" label="Loading…" loading />
+            </div>
+          ) : (
             <div className="flex flex-wrap items-center gap-3">
               <Button disabled>Disabled</Button>
               <Button variant="outline" disabled>Disabled Outline</Button>
@@ -387,9 +407,17 @@ const sizes = {
   cursor: not-allowed;
 }`,
 
-            reactNative: `<TouchableOpacity style={[styles.btn, { opacity: 0.5 }]} disabled>
-  <Text style={styles.label}>Disabled</Text>
-</TouchableOpacity>`,
+            reactNative: `import { Button } from '@kaayo/components/atoms/Button'
+
+// Disabled — bg: neutralWhite[200] (#e5e7eb), text: text.disabled, no shadow
+<Button variant="primary" label="Disabled" disabled onPress={() => {}} />
+
+// Loading — ActivityIndicator replaces label, button is non-interactive
+<Button variant="primary" label="Saving…" loading onPress={() => {}} />
+
+// Both disabled and loading block onPress internally.
+// disabled: opacity via neutralWhite[200] bg + text.disabled color
+// loading:  ActivityIndicator color matches palette.fg for the active variant`,
 
             ios: `Button("Disabled") {}
     .buttonStyle(BreathePrimaryButtonStyle())
@@ -402,6 +430,93 @@ const sizes = {
 ) {
     Text("Disabled")
 }`,
+          },
+        },
+        {
+          title: 'Press / Touch',
+          description: 'Neo-Brutalist signature: the button physically falls into the page on press. Shadow drops and the element translates 2 × 2 px in the direction of the shadow offset.',
+          preview: (
+            <div className="flex flex-col gap-3">
+              <p className="text-sm text-slate-500">Press and hold any button to see the brutalist press effect.</p>
+              <div className="flex flex-wrap gap-4">
+                <KayoBrutalistButton variant="primary"     label="Hold me" />
+                <KayoBrutalistButton variant="secondary"   label="Hold me" />
+                <KayoBrutalistButton variant="destructive" label="Hold me" />
+                <KayoBrutalistButton variant="ghost"       label="Hold me" />
+              </div>
+            </div>
+          ),
+          code: {
+            react: `// KayoBrutalistButton handles the press effect automatically.
+// Press and hold any variant in the preview to see it.`,
+
+            reactNative: `import { Pressable, Text, StyleSheet } from 'react-native'
+import { kayoBorder, kayoRadius, kayoShadow, kayoSpace } from '@kaayo/lib/tokens'
+import { theme } from '@kaayo/lib/theme'
+import { typography } from '@kaayo/lib/typography'
+
+// The Button atom handles this automatically.
+// Internally it uses Pressable's pressed state:
+
+<Pressable
+  style={({ pressed }) => [
+    styles.base,
+    {
+      backgroundColor: theme.action.primary.bg,
+      borderColor: theme.border.strong,
+    },
+    pressed ? styles.pressed : kayoShadow.sm,
+  ]}
+>
+  <Text style={[typography.label_lg, { color: theme.text.onPrimary }]}>
+    Primary
+  </Text>
+</Pressable>
+
+const styles = StyleSheet.create({
+  base: {
+    borderWidth: kayoBorder.width,           // 2
+    borderRadius: kayoRadius.md,             // 8
+    paddingHorizontal: kayoSpace[4],         // 16
+    paddingVertical: kayoSpace[3],           // 12
+    minHeight: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  pressed: {
+    transform: [{ translateX: 2 }, { translateY: 2 }],
+    ...kayoShadow.none,   // { boxShadow: 'none', elevation: 0 }
+  },
+})
+
+// Ghost variant: skip kayoShadow.sm entirely (no shadow on any state)`,
+          },
+        },
+        {
+          title: 'Full Width',
+          description: 'Stretches to fill its container. Use for primary actions in mobile forms and bottom CTAs.',
+          preview: (
+            <div className="flex flex-col gap-3 w-full max-w-sm">
+              <KayoBrutalistButton variant="primary"   label="Save student" fullWidth />
+              <KayoBrutalistButton variant="secondary" label="Cancel"       fullWidth />
+            </div>
+          ),
+          code: {
+            react: `// Pass fullWidth to stretch the button to its container
+<KayoBrutalistButton variant="primary"   label="Save student" fullWidth />
+<KayoBrutalistButton variant="secondary" label="Cancel"       fullWidth />`,
+
+            reactNative: `import { Button } from '@kaayo/components/atoms/Button'
+
+// fullWidth adds alignSelf: 'stretch' to the Pressable
+<Button variant="primary"   label="Save student" fullWidth onPress={() => {}} />
+<Button variant="secondary" label="Cancel"       fullWidth onPress={() => {}} />
+
+// Typical usage — action row at form bottom:
+<View style={{ flexDirection: 'row', gap: 12 }}>
+  <Button variant="secondary" label="Cancel"  onPress={handleCancel} />
+  <Button variant="primary"   label="Submit"  onPress={handleSubmit} loading={isSubmitting} />
+</View>`,
           },
         },
       ]}

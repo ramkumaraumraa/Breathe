@@ -19,8 +19,32 @@ export function Sidebar({ onClose }: SidebarProps) {
     () => new Set(navigation.map(s => s.section))
   );
 
+  const [openSubsections, setOpenSubsections] = useState<Set<string>>(() => {
+    const active = new Set<string>();
+    navigation.forEach(s => {
+      s.items.forEach(item => {
+        if (item.items && item.items.some(sub => sub.path === location.pathname)) {
+          active.add(item.label);
+        }
+      });
+    });
+    return active;
+  });
+
   function toggleSection(name: string) {
     setOpenSections(prev => {
+      const next = new Set(prev);
+      if (next.has(name)) {
+        next.delete(name);
+      } else {
+        next.add(name);
+      }
+      return next;
+    });
+  }
+
+  function toggleSubsection(name: string) {
+    setOpenSubsections(prev => {
       const next = new Set(prev);
       if (next.has(name)) {
         next.delete(name);
@@ -53,7 +77,12 @@ export function Sidebar({ onClose }: SidebarProps) {
       <nav className="flex-1 overflow-y-auto py-4 px-3">
         {navigation.map((section) => {
           const isOpen = openSections.has(section.section);
-          const hasActiveItem = section.items.some(item => item.path === location.pathname);
+          const hasActiveItem = section.items.some(item => {
+            if (item.items) {
+              return item.items.some(sub => sub.path === location.pathname);
+            }
+            return item.path === location.pathname;
+          });
 
           return (
             <div key={section.section} className="mb-1">
@@ -78,6 +107,57 @@ export function Sidebar({ onClose }: SidebarProps) {
               {isOpen && (
                 <ul className="space-y-0.5 mb-4">
                   {section.items.map((item) => {
+                    if (item.items) {
+                      const isSubActive = item.items.some(sub => location.pathname === sub.path);
+                      const isSubOpen = openSubsections.has(item.label) || isSubActive;
+
+                      return (
+                        <li key={item.label} className="space-y-0.5">
+                          <button
+                            onClick={() => toggleSubsection(item.label)}
+                            className={`w-full flex items-center gap-2.5 px-3 py-2.5 min-h-[44px] rounded-lg transition-all duration-150 text-left ${
+                              isSubActive
+                                ? 'bg-teal-50/50 dark:bg-teal-900/10 text-teal-700 dark:text-teal-400'
+                                : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-slate-200'
+                            }`}
+                            style={{ fontFamily: 'var(--font-sans)', fontSize: '0.875rem', fontWeight: isSubActive ? 500 : 400 }}
+                          >
+                            <ChevronDown
+                              size={12}
+                              className={`text-slate-400 dark:text-slate-600 transition-transform duration-200 shrink-0 ${isSubOpen ? 'rotate-0' : '-rotate-90'}`}
+                            />
+                            <span>{item.label}</span>
+                          </button>
+                          {isSubOpen && (
+                            <ul className="pl-6 ml-4 border-l border-slate-200 dark:border-slate-800 space-y-0.5 mt-0.5 mb-1">
+                              {item.items.map((subItem) => {
+                                const isSubItemActive = location.pathname === subItem.path;
+                                return (
+                                  <li key={subItem.path}>
+                                    <NavLink
+                                      to={subItem.path}
+                                      onClick={onClose}
+                                      className={`flex items-center gap-2 px-3 py-2 min-h-[36px] rounded-md transition-all duration-150 ${
+                                        isSubItemActive
+                                          ? 'text-teal-600 dark:text-teal-400 font-medium'
+                                          : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+                                      }`}
+                                      style={{ fontFamily: 'var(--font-sans)', fontSize: '0.8125rem' }}
+                                    >
+                                      {isSubItemActive && (
+                                        <span className="w-1 h-1 rounded-full bg-teal-500 dark:bg-teal-400 shrink-0" />
+                                      )}
+                                      <span className={isSubItemActive ? '' : 'ml-3'}>{subItem.label}</span>
+                                    </NavLink>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          )}
+                        </li>
+                      );
+                    }
+
                     const isActive = location.pathname === item.path;
                     return (
                       <li key={item.path}>

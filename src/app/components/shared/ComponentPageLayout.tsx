@@ -39,46 +39,50 @@ interface ComponentPageLayoutProps {
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-// Canonical brand order — mirrors Logos, Colors, and Typography pages
-const ALL_PRODUCTS: ProductId[] = [
-  'aumraa',
-  'technocracy',
-  'lemniscate',
-  'maligai',
-  'ulagellam',
-  'ilakh',
-  'yakaizen',
-]
-
-const PRODUCT_ACCENT: Record<ProductId, string> = {
-  aumraa:      '#2F9E44',
-  technocracy: '#8B5CF6',
-  lemniscate:  '#1C60C1',
-  maligai:     '#D97706',
-  ulagellam:   '#7C3AED',
-  ilakh:       '#0369A1',
-  yakaizen:    '#06B6D4',
-}
+// Canonical brand list and accents for the switcher
+const TOP_LEVEL_TABS = [
+  { id: 'aumraa', label: 'Aumraa', accentColor: '#2F9E44', description: 'Studio brand — green primary' },
+  { id: 'technocracy', label: 'Technocracy', accentColor: '#8B5CF6', description: 'Admin dashboard — dark surfaces' },
+  { id: 'lemniscate', label: 'Leminiscate', accentColor: '#1C60C1', description: 'Community finance SaaS — light, blue primary' },
+  { id: 'maligai', label: 'Maligai Manager', accentColor: '#D97706', description: 'Grocery & retail — mobile primary' },
+  { id: 'ullagellam_group', label: 'Ullagellam', accentColor: '#7C3AED', description: 'Regional & mobile suite umbrella · Multi-product filters below' },
+  { id: 'yakaizen', label: 'Yakaizen', accentColor: '#06B6D4', description: 'Mobile, watch, widgets' },
+] as const
 
 // ─── Product switcher ─────────────────────────────────────────────────────────
 
 function ProductSwitcher({ implemented }: { implemented: ProductId[] }) {
   const { activeProduct, setActiveProduct } = useProductTheme()
+  const activeTopTab = activeProduct === 'kaayo' || activeProduct === 'ilakh' || activeProduct === 'ulagellam'
+    ? 'ullagellam_group'
+    : activeProduct
 
   return (
     <div className="sticky top-16 z-20 bg-slate-50 dark:bg-slate-950 overflow-x-auto border-b border-slate-200 dark:border-slate-800 -mx-6 lg:-mx-10 px-6 lg:px-10">
       <div className="flex gap-0 min-w-max" role="tablist">
-        {ALL_PRODUCTS.map((id) => {
-          const meta = productMeta[id]
-          const isImpl = implemented.includes(id)
-          const isActive = activeProduct === id
+        {TOP_LEVEL_TABS.map((tab) => {
+          const isActive = activeTopTab === tab.id
+          const isImpl = tab.id === 'ullagellam_group'
+            ? (implemented.includes('kaayo') || implemented.includes('ilakh') || implemented.includes('ulagellam'))
+            : implemented.includes(tab.id as ProductId)
+
+          const handleClick = () => {
+            if (tab.id === 'ullagellam_group') {
+              if (activeProduct !== 'kaayo' && activeProduct !== 'ilakh' && activeProduct !== 'ulagellam') {
+                setActiveProduct('kaayo')
+              }
+            } else {
+              setActiveProduct(tab.id as ProductId)
+            }
+          }
+
           return (
             <button
-              key={id}
-              onClick={() => setActiveProduct(id)}
+              key={tab.id}
+              onClick={handleClick}
               role="tab"
               aria-selected={isActive}
-              title={!isImpl ? 'Placeholder — confirm at product design kickoff' : meta.description}
+              title={!isImpl ? 'Placeholder — confirm at product design kickoff' : tab.description}
               className={[
                 'relative flex items-center gap-1.5 px-4 py-2.5 border-b-2 transition-colors whitespace-nowrap shrink-0',
                 isActive
@@ -87,13 +91,13 @@ function ProductSwitcher({ implemented }: { implemented: ProductId[] }) {
                 !isImpl ? 'opacity-50' : '',
               ].join(' ')}
               style={{
-                borderBottomColor: isActive ? PRODUCT_ACCENT[id] : undefined,
+                borderBottomColor: isActive ? tab.accentColor : undefined,
                 fontFamily: 'var(--font-sans)',
                 fontWeight: 600,
                 fontSize: '0.875rem',
               }}
             >
-              {meta.label}
+              {tab.label}
               {!isImpl && <span className="text-slate-400">·</span>}
             </button>
           )
@@ -113,6 +117,9 @@ export function ComponentPageLayout({
   sections,
   implemented = ['lemniscate', 'aumraa'],
 }: ComponentPageLayoutProps) {
+  const { activeProduct, setActiveProduct } = useProductTheme()
+  const isUllagellamGroup = activeProduct === 'kaayo' || activeProduct === 'ilakh' || activeProduct === 'ulagellam'
+
   return (
     <div className="max-w-7xl px-6 lg:px-10 py-10 space-y-8">
       {/* Header */}
@@ -126,6 +133,38 @@ export function ComponentPageLayout({
 
       {/* Product switcher */}
       <ProductSwitcher implemented={implemented} />
+
+      {/* Ulagellam Sub-tabs Segment Selector */}
+      {isUllagellamGroup && (
+        <div className="p-1.5 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl inline-flex flex-wrap gap-1.5 max-w-full shadow-sm">
+          {[
+            { id: 'kaayo', label: '🎓 Kaayo (Tutor Ops)', accent: '#970103', tagline: 'Tutor & class operations · Mobile · Tablet' },
+            { id: 'ilakh', label: '📈 Ilakh (Finance)', accent: '#0369A1', tagline: 'Goal tracking & personal finance · Web · Mobile' },
+            { id: 'ulagellam', label: '🗺️ Ulagellam (Explorer)', accent: '#7C3AED', tagline: 'Explore & discover around you · Mobile' }
+          ].map(sub => {
+            const isSubActive = activeProduct === sub.id
+            const isSubImpl = implemented.includes(sub.id as ProductId)
+            return (
+              <button
+                key={sub.id}
+                onClick={() => setActiveProduct(sub.id as ProductId)}
+                className={`px-5 py-2.5 rounded-xl font-semibold transition-all cursor-pointer whitespace-nowrap text-sm ${
+                  isSubActive
+                    ? 'bg-white dark:bg-slate-950 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-800 shadow-sm'
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 border border-transparent'
+                } ${!isSubImpl ? 'opacity-50' : ''}`}
+                style={{
+                  borderBottomColor: isSubActive ? sub.accent : undefined,
+                  borderBottomWidth: isSubActive ? '2px' : undefined
+                }}
+                title={!isSubImpl ? 'Placeholder — confirm at product design kickoff' : sub.tagline}
+              >
+                {sub.label}
+              </button>
+            )
+          })}
+        </div>
+      )}
 
       {/* Sections */}
       {sections.map((section, i) => (

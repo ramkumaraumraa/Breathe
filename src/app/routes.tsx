@@ -38,25 +38,31 @@ const MotionPage       = lazy_page(() => import('./pages/foundations/MotionPage'
 
 // Atoms
 const ButtonPage     = lazy_page(() => import('./pages/atoms/ButtonPage'))
-const InputPage      = lazy_page(() => import('./pages/atoms/InputPage'))
-const TextareaPage   = lazy_page(() => import('./pages/atoms/TextareaPage'))
-const CheckboxPage   = lazy_page(() => import('./pages/atoms/CheckboxPage'))
-const RadioGroupPage = lazy_page(() => import('./pages/atoms/RadioGroupPage'))
-const SwitchPage     = lazy_page(() => import('./pages/atoms/SwitchPage'))
-const TogglePage     = lazy_page(() => import('./pages/atoms/TogglePage'))
-const SliderPage     = lazy_page(() => import('./pages/atoms/SliderPage'))
 const AvatarPage     = lazy_page(() => import('./pages/atoms/AvatarPage'))
 const BadgePage      = lazy_page(() => import('./pages/atoms/BadgePage'))
 const LabelPage      = lazy_page(() => import('./pages/atoms/LabelPage'))
 const SeparatorPage  = lazy_page(() => import('./pages/atoms/SeparatorPage'))
 const ProgressPage   = lazy_page(() => import('./pages/atoms/ProgressPage'))
 const SkeletonPage   = lazy_page(() => import('./pages/atoms/SkeletonPage'))
+const SpinnerPage    = lazy_page(() => import('./pages/atoms/SpinnerPage'))
+
+// Form Elements under Atoms
+const TextInputPage     = lazy_page(() => import('./pages/atoms/form-elements/TextInputPage'))
+const TextareaInputPage = lazy_page(() => import('./pages/atoms/form-elements/TextareaInputPage'))
+const RadioPage         = lazy_page(() => import('./pages/atoms/form-elements/RadioPage'))
+const CheckboxPage      = lazy_page(() => import('./pages/atoms/form-elements/CheckboxPage'))
+const DropdownPage      = lazy_page(() => import('./pages/atoms/form-elements/DropdownPage'))
+const SearchbarPage     = lazy_page(() => import('./pages/atoms/form-elements/SearchbarPage'))
+const TogglePage        = lazy_page(() => import('./pages/atoms/form-elements/TogglePage'))
+const CalendarPage      = lazy_page(() => import('./pages/atoms/form-elements/CalendarPage'))
+const DragSliderPage    = lazy_page(() => import('./pages/atoms/form-elements/DragSliderPage'))
+const ListElementsPage  = lazy_page(() => import('./pages/atoms/form-elements/ListElementsPage'))
+const OTPInputPage      = lazy_page(() => import('./pages/atoms/form-elements/OTPInputPage'))
 
 // Molecules
 const AlertPage        = lazy_page(() => import('./pages/molecules/AlertPage'))
 const CardPage         = lazy_page(() => import('./pages/molecules/CardPage'))
 const FormPage         = lazy_page(() => import('./pages/molecules/FormPage'))
-const SelectPage       = lazy_page(() => import('./pages/molecules/SelectPage'))
 const DropdownMenuPage = lazy_page(() => import('./pages/molecules/DropdownMenuPage'))
 const TabsPage         = lazy_page(() => import('./pages/molecules/TabsPage'))
 const AccordionPage    = lazy_page(() => import('./pages/molecules/AccordionPage'))
@@ -74,7 +80,6 @@ const SheetPage          = lazy_page(() => import('./pages/organisms/SheetPage')
 const DrawerPage         = lazy_page(() => import('./pages/organisms/DrawerPage'))
 const CommandPage        = lazy_page(() => import('./pages/organisms/CommandPage'))
 const TablePage          = lazy_page(() => import('./pages/organisms/TablePage'))
-const CalendarPage       = lazy_page(() => import('./pages/organisms/CalendarPage'))
 const CarouselPage       = lazy_page(() => import('./pages/organisms/CarouselPage'))
 const SidebarPage        = lazy_page(() => import('./pages/organisms/SidebarPage'))
 const NavigationMenuPage = lazy_page(() => import('./pages/organisms/NavigationMenuPage'))
@@ -108,39 +113,57 @@ export const router = createBrowserRouter([
 
       // /components/* → redirect to atomic paths
       { path: 'components/button',   element: <Navigate to="/atoms/button"      replace /> },
-      { path: 'components/input',    element: <Navigate to="/atoms/input"       replace /> },
-      { path: 'components/checkbox', element: <Navigate to="/atoms/checkbox"    replace /> },
-      { path: 'components/switch',   element: <Navigate to="/atoms/switch"      replace /> },
+      { path: 'components/input',    element: <Navigate to="/atoms/form-elements/text-input"       replace /> },
+      { path: 'components/checkbox', element: <Navigate to="/atoms/form-elements/checkbox"    replace /> },
+      { path: 'components/switch',   element: <Navigate to="/atoms/form-elements/toggle"      replace /> },
       { path: 'components/avatar',   element: <Navigate to="/atoms/avatar"      replace /> },
       { path: 'components/badge',    element: <Navigate to="/atoms/badge"       replace /> },
       { path: 'components/alert',    element: <Navigate to="/molecules/alert"   replace /> },
       { path: 'components/card',     element: <Navigate to="/molecules/card"    replace /> },
-      { path: 'components/select',   element: <Navigate to="/molecules/select"  replace /> },
+      { path: 'components/select',   element: <Navigate to="/atoms/form-elements/dropdown"  replace /> },
       { path: 'components/tabs',     element: <Navigate to="/molecules/tabs"    replace /> },
       { path: 'components/tooltip',  element: <Navigate to="/molecules/tooltip" replace /> },
       { path: 'components/modal',    element: <Navigate to="/organisms/dialog"  replace /> },
 
+      // Legacy direct paths → redirect to nested form elements paths
+      { path: 'atoms/input',         element: <Navigate to="/atoms/form-elements/text-input" replace /> },
+      { path: 'atoms/textarea',      element: <Navigate to="/atoms/form-elements/textarea-input" replace /> },
+      { path: 'atoms/checkbox',      element: <Navigate to="/atoms/form-elements/checkbox" replace /> },
+      { path: 'atoms/radio-group',   element: <Navigate to="/atoms/form-elements/radio" replace /> },
+      { path: 'atoms/switch',        element: <Navigate to="/atoms/form-elements/toggle" replace /> },
+      { path: 'atoms/toggle',        element: <Navigate to="/atoms/form-elements/toggle" replace /> },
+      { path: 'atoms/slider',        element: <Navigate to="/atoms/form-elements/drag-slider" replace /> },
+      { path: 'molecules/select',    element: <Navigate to="/atoms/form-elements/dropdown" replace /> },
+      { path: 'organisms/calendar',  element: <Navigate to="/atoms/form-elements/calendar" replace /> },
+
       // Atoms
       { path: 'atoms/button',      Component: ButtonPage },
-      { path: 'atoms/input',       Component: InputPage },
-      { path: 'atoms/textarea',    Component: TextareaPage },
-      { path: 'atoms/checkbox',    Component: CheckboxPage },
-      { path: 'atoms/radio-group', Component: RadioGroupPage },
-      { path: 'atoms/switch',      Component: SwitchPage },
-      { path: 'atoms/toggle',      Component: TogglePage },
-      { path: 'atoms/slider',      Component: SliderPage },
       { path: 'atoms/avatar',      Component: AvatarPage },
       { path: 'atoms/badge',       Component: BadgePage },
       { path: 'atoms/label',       Component: LabelPage },
       { path: 'atoms/separator',   Component: SeparatorPage },
       { path: 'atoms/progress',    Component: ProgressPage },
       { path: 'atoms/skeleton',    Component: SkeletonPage },
+      { path: 'atoms/spinner',     Component: SpinnerPage },
+
+      // Form Elements under Atoms
+      { path: 'atoms/form-elements/text-input',       Component: TextInputPage },
+      { path: 'atoms/form-elements/textarea-input',   Component: TextareaInputPage },
+      { path: 'atoms/form-elements/radio',            Component: RadioPage },
+      { path: 'atoms/form-elements/checkbox',         Component: CheckboxPage },
+      { path: 'atoms/form-elements/dropdown',         Component: DropdownPage },
+      { path: 'atoms/form-elements/searchbar',        Component: SearchbarPage },
+      { path: 'atoms/form-elements/toggle',           Component: TogglePage },
+      { path: 'atoms/form-elements/calendar',         Component: CalendarPage },
+      { path: 'atoms/form-elements/drag-slider',      Component: DragSliderPage },
+      { path: 'atoms/form-elements/list-elements',    Component: ListElementsPage },
+      { path: 'atoms/form-elements/otp-input',        Component: OTPInputPage },
+      { path: 'atoms/form-elements',                  element: <Navigate to="/atoms/form-elements/text-input" replace /> },
 
       // Molecules
       { path: 'molecules/alert',         Component: AlertPage },
       { path: 'molecules/card',          Component: CardPage },
       { path: 'molecules/form',          Component: FormPage },
-      { path: 'molecules/select',        Component: SelectPage },
       { path: 'molecules/dropdown-menu', Component: DropdownMenuPage },
       { path: 'molecules/tabs',          Component: TabsPage },
       { path: 'molecules/accordion',     Component: AccordionPage },
@@ -158,7 +181,6 @@ export const router = createBrowserRouter([
       { path: 'organisms/drawer',          Component: DrawerPage },
       { path: 'organisms/command',         Component: CommandPage },
       { path: 'organisms/table',           Component: TablePage },
-      { path: 'organisms/calendar',        Component: CalendarPage },
       { path: 'organisms/carousel',        Component: CarouselPage },
       { path: 'organisms/sidebar',         Component: SidebarPage },
       { path: 'organisms/navigation-menu', Component: NavigationMenuPage },

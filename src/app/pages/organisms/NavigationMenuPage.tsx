@@ -1,13 +1,8 @@
-import { useState } from 'react'
+import { useState, CSSProperties } from 'react'
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistNavigationMenu } from '@/app/components/custom/kaayo/KayoBrutalistNavigationMenu'
-import {
-  NavigationMenu, NavigationMenuContent, NavigationMenuItem,
-  NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from '@/app/components/ui/navigation-menu'
-import { BookOpen, Code, Users, LayoutDashboard, Search, Settings } from 'lucide-react'
+import { BookOpen, Code, Users, LayoutDashboard, Search } from 'lucide-react'
 
 // ─── Item factories ────────────────────────────────────────────────────────────
 
@@ -85,13 +80,24 @@ function makeManyItems() {
 
 // ─── Right-slot component ──────────────────────────────────────────────────────
 
+const searchBtnStyle: CSSProperties = {
+  padding: '6px 12px', border: '2px solid #3b3d3f', borderRadius: 6,
+  cursor: 'pointer', background: '#fff', display: 'flex', alignItems: 'center',
+  gap: 6, fontFamily: "'DM Sans', system-ui, sans-serif", fontSize: 13,
+}
+const signInBtnStyle: CSSProperties = {
+  padding: '6px 14px', border: '2px solid #970103', borderRadius: 6,
+  cursor: 'pointer', background: '#970103', color: '#fff',
+  fontWeight: 600, fontFamily: "'DM Sans', system-ui, sans-serif", fontSize: 13,
+}
+
 function SearchAndCTA() {
   return (
     <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-      <button style={{ padding: '6px 12px', border: '2px solid #3b3d3f', borderRadius: 6, cursor: 'pointer', background: '#fff', display: 'flex', alignItems: 'center', gap: 6, fontFamily: "'DM Sans', system-ui, sans-serif", fontSize: 13 }}>
+      <button style={searchBtnStyle}>
         <Search size={14} /> Search
       </button>
-      <button style={{ padding: '6px 14px', border: '2px solid #970103', borderRadius: 6, cursor: 'pointer', background: '#970103', color: '#fff', fontWeight: 600, fontFamily: "'DM Sans', system-ui, sans-serif", fontSize: 13 }}>
+      <button style={signInBtnStyle}>
         Sign In
       </button>
     </div>
@@ -100,18 +106,21 @@ function SearchAndCTA() {
 
 // ─── Non-kaayo placeholder ─────────────────────────────────────────────────────
 
-const NonKaayoPlaceholder = (
-  <div style={{ color: '#6b7280', padding: 16, fontFamily: "'DM Sans', system-ui, sans-serif", fontSize: 14 }}>
-    Switch to Kaayo theme to preview
-  </div>
-)
+function NonKaayoPlaceholder() {
+  return (
+    <div style={{ color: '#6b7280', padding: 16, fontFamily: "'DM Sans', system-ui, sans-serif", fontSize: 14 }}>
+      Switch to Kaayo theme to preview
+    </div>
+  )
+}
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export function NavigationMenuPage() {
   const { activeProduct } = useProductTheme()
   const isKaayo = activeProduct === 'kaayo'
-  const [navLog, setNavLog] = useState<string>('')
+  const [navLog, setNavLog] = useState('—')
+  const simpleItems = makeSimpleItems()
 
   return (
     <ComponentPageLayout
@@ -129,7 +138,7 @@ export function NavigationMenuPage() {
             <KayoBrutalistNavigationMenu
               items={makeSimpleItems()}
             />
-          ) : NonKaayoPlaceholder,
+          ) : <NonKaayoPlaceholder />,
           code: {
             react: `<KayoBrutalistNavigationMenu
   items={[
@@ -151,7 +160,7 @@ export function NavigationMenuPage() {
             <KayoBrutalistNavigationMenu
               items={makeDropdownItems()}
             />
-          ) : NonKaayoPlaceholder,
+          ) : <NonKaayoPlaceholder />,
           code: {
             react: `<KayoBrutalistNavigationMenu
   items={[
@@ -179,7 +188,7 @@ export function NavigationMenuPage() {
             <KayoBrutalistNavigationMenu
               items={makeDropdownItems()}
             />
-          ) : NonKaayoPlaceholder,
+          ) : <NonKaayoPlaceholder />,
           code: {
             react: `// Each child has an optional description field
 { label: 'Getting Started', href: '/docs/start', description: 'Set up in 5 minutes' }`,
@@ -195,7 +204,7 @@ export function NavigationMenuPage() {
               items={makeSimpleItems()}
               activeHref="/attendance"
             />
-          ) : NonKaayoPlaceholder,
+          ) : <NonKaayoPlaceholder />,
           code: {
             react: `<KayoBrutalistNavigationMenu
   items={items}
@@ -213,7 +222,7 @@ export function NavigationMenuPage() {
               items={makeSimpleItems().slice(0, 3)}
               rightSlot={<SearchAndCTA />}
             />
-          ) : NonKaayoPlaceholder,
+          ) : <NonKaayoPlaceholder />,
           code: {
             react: `function SearchAndCTA() {
   return (
@@ -237,10 +246,10 @@ export function NavigationMenuPage() {
           description: '2 direct links, 2 dropdown items, and a right slot combined.',
           preview: isKaayo ? (
             <KayoBrutalistNavigationMenu
-              items={[makeSimpleItems()[0], makeSimpleItems()[1], ...makeDropdownItems()]}
+              items={[simpleItems[0], simpleItems[1], ...makeDropdownItems()]}
               rightSlot={<SearchAndCTA />}
             />
-          ) : NonKaayoPlaceholder,
+          ) : <NonKaayoPlaceholder />,
           code: {
             react: `<KayoBrutalistNavigationMenu
   items={[
@@ -273,7 +282,7 @@ export function NavigationMenuPage() {
                 ],
               }]}
             />
-          ) : NonKaayoPlaceholder,
+          ) : <NonKaayoPlaceholder />,
           code: {
             react: `<KayoBrutalistNavigationMenu
   items={[
@@ -298,7 +307,7 @@ export function NavigationMenuPage() {
             <KayoBrutalistNavigationMenu
               items={makeManyItems()}
             />
-          ) : NonKaayoPlaceholder,
+          ) : <NonKaayoPlaceholder />,
           code: {
             react: `// 7 root items: 5 direct links + 2 with dropdowns
 <KayoBrutalistNavigationMenu items={makeManyItems()} />`,
@@ -313,7 +322,7 @@ export function NavigationMenuPage() {
             <KayoBrutalistNavigationMenu
               items={makeIconItems()}
             />
-          ) : NonKaayoPlaceholder,
+          ) : <NonKaayoPlaceholder />,
           code: {
             react: `// icon is on KayoNavMenuChild (not on the root item)
 { label: 'Explore', children: [
@@ -339,7 +348,7 @@ export function NavigationMenuPage() {
                 </p>
               </div>
             </div>
-          ) : NonKaayoPlaceholder,
+          ) : <NonKaayoPlaceholder />,
           code: {
             react: `<div style={{ height: 300, overflowY: 'auto' }}>
   <KayoBrutalistNavigationMenu
@@ -361,7 +370,7 @@ export function NavigationMenuPage() {
             <KayoBrutalistNavigationMenu
               items={makeSimpleItems()}
             />
-          ) : NonKaayoPlaceholder,
+          ) : <NonKaayoPlaceholder />,
           code: {
             react: `// Pass items with no active flags and no activeHref
 <KayoBrutalistNavigationMenu
@@ -387,10 +396,10 @@ export function NavigationMenuPage() {
                 onNavigate={(href) => setNavLog(href)}
               />
               <div style={{ marginTop: 12, fontFamily: "'DM Sans', system-ui, sans-serif", fontSize: 13, color: '#6b7280', paddingLeft: 4 }}>
-                Last navigated to: <code>{navLog || '—'}</code>
+                Last navigated to: <code>{navLog}</code>
               </div>
             </div>
-          ) : NonKaayoPlaceholder,
+          ) : <NonKaayoPlaceholder />,
           code: {
             react: `const [navLog, setNavLog] = useState('')
 

@@ -83,6 +83,8 @@ const TablePage          = lazy_page(() => import('./pages/organisms/TablePage')
 const CarouselPage       = lazy_page(() => import('./pages/organisms/CarouselPage'))
 const SidebarPage        = lazy_page(() => import('./pages/organisms/SidebarPage'))
 const NavigationMenuPage = lazy_page(() => import('./pages/organisms/NavigationMenuPage'))
+const HeaderPage         = lazy_page(() => import('./pages/organisms/HeaderPage'))
+const BottomNavPage      = lazy_page(() => import('./pages/organisms/BottomNavPage'))
 
 // Templates
 const StatGridPage    = lazy_page(() => import('./pages/templates/StatGridPage'))
@@ -184,6 +186,8 @@ export const router = createBrowserRouter([
       { path: 'organisms/carousel',        Component: CarouselPage },
       { path: 'organisms/sidebar',         Component: SidebarPage },
       { path: 'organisms/navigation-menu', Component: NavigationMenuPage },
+      { path: 'organisms/header',          Component: HeaderPage },
+      { path: 'organisms/bottom-nav',      Component: BottomNavPage },
 
       // Templates
       { path: 'templates/stat-grid',    Component: StatGridPage },

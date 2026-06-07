@@ -89,6 +89,8 @@ export const navigation: NavSection[] = [
       { label: 'Command',          path: '/organisms/command',          description: 'Command palette' },
       { label: 'Dialog',           path: '/organisms/dialog',           description: 'Overlay dialogs' },
       { label: 'Drawer',           path: '/organisms/drawer',           description: 'Bottom sheet for mobile' },
+      { label: 'Header',           path: '/organisms/header',           description: 'App top bar with logo, bell and user chip' },
+      { label: 'Bottom Nav',       path: '/organisms/bottom-nav',       description: 'Fixed 5-tab mobile and tablet navigation bar' },
       { label: 'Navigation Menu',  path: '/organisms/navigation-menu',  description: 'Horizontal nav with dropdowns' },
       { label: 'Sheet',            path: '/organisms/sheet',            description: 'Side panel overlay' },
       { label: 'Sidebar',          path: '/organisms/sidebar',          description: 'Primary nav structure' },

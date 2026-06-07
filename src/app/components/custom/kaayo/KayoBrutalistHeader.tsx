@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, ReactNode } from 'react'
+import { useState, useEffect, useRef, ReactNode, CSSProperties } from 'react'
 import { Bell, ChevronDown } from 'lucide-react'
 
 export interface KayoBrutalistHeaderProps {
@@ -306,7 +306,7 @@ export function KayoBrutalistHeader({
     </div>
   )
 
-  const containerStyle: React.CSSProperties = {
+  const containerStyle: CSSProperties = {
     minHeight: '60px',
     borderBottom: '2px solid #3b3d3f',
     backgroundColor: '#ffffff',

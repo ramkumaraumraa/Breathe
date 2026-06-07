@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, ReactNode, CSSProperties } from 'react'
+import { useState, useEffect, ReactNode, CSSProperties } from 'react'
 import { Bell, ChevronDown } from 'lucide-react'
 
 export interface KayoBrutalistHeaderProps {
@@ -30,7 +30,6 @@ export function KayoBrutalistHeader({
   sticky = false,
   pageTitle,
 }: KayoBrutalistHeaderProps) {
-  const containerRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
@@ -180,51 +179,55 @@ export function KayoBrutalistHeader({
     </div>
   )
 
+  function UserChip({ size, user: u }: { size: number; user: { name: string; role: string; initials: string } }) {
+    return (
+      <button
+        className="kayo-header-user-chip"
+        onClick={onUserPress}
+        style={{
+          background: 'none',
+          border: 'none',
+          padding: '4px 8px',
+          cursor: onUserPress ? 'pointer' : 'default',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+        }}
+        aria-label={`User: ${u.name}, ${u.role}`}
+      >
+        {avatarCircle(size)}
+        <span style={{
+          fontFamily: "'DM Sans', system-ui, sans-serif",
+          fontSize: '13px',
+          fontWeight: 600,
+          color: '#3b3d3f',
+        }}>
+          {u.name}
+        </span>
+        <span style={{
+          backgroundColor: '#fff0f0',
+          border: '1px solid #fca5a5',
+          color: '#970103',
+          fontSize: '10px',
+          borderRadius: '4px',
+          paddingInline: '6px',
+          paddingBlock: '2px',
+          fontFamily: "'DM Sans', system-ui, sans-serif",
+          fontWeight: 500,
+          lineHeight: '16px',
+          whiteSpace: 'nowrap',
+        }}>
+          {u.role}
+        </span>
+        <ChevronDown size={14} color="#3b3d3f" strokeWidth={2} />
+      </button>
+    )
+  }
+
   const tabletRight = (
     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
       {bellButton}
-      {user && (
-        <button
-          className="kayo-header-user-chip"
-          onClick={onUserPress}
-          style={{
-            background: 'none',
-            border: 'none',
-            padding: '4px 8px',
-            cursor: onUserPress ? 'pointer' : 'default',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-          }}
-          aria-label={`User: ${user.name}, ${user.role}`}
-        >
-          {avatarCircle(36)}
-          <span style={{
-            fontFamily: "'DM Sans', system-ui, sans-serif",
-            fontSize: '13px',
-            fontWeight: 600,
-            color: '#3b3d3f',
-          }}>
-            {user.name}
-          </span>
-          <span style={{
-            backgroundColor: '#fff0f0',
-            border: '1px solid #fca5a5',
-            color: '#970103',
-            fontSize: '10px',
-            borderRadius: '4px',
-            paddingInline: '6px',
-            paddingBlock: '2px',
-            fontFamily: "'DM Sans', system-ui, sans-serif",
-            fontWeight: 500,
-            lineHeight: '16px',
-            whiteSpace: 'nowrap',
-          }}>
-            {user.role}
-          </span>
-          <ChevronDown size={14} color="#3b3d3f" strokeWidth={2} />
-        </button>
-      )}
+      {user && <UserChip size={36} user={user} />}
     </div>
   )
 
@@ -261,48 +264,7 @@ export function KayoBrutalistHeader({
   const desktopRight = (
     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
       {bellButton}
-      {user && (
-        <button
-          className="kayo-header-user-chip"
-          onClick={onUserPress}
-          style={{
-            background: 'none',
-            border: 'none',
-            padding: '4px 8px',
-            cursor: onUserPress ? 'pointer' : 'default',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-          }}
-          aria-label={`User: ${user.name}, ${user.role}`}
-        >
-          {avatarCircle(36)}
-          <span style={{
-            fontFamily: "'DM Sans', system-ui, sans-serif",
-            fontSize: '13px',
-            fontWeight: 600,
-            color: '#3b3d3f',
-          }}>
-            {user.name}
-          </span>
-          <span style={{
-            backgroundColor: '#fff0f0',
-            border: '1px solid #fca5a5',
-            color: '#970103',
-            fontSize: '10px',
-            borderRadius: '4px',
-            paddingInline: '6px',
-            paddingBlock: '2px',
-            fontFamily: "'DM Sans', system-ui, sans-serif",
-            fontWeight: 500,
-            lineHeight: '16px',
-            whiteSpace: 'nowrap',
-          }}>
-            {user.role}
-          </span>
-          <ChevronDown size={14} color="#3b3d3f" strokeWidth={2} />
-        </button>
-      )}
+      {user && <UserChip size={36} user={user} />}
     </div>
   )
 
@@ -334,7 +296,7 @@ export function KayoBrutalistHeader({
 
   if (variant === 'mobile') {
     return (
-      <header ref={containerRef} className="kayo-header-container" style={containerStyle}>
+      <header className="kayo-header-container" style={containerStyle}>
         {logoSlot}
         {mobileRight}
       </header>
@@ -343,7 +305,7 @@ export function KayoBrutalistHeader({
 
   if (variant === 'tablet') {
     return (
-      <header ref={containerRef} className="kayo-header-container" style={containerStyle}>
+      <header className="kayo-header-container" style={containerStyle}>
         {logoSlot}
         {tabletRight}
       </header>
@@ -352,7 +314,7 @@ export function KayoBrutalistHeader({
 
   // desktop
   return (
-    <header ref={containerRef} className="kayo-header-container" style={{ ...containerStyle, position: sticky ? 'sticky' : 'relative' }}>
+    <header className="kayo-header-container" style={{ ...containerStyle, position: sticky ? 'sticky' : 'relative' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '24px', flex: '1 1 0', minWidth: 0 }}>
         {logoSlot}
         {desktopNav}

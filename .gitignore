@@ -1,5 +1,5 @@
 node_modules/
-dist/
+/dist/
 .DS_Store
 *.local
 .env
@@ -10,6 +10,4 @@ dist/
 .playwright-mcp/
 *.png
 
-# Vite build output (keep tokens/dist tracked separately)
-dist/
 .vercel

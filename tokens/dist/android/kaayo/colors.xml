@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Do not edit directly, this file was auto-generated.
+-->
+<resources>
+  <color name="kayo_color_primary">#ff970103</color>
+  <color name="kayo_color_primary_light">#ffe14144</color>
+  <color name="kayo_color_primary_dark">#ff570001</color>
+  <color name="kayo_color_primary_foreground">#ffffffff</color>
+  <color name="kayo_color_secondary">#fffda581</color>
+  <color name="kayo_color_secondary_foreground">#ffffffff</color>
+  <color name="kayo_color_tertiary">#ff37415c</color>
+  <color name="kayo_color_tertiary_foreground">#ffffffff</color>
+  <color name="kayo_color_background">#ffffffff</color>
+  <color name="kayo_color_background_secondary">#fff9fafb</color>
+  <color name="kayo_color_foreground">#ff3b3d3f</color>
+  <color name="kayo_color_foreground_secondary">#ff6c6d70</color>
+  <color name="kayo_color_border">#ff3b3d3f</color>
+  <color name="kayo_color_positive">#ff16a34a</color>
+  <color name="kayo_color_positive_foreground">#ffffffff</color>
+  <color name="kayo_color_negative">#ffdc2626</color>
+  <color name="kayo_color_negative_foreground">#ffffffff</color>
+  <color name="kayo_color_warning">#fff59e0b</color>
+  <color name="kayo_color_gradient_start">#ff970103</color>
+  <color name="kayo_color_gradient_end">#fffda581</color>
+</resources>

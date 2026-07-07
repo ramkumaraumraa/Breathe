@@ -7,7 +7,7 @@ import {
   InputOTPGroup,
   InputOTPSeparator,
   InputOTPSlot,
-} from '@/app/components/ui/input-otp'
+} from '@/app/components/atoms/form-elements/input-otp'
 
 export function OTPInputPage() {
   const { activeProduct } = useProductTheme()

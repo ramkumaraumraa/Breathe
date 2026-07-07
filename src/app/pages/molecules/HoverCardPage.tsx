@@ -3,9 +3,9 @@ import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from '@/app/components/ui/hover-card'
-import { Avatar, AvatarFallback } from '@/app/components/ui/avatar'
-import { Button } from '@/app/components/ui/button'
+} from '@/app/components/molecules/hover-card'
+import { Avatar, AvatarFallback } from '@/app/components/atoms/avatar'
+import { Button } from '@/app/components/atoms/button'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistHoverCard } from '@/app/components/custom/kaayo/KayoBrutalistHoverCard'
 import { KayoBrutalistAvatar } from '@/app/components/custom/kaayo/KayoBrutalistAvatar'

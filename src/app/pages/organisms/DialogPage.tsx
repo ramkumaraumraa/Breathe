@@ -10,10 +10,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/app/components/ui/dialog'
-import { Button } from '@/app/components/ui/button'
-import { Input } from '@/app/components/ui/input'
-import { Label } from '@/app/components/ui/label'
+} from '@/app/components/organisms/dialog'
+import { Button } from '@/app/components/atoms/button'
+import { Input } from '@/app/components/atoms/form-elements/input'
+import { Label } from '@/app/components/atoms/label'
 
 const triggerBtn = (label: string, onClick: () => void) => (
   <button

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Badge } from '../../components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
+import { Badge } from '@/app/components/atoms/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/molecules/tabs';
 import { CodeBlock } from '../../components/shared/CodeBlock';
 import { PageHeader } from '../../components/shared/PageHeader';
 import { PageNavigation } from '../../components/shared/PageNavigation';

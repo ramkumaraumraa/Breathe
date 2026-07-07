@@ -1,5 +1,5 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { Input } from '@/app/components/ui/input'
+import { Input } from '@/app/components/atoms/form-elements/input'
 import { Search, X } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { useProductTheme } from '@/app/context/ProductThemeContext'

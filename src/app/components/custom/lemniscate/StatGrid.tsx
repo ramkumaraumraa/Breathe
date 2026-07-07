@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { cn } from '@/app/components/ui/utils'
+import { cn } from '@/app/components/shared/utils'
 
 /**
  * Responsive grid layouts used across stat card sections.

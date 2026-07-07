@@ -1,5 +1,5 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/app/components/ui/accordion'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/app/components/molecules/accordion'
 import { FileText, Settings, Bell, CreditCard, Users } from 'lucide-react'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistAccordion } from '@/app/components/custom/kaayo/KayoBrutalistAccordion'

@@ -1,5 +1,5 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { Separator } from '@/app/components/ui/separator'
+import { Separator } from '@/app/components/atoms/separator'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 
 export function SeparatorPage() {

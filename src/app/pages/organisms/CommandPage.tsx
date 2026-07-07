@@ -5,7 +5,7 @@ import { KayoBrutalistCommand } from '@/app/components/custom/kaayo/KayoBrutalis
 import {
   Command, CommandEmpty, CommandGroup, CommandInput,
   CommandItem, CommandList, CommandSeparator,
-} from '@/app/components/ui/command'
+} from '@/app/components/organisms/command'
 import { LayoutDashboard, Users, CreditCard, Settings, Plus, Search, FileText, Archive, Bell } from 'lucide-react'
 
 // ─── Group factories ──────────────────────────────────────────────────────────

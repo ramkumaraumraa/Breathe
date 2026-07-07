@@ -1,8 +1,8 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { Switch } from '@/app/components/ui/switch'
-import { Label } from '@/app/components/ui/label'
-import { Toggle } from '@/app/components/ui/toggle'
-import { ToggleGroup, ToggleGroupItem } from '@/app/components/ui/toggle-group'
+import { Switch } from '@/app/components/atoms/form-elements/switch'
+import { Label } from '@/app/components/atoms/label'
+import { Toggle } from '@/app/components/atoms/form-elements/toggle'
+import { ToggleGroup, ToggleGroupItem } from '@/app/components/atoms/form-elements/toggle-group'
 
 export function TogglePage() {
   return (

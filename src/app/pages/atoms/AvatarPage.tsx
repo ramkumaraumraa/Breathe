@@ -1,5 +1,5 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { Avatar, AvatarFallback, AvatarImage } from '@/app/components/ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@/app/components/atoms/avatar'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistAvatar } from '@/app/components/custom/kaayo/KayoBrutalistAvatar'
 

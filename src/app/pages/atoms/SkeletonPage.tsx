@@ -1,5 +1,5 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { Skeleton } from '@/app/components/ui/skeleton'
+import { Skeleton } from '@/app/components/atoms/skeleton'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistSkeleton } from '@/app/components/custom/kaayo/KayoBrutalistSkeleton'
 

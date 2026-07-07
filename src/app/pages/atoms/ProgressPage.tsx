@@ -1,5 +1,5 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { Progress } from '@/app/components/ui/progress'
+import { Progress } from '@/app/components/atoms/progress'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistProgress } from '@/app/components/custom/kaayo/KayoBrutalistProgress'
 

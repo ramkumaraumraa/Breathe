@@ -1,5 +1,5 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/molecules/tabs'
 import { BarChart2, Settings, Eye, Bell, Users, FileText } from 'lucide-react'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistTabs } from '@/app/components/custom/kaayo/KayoBrutalistTabs'

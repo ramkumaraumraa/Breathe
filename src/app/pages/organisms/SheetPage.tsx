@@ -2,13 +2,13 @@ import { useState } from 'react'
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistSheet } from '@/app/components/custom/kaayo/KayoBrutalistSheet'
-import { Button } from '@/app/components/ui/button'
+import { Button } from '@/app/components/atoms/button'
 import {
   Sheet, SheetContent, SheetDescription,
   SheetHeader, SheetTitle, SheetTrigger, SheetFooter, SheetClose,
-} from '@/app/components/ui/sheet'
-import { Input } from '@/app/components/ui/input'
-import { Label } from '@/app/components/ui/label'
+} from '@/app/components/organisms/sheet'
+import { Input } from '@/app/components/atoms/form-elements/input'
+import { Label } from '@/app/components/atoms/label'
 
 const triggerBtn: React.CSSProperties = {
   padding: '8px 16px',

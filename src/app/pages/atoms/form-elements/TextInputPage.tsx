@@ -1,6 +1,6 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { Input } from '@/app/components/ui/input'
-import { Label } from '@/app/components/ui/label'
+import { Input } from '@/app/components/atoms/form-elements/input'
+import { Label } from '@/app/components/atoms/label'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistInput } from '@/app/components/custom/kaayo/KayoBrutalistInput'
 

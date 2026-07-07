@@ -6,7 +6,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage as BreadcrumbCurrentPage,
   BreadcrumbSeparator,
-} from '@/app/components/ui/breadcrumb'
+} from '@/app/components/molecules/breadcrumb'
 import { Home } from 'lucide-react'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistBreadcrumb } from '@/app/components/custom/kaayo/KayoBrutalistBreadcrumb'

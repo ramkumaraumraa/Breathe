@@ -4,9 +4,9 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '@/app/components/ui/collapsible'
-import { Avatar, AvatarFallback } from '@/app/components/ui/avatar'
-import { Button } from '@/app/components/ui/button'
+} from '@/app/components/molecules/collapsible'
+import { Avatar, AvatarFallback } from '@/app/components/atoms/avatar'
+import { Button } from '@/app/components/atoms/button'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistCollapsible } from '@/app/components/custom/kaayo/KayoBrutalistCollapsible'
 import { KayoBrutalistAvatar } from '@/app/components/custom/kaayo/KayoBrutalistAvatar'

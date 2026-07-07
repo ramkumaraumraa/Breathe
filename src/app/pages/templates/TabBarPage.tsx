@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { TabBar } from '@/app/components/custom/template/TabBar'
+import { TabBar } from '@/app/components/templates/TabBar'
 
 export function TabBarPage() {
   return (

@@ -1,5 +1,5 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { Slider } from '@/app/components/ui/slider'
+import { Slider } from '@/app/components/atoms/form-elements/slider'
 import { useState } from 'react'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistSlider, KayoBrutalistRangeSlider } from '@/app/components/custom/kaayo/KayoBrutalistSlider'

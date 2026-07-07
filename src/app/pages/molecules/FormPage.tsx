@@ -1,15 +1,15 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { Label } from '@/app/components/ui/label'
-import { Input } from '@/app/components/ui/input'
-import { Textarea } from '@/app/components/ui/textarea'
-import { Button } from '@/app/components/ui/button'
+import { Label } from '@/app/components/atoms/label'
+import { Input } from '@/app/components/atoms/form-elements/input'
+import { Textarea } from '@/app/components/atoms/form-elements/textarea'
+import { Button } from '@/app/components/atoms/button'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/app/components/ui/select'
+} from '@/app/components/atoms/form-elements/select'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import {
   KayoBrutalistForm,

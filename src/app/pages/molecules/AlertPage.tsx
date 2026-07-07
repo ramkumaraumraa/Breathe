@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { Alert, AlertDescription, AlertTitle } from '@/app/components/ui/alert'
+import { Alert, AlertDescription, AlertTitle } from '@/app/components/molecules/alert'
 import { Terminal, AlertTriangle, Info, CheckCircle2, XCircle } from 'lucide-react'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistAlert } from '@/app/components/custom/kaayo/KayoBrutalistAlert'

@@ -1,6 +1,6 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { RadioGroup, RadioGroupItem } from '@/app/components/ui/radio-group'
-import { Label } from '@/app/components/ui/label'
+import { RadioGroup, RadioGroupItem } from '@/app/components/atoms/form-elements/radio-group'
+import { Label } from '@/app/components/atoms/label'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistRadioGroup } from '@/app/components/custom/kaayo/KayoBrutalistRadioGroup'
 

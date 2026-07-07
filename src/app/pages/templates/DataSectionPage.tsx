@@ -1,5 +1,5 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { DataSection } from '@/app/components/custom/template/DataSection'
+import { DataSection } from '@/app/components/templates/DataSection'
 
 export function DataSectionPage() {
   return (

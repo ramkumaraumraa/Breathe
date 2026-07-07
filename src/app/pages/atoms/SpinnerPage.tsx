@@ -2,7 +2,7 @@ import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistSpinner } from '@/app/components/custom/kaayo/KayoBrutalistSpinner'
 import { Loader2 } from 'lucide-react'
-import { cn } from '@/app/components/ui/utils'
+import { cn } from '@/app/components/shared/utils'
 
 function Spinner({ size = 'md', className }: { size?: 'sm' | 'md' | 'lg'; className?: string }) {
   const sizeClass = { sm: 'h-4 w-4', md: 'h-6 w-6', lg: 'h-9 w-9' }[size]

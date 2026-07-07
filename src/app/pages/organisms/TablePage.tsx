@@ -5,9 +5,9 @@ import { KayoBrutalistDataTable, KayoTableColumn } from '@/app/components/custom
 import {
   Table, TableBody, TableCell, TableHead,
   TableHeader, TableRow,
-} from '@/app/components/ui/table'
-import { Badge } from '@/app/components/ui/badge'
-import { Button } from '@/app/components/ui/button'
+} from '@/app/components/organisms/table'
+import { Badge } from '@/app/components/atoms/badge'
+import { Button } from '@/app/components/atoms/button'
 
 // ─── Module-level data ────────────────────────────────────────────────────────
 

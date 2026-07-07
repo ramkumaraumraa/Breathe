@@ -1,5 +1,5 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { Button } from '@/app/components/ui/button'
+import { Button } from '@/app/components/atoms/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,7 +7,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/app/components/ui/dropdown-menu'
+} from '@/app/components/molecules/dropdown-menu'
 import {
   Eye, Edit, Trash2, Copy, Download, Share2, Settings,
   MoreHorizontal, Bell, User, FileText, LogOut,

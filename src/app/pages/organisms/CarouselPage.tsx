@@ -4,8 +4,8 @@ import { KayoBrutalistCarousel } from '@/app/components/custom/kaayo/KayoBrutali
 import {
   Carousel, CarouselContent, CarouselItem,
   CarouselNext, CarouselPrevious,
-} from '@/app/components/ui/carousel'
-import { Card, CardContent } from '@/app/components/ui/card'
+} from '@/app/components/organisms/carousel'
+import { Card, CardContent } from '@/app/components/molecules/card'
 
 // ─── Module-level helpers ────────────────────────────────────────────────────
 

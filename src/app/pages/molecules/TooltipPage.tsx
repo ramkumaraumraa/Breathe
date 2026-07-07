@@ -4,8 +4,8 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/app/components/ui/tooltip'
-import { Button } from '@/app/components/ui/button'
+} from '@/app/components/molecules/tooltip'
+import { Button } from '@/app/components/atoms/button'
 import { HelpCircle, Info, ArrowUp, ArrowRight, ArrowDown, ArrowLeft } from 'lucide-react'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistTooltip } from '@/app/components/custom/kaayo/KayoBrutalistTooltip'

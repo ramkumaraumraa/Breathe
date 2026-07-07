@@ -1,6 +1,6 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { ScrollArea } from '@/app/components/ui/scroll-area'
-import { Separator } from '@/app/components/ui/separator'
+import { ScrollArea } from '@/app/components/molecules/scroll-area'
+import { Separator } from '@/app/components/atoms/separator'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistScrollArea } from '@/app/components/custom/kaayo/KayoBrutalistScrollArea'
 

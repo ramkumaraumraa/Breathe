@@ -1,13 +1,13 @@
 import { ReactNode } from 'react'
 import { Plus } from 'lucide-react'
-import { Button } from '@/app/components/ui/button'
+import { Button } from '@/app/components/atoms/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/app/components/ui/dropdown-menu'
-import { cn } from '@/app/components/ui/utils'
+} from '@/app/components/molecules/dropdown-menu'
+import { cn } from '@/app/components/shared/utils'
 
 export interface FabAction {
   label: string

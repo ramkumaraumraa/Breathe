@@ -1,5 +1,5 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { Badge } from '@/app/components/ui/badge'
+import { Badge } from '@/app/components/atoms/badge'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistBadge } from '@/app/components/custom/kaayo/KayoBrutalistBadge'
 

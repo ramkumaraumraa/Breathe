@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect, vi } from 'vitest'
-import { Button } from '@/app/components/ui/button'
+import { Button } from '@/app/components/atoms/button'
 
 describe('Button', () => {
   it('renders with default variant classes', () => {

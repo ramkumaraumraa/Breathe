@@ -1,5 +1,5 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { Button } from '@/app/components/ui/button'
+import { Button } from '@/app/components/atoms/button'
 import { ArrowRight, Download, Send, Sparkles, Trash2 } from 'lucide-react'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistButton } from '@/app/components/custom/kaayo/KayoBrutalistButton'

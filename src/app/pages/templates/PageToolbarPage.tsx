@@ -1,7 +1,7 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { PageToolbar } from '@/app/components/custom/template/PageToolbar'
-import { Button } from '@/app/components/ui/button'
-import { TabBar } from '@/app/components/custom/template/TabBar'
+import { PageToolbar } from '@/app/components/templates/PageToolbar'
+import { Button } from '@/app/components/atoms/button'
+import { TabBar } from '@/app/components/templates/TabBar'
 
 export function PageToolbarPage() {
   return (

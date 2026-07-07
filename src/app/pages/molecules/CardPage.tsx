@@ -1,6 +1,6 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/app/components/ui/card'
-import { Button } from '@/app/components/ui/button'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/app/components/molecules/card'
+import { Button } from '@/app/components/atoms/button'
 import { Pencil } from 'lucide-react'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import {

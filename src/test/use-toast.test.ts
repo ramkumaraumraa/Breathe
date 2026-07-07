@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { reducer } from '@/app/components/ui/use-toast'
+import { reducer } from '@/app/components/molecules/use-toast'
 
 const makeToast = (id: string) => ({
   id,

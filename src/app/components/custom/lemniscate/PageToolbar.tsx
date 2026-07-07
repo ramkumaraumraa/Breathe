@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { cn } from '@/app/components/ui/utils'
+import { cn } from '@/app/components/shared/utils'
 
 interface PageToolbarProps {
   /** Left slot: filters, period tabs, date selectors */

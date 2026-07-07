@@ -1,12 +1,12 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { Calendar } from '@/app/components/ui/calendar'
+import { Calendar } from '@/app/components/atoms/form-elements/calendar'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/app/components/ui/select'
+} from '@/app/components/atoms/form-elements/select'
 import { useState } from 'react'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 

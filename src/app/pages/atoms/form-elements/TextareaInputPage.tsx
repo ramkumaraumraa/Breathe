@@ -1,6 +1,6 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { Textarea } from '@/app/components/ui/textarea'
-import { Label } from '@/app/components/ui/label'
+import { Textarea } from '@/app/components/atoms/form-elements/textarea'
+import { Label } from '@/app/components/atoms/label'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistTextarea } from '@/app/components/custom/kaayo/KayoBrutalistTextarea'
 

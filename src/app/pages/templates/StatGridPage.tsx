@@ -1,6 +1,6 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { StatGrid } from '@/app/components/custom/template/StatGrid'
-import { Card, CardContent, CardHeader, CardTitle } from '@/app/components/ui/card'
+import { StatGrid } from '@/app/components/templates/StatGrid'
+import { Card, CardContent, CardHeader, CardTitle } from '@/app/components/molecules/card'
 
 function StatCard({ label, value }: { label: string; value: string }) {
   return (

@@ -1,6 +1,6 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { Checkbox } from '@/app/components/ui/checkbox'
-import { Label } from '@/app/components/ui/label'
+import { Checkbox } from '@/app/components/atoms/form-elements/checkbox'
+import { Label } from '@/app/components/atoms/label'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistCheckbox } from '@/app/components/custom/kaayo/KayoBrutalistCheckbox'
 

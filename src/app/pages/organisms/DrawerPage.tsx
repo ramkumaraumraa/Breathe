@@ -2,11 +2,11 @@ import { useState } from 'react'
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistDrawer } from '@/app/components/custom/kaayo/KayoBrutalistDrawer'
-import { Button } from '@/app/components/ui/button'
+import { Button } from '@/app/components/atoms/button'
 import {
   Drawer, DrawerClose, DrawerContent, DrawerDescription,
   DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger,
-} from '@/app/components/ui/drawer'
+} from '@/app/components/organisms/drawer'
 
 const triggerBtn = (onClick: () => void, label = 'Open Drawer') => (
   <button

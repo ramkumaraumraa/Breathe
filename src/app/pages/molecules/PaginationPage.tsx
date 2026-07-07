@@ -8,7 +8,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@/app/components/ui/pagination'
+} from '@/app/components/molecules/pagination'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistPagination } from '@/app/components/custom/kaayo/KayoBrutalistPagination'
 

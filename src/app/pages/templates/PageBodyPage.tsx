@@ -1,5 +1,5 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { PageBody } from '@/app/components/custom/template/PageBody'
+import { PageBody } from '@/app/components/templates/PageBody'
 
 export function PageBodyPage() {
   return (

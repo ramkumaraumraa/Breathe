@@ -9,6 +9,7 @@ import {
 } from '@/app/components/atoms/form-elements/select'
 import { useState } from 'react'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
+import { KayoBrutalistDateField, KayoBrutalistDateNav } from '@aumraa/breathe-react/kaayo'
 
 function KayoCalendarWrapper({ children }: { children: React.ReactNode }) {
   return (
@@ -365,6 +366,67 @@ import { TimePicker } from '@kaayo/components/atoms/TimePicker'
 // Dropdown border: 2px, borderColor theme.border.strong
 // Selected time text: color theme.brand.primary (#970103)
 // Container shadow: kayoShadow.md → '4px 4px 0 #191b1f'`,
+          },
+        },
+        {
+          title: 'Date Field (Kaayo Sub-Component)',
+          description: 'Specialized form trigger for date selection modals and pickers.',
+          preview: (
+            <div className="w-full max-w-sm">
+              <KayoBrutalistDateField
+                label="Tuition Start Date"
+                value="March 15, 2026"
+                onClick={() => alert('Open date picker modal')}
+              />
+            </div>
+          ),
+          code: {
+            react: `import { KayoBrutalistDateField } from '@aumraa/breathe-react/kaayo'
+
+<KayoBrutalistDateField
+  label="Tuition Start Date"
+  value="March 15, 2026"
+  onClick={() => openPicker()}
+/>`,
+            reactNative: `import { DateField } from '@kaayo/components/molecules/DateField'
+
+<DateField
+  label="Tuition Start Date"
+  value="March 15, 2026"
+  onPress={() => openPicker()}
+/>`,
+          },
+        },
+        {
+          title: 'Date Navigation (Kaayo Sub-Component)',
+          description: 'Stepper controls for moving between days or months in attendance and ledger logs.',
+          preview: (
+            <div className="w-full max-w-sm flex items-center justify-center p-4 bg-slate-50 rounded-lg">
+              <KayoBrutalistDateNav
+                currentDateText="March 2026"
+                onPrev={() => alert('Previous Month')}
+                onNext={() => alert('Next Month')}
+                onOpenPicker={() => alert('Open Month Selector')}
+              />
+            </div>
+          ),
+          code: {
+            react: `import { KayoBrutalistDateNav } from '@aumraa/breathe-react/kaayo'
+
+<KayoBrutalistDateNav
+  currentDateText="March 2026"
+  onPrev={handlePrev}
+  onNext={handleNext}
+  onOpenPicker={openPicker}
+/>`,
+            reactNative: `import { DateNav } from '@kaayo/components/molecules/DateNav'
+
+<DateNav
+  currentDateText="March 2026"
+  onPrev={handlePrev}
+  onNext={handleNext}
+  onOpenPicker={openPicker}
+/>`,
           },
         },
       ]}

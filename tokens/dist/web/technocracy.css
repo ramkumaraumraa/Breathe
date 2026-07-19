@@ -306,47 +306,43 @@
   --duration-fast: 100ms;
   --duration-normal: 200ms;
   --duration-slow: 300ms;
-  --thcy-color-primary: #6d28d9; /** Violet-500 — dark dashboard interactive primary */
-  --thcy-color-primary-light: #8b5cf6;
-  --thcy-color-primary-dark: #5b21b6;
-  --thcy-color-primary-foreground: #ffffff;
-  --thcy-color-secondary: #4338ca; /** Indigo-500 — secondary accent */
-  --thcy-color-secondary-foreground: #ffffff;
-  --thcy-color-tertiary: #4f46e5;
+  --thcy-color-primary: #00dc82; /** Emerald green — active dashboard primary indicator */
+  --thcy-color-primary-light: rgba(0, 220, 130, 0.15);
+  --thcy-color-primary-dark: #00b368;
+  --thcy-color-primary-foreground: #02130d;
+  --thcy-color-brand: #e0575a; /** Crimson red — brand highlight */
+  --thcy-color-secondary: rgba(255, 255, 255, 0.04); /** Glass surface secondary button */
+  --thcy-color-secondary-foreground: #f2f5fa;
+  --thcy-color-tertiary: #8b94a7;
   --thcy-color-tertiary-foreground: #ffffff;
-  --thcy-color-positive: #16a34a;
-  --thcy-color-positive-foreground: #ffffff;
-  --thcy-color-negative: #dc2626;
-  --thcy-color-negative-foreground: #ffffff;
-  --thcy-color-background: #0d1117; /** Near-black — deepest dashboard surface */
-  --thcy-color-background-secondary: #111827;
-  --thcy-color-background-tertiary: #1f2937;
-  --thcy-color-sidebar: #080c12; /** Absolute dark sidebar rail */
-  --thcy-color-sidebar-foreground: #f3f4f6;
-  --thcy-color-foreground: #f9fafb;
-  --thcy-color-foreground-secondary: #9ca3af;
-  --thcy-color-foreground-tertiary: #6b7280;
-  --thcy-color-border: #1f2937;
-  --thcy-color-border-hover: #374151;
-  --thcy-color-success: #16a34a;
-  --thcy-color-warning: #f59e0b;
-  --thcy-color-danger: #dc2626;
-  --thcy-color-info: #40aad4;
-  --thcy-font-family: 'Fira Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /** Technocracy brand typeface */
-  --thcy-font-family-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
-  --thcy-font-size-base: 14px; /** 14px - denser admin UI */
+  --thcy-color-background: #04060f; /** Obsidian dark — deepest dashboard surface */
+  --thcy-color-background-secondary: #0b0e18; /** Panel surface background */
+  --thcy-color-glass: rgba(255, 255, 255, 0.04); /** Glass card background */
+  --thcy-color-sidebar: rgba(4, 6, 15, 0.72); /** Glass dark sidebar rail */
+  --thcy-color-sidebar-foreground: #8b94a7;
+  --thcy-color-foreground: #f2f5fa;
+  --thcy-color-foreground-secondary: #8b94a7;
+  --thcy-color-foreground-tertiary: #596174;
+  --thcy-color-border: rgba(255, 255, 255, 0.11);
+  --thcy-color-border-strong: rgba(255, 255, 255, 0.22);
+  --thcy-color-signal-green: #00dc82;
+  --thcy-color-signal-amber: #f0a30a;
+  --thcy-color-signal-red: #ff4444;
+  --thcy-color-signal-blue: #4da6ff;
+  --thcy-color-signal-muted: #8b94a7;
+  --thcy-font-family: 'Source Code Pro', ui-monospace, SFMono-Regular, Consolas, monospace; /** Technocracy telemetry monospace font */
+  --thcy-font-size-base: 14px; /** 13px/14px - dense telemetry admin */
   --thcy-font-weight-body: 400;
-  --thcy-font-weight-heading: 500;
+  --thcy-font-weight-heading: 700;
   --thcy-spacing-page-padding: 24px;
-  --thcy-spacing-card-padding: 16px; /** Tighter than Lemniscate */
+  --thcy-spacing-card-padding: 20px;
   --thcy-spacing-section-gap: 24px;
-  --thcy-radius-default: 8px;
-  --thcy-radius-sm: 4px;
-  --thcy-radius-lg: 10px;
-  --thcy-shadow-card: 0 1px 2px rgba(0,0,0,0.05);
-  --thcy-shadow-modal: 0 20px 25px rgba(0,0,0,0.10), 0 10px 10px rgba(0,0,0,0.04);
-  --thcy-shadow-dropdown: 0 10px 15px rgba(0,0,0,0.10), 0 4px 6px rgba(0,0,0,0.05);
-  --thcy-icon-sm: 16px; /** 16px default for dense UI */
+  --thcy-radius-default: 16px; /** 16px rounded glass cards */
+  --thcy-radius-sm: 8px;
+  --thcy-radius-lg: 16px;
+  --thcy-shadow-card: inset 0 1px rgba(255,255,255,0.04);
+  --thcy-shadow-modal: 0 24px 80px rgba(0,0,0,0.5);
+  --thcy-icon-sm: 16px;
   --thcy-icon-md: 20px;
   --thcy-icon-lg: 24px;
 }

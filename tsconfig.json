@@ -16,6 +16,15 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "paths": {
+      "@/app/components/atoms/*": ["./packages/react/src/atoms/*"],
+      "@/app/components/molecules/*": ["./packages/react/src/molecules/*"],
+      "@/app/components/organisms/*": ["./packages/react/src/organisms/*"],
+      "@/app/components/templates/*": ["./packages/react/src/templates/*"],
+      "@/app/components/templates": ["./packages/react/src/templates/index.ts"],
+      "@/app/components/custom/kaayo/*": ["./packages/react/src/kaayo/*"],
+      "@aumraa/breathe-react/kaayo": ["./packages/react/src/kaayo/index.ts"],
+      "@aumraa/breathe-react/technocracy": ["./packages/react/src/technocracy/index.ts"],
+      "@aumraa/breathe-react/*": ["./packages/react/src/*"],
       "@/*": ["./src/*"]
     },
     "types": ["vite/client"]

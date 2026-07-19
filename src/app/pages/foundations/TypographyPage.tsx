@@ -116,29 +116,29 @@ const brands: BrandTypography[] = [
   {
     id: 'technocracy',
     label: 'Technocracy',
-    tagline: 'Admin dashboard — dense, technical, data-forward',
-    displayFont: { name: 'Fira Sans', token: '--font-display', use: 'Headings & UI Labels', cssValue: "'Fira Sans', sans-serif", googleFont: 'Fira+Sans:wght@400;500;600;700' },
-    bodyFont: { name: 'Fira Sans', token: '--font-sans', use: 'Body, Data Tables & Dense UI', cssValue: "'Fira Sans', sans-serif" },
-    monoFont: { name: 'Fira Code', token: '--font-mono', use: 'Code, Terminals & Log Views', cssValue: "'Fira Code', 'JetBrains Mono', monospace", googleFont: 'Fira+Code:wght@400;500' },
-    scale: makeScale({ name: 'Fira Sans', token: '', use: '', cssValue: '' }, { name: 'Fira Sans', token: '', use: '', cssValue: '' }, true),
-    characterSample: 'Aa Bb Cc 0123',
-    accentColor: '#8B5CF6',
-    bgColor: '#0D1117',
+    tagline: 'Admin OS & Telemetry — permanent dark mode, monospace telemetry font',
+    displayFont: { name: 'Source Code Pro', token: '--font-display', use: 'Headings, Metrics & Control Panel', cssValue: "'Source Code Pro', ui-monospace, monospace", googleFont: 'Source+Code+Pro:wght@400;500;600;700' },
+    bodyFont: { name: 'Source Code Pro', token: '--font-sans', use: 'Telemetry Data, Tables & Terminal UI', cssValue: "'Source Code Pro', ui-monospace, monospace" },
+    monoFont: { name: 'Source Code Pro', token: '--font-mono', use: 'System Diagnostic Logs & Monospace Data', cssValue: "'Source Code Pro', ui-monospace, monospace", googleFont: 'Source+Code+Pro:wght@400;500' },
+    scale: makeScale({ name: 'Source Code Pro', token: '', use: '', cssValue: '' }, { name: 'Source Code Pro', token: '', use: '', cssValue: '' }, true),
+    characterSample: 'Aa Bb Cc 0123 [LIVE]',
+    accentColor: '#00dc82',
+    bgColor: '#04060f',
     isDark: true,
     cssSnippet: `/* Technocracy — font tokens */
-@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500;600;700&display=swap');
 
 :root {
-  --font-display: 'Fira Sans', sans-serif;
-  --font-sans:    'Fira Sans', sans-serif;
-  --font-mono:    'Fira Code', 'JetBrains Mono', monospace;
+  --font-display: 'Source Code Pro', ui-monospace, monospace;
+  --font-sans:    'Source Code Pro', ui-monospace, monospace;
+  --font-mono:    'Source Code Pro', ui-monospace, monospace;
 
-  /* Dense admin sizing — base 14px */
-  --font-size-base: 0.875rem;
+  /* Dense telemetry sizing — base 13px */
+  --font-size-base: 0.8125rem;
 }
 
-.heading { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.01em; }
-.body    { font-family: var(--font-sans);    font-size: 0.875rem; }`,
+.heading { font-family: var(--font-display); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.body    { font-family: var(--font-sans);    font-size: 0.8125rem; }`,
   },
   {
     id: 'maligai',

@@ -1,57 +1,53 @@
 {
   "thcy": {
     "color": {
-      "primary": { "value": "{color.violet.500}", "type": "color", "comment": "Violet-500 — dark dashboard interactive primary" },
-      "primaryLight": { "value": "{color.violet.300}", "type": "color" },
-      "primaryDark": { "value": "{color.violet.600}", "type": "color" },
-      "primaryForeground": { "value": "{color.neutral.white}", "type": "color" },
-      "secondary": { "value": "{color.indigo.500}", "type": "color", "comment": "Indigo-500 — secondary accent" },
-      "secondaryForeground": { "value": "{color.neutral.white}", "type": "color" },
-      "tertiary": { "value": "{color.indigo.400}", "type": "color" },
-      "tertiaryForeground": { "value": "{color.neutral.white}", "type": "color" },
-      "positive": { "value": "{color.status.success}", "type": "color" },
-      "positiveForeground": { "value": "{color.neutral.white}", "type": "color" },
-      "negative": { "value": "{color.status.danger}", "type": "color" },
-      "negativeForeground": { "value": "{color.neutral.white}", "type": "color" },
-      "background": { "value": "{color.neutral.950}", "type": "color", "comment": "Near-black — deepest dashboard surface" },
-      "backgroundSecondary": { "value": "{color.neutral.900}", "type": "color" },
-      "backgroundTertiary": { "value": "{color.neutral.800}", "type": "color" },
-      "sidebar": { "value": "{color.neutral.1000}", "type": "color", "comment": "Absolute dark sidebar rail" },
-      "sidebarForeground": { "value": "{color.neutral.100}", "type": "color" },
-      "foreground": { "value": "{color.neutral.50}", "type": "color" },
-      "foregroundSecondary": { "value": "{color.neutral.400}", "type": "color" },
-      "foregroundTertiary": { "value": "{color.neutral.500}", "type": "color" },
-      "border": { "value": "{color.neutral.800}", "type": "color" },
-      "borderHover": { "value": "{color.neutral.700}", "type": "color" },
-      "success": { "value": "{color.status.success}", "type": "color" },
-      "warning": { "value": "{color.status.warning}", "type": "color" },
-      "danger": { "value": "{color.status.danger}", "type": "color" },
-      "info": { "value": "{color.status.info}", "type": "color" }
+      "primary": { "value": "#00dc82", "type": "color", "comment": "Emerald green — active dashboard primary indicator" },
+      "primaryLight": { "value": "rgba(0, 220, 130, 0.15)", "type": "color" },
+      "primaryDark": { "value": "#00b368", "type": "color" },
+      "primaryForeground": { "value": "#02130d", "type": "color" },
+      "brand": { "value": "#e0575a", "type": "color", "comment": "Crimson red — brand highlight" },
+      "secondary": { "value": "rgba(255, 255, 255, 0.04)", "type": "color", "comment": "Glass surface secondary button" },
+      "secondaryForeground": { "value": "#f2f5fa", "type": "color" },
+      "tertiary": { "value": "#8b94a7", "type": "color" },
+      "tertiaryForeground": { "value": "#ffffff", "type": "color" },
+      "background": { "value": "#04060f", "type": "color", "comment": "Obsidian dark — deepest dashboard surface" },
+      "backgroundSecondary": { "value": "#0b0e18", "type": "color", "comment": "Panel surface background" },
+      "glass": { "value": "rgba(255, 255, 255, 0.035)", "type": "color", "comment": "Glass card background" },
+      "sidebar": { "value": "rgba(4, 6, 15, 0.72)", "type": "color", "comment": "Glass dark sidebar rail" },
+      "sidebarForeground": { "value": "#8b94a7", "type": "color" },
+      "foreground": { "value": "#f2f5fa", "type": "color" },
+      "foregroundSecondary": { "value": "#8b94a7", "type": "color" },
+      "foregroundTertiary": { "value": "#596174", "type": "color" },
+      "border": { "value": "rgba(255, 255, 255, 0.11)", "type": "color" },
+      "borderStrong": { "value": "rgba(255, 255, 255, 0.22)", "type": "color" },
+      "signalGreen": { "value": "#00dc82", "type": "color" },
+      "signalAmber": { "value": "#f0a30a", "type": "color" },
+      "signalRed": { "value": "#ff4444", "type": "color" },
+      "signalBlue": { "value": "#4da6ff", "type": "color" },
+      "signalMuted": { "value": "#8b94a7", "type": "color" }
     },
     "font": {
-      "family": { "value": "{font.family.firaSans}", "type": "fontFamily", "comment": "Technocracy brand typeface" },
-      "familyMono": { "value": "{font.family.mono}", "type": "fontFamily" },
-      "sizeBase": { "value": "{font.size.sm}", "type": "dimension", "comment": "14px - denser admin UI" },
+      "family": { "value": "'Source Code Pro', ui-monospace, SFMono-Regular, Consolas, monospace", "type": "fontFamily", "comment": "Technocracy telemetry monospace font" },
+      "sizeBase": { "value": "{font.size.sm}", "type": "dimension", "comment": "13px/14px - dense telemetry admin" },
       "weightBody": { "value": "{font.weight.normal}", "type": "fontWeight" },
-      "weightHeading": { "value": "{font.weight.medium}", "type": "fontWeight" }
+      "weightHeading": { "value": "{font.weight.bold}", "type": "fontWeight" }
     },
     "spacing": {
       "pagePadding": { "value": "{spacing.6}", "type": "dimension" },
-      "cardPadding": { "value": "{spacing.4}", "type": "dimension", "comment": "Tighter than Lemniscate" },
+      "cardPadding": { "value": "{spacing.5}", "type": "dimension" },
       "sectionGap": { "value": "{spacing.6}", "type": "dimension" }
     },
     "radius": {
-      "default": { "value": "{radius.md}", "type": "dimension" },
-      "sm": { "value": "{radius.sm}", "type": "dimension" },
-      "lg": { "value": "{radius.lg}", "type": "dimension" }
+      "default": { "value": "16", "type": "dimension", "comment": "16px rounded glass cards" },
+      "sm": { "value": "8", "type": "dimension" },
+      "lg": { "value": "16", "type": "dimension" }
     },
     "shadow": {
-      "card": { "value": "{shadow.xs}", "type": "shadow" },
-      "modal": { "value": "{shadow.xl}", "type": "shadow" },
-      "dropdown": { "value": "{shadow.lg}", "type": "shadow" }
+      "card": { "value": "inset 0 1px rgba(255,255,255,0.04)", "type": "shadow" },
+      "modal": { "value": "0 24px 80px rgba(0,0,0,0.5)", "type": "shadow" }
     },
     "icon": {
-      "sm": { "value": "{icon.sm}", "type": "dimension", "comment": "16px default for dense UI" },
+      "sm": { "value": "{icon.sm}", "type": "dimension" },
       "md": { "value": "{icon.md}", "type": "dimension" },
       "lg": { "value": "{icon.lg}", "type": "dimension" }
     }

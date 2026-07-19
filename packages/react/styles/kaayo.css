@@ -1,0 +1,33 @@
+/* Kaayo theme — Tutor & class operations (Neo-Brutalist).
+   Import once in your app's global CSS. Includes Aumraa primitives,
+   Kaayo brand tokens, and the semantic variable mapping components read. */
+@import './tokens/aumraa.css';
+@import './tokens/kaayo.css';
+
+:root {
+  --primary: var(--kayo-color-primary);
+  --primary-foreground: var(--kayo-color-primary-foreground);
+  --secondary: var(--kayo-color-background-secondary);
+  --secondary-foreground: var(--kayo-color-foreground);
+  --accent: var(--kayo-color-secondary);
+  --accent-foreground: var(--kayo-color-secondary-foreground);
+  --background: var(--kayo-color-background);
+  --foreground: var(--kayo-color-foreground);
+  --muted: var(--kayo-color-background-secondary);
+  --muted-foreground: var(--kayo-color-foreground-secondary);
+  --border: var(--kayo-color-border);
+  --ring: var(--kayo-color-primary);
+  --radius: var(--kayo-radius-default);
+  --destructive: var(--kayo-color-negative);
+  --destructive-foreground: var(--kayo-color-negative-foreground);
+  --card: var(--kayo-color-background);
+  --card-foreground: var(--kayo-color-foreground);
+  --popover: var(--kayo-color-background);
+  --popover-foreground: var(--kayo-color-foreground);
+  --input: var(--kayo-color-border);
+  --input-background: var(--kayo-color-background);
+  --switch-background: var(--kayo-color-background-secondary);
+  --gradient-brand-start: var(--kayo-color-gradient-start);
+  --gradient-brand-end: var(--kayo-color-gradient-end);
+  --gradient-brand: linear-gradient(135deg, var(--gradient-brand-start) 0%, var(--gradient-brand-end) 100%);
+}

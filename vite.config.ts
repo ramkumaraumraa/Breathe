@@ -26,6 +26,15 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
+      // Component source now lives in the publishable package (@aumraa/breathe-react).
+      // These specific aliases must come before the generic '@' alias.
+      '@/app/components/atoms': path.resolve(__dirname, './packages/react/src/atoms'),
+      '@/app/components/molecules': path.resolve(__dirname, './packages/react/src/molecules'),
+      '@/app/components/organisms': path.resolve(__dirname, './packages/react/src/organisms'),
+      '@/app/components/templates': path.resolve(__dirname, './packages/react/src/templates'),
+      '@/app/components/custom/kaayo': path.resolve(__dirname, './packages/react/src/kaayo'),
+      '@aumraa/breathe-react/kaayo': path.resolve(__dirname, './packages/react/src/kaayo'),
+      '@aumraa/breathe-react/technocracy': path.resolve(__dirname, './packages/react/src/technocracy'),
       // Alias @ to the src directory
       '@': path.resolve(__dirname, './src'),
     },

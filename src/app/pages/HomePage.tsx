@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import { ArrowRight, Layers, Palette, Type, Zap, Shield, Package, Wind } from 'lucide-react';
 import { motion } from 'motion/react';
+import { CodeBlock } from '../components/shared/CodeBlock';
 
 const stats = [
   { label: 'Components', value: '20+' },
@@ -108,11 +109,11 @@ export function HomePage() {
             className="flex flex-wrap gap-3"
           >
             <Link
-              to="/getting-started"
+              to="/installation"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-white transition-all hover:opacity-90 hover:shadow-lg shadow-teal-500/25"
               style={{ background: 'linear-gradient(135deg, #0D9488, #0F766E)', fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.9375rem' }}
             >
-              Get Started
+              Install Breathe
               <ArrowRight size={16} />
             </Link>
             <Link
@@ -227,6 +228,43 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* Quick start */}
+      <section className="px-6 lg:px-10 pb-16 border-t border-slate-200 dark:border-slate-800 pt-14">
+        <div className="max-w-3xl">
+          <p className="text-teal-600 dark:text-teal-400 mb-2 uppercase tracking-wider"
+             style={{ fontSize: '0.72rem', fontWeight: 600, fontFamily: 'var(--font-sans)', letterSpacing: '0.1em' }}>
+            Quick start
+          </p>
+          <h2 className="text-slate-900 dark:text-white mb-3 m-0"
+              style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.75rem', lineHeight: 1.3 }}>
+            One package, themed per product
+          </h2>
+          <p className="text-slate-500 dark:text-slate-400 mb-6 max-w-lg"
+             style={{ fontFamily: 'var(--font-sans)', fontSize: '0.9375rem', lineHeight: 1.7 }}>
+            Install <code>@aumraa/breathe-react</code>, import your product's theme CSS, and build. Components are
+            brand-blind — the theme file you import decides whether they render as Kaayo, Lemniscate, or any other product.
+          </p>
+          <CodeBlock
+            code={`pnpm add @aumraa/breathe-react`}
+            language="bash"
+          />
+          <div className="h-3" />
+          <CodeBlock
+            code={`import '@aumraa/breathe-react/styles/kaayo.css'   // your product only
+import { Button, Card } from '@aumraa/breathe-react'
+import { KayoBrutalistHeader } from '@aumraa/breathe-react/kaayo'`}
+            language="tsx"
+          />
+          <Link
+            to="/installation"
+            className="mt-6 inline-flex items-center gap-2 text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 transition-colors"
+            style={{ fontFamily: 'var(--font-sans)', fontSize: '0.875rem', fontWeight: 500 }}
+          >
+            Full installation guide <ArrowRight size={15} />
+          </Link>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="px-6 lg:px-10 pb-16">
         <div className="max-w-3xl">
@@ -243,11 +281,11 @@ export function HomePage() {
               </p>
               <div className="flex gap-3 flex-wrap">
                 <Link
-                  to="/getting-started"
+                  to="/installation"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-teal-700 hover:bg-teal-50 transition-all"
                   style={{ fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.9rem' }}
                 >
-                  Get Started <ArrowRight size={15} />
+                  Installation <ArrowRight size={15} />
                 </Link>
                 <Link
                   to="/foundations/colors"

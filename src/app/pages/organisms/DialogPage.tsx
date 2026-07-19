@@ -633,7 +633,7 @@ export function DialogPage() {
               <DialogTrigger asChild>
                 <Button>Open Dialog</Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]" hideCloseButton>
+              <DialogContent className="sm:max-w-[425px] [&>button]:hidden">
                 <DialogHeader>
                   <DialogTitle>Action required</DialogTitle>
                   <DialogDescription>You must choose an option to continue. The close button is hidden.</DialogDescription>

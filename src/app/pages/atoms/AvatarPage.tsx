@@ -2,6 +2,7 @@ import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout
 import { Avatar, AvatarFallback, AvatarImage } from '@/app/components/atoms/avatar'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistAvatar } from '@/app/components/custom/kaayo/KayoBrutalistAvatar'
+import { KayoBrutalistStudentAvatar } from '@aumraa/breathe-react/kaayo'
 
 export function AvatarPage() {
   const { activeProduct } = useProductTheme()
@@ -10,7 +11,7 @@ export function AvatarPage() {
   return (
     <ComponentPageLayout
       title="Avatar"
-      description="Visual representation of a user or entity. Shows an image with a fallback to initials or a generic icon."
+      description="Visual representation of a user or entity. Shows an image with a fallback to initials or a generic icon, with specialized student avatar sub-components."
       level="Atom"
       status="Stable"
       implemented={['lemniscate', 'aumraa', 'kaayo']}
@@ -43,21 +44,12 @@ export function AvatarPage() {
 </Avatar>`,
             reactNative: `import { StudentAvatar } from '@kaayo/components/atoms/StudentAvatar'
 
-// Kaayo uses StudentAvatar for user/student photos
 <StudentAvatar
-  uri="https://example.com/photo.jpg"
-  initials="SC"
-  size={40}
-/>
-
-// Token reference:
-// Shape:    circle (borderRadius: size / 2)
-// Border:   2px solid theme.border.strong (#3b3d3f)
-// Shadow:   kayoShadow.sm → '2px 2px 0 #191b1f'
-// Fallback: bg = theme.brand.primary (#970103), text white`,
-            ios: `import SwiftUI
-
-AsyncImage(url: URL(string: "https://example.com/photo.jpg")) { image in
+  photoUrl="https://example.com/photo.jpg"
+  name="Shadcn User"
+  size={48}
+/>`,
+            ios: `AsyncImage(url: URL(string: "https://example.com/photo.jpg")) { image in
     image.resizable()
 } placeholder: {
     ProgressView()
@@ -66,8 +58,7 @@ AsyncImage(url: URL(string: "https://example.com/photo.jpg")) { image in
 .clipShape(Circle())
 .overlay(Circle().stroke(Color(hex: "#3b3d3f"), lineWidth: 2))
 .shadow(color: Color(hex: "#191b1f"), radius: 0, x: 2, y: 2)`,
-            android: `// Using Glide
-Glide.with(context)
+            android: `Glide.with(context)
     .load("https://example.com/photo.jpg")
     .circleCrop()
     .into(imageView)`,
@@ -76,6 +67,29 @@ Glide.with(context)
   src="https://github.com/shadcn.png"
   alt="User"
 />`,
+          },
+        },
+        {
+          title: 'Student Avatar (Kaayo Sub-Component)',
+          description: 'Specialized student profile avatar with automatic initials calculation, press actions, and preset sizes (32, 48, 96, 240).',
+          preview: (
+            <div className="flex flex-wrap items-center gap-6">
+              <KayoBrutalistStudentAvatar name="Aumraa Admin" size={32} />
+              <KayoBrutalistStudentAvatar name="Ramesh Kumar" size={48} />
+              <KayoBrutalistStudentAvatar name="Priya Sundaram" size={96} />
+            </div>
+          ),
+          code: {
+            react: `import { KayoBrutalistStudentAvatar } from '@aumraa/breathe-react/kaayo'
+
+<KayoBrutalistStudentAvatar name="Aumraa Admin" size={32} />
+<KayoBrutalistStudentAvatar name="Ramesh Kumar" size={48} />
+<KayoBrutalistStudentAvatar name="Priya Sundaram" size={96} />`,
+            reactNative: `import { StudentAvatar } from '@kaayo/components/atoms/StudentAvatar'
+
+<StudentAvatar name="Aumraa Admin" size={32} />
+<StudentAvatar name="Ramesh Kumar" size={48} />
+<StudentAvatar name="Priya Sundaram" size={96} />`,
           },
         },
         {
@@ -97,30 +111,8 @@ Glide.with(context)
           code: {
             react: `<Avatar><AvatarFallback>JD</AvatarFallback></Avatar>
 <Avatar><AvatarFallback>AB</AvatarFallback></Avatar>`,
-            reactNative: `import { StudentAvatar } from '@kaayo/components/atoms/StudentAvatar'
-
-// No uri — renders initials on crimson background
-<StudentAvatar initials="JD" size={40} />
-<StudentAvatar initials="AB" size={40} />
-<StudentAvatar initials="RK" size={40} />`,
-            ios: `Text("JD")
-    .font(.subheadline).fontWeight(.bold).foregroundColor(.white)
-    .frame(width: 40, height: 40)
-    .background(Color(hex: "#970103"))
-    .clipShape(Circle())
-    .overlay(Circle().stroke(Color(hex: "#3b3d3f"), lineWidth: 2))
-    .shadow(color: Color(hex: "#191b1f"), radius: 0, x: 2, y: 2)`,
-            android: `<TextView
-    android:layout_width="40dp"
-    android:layout_height="40dp"
-    android:text="JD"
-    android:gravity="center"
-    android:textColor="#ffffff"
-    android:textStyle="bold"
-    android:background="@drawable/circle_crimson" />`,
-            tailwind: `<div class="h-10 w-10 rounded-full bg-[#970103] border-2 border-[#3b3d3f] shadow-[2px_2px_0_#191b1f] flex items-center justify-center text-white font-bold text-sm">
-  JD
-</div>`,
+            reactNative: `<StudentAvatar name="John Doe" size={48} />
+<StudentAvatar name="Alice Brown" size={48} />`,
           },
         },
         {
@@ -143,9 +135,9 @@ Glide.with(context)
             react: `<Avatar className="w-8 h-8"><AvatarFallback>SM</AvatarFallback></Avatar>
 <Avatar><AvatarFallback>MD</AvatarFallback></Avatar>
 <Avatar className="w-12 h-12"><AvatarFallback>LG</AvatarFallback></Avatar>`,
-            reactNative: `<StudentAvatar initials="SM" size={32} />
-<StudentAvatar initials="MD" size={40} />
-<StudentAvatar initials="LG" size={48} />`,
+            reactNative: `<StudentAvatar name="SM" size={32} />
+<StudentAvatar name="MD" size={40} />
+<StudentAvatar name="LG" size={48} />`,
           },
         },
       ]}

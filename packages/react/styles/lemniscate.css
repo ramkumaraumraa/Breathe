@@ -1,0 +1,33 @@
+/* Lemniscate theme — Community finance SaaS (light, blue primary).
+   Import once in your app's global CSS. Includes Aumraa primitives,
+   Lemniscate brand tokens, and the semantic variable mapping components read. */
+@import './tokens/aumraa.css';
+@import './tokens/lemniscate.css';
+
+:root {
+  --primary: var(--lmns-color-primary);
+  --primary-foreground: var(--lmns-color-primary-foreground);
+  --secondary: var(--lmns-color-background-secondary);
+  --secondary-foreground: var(--lmns-color-foreground);
+  --accent: var(--lmns-color-tertiary);
+  --accent-foreground: var(--lmns-color-tertiary-foreground);
+  --background: var(--lmns-color-background);
+  --foreground: var(--lmns-color-foreground);
+  --muted: var(--lmns-color-background-tertiary);
+  --muted-foreground: var(--lmns-color-foreground-secondary);
+  --border: var(--lmns-color-border);
+  --ring: var(--lmns-color-primary);
+  --radius: var(--lmns-radius-default);
+  --destructive: var(--lmns-color-negative);
+  --destructive-foreground: var(--lmns-color-negative-foreground);
+  --card: var(--lmns-color-background);
+  --card-foreground: var(--lmns-color-foreground);
+  --popover: var(--lmns-color-background);
+  --popover-foreground: var(--lmns-color-foreground);
+  --input: var(--lmns-color-border);
+  --input-background: var(--lmns-color-background);
+  --switch-background: var(--lmns-color-background-tertiary);
+  --gradient-brand-start: var(--lmns-color-gradient-start);
+  --gradient-brand-end: var(--lmns-color-gradient-end);
+  --gradient-brand: linear-gradient(135deg, var(--gradient-brand-start) 0%, var(--gradient-brand-end) 100%);
+}

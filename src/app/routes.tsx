@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react'
 import { createBrowserRouter, Navigate } from 'react-router'
 import { Root } from './components/layout/Root'
 import { HomePage } from './pages/HomePage'
-import { GettingStartedPage } from './pages/GettingStartedPage'
+import { InstallationPage } from './pages/InstallationPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 
 const PageLoader = () => (
@@ -58,10 +58,17 @@ const CalendarPage      = lazy_page(() => import('./pages/atoms/form-elements/Ca
 const DragSliderPage    = lazy_page(() => import('./pages/atoms/form-elements/DragSliderPage'))
 const ListElementsPage  = lazy_page(() => import('./pages/atoms/form-elements/ListElementsPage'))
 const OTPInputPage      = lazy_page(() => import('./pages/atoms/form-elements/OTPInputPage'))
+const AmountVisibilityTogglePage = lazy_page(() => import('./pages/atoms/AmountVisibilityTogglePage'))
+const ChipMultiSelectPage        = lazy_page(() => import('./pages/atoms/form-elements/ChipMultiSelectPage'))
 
 // Molecules
-const AlertPage        = lazy_page(() => import('./pages/molecules/AlertPage'))
-const CardPage         = lazy_page(() => import('./pages/molecules/CardPage'))
+const AlertPage            = lazy_page(() => import('./pages/molecules/AlertPage'))
+const CardPage             = lazy_page(() => import('./pages/molecules/CardPage'))
+const EmptyStatePage        = lazy_page(() => import('./pages/molecules/EmptyStatePage'))
+const StepIndicatorPage     = lazy_page(() => import('./pages/molecules/StepIndicatorPage'))
+const DeleteGuardSheetPage  = lazy_page(() => import('./pages/molecules/DeleteGuardSheetPage'))
+const WhatsAppControlsPage  = lazy_page(() => import('./pages/molecules/WhatsAppControlsPage'))
+const PhotoViewerPage       = lazy_page(() => import('./pages/molecules/PhotoViewerPage'))
 const FormPage         = lazy_page(() => import('./pages/molecules/FormPage'))
 const DropdownMenuPage = lazy_page(() => import('./pages/molecules/DropdownMenuPage'))
 const TabsPage         = lazy_page(() => import('./pages/molecules/TabsPage'))
@@ -83,8 +90,9 @@ const TablePage          = lazy_page(() => import('./pages/organisms/TablePage')
 const CarouselPage       = lazy_page(() => import('./pages/organisms/CarouselPage'))
 const SidebarPage        = lazy_page(() => import('./pages/organisms/SidebarPage'))
 const NavigationMenuPage = lazy_page(() => import('./pages/organisms/NavigationMenuPage'))
-const HeaderPage         = lazy_page(() => import('./pages/organisms/HeaderPage'))
-const BottomNavPage      = lazy_page(() => import('./pages/organisms/BottomNavPage'))
+const HeaderPage         = lazy_page(() => import('./pages/molecules/HeaderPage'))
+const BottomNavPage      = lazy_page(() => import('./pages/molecules/BottomNavPage'))
+const MenuLayoutsPage    = lazy_page(() => import('./pages/organisms/MenuLayoutsPage'))
 
 // Templates
 const StatGridPage    = lazy_page(() => import('./pages/templates/StatGridPage'))
@@ -94,13 +102,18 @@ const PageBodyPage    = lazy_page(() => import('./pages/templates/PageBodyPage')
 const MobileFabPage   = lazy_page(() => import('./pages/templates/MobileFabPage'))
 const TabBarPage      = lazy_page(() => import('./pages/templates/TabBarPage'))
 
+// Technocracy Dark Admin OS
+const TechnocracyDashboardPage = lazy_page(() => import('./pages/technocracy/TechnocracyDashboardPage'))
+
 export const router = createBrowserRouter([
   {
     path: '/',
     Component: Root,
     children: [
       { index: true, Component: HomePage },
-      { path: 'getting-started', Component: GettingStartedPage },
+      { path: 'installation', Component: InstallationPage },
+      // Introduction + Getting Started merged into "Get Started" at /
+      { path: 'getting-started', element: <Navigate to="/" replace /> },
 
       // Foundations
       { path: 'foundations/logos',         Component: LogosPage },
@@ -139,14 +152,17 @@ export const router = createBrowserRouter([
       { path: 'organisms/calendar',  element: <Navigate to="/atoms/form-elements/calendar" replace /> },
 
       // Atoms
-      { path: 'atoms/button',      Component: ButtonPage },
-      { path: 'atoms/avatar',      Component: AvatarPage },
-      { path: 'atoms/badge',       Component: BadgePage },
-      { path: 'atoms/label',       Component: LabelPage },
-      { path: 'atoms/separator',   Component: SeparatorPage },
-      { path: 'atoms/progress',    Component: ProgressPage },
-      { path: 'atoms/skeleton',    Component: SkeletonPage },
-      { path: 'atoms/spinner',     Component: SpinnerPage },
+      { path: 'atoms/button',                  Component: ButtonPage },
+      { path: 'atoms/button/screen-footer',    element: <Navigate to="/atoms/button" replace /> },
+      { path: 'atoms/avatar',                  Component: AvatarPage },
+      { path: 'atoms/avatar/student-avatar',   element: <Navigate to="/atoms/avatar" replace /> },
+      { path: 'atoms/badge',                   Component: BadgePage },
+      { path: 'atoms/label',                   Component: LabelPage },
+      { path: 'atoms/separator',               Component: SeparatorPage },
+      { path: 'atoms/progress',                Component: ProgressPage },
+      { path: 'atoms/skeleton',                Component: SkeletonPage },
+      { path: 'atoms/spinner',                 Component: SpinnerPage },
+      { path: 'atoms/amount-visibility-toggle', Component: AmountVisibilityTogglePage },
 
       // Form Elements under Atoms
       { path: 'atoms/form-elements/text-input',       Component: TextInputPage },
@@ -157,14 +173,23 @@ export const router = createBrowserRouter([
       { path: 'atoms/form-elements/searchbar',        Component: SearchbarPage },
       { path: 'atoms/form-elements/toggle',           Component: TogglePage },
       { path: 'atoms/form-elements/calendar',         Component: CalendarPage },
+      { path: 'atoms/form-elements/calendar/date-field', element: <Navigate to="/atoms/form-elements/calendar" replace /> },
+      { path: 'atoms/form-elements/calendar/date-nav',   element: <Navigate to="/atoms/form-elements/calendar" replace /> },
+      { path: 'atoms/form-elements/chip-multi-select', Component: ChipMultiSelectPage },
       { path: 'atoms/form-elements/drag-slider',      Component: DragSliderPage },
       { path: 'atoms/form-elements/list-elements',    Component: ListElementsPage },
       { path: 'atoms/form-elements/otp-input',        Component: OTPInputPage },
       { path: 'atoms/form-elements',                  element: <Navigate to="/atoms/form-elements/text-input" replace /> },
 
       // Molecules
-      { path: 'molecules/alert',         Component: AlertPage },
-      { path: 'molecules/card',          Component: CardPage },
+      { path: 'molecules/alert',               Component: AlertPage },
+      { path: 'molecules/card',                Component: CardPage },
+      { path: 'molecules/card/payment-summary', element: <Navigate to="/molecules/card" replace /> },
+      { path: 'molecules/empty-state',         Component: EmptyStatePage },
+      { path: 'molecules/step-indicator',       Component: StepIndicatorPage },
+      { path: 'molecules/delete-guard-sheet',   Component: DeleteGuardSheetPage },
+      { path: 'molecules/whatsapp-controls',    Component: WhatsAppControlsPage },
+      { path: 'molecules/photo-viewer',         Component: PhotoViewerPage },
       { path: 'molecules/form',          Component: FormPage },
       { path: 'molecules/dropdown-menu', Component: DropdownMenuPage },
       { path: 'molecules/tabs',          Component: TabsPage },
@@ -176,6 +201,8 @@ export const router = createBrowserRouter([
       { path: 'molecules/pagination',    Component: PaginationPage },
       { path: 'molecules/scroll-area',   Component: ScrollAreaPage },
       { path: 'molecules/sonner',        Component: SonnerPage },
+      { path: 'molecules/header',        Component: HeaderPage },
+      { path: 'molecules/bottom-nav',    Component: BottomNavPage },
 
       // Organisms
       { path: 'organisms/dialog',          Component: DialogPage },
@@ -186,8 +213,11 @@ export const router = createBrowserRouter([
       { path: 'organisms/carousel',        Component: CarouselPage },
       { path: 'organisms/sidebar',         Component: SidebarPage },
       { path: 'organisms/navigation-menu', Component: NavigationMenuPage },
-      { path: 'organisms/header',          Component: HeaderPage },
-      { path: 'organisms/bottom-nav',      Component: BottomNavPage },
+      { path: 'organisms/menu-layouts',    Component: MenuLayoutsPage },
+
+      // Legacy/Reclassified redirects
+      { path: 'organisms/header',          element: <Navigate to="/molecules/header" replace /> },
+      { path: 'organisms/bottom-nav',      element: <Navigate to="/molecules/bottom-nav" replace /> },
 
       // Templates
       { path: 'templates/stat-grid',    Component: StatGridPage },
@@ -196,6 +226,9 @@ export const router = createBrowserRouter([
       { path: 'templates/page-body',    Component: PageBodyPage },
       { path: 'templates/mobile-fab',   Component: MobileFabPage },
       { path: 'templates/tab-bar',      Component: TabBarPage },
+
+      // Technocracy Dark Admin OS Showcase
+      { path: 'technocracy',            Component: TechnocracyDashboardPage },
 
       { path: '*', Component: NotFoundPage },
     ],

@@ -40,14 +40,39 @@ interface ComponentPageLayoutProps {
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 // Canonical brand list and accents for the switcher
-const TOP_LEVEL_TABS = [
+// stage: release status shown as a badge. Aumraa has none (core company brand).
+export type ProductStage = 'Live' | 'Internal' | 'Next' | 'YTS'
+
+const STAGE_STYLES: Record<ProductStage, string> = {
+  Live:     'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400',
+  Internal: 'bg-violet-100 text-violet-700 dark:bg-violet-950 dark:text-violet-400',
+  Next:     'bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-400',
+  YTS:      'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400',
+}
+
+function StageBadge({ stage }: { stage?: ProductStage }) {
+  if (!stage) return null
+  return (
+    <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide leading-none ${STAGE_STYLES[stage]}`}>
+      {stage}
+    </span>
+  )
+}
+
+const TOP_LEVEL_TABS: readonly {
+  id: string
+  label: string
+  accentColor: string
+  description: string
+  stage?: ProductStage
+}[] = [
   { id: 'aumraa', label: 'Aumraa', accentColor: '#2F9E44', description: 'Studio brand — green primary' },
-  { id: 'technocracy', label: 'Technocracy', accentColor: '#8B5CF6', description: 'Admin dashboard — dark surfaces' },
-  { id: 'lemniscate', label: 'Leminiscate', accentColor: '#1C60C1', description: 'Community finance SaaS — light, blue primary' },
-  { id: 'maligai', label: 'Maligai Manager', accentColor: '#D97706', description: 'Grocery & retail — mobile primary' },
+  { id: 'technocracy', label: 'Technocracy', accentColor: '#8B5CF6', description: 'Admin dashboard — dark surfaces', stage: 'Internal' },
+  { id: 'lemniscate', label: 'Leminiscate', accentColor: '#1C60C1', description: 'Community finance SaaS — light, blue primary', stage: 'Live' },
+  { id: 'maligai', label: 'Maligai Manager', accentColor: '#D97706', description: 'Grocery & retail — mobile primary', stage: 'Next' },
   { id: 'ullagellam_group', label: 'Ullagellam', accentColor: '#7C3AED', description: 'Regional & mobile suite umbrella · Multi-product filters below' },
-  { id: 'yakaizen', label: 'Yakaizen', accentColor: '#06B6D4', description: 'Mobile, watch, widgets' },
-] as const
+  { id: 'yakaizen', label: 'Yakaizen', accentColor: '#06B6D4', description: 'Mobile, watch, widgets', stage: 'YTS' },
+]
 
 // ─── Product switcher ─────────────────────────────────────────────────────────
 
@@ -98,6 +123,7 @@ function ProductSwitcher({ implemented }: { implemented: ProductId[] }) {
               }}
             >
               {tab.label}
+              <StageBadge stage={tab.stage} />
               {!isImpl && <span className="text-slate-400">·</span>}
             </button>
           )
@@ -137,11 +163,11 @@ export function ComponentPageLayout({
       {/* Ulagellam Sub-tabs Segment Selector */}
       {isUllagellamGroup && (
         <div className="p-1.5 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl inline-flex flex-wrap gap-1.5 max-w-full shadow-sm">
-          {[
-            { id: 'kaayo', label: '🎓 Kaayo (Tutor Ops)', accent: '#970103', tagline: 'Tutor & class operations · Mobile · Tablet' },
-            { id: 'ilakh', label: '📈 Ilakh (Finance)', accent: '#0369A1', tagline: 'Goal tracking & personal finance · Web · Mobile' },
-            { id: 'ulagellam', label: '🗺️ Ulagellam (Explorer)', accent: '#7C3AED', tagline: 'Explore & discover around you · Mobile' }
-          ].map(sub => {
+          {([
+            { id: 'kaayo', label: '🎓 Kaayo (Tutor Ops)', accent: '#970103', tagline: 'Tutor & class operations · Mobile · Tablet', stage: 'Live' },
+            { id: 'ilakh', label: '📈 Ilakh (Finance)', accent: '#0369A1', tagline: 'Goal tracking & personal finance · Web · Mobile', stage: 'YTS' },
+            { id: 'ulagellam', label: '🗺️ Ulagellam (Explorer)', accent: '#7C3AED', tagline: 'Explore & discover around you · Mobile', stage: 'YTS' }
+          ] as { id: string; label: string; accent: string; tagline: string; stage: ProductStage }[]).map(sub => {
             const isSubActive = activeProduct === sub.id
             const isSubImpl = implemented.includes(sub.id as ProductId)
             return (
@@ -159,7 +185,10 @@ export function ComponentPageLayout({
                 }}
                 title={!isSubImpl ? 'Placeholder — confirm at product design kickoff' : sub.tagline}
               >
-                {sub.label}
+                <span className="inline-flex items-center gap-1.5">
+                  {sub.label}
+                  <StageBadge stage={sub.stage} />
+                </span>
               </button>
             )
           })}

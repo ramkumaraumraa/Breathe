@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/app/components/molecules/card'
 import { Button } from '@/app/components/atoms/button'
@@ -11,15 +12,17 @@ import {
 } from '@/app/components/custom/kaayo/KayoBrutalistCard'
 import { KayoBrutalistButton } from '@/app/components/custom/kaayo/KayoBrutalistButton'
 import { KayoBrutalistBadge } from '@/app/components/custom/kaayo/KayoBrutalistBadge'
+import { KayoBrutalistPaymentSummaryCard } from '@aumraa/breathe-react/kaayo'
 
 export function CardPage() {
   const { activeProduct } = useProductTheme()
   const isKaayo = activeProduct === 'kaayo'
+  const [isVisible, setIsVisible] = useState(true)
 
   return (
     <ComponentPageLayout
       title="Card"
-      description="Surface that groups related information and actions. Cards create visual hierarchy and make content scannable."
+      description="Surface that groups related information and actions. Cards create visual hierarchy and make content scannable, with specialized financial card variations."
       level="Molecule"
       status="Stable"
       implemented={['lemniscate', 'aumraa', 'kaayo']}
@@ -67,36 +70,40 @@ export function CardPage() {
     <KayoBrutalistButton label="Save"   variant="primary"   size="sm" />
   </KayoBrutalistCardFooter>
 </KayoBrutalistCard>`,
-            reactNative: `import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+          },
+        },
+        {
+          title: 'Payment Summary Card (Kaayo Sub-Component)',
+          description: 'Specialized dashboard card for tuition fee metric breakdowns (Expected, Collected, Pending) and student payment status counts.',
+          preview: (
+            <div className="w-full max-w-xl">
+              <KayoBrutalistPaymentSummaryCard
+                title="March 2026 Collection"
+                expected={150000}
+                collected={110000}
+                pending={40000}
+                totalStudents={45}
+                paidStudents={33}
+                unpaidStudents={12}
+                isVisible={isVisible}
+                onToggleVisibility={() => setIsVisible(!isVisible)}
+              />
+            </div>
+          ),
+          code: {
+            react: `import { KayoBrutalistPaymentSummaryCard } from '@aumraa/breathe-react/kaayo'
 
-<View style={s.card}>
-  <View style={s.header}>
-    <Text style={s.title}>Project Settings</Text>
-    <Text style={s.subtitle}>Manage your project configuration.</Text>
-  </View>
-  <View style={s.body}>
-    <Text style={s.bodyText}>Update your project name, members, and permissions here.</Text>
-  </View>
-  <View style={s.footer}>
-    <TouchableOpacity style={s.btnSec}><Text style={s.btnSecTxt}>Cancel</Text></TouchableOpacity>
-    <TouchableOpacity style={s.btnPri}><Text style={s.btnPriTxt}>Save</Text></TouchableOpacity>
-  </View>
-</View>
-
-const s = StyleSheet.create({
-  card:      { borderWidth: 2, borderColor: '#3b3d3f', borderRadius: 6, backgroundColor: '#fff',
-               shadowColor: '#191b1f', shadowOffset: { width: 2, height: 2 }, shadowOpacity: 1, shadowRadius: 0, elevation: 3 },
-  header:    { padding: 16, borderBottomWidth: 2, borderBottomColor: '#3b3d3f' },
-  body:      { padding: 16 },
-  footer:    { padding: 16, borderTopWidth: 2, borderTopColor: '#3b3d3f', flexDirection: 'row', justifyContent: 'flex-end', gap: 8 },
-  title:     { fontSize: 15, fontWeight: '600', color: '#3b3d3f', fontFamily: 'DMSans-SemiBold' },
-  subtitle:  { fontSize: 13, color: '#6b7280', marginTop: 4, fontFamily: 'DMSans-Regular' },
-  bodyText:  { fontSize: 14, color: '#3b3d3f', lineHeight: 22, fontFamily: 'DMSans-Regular' },
-  btnPri:    { backgroundColor: '#970103', borderWidth: 2, borderColor: '#3b3d3f', borderRadius: 6, paddingHorizontal: 14, paddingVertical: 8 },
-  btnSec:    { backgroundColor: '#fff',    borderWidth: 2, borderColor: '#3b3d3f', borderRadius: 6, paddingHorizontal: 14, paddingVertical: 8 },
-  btnPriTxt: { color: '#fff',    fontSize: 14, fontWeight: '500', fontFamily: 'DMSans-Medium' },
-  btnSecTxt: { color: '#3b3d3f', fontSize: 14, fontWeight: '500', fontFamily: 'DMSans-Medium' },
-})`,
+<KayoBrutalistPaymentSummaryCard
+  title="March 2026 Collection"
+  expected={150000}
+  collected={110000}
+  pending={40000}
+  totalStudents={45}
+  paidStudents={33}
+  unpaidStudents={12}
+  isVisible={isVisible}
+  onToggleVisibility={() => setIsVisible(!isVisible)}
+/>`,
           },
         },
         {
@@ -147,30 +154,6 @@ const s = StyleSheet.create({
           },
         },
         {
-          title: 'Header Only',
-          description: 'Card with only a header section — for section labels or summary tiles.',
-          preview: isKaayo ? (
-            <KayoBrutalistCard style={{ width: '288px' }}>
-              <KayoBrutalistCardHeader
-                title="Kaayo Atoms"
-                badge={<KayoBrutalistBadge variant="success">Stable</KayoBrutalistBadge>}
-              />
-            </KayoBrutalistCard>
-          ) : (
-            <Card className="w-72">
-              <CardHeader><CardTitle>Kaayo Atoms</CardTitle></CardHeader>
-            </Card>
-          ),
-          code: {
-            react: `<KayoBrutalistCard>
-  <KayoBrutalistCardHeader
-    title="Kaayo Atoms"
-    badge={<KayoBrutalistBadge variant="success">Stable</KayoBrutalistBadge>}
-  />
-</KayoBrutalistCard>`,
-          },
-        },
-        {
           title: 'With Header Action',
           description: 'Action icon slot in the header — for edit, settings, or overflow triggers.',
           preview: isKaayo ? (
@@ -214,75 +197,6 @@ const s = StyleSheet.create({
   />
   <KayoBrutalistCardBody>Arjun Krishnamurthy — Roll 14</KayoBrutalistCardBody>
 </KayoBrutalistCard>`,
-          },
-        },
-        {
-          title: 'Interactive',
-          description: 'Pass onClick to enable the press animation — translate(2px, 2px) + shadow collapse.',
-          preview: isKaayo ? (
-            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-              {['Batch A', 'Batch B', 'Batch C'].map(batch => (
-                <KayoBrutalistCard key={batch} onClick={() => {}} style={{ width: '140px' }}>
-                  <KayoBrutalistCardBody>
-                    <div style={{ fontWeight: 600, fontSize: '14px' }}>{batch}</div>
-                    <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '4px' }}>12 students</div>
-                  </KayoBrutalistCardBody>
-                </KayoBrutalistCard>
-              ))}
-            </div>
-          ) : (
-            <div className="flex gap-3">
-              {['Batch A', 'Batch B', 'Batch C'].map(b => (
-                <Card key={b} className="w-36 cursor-pointer hover:shadow-md transition-shadow">
-                  <CardContent className="pt-4">
-                    <p className="font-semibold">{b}</p>
-                    <p className="text-xs text-muted-foreground">12 students</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ),
-          code: {
-            react: `<KayoBrutalistCard onClick={() => navigate(\`/batches/\${id}\`)}>
-  <KayoBrutalistCardBody>
-    <div style={{ fontWeight: 600 }}>Batch A</div>
-    <div style={{ fontSize: 12, color: '#6b7280' }}>12 students</div>
-  </KayoBrutalistCardBody>
-</KayoBrutalistCard>`,
-          },
-        },
-        {
-          title: 'Footer Alignment',
-          description: 'Three justify variants for the footer — start, end (default), between.',
-          preview: isKaayo ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%', maxWidth: '360px' }}>
-              {(['start', 'end', 'between'] as const).map(j => (
-                <KayoBrutalistCard key={j}>
-                  <KayoBrutalistCardHeader title={`justify="${j}"`} />
-                  <KayoBrutalistCardFooter justify={j}>
-                    <KayoBrutalistButton label="Cancel" variant="secondary" size="sm" />
-                    <KayoBrutalistButton label="Save"   variant="primary"   size="sm" />
-                  </KayoBrutalistCardFooter>
-                </KayoBrutalistCard>
-              ))}
-            </div>
-          ) : (
-            <div className="flex flex-col gap-3 w-full max-w-sm">
-              {(['start', 'end', 'between'] as const).map(j => (
-                <Card key={j}>
-                  <CardFooter className={`flex ${j === 'between' ? 'justify-between' : j === 'start' ? 'justify-start' : 'justify-end'} gap-2 pt-4`}>
-                    <Button variant="outline" size="sm">Cancel</Button>
-                    <Button size="sm">Save</Button>
-                  </CardFooter>
-                </Card>
-              ))}
-            </div>
-          ),
-          code: {
-            react: `<KayoBrutalistCardFooter justify="between">
-  <KayoBrutalistButton label="Cancel" variant="secondary" size="sm" />
-  <KayoBrutalistButton label="Save"   variant="primary"   size="sm" />
-</KayoBrutalistCardFooter>`,
           },
         },
       ]}

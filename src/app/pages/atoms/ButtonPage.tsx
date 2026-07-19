@@ -3,6 +3,7 @@ import { Button } from '@/app/components/atoms/button'
 import { ArrowRight, Download, Send, Sparkles, Trash2 } from 'lucide-react'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistButton } from '@/app/components/custom/kaayo/KayoBrutalistButton'
+import { KayoBrutalistScreenFooterButton } from '@aumraa/breathe-react/kaayo'
 
 export function ButtonPage() {
   const { activeProduct } = useProductTheme()
@@ -517,6 +518,34 @@ const styles = StyleSheet.create({
   <Button variant="secondary" label="Cancel"  onPress={handleCancel} />
   <Button variant="primary"   label="Submit"  onPress={handleSubmit} loading={isSubmitting} />
 </View>`,
+          },
+        },
+        {
+          title: 'Screen Footer Button (Kaayo Sub-Component)',
+          description: 'Sticky bottom container for mobile forms and workflow CTAs with safe area inset padding.',
+          preview: (
+            <div className="w-full max-w-md border-2 border-slate-200 rounded-lg overflow-hidden relative min-h-[160px] bg-slate-50 flex flex-col justify-end">
+              <div className="p-4 text-xs text-slate-500">Screen Form Content Above...</div>
+              <KayoBrutalistScreenFooterButton sticky={false}>
+                <KayoBrutalistButton variant="secondary" label="Cancel" fullWidth />
+                <KayoBrutalistButton variant="primary" label="Save Student" fullWidth />
+              </KayoBrutalistScreenFooterButton>
+            </div>
+          ),
+          code: {
+            react: `import { KayoBrutalistScreenFooterButton, KayoBrutalistButton } from '@aumraa/breathe-react/kaayo'
+
+<KayoBrutalistScreenFooterButton>
+  <KayoBrutalistButton variant="secondary" label="Cancel" fullWidth />
+  <KayoBrutalistButton variant="primary" label="Save Student" fullWidth />
+</KayoBrutalistScreenFooterButton>`,
+            reactNative: `import { ScreenFooterButton } from '@kaayo/components/molecules/ScreenFooterButton'
+import { Button } from '@kaayo/components/atoms/Button'
+
+<ScreenFooterButton>
+  <Button variant="secondary" label="Cancel" fullWidth onPress={onCancel} />
+  <Button variant="primary" label="Save Student" fullWidth onPress={onSave} />
+</ScreenFooterButton>`,
           },
         },
       ]}

@@ -45,10 +45,10 @@ interface ComponentPageLayoutProps {
 
 // Canonical brand list and accents for the switcher.
 // `status` drives the small pill next to the tab label — omit it for
-// products that don't carry a lifecycle badge (Aumraa is the company
-// itself, not a product; Technocracy is a per-product dashboard variant
-// and gets its own custom badge below instead of a single live/cooking
-// state).
+// products that don't carry a lifecycle badge. Aumraa is the company
+// itself, not a product. Technocracy is a per-product dashboard variant,
+// not a product with its own lifecycle — a live product implies its
+// Technocracy dashboard is live too, so it doesn't need a separate badge.
 const TOP_LEVEL_TABS = [
   { id: 'aumraa', label: 'Aumraa', accentColor: '#2F9E44', description: 'Studio brand — green primary' },
   { id: 'technocracy', label: 'Technocracy', accentColor: '#8B5CF6', description: 'Admin dashboard for each product — live wherever its parent product is live' },
@@ -57,10 +57,6 @@ const TOP_LEVEL_TABS = [
   { id: 'ullagellam_group', label: 'Ullagellam', accentColor: '#7C3AED', description: 'Regional & mobile suite umbrella · Multi-product filters below' },
   { id: 'yakaizen', label: 'Yakaizen', accentColor: '#06B6D4', description: 'Mobile, watch, widgets' },
 ] as const
-
-// Products live within Technocracy today — shown as its badge instead of a
-// single live/cooking state, since Technocracy's status is per-product.
-const TECHNOCRACY_LIVE_FOR = ['Kaayo', 'Lemniscate']
 
 const STATUS_PILL: Record<'live' | 'cooking', string> = {
   live: 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800',
@@ -128,17 +124,7 @@ function ProductSwitcher({ implemented }: { implemented: ProductId[] }) {
               }}
             >
               {tab.label}
-              {tab.id === 'technocracy' ? (
-                <span
-                  className="px-1.5 py-0.5 rounded-full border text-[10px] leading-none bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800"
-                  style={{ fontFamily: 'var(--font-sans)', fontWeight: 600 }}
-                  title={`Live for ${TECHNOCRACY_LIVE_FOR.join(' & ')} — new products get their own Technocracy dashboard at kickoff`}
-                >
-                  Live: {TECHNOCRACY_LIVE_FOR.join(', ')}
-                </span>
-              ) : 'status' in tab && tab.status ? (
-                <StatusBadge status={tab.status} />
-              ) : null}
+              {'status' in tab && tab.status && <StatusBadge status={tab.status} />}
               {!isImpl && <span className="text-slate-400">·</span>}
             </button>
           )

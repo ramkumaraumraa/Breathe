@@ -1,12 +1,6 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
 import { Calendar } from '@/app/components/ui/calendar'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/app/components/ui/select'
+import { Select, SelectItem } from '@/app/components/ui/select'
 import { useState } from 'react'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 
@@ -226,29 +220,20 @@ const [date, setDate] = useState<Date | undefined>(new Date(2026, 5, 10))
                   Select Time
                 </div>
                 <div className="flex gap-1.5 items-center justify-between">
-                  <Select value={hour} onValueChange={setHour}>
-                    <SelectTrigger className="w-16"><SelectValue placeholder="HH" /></SelectTrigger>
-                    <SelectContent>
-                      {Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0')).map((h) => (
-                        <SelectItem key={h} value={h}>{h}</SelectItem>
-                      ))}
-                    </SelectContent>
+                  <Select value={hour} onValueChange={setHour} className="w-16" placeholder="HH">
+                    {Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0')).map((h) => (
+                      <SelectItem key={h} value={h}>{h}</SelectItem>
+                    ))}
                   </Select>
                   <span style={{ color: '#6c6d70', fontWeight: 600 }}>:</span>
-                  <Select value={minute} onValueChange={setMinute}>
-                    <SelectTrigger className="w-16"><SelectValue placeholder="MM" /></SelectTrigger>
-                    <SelectContent>
-                      {['00', '15', '30', '45'].map((m) => (
-                        <SelectItem key={m} value={m}>{m}</SelectItem>
-                      ))}
-                    </SelectContent>
+                  <Select value={minute} onValueChange={setMinute} className="w-16" placeholder="MM">
+                    {['00', '15', '30', '45'].map((m) => (
+                      <SelectItem key={m} value={m}>{m}</SelectItem>
+                    ))}
                   </Select>
-                  <Select value={ampm} onValueChange={setAmpm}>
-                    <SelectTrigger className="w-18"><SelectValue placeholder="AM/PM" /></SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="AM">AM</SelectItem>
-                      <SelectItem value="PM">PM</SelectItem>
-                    </SelectContent>
+                  <Select value={ampm} onValueChange={setAmpm} className="w-18" placeholder="AM/PM">
+                    <SelectItem value="AM">AM</SelectItem>
+                    <SelectItem value="PM">PM</SelectItem>
                   </Select>
                 </div>
                 <div style={{
@@ -277,29 +262,20 @@ const [date, setDate] = useState<Date | undefined>(new Date(2026, 5, 10))
               <div className="space-y-4 border border-border rounded-lg p-4 bg-white dark:bg-slate-900 w-full sm:w-56">
                 <div className="font-semibold text-sm">Select Time</div>
                 <div className="flex gap-1.5 items-center justify-between">
-                  <Select value={hour} onValueChange={setHour}>
-                    <SelectTrigger className="w-16"><SelectValue placeholder="HH" /></SelectTrigger>
-                    <SelectContent>
-                      {Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0')).map((h) => (
-                        <SelectItem key={h} value={h}>{h}</SelectItem>
-                      ))}
-                    </SelectContent>
+                  <Select value={hour} onValueChange={setHour} className="w-16" placeholder="HH">
+                    {Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0')).map((h) => (
+                      <SelectItem key={h} value={h}>{h}</SelectItem>
+                    ))}
                   </Select>
                   <span className="text-muted-foreground font-semibold">:</span>
-                  <Select value={minute} onValueChange={setMinute}>
-                    <SelectTrigger className="w-16"><SelectValue placeholder="MM" /></SelectTrigger>
-                    <SelectContent>
-                      {['00', '15', '30', '45'].map((m) => (
-                        <SelectItem key={m} value={m}>{m}</SelectItem>
-                      ))}
-                    </SelectContent>
+                  <Select value={minute} onValueChange={setMinute} className="w-16" placeholder="MM">
+                    {['00', '15', '30', '45'].map((m) => (
+                      <SelectItem key={m} value={m}>{m}</SelectItem>
+                    ))}
                   </Select>
-                  <Select value={ampm} onValueChange={setAmpm}>
-                    <SelectTrigger className="w-18"><SelectValue placeholder="AM/PM" /></SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="AM">AM</SelectItem>
-                      <SelectItem value="PM">PM</SelectItem>
-                    </SelectContent>
+                  <Select value={ampm} onValueChange={setAmpm} className="w-18" placeholder="AM/PM">
+                    <SelectItem value="AM">AM</SelectItem>
+                    <SelectItem value="PM">PM</SelectItem>
                   </Select>
                 </div>
                 <div className="text-xs text-muted-foreground pt-3 border-t border-border mt-3 space-y-1">
@@ -316,7 +292,7 @@ const [date, setDate] = useState<Date | undefined>(new Date(2026, 5, 10))
           ),
           code: {
             react: `import { Calendar } from '@aumraa/breathe/components/ui/calendar'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@aumraa/breathe/components/ui/select'
+import { Select, SelectItem } from '@aumraa/breathe/components/ui/select'
 import { useState } from 'react'
 
 const [date, setDate] = useState<Date | undefined>(new Date())
@@ -329,23 +305,14 @@ const [ampm, setAmpm] = useState("AM")
   <div className="space-y-4 border rounded-lg p-4 w-full sm:w-56">
     <div className="text-sm font-medium">Select Time</div>
     <div className="flex gap-1.5 items-center">
-      <Select value={hour} onValueChange={setHour}>
-        <SelectTrigger><SelectValue /></SelectTrigger>
-        <SelectContent>{/* Hour Items 01–12 */}</SelectContent>
-      </Select>
+      <Select value={hour} onValueChange={setHour}>{/* Hour Items 01–12 */}</Select>
       <span>:</span>
       <Select value={minute} onValueChange={setMinute}>
-        <SelectTrigger><SelectValue /></SelectTrigger>
-        <SelectContent>
-          {["00","15","30","45"].map(m => <SelectItem value={m}>{m}</SelectItem>)}
-        </SelectContent>
+        {["00","15","30","45"].map(m => <SelectItem key={m} value={m}>{m}</SelectItem>)}
       </Select>
       <Select value={ampm} onValueChange={setAmpm}>
-        <SelectTrigger><SelectValue /></SelectTrigger>
-        <SelectContent>
-          <SelectItem value="AM">AM</SelectItem>
-          <SelectItem value="PM">PM</SelectItem>
-        </SelectContent>
+        <SelectItem value="AM">AM</SelectItem>
+        <SelectItem value="PM">PM</SelectItem>
       </Select>
     </div>
   </div>

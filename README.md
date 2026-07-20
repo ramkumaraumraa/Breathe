@@ -14,6 +14,34 @@ Single source of truth for all visual decisions across every Aumraa Technologies
 | Ilakh | `ilkh` | ✓ | ✓ | ✓ | ✓ | — | — | Pending kickoff |
 | Yakaizen | `ykai` | — | ✓ | ✓ | ✓ | ✓ | ✓ | Pending kickoff (Oct 2026) |
 
+## Component layer
+
+`src/app/components/ui/` is dependency-free — no Radix UI, no shadcn, no MUI,
+no cmdk, no vaul. Every component owns its own markup, styling, and (where
+needed) ARIA + keyboard behavior, so the same interaction model can be
+mirrored 1:1 in native React Native equivalents later.
+
+Components fall into two groups:
+
+- **Native-element components** (dialog, sheet, drawer, popover, tooltip,
+  hover-card, accordion, collapsible, select, checkbox, radio-group, switch,
+  slider, progress, table, separator, avatar, label, scroll-area,
+  aspect-ratio) — the browser owns the semantics and keyboard behavior via a
+  real `<dialog>`, `<details>`, `<select>`, `<input>`, `<progress>`, etc. No
+  ARIA is hand-authored here.
+- **Custom widgets** (dropdown-menu, context-menu, menubar, navigation-menu,
+  tabs, toggle-group, command, toast) — no native element exists, so ARIA
+  roles/states and keyboard handling are hand-authored, backed by a small
+  shared utilities layer: `slot.tsx` (asChild composition), `use-dialog.ts`
+  (native `<dialog>` open-state), `use-floating.ts` (positioning, hover/click-
+  outside/escape), `use-roving-tabindex.ts` (WAI-ARIA roving tabindex for
+  menus/tabs/toggle-groups).
+
+Some sub-widgets (menu submenus, checkbox/radio menu items) aren't
+implemented — nothing in this repo uses them yet. Follow the pattern in
+`dropdown-menu.tsx`/`radio-group.tsx` to add one when a real consumer needs
+it, rather than building it speculatively.
+
 ## Token pipeline
 
 All tokens are defined once in JSON and built by Style Dictionary

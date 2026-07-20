@@ -1,11 +1,5 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/app/components/ui/select'
+import { Select, SelectItem } from '@/app/components/ui/select'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistSelect } from '@/app/components/custom/kaayo/KayoBrutalistSelect'
 
@@ -36,29 +30,19 @@ export function DropdownPage() {
               />
             </div>
           ) : (
-            <Select>
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="Select a fruit" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="apple">Apple</SelectItem>
-                <SelectItem value="banana">Banana</SelectItem>
-                <SelectItem value="mango">Mango</SelectItem>
-              </SelectContent>
+            <Select className="w-48" placeholder="Select a fruit">
+              <SelectItem value="apple">Apple</SelectItem>
+              <SelectItem value="banana">Banana</SelectItem>
+              <SelectItem value="mango">Mango</SelectItem>
             </Select>
           ),
           code: {
-            react: `import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@breathe/ui'
+            react: `import { Select, SelectItem } from '@breathe/ui'
 
-<Select>
-  <SelectTrigger className="w-48">
-    <SelectValue placeholder="Select a fruit" />
-  </SelectTrigger>
-  <SelectContent>
-    <SelectItem value="apple">Apple</SelectItem>
-    <SelectItem value="banana">Banana</SelectItem>
-    <SelectItem value="mango">Mango</SelectItem>
-  </SelectContent>
+<Select className="w-48" placeholder="Select a fruit">
+  <SelectItem value="apple">Apple</SelectItem>
+  <SelectItem value="banana">Banana</SelectItem>
+  <SelectItem value="mango">Mango</SelectItem>
 </Select>`,
             reactNative: `import { Select } from '@kaayo/components/atoms/Select'
 
@@ -131,18 +115,10 @@ fun DropdownDemo() {
               />
             </div>
           ) : (
-            <Select disabled>
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="Not available" />
-              </SelectTrigger>
-            </Select>
+            <Select disabled className="w-48" placeholder="Not available" />
           ),
           code: {
-            react: `<Select disabled>
-  <SelectTrigger className="w-48">
-    <SelectValue placeholder="Not available" />
-  </SelectTrigger>
-</Select>`,
+            react: `<Select disabled className="w-48" placeholder="Not available" />`,
             reactNative: `import { Select } from '@kaayo/components/atoms/Select'
 
 <Select

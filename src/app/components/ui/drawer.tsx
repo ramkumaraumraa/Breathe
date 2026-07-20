@@ -1,46 +1,109 @@
 import * as React from "react";
-import { Drawer as DrawerPrimitive } from "vaul";
 
 import { cn } from "@/app/components/ui/utils";
+import { Slot } from "@/app/components/ui/slot";
+import { useDialogState, useNativeDialogElement, isOutsideDialogClick } from "@/app/components/ui/use-dialog";
 
-const Drawer = ({ shouldScaleBackground = true, ...props }: React.ComponentProps<typeof DrawerPrimitive.Root>) => (
-  <DrawerPrimitive.Root shouldScaleBackground={shouldScaleBackground} {...props} />
+interface DrawerContextValue {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  dialogId: string;
+}
+const DrawerContext = React.createContext<DrawerContextValue | null>(null);
+
+interface DrawerProps {
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  children?: React.ReactNode;
+}
+
+// ponytail: vaul's drag-to-dismiss swipe gesture is dropped — this is a
+// bottom sheet you close via the close button, backdrop click, or Escape.
+// Add a touch/pointer drag handler here if swipe-to-dismiss is requested.
+const Drawer = ({ open, defaultOpen, onOpenChange, children }: DrawerProps) => {
+  const [isOpen, setOpen] = useDialogState({ open, defaultOpen, onOpenChange });
+  const dialogId = React.useId();
+  return <DrawerContext.Provider value={{ open: isOpen, setOpen, dialogId }}>{children}</DrawerContext.Provider>;
+};
+
+interface DrawerTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  asChild?: boolean;
+}
+
+const DrawerTrigger = React.forwardRef<HTMLButtonElement, DrawerTriggerProps>(
+  ({ asChild = false, onClick, children, ...props }, ref) => {
+    const ctx = React.useContext(DrawerContext);
+    const Comp = asChild ? Slot : "button";
+    return (
+      <Comp
+        ref={ref}
+        type={asChild ? undefined : "button"}
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+          onClick?.(e);
+          ctx?.setOpen(true);
+        }}
+        {...props}
+      >
+        {children}
+      </Comp>
+    );
+  },
 );
-Drawer.displayName = "Drawer";
+DrawerTrigger.displayName = "DrawerTrigger";
 
-const DrawerTrigger = DrawerPrimitive.Trigger;
+interface DrawerCloseProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  asChild?: boolean;
+}
 
-const DrawerPortal = DrawerPrimitive.Portal;
+const DrawerClose = React.forwardRef<HTMLButtonElement, DrawerCloseProps>(
+  ({ asChild = false, onClick, children, ...props }, ref) => {
+    const ctx = React.useContext(DrawerContext);
+    const Comp = asChild ? Slot : "button";
+    return (
+      <Comp
+        ref={ref}
+        type={asChild ? undefined : "button"}
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+          onClick?.(e);
+          ctx?.setOpen(false);
+        }}
+        {...props}
+      >
+        {children}
+      </Comp>
+    );
+  },
+);
+DrawerClose.displayName = "DrawerClose";
 
-const DrawerClose = DrawerPrimitive.Close;
+const DrawerContent = React.forwardRef<HTMLDialogElement, React.HTMLAttributes<HTMLDialogElement>>(
+  ({ className, children, onClick, ...props }, forwardedRef) => {
+    const ctx = React.useContext(DrawerContext);
+    const dialogRef = useNativeDialogElement(!!ctx?.open, ctx?.setOpen ?? (() => {}));
+    React.useImperativeHandle(forwardedRef, () => dialogRef.current as HTMLDialogElement);
 
-const DrawerOverlay = React.forwardRef<
-  React.ElementRef<typeof DrawerPrimitive.Overlay>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>
->(({ className, ...props }, ref) => (
-  <DrawerPrimitive.Overlay ref={ref} className={cn("fixed inset-0 z-50 bg-black/80", className)} {...props} />
-));
-DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
-
-const DrawerContent = React.forwardRef<
-  React.ElementRef<typeof DrawerPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>
->(({ className, children, ...props }, ref) => (
-  <DrawerPortal>
-    <DrawerOverlay />
-    <DrawerPrimitive.Content
-      ref={ref}
-      className={cn(
-        "fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background",
-        className,
-      )}
-      {...props}
-    >
-      <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
-      {children}
-    </DrawerPrimitive.Content>
-  </DrawerPortal>
-));
+    return (
+      <dialog
+        ref={dialogRef}
+        aria-labelledby={`${ctx?.dialogId}-title`}
+        aria-describedby={`${ctx?.dialogId}-description`}
+        className={cn(
+          "fixed inset-x-0 bottom-0 top-auto z-50 m-0 flex h-auto max-h-[80vh] w-full max-w-none flex-col rounded-t-[10px] border bg-background backdrop:bg-black/80",
+          className,
+        )}
+        onClick={(e) => {
+          onClick?.(e);
+          if (dialogRef.current && isOutsideDialogClick(e, dialogRef.current)) ctx?.setOpen(false);
+        }}
+        {...props}
+      >
+        <div className="mx-auto mt-4 h-2 w-[100px] shrink-0 rounded-full bg-muted" />
+        {children}
+      </dialog>
+    );
+  },
+);
 DrawerContent.displayName = "DrawerContent";
 
 const DrawerHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
@@ -53,35 +116,34 @@ const DrawerFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivEleme
 );
 DrawerFooter.displayName = "DrawerFooter";
 
-const DrawerTitle = React.forwardRef<
-  React.ElementRef<typeof DrawerPrimitive.Title>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>
->(({ className, ...props }, ref) => (
-  <DrawerPrimitive.Title
-    ref={ref}
-    className={cn("text-lg font-semibold leading-none tracking-tight", className)}
-    {...props}
-  />
-));
-DrawerTitle.displayName = DrawerPrimitive.Title.displayName;
+const DrawerTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement>>(
+  ({ className, ...props }, ref) => {
+    const ctx = React.useContext(DrawerContext);
+    return (
+      <h2
+        ref={ref}
+        id={`${ctx?.dialogId}-title`}
+        className={cn("text-lg font-semibold leading-none tracking-tight", className)}
+        {...props}
+      />
+    );
+  },
+);
+DrawerTitle.displayName = "DrawerTitle";
 
-const DrawerDescription = React.forwardRef<
-  React.ElementRef<typeof DrawerPrimitive.Description>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>
->(({ className, ...props }, ref) => (
-  <DrawerPrimitive.Description ref={ref} className={cn("text-sm text-muted-foreground", className)} {...props} />
-));
-DrawerDescription.displayName = DrawerPrimitive.Description.displayName;
+const DrawerDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
+  ({ className, ...props }, ref) => {
+    const ctx = React.useContext(DrawerContext);
+    return (
+      <p
+        ref={ref}
+        id={`${ctx?.dialogId}-description`}
+        className={cn("text-sm text-muted-foreground", className)}
+        {...props}
+      />
+    );
+  },
+);
+DrawerDescription.displayName = "DrawerDescription";
 
-export {
-  Drawer,
-  DrawerPortal,
-  DrawerOverlay,
-  DrawerTrigger,
-  DrawerClose,
-  DrawerContent,
-  DrawerHeader,
-  DrawerFooter,
-  DrawerTitle,
-  DrawerDescription,
-};
+export { Drawer, DrawerTrigger, DrawerClose, DrawerContent, DrawerHeader, DrawerFooter, DrawerTitle, DrawerDescription };

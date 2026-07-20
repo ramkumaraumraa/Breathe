@@ -113,7 +113,8 @@ const [units, setUnits] = useState<number[]>([18])
     step={1}
   />
 </div>`,
-            reactNative: `import { Slider } from '@kaayo/components/atoms/Slider'
+            reactNative: {
+              kaayo: `import { Slider } from '@kaayo/components/atoms/Slider'
 import { useState } from 'react'
 
 const [units, setUnits] = useState(18)
@@ -132,6 +133,13 @@ const [units, setUnits] = useState(18)
 // Thumb:         size 20, bg #fff, borderWidth 2, borderColor theme.border.strong
 // Thumb shadow:  kayoShadow.sm → '2px 2px 0 #191b1f'
 // Active thumb:  translate(2,2) + shadow disappears (neo-brutalist press)`,
+              lemniscate: `import { Slider } from '@lemniscate/components/atoms/Slider'
+import { useState } from 'react'
+
+const [units, setUnits] = useState(18)
+
+<Slider value={units} onValueChange={setUnits} min={0} max={50} step={1} />`,
+            },
           },
         },
         {
@@ -187,7 +195,8 @@ const [units, setUnits] = useState(18)
   min={0}
   step={1}
 />`,
-            reactNative: `import { Slider } from '@kaayo/components/atoms/Slider'
+            reactNative: {
+              kaayo: `import { Slider } from '@kaayo/components/atoms/Slider'
 
 const [range, setRange] = useState<[number, number]>([10, 35])
 
@@ -203,6 +212,12 @@ const [range, setRange] = useState<[number, number]>([10, 35])
 // mode="range": renders two thumbs
 // The filled track spans from range[0]% to range[1]%
 // Both thumbs use the same token styling as single-thumb mode`,
+              lemniscate: `import { Slider } from '@lemniscate/components/atoms/Slider'
+
+const [range, setRange] = useState<[number, number]>([10, 35])
+
+<Slider value={range} onValueChange={setRange} min={0} max={50} step={1} mode="range" />`,
+            },
           },
         },
         {

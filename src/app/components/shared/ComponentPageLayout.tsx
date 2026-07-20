@@ -20,7 +20,11 @@ export interface ComponentSection {
   previewClassName?: string
   code?: {
     react?: string
-    reactNative?: string
+    // A plain string is shown to every product (already product-agnostic).
+    // A per-product map only shows its entry when that product's tab is
+    // active — everyone else sees "Coming soon" instead of another
+    // product's real package/component names.
+    reactNative?: string | Partial<Record<ProductId, string>>
     ios?: string
     android?: string
     css?: string       // vanilla CSS
@@ -39,15 +43,37 @@ interface ComponentPageLayoutProps {
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-// Canonical brand list and accents for the switcher
+// Canonical brand list and accents for the switcher.
+// `status` drives the small pill next to the tab label — omit it for
+// products that don't carry a lifecycle badge. Aumraa is the company
+// itself, not a product. Technocracy is a per-product dashboard variant,
+// not a product with its own lifecycle — a live product implies its
+// Technocracy dashboard is live too, so it doesn't need a separate badge.
 const TOP_LEVEL_TABS = [
   { id: 'aumraa', label: 'Aumraa', accentColor: '#2F9E44', description: 'Studio brand — green primary' },
-  { id: 'technocracy', label: 'Technocracy', accentColor: '#8B5CF6', description: 'Admin dashboard — dark surfaces' },
-  { id: 'lemniscate', label: 'Leminiscate', accentColor: '#1C60C1', description: 'Community finance SaaS — light, blue primary' },
-  { id: 'maligai', label: 'Maligai Manager', accentColor: '#D97706', description: 'Grocery & retail — mobile primary' },
+  { id: 'technocracy', label: 'Technocracy', accentColor: '#8B5CF6', description: 'Admin dashboard for each product — live wherever its parent product is live' },
+  { id: 'lemniscate', label: 'Leminiscate', accentColor: '#1C60C1', description: 'Community finance SaaS — light, blue primary', status: 'live' as const },
+  { id: 'maligai', label: 'Maligai Manager', accentColor: '#D97706', description: 'Grocery & retail — mobile primary', status: 'cooking' as const },
   { id: 'ullagellam_group', label: 'Ullagellam', accentColor: '#7C3AED', description: 'Regional & mobile suite umbrella · Multi-product filters below' },
   { id: 'yakaizen', label: 'Yakaizen', accentColor: '#06B6D4', description: 'Mobile, watch, widgets' },
 ] as const
+
+const STATUS_PILL: Record<'live' | 'cooking', string> = {
+  live: 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800',
+  cooking: 'bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800',
+}
+const STATUS_LABEL: Record<'live' | 'cooking', string> = { live: 'Live', cooking: 'Cooking' }
+
+function StatusBadge({ status }: { status: 'live' | 'cooking' }) {
+  return (
+    <span
+      className={`px-1.5 py-0.5 rounded-full border text-[10px] leading-none ${STATUS_PILL[status]}`}
+      style={{ fontFamily: 'var(--font-sans)', fontWeight: 600 }}
+    >
+      {STATUS_LABEL[status]}
+    </span>
+  )
+}
 
 // ─── Product switcher ─────────────────────────────────────────────────────────
 
@@ -98,6 +124,7 @@ function ProductSwitcher({ implemented }: { implemented: ProductId[] }) {
               }}
             >
               {tab.label}
+              {'status' in tab && tab.status && <StatusBadge status={tab.status} />}
               {!isImpl && <span className="text-slate-400">·</span>}
             </button>
           )
@@ -138,7 +165,7 @@ export function ComponentPageLayout({
       {isUllagellamGroup && (
         <div className="p-1.5 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl inline-flex flex-wrap gap-1.5 max-w-full shadow-sm">
           {[
-            { id: 'kaayo', label: '🎓 Kaayo (Tutor Ops)', accent: '#970103', tagline: 'Tutor & class operations · Mobile · Tablet' },
+            { id: 'kaayo', label: '🎓 Kaayo (Tutor Ops)', accent: '#970103', tagline: 'Tutor & class operations · Mobile · Tablet', status: 'live' as const },
             { id: 'ilakh', label: '📈 Ilakh (Finance)', accent: '#0369A1', tagline: 'Goal tracking & personal finance · Web · Mobile' },
             { id: 'ulagellam', label: '🗺️ Ulagellam (Explorer)', accent: '#7C3AED', tagline: 'Explore & discover around you · Mobile' }
           ].map(sub => {
@@ -148,7 +175,7 @@ export function ComponentPageLayout({
               <button
                 key={sub.id}
                 onClick={() => setActiveProduct(sub.id as ProductId)}
-                className={`px-5 py-2.5 rounded-xl font-semibold transition-all cursor-pointer whitespace-nowrap text-sm ${
+                className={`flex items-center gap-1.5 px-5 py-2.5 rounded-xl font-semibold transition-all cursor-pointer whitespace-nowrap text-sm ${
                   isSubActive
                     ? 'bg-white dark:bg-slate-950 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-800 shadow-sm'
                     : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 border border-transparent'
@@ -160,6 +187,7 @@ export function ComponentPageLayout({
                 title={!isSubImpl ? 'Placeholder — confirm at product design kickoff' : sub.tagline}
               >
                 {sub.label}
+                {'status' in sub && sub.status && <StatusBadge status={sub.status} />}
               </button>
             )
           })}
@@ -167,13 +195,16 @@ export function ComponentPageLayout({
       )}
 
       {/* Sections */}
-      {sections.map((section, i) => (
+      {sections.map((section, i) => {
+        const rn = section.code?.reactNative
+        const reactNativeCode = typeof rn === 'string' ? rn : rn?.[activeProduct]
+        return (
         <ComponentPreview
           key={i}
           title={section.title}
           description={section.description}
           code={section.code?.react ?? ''}
-          reactNativeCode={section.code?.reactNative}
+          reactNativeCode={reactNativeCode}
           iosCode={section.code?.ios}
           androidCode={section.code?.android}
           cssCode={section.code?.css}
@@ -184,7 +215,8 @@ export function ComponentPageLayout({
             {section.preview}
           </ProductPreviewWrapper>
         </ComponentPreview>
-      ))}
+        )
+      })}
     </div>
   )
 }

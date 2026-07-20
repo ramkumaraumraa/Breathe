@@ -1,27 +1,99 @@
 import * as React from "react";
-import * as HoverCardPrimitive from "@radix-ui/react-hover-card";
 
 import { cn } from "@/app/components/ui/utils";
+import { Slot, composeRefs } from "@/app/components/ui/slot";
+import { useFloatingPosition, useHoverOpen } from "@/app/components/ui/use-floating";
 
-const HoverCard = HoverCardPrimitive.Root;
+interface HoverCardContextValue {
+  open: boolean;
+  show: () => void;
+  hide: () => void;
+  triggerRef: React.RefObject<HTMLElement | null>;
+}
+const HoverCardContext = React.createContext<HoverCardContextValue | null>(null);
 
-const HoverCardTrigger = HoverCardPrimitive.Trigger;
+const HoverCard = ({ children }: { children?: React.ReactNode }) => {
+  const [open, show, hide] = useHoverOpen(300);
+  const triggerRef = React.useRef<HTMLElement>(null);
+  return <HoverCardContext.Provider value={{ open, show, hide, triggerRef }}>{children}</HoverCardContext.Provider>;
+};
 
-const HoverCardContent = React.forwardRef<
-  React.ElementRef<typeof HoverCardPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content>
->(({ className, align = "center", sideOffset = 4, ...props }, ref) => (
-  <HoverCardPrimitive.Content
-    ref={ref}
-    align={align}
-    sideOffset={sideOffset}
-    className={cn(
-      "z-50 w-64 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-      className,
-    )}
-    {...props}
-  />
-));
-HoverCardContent.displayName = HoverCardPrimitive.Content.displayName;
+interface HoverCardTriggerProps extends React.HTMLAttributes<HTMLElement> {
+  asChild?: boolean;
+}
+
+const HoverCardTrigger = React.forwardRef<HTMLElement, HoverCardTriggerProps>(
+  ({ asChild = false, onMouseEnter, onMouseLeave, children, ...props }, ref) => {
+    const ctx = React.useContext(HoverCardContext);
+    const Comp = asChild ? Slot : "span";
+    return (
+      <Comp
+        ref={composeRefs(ref, ctx?.triggerRef)}
+        onMouseEnter={(e: React.MouseEvent<HTMLElement>) => {
+          onMouseEnter?.(e);
+          ctx?.show();
+        }}
+        onMouseLeave={(e: React.MouseEvent<HTMLElement>) => {
+          onMouseLeave?.(e);
+          ctx?.hide();
+        }}
+        {...props}
+      >
+        {children}
+      </Comp>
+    );
+  },
+);
+HoverCardTrigger.displayName = "HoverCardTrigger";
+
+interface HoverCardContentProps extends React.HTMLAttributes<HTMLDivElement> {
+  align?: "start" | "center" | "end";
+  sideOffset?: number;
+}
+
+// Stays open while the pointer is over the card itself, not just the trigger
+// — lets users move their mouse into the card to interact with it.
+const HoverCardContent = React.forwardRef<HTMLDivElement, HoverCardContentProps>(
+  ({ className, align = "center", sideOffset = 4, onMouseEnter, onMouseLeave, ...props }, forwardedRef) => {
+    const ctx = React.useContext(HoverCardContext);
+    const localRef = React.useRef<HTMLDivElement>(null);
+    const style = useFloatingPosition(ctx?.triggerRef ?? { current: null }, localRef, !!ctx?.open, {
+      side: "bottom",
+      align,
+      sideOffset,
+    });
+
+    React.useEffect(() => {
+      const el = localRef.current;
+      if (!el) return;
+      if (ctx?.open && !el.matches(":popover-open")) el.showPopover();
+      if (!ctx?.open && el.matches(":popover-open")) el.hidePopover();
+    }, [ctx?.open]);
+
+    if (!ctx) return null;
+
+    return (
+      <div
+        ref={composeRefs(forwardedRef, localRef)}
+        popover="manual"
+        style={style}
+        onMouseEnter={(e) => {
+          onMouseEnter?.(e);
+          ctx?.show();
+        }}
+        onMouseLeave={(e) => {
+          onMouseLeave?.(e);
+          ctx?.hide();
+        }}
+        className={cn(
+          "z-50 w-64 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none",
+          className,
+        )}
+        {...props}
+      />
+    );
+  },
+);
+HoverCardContent.displayName = "HoverCardContent";
 
 export { HoverCard, HoverCardTrigger, HoverCardContent };

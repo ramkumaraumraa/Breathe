@@ -3,13 +3,7 @@ import { Label } from '@/app/components/ui/label'
 import { Input } from '@/app/components/ui/input'
 import { Textarea } from '@/app/components/ui/textarea'
 import { Button } from '@/app/components/ui/button'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/app/components/ui/select'
+import { Select, SelectItem } from '@/app/components/ui/select'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import {
   KayoBrutalistForm,
@@ -218,12 +212,9 @@ import { KayoBrutalistButton } from '@breathe/kaayo'
               </div>
               <div className="flex items-center gap-4">
                 <Label className="w-36 shrink-0 text-xs uppercase tracking-widest" htmlFor="h-type">Resident Type</Label>
-                <Select>
-                  <SelectTrigger className="flex-1"><SelectValue placeholder="Select type" /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="owner">Owner</SelectItem>
-                    <SelectItem value="tenant">Tenant</SelectItem>
-                  </SelectContent>
+                <Select className="flex-1" placeholder="Select type">
+                  <SelectItem value="owner">Owner</SelectItem>
+                  <SelectItem value="tenant">Tenant</SelectItem>
                 </Select>
               </div>
               <div className="flex items-start gap-4">
@@ -319,8 +310,8 @@ import { KayoBrutalistButton } from '@breathe/kaayo'
               <div className="space-y-2"><Label>Password</Label><Input type="password" placeholder="Min 8 characters" /></div>
               <div className="space-y-2">
                 <Label>Resident Type</Label>
-                <Select><SelectTrigger><SelectValue placeholder="Select type" /></SelectTrigger>
-                  <SelectContent><SelectItem value="owner">Owner</SelectItem><SelectItem value="tenant">Tenant</SelectItem></SelectContent>
+                <Select placeholder="Select type">
+                  <SelectItem value="owner">Owner</SelectItem><SelectItem value="tenant">Tenant</SelectItem>
                 </Select>
               </div>
               <div className="space-y-2"><Label>Notes</Label><Textarea placeholder="Any additional notes..." rows={3} /></div>
@@ -382,12 +373,10 @@ import { KayoBrutalistButton } from '@breathe/kaayo'
               <div className="flex items-center gap-3"><span className="text-xs font-semibold uppercase tracking-wider">Preferences</span><div className="h-px flex-1 bg-border" /></div>
               <div className="space-y-2">
                 <Label>Notifications</Label>
-                <Select><SelectTrigger><SelectValue placeholder="Select preference" /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All notifications</SelectItem>
-                    <SelectItem value="important">Important only</SelectItem>
-                    <SelectItem value="none">None</SelectItem>
-                  </SelectContent>
+                <Select placeholder="Select preference">
+                  <SelectItem value="all">All notifications</SelectItem>
+                  <SelectItem value="important">Important only</SelectItem>
+                  <SelectItem value="none">None</SelectItem>
                 </Select>
               </div>
               <div className="flex gap-2"><Button>Save Changes</Button><Button variant="outline">Cancel</Button></div>

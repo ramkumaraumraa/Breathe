@@ -1,11 +1,5 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/app/components/ui/select'
+import { Select, SelectItem } from '@/app/components/ui/select'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistSelect } from '@/app/components/custom/kaayo/KayoBrutalistSelect'
 
@@ -36,31 +30,22 @@ export function DropdownPage() {
               />
             </div>
           ) : (
-            <Select>
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="Select a fruit" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="apple">Apple</SelectItem>
-                <SelectItem value="banana">Banana</SelectItem>
-                <SelectItem value="mango">Mango</SelectItem>
-              </SelectContent>
+            <Select className="w-48" placeholder="Select a fruit">
+              <SelectItem value="apple">Apple</SelectItem>
+              <SelectItem value="banana">Banana</SelectItem>
+              <SelectItem value="mango">Mango</SelectItem>
             </Select>
           ),
           code: {
-            react: `import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@breathe/ui'
+            react: `import { Select, SelectItem } from '@breathe/ui'
 
-<Select>
-  <SelectTrigger className="w-48">
-    <SelectValue placeholder="Select a fruit" />
-  </SelectTrigger>
-  <SelectContent>
-    <SelectItem value="apple">Apple</SelectItem>
-    <SelectItem value="banana">Banana</SelectItem>
-    <SelectItem value="mango">Mango</SelectItem>
-  </SelectContent>
+<Select className="w-48" placeholder="Select a fruit">
+  <SelectItem value="apple">Apple</SelectItem>
+  <SelectItem value="banana">Banana</SelectItem>
+  <SelectItem value="mango">Mango</SelectItem>
 </Select>`,
-            reactNative: `import { Select } from '@kaayo/components/atoms/Select'
+            reactNative: {
+              kaayo: `import { Select } from '@kaayo/components/atoms/Select'
 
 <Select
   label="Subject"
@@ -79,6 +64,20 @@ export function DropdownPage() {
 // Border default: theme.border.strong (#3b3d3f)
 // Border open/focused: theme.border.focus = theme.brand.primary (#970103)
 // Dropdown shadow: kayoShadow.md → '4px 4px 0 #191b1f'`,
+              lemniscate: `import { Select } from '@lemniscate/components/atoms/Select'
+
+<Select
+  label="Subject"
+  placeholder="Select a subject"
+  value={selected}
+  onChange={setSelected}
+  options={[
+    { value: 'math', label: 'Mathematics' },
+    { value: 'science', label: 'Science' },
+    { value: 'english', label: 'English' },
+  ]}
+/>`,
+            },
             ios: `import SwiftUI
 
 struct SelectView: View {
@@ -131,19 +130,12 @@ fun DropdownDemo() {
               />
             </div>
           ) : (
-            <Select disabled>
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="Not available" />
-              </SelectTrigger>
-            </Select>
+            <Select disabled className="w-48" placeholder="Not available" />
           ),
           code: {
-            react: `<Select disabled>
-  <SelectTrigger className="w-48">
-    <SelectValue placeholder="Not available" />
-  </SelectTrigger>
-</Select>`,
-            reactNative: `import { Select } from '@kaayo/components/atoms/Select'
+            react: `<Select disabled className="w-48" placeholder="Not available" />`,
+            reactNative: {
+              kaayo: `import { Select } from '@kaayo/components/atoms/Select'
 
 <Select
   label="Subject"
@@ -156,6 +148,10 @@ fun DropdownDemo() {
 
 // disabled: backgroundColor = theme.surface.sunken (#f9fafb), opacity 0.6
 // onPress is blocked internally`,
+              lemniscate: `import { Select } from '@lemniscate/components/atoms/Select'
+
+<Select label="Subject" placeholder="Not available" value={null} onChange={() => {}} options={[]} disabled />`,
+            },
             ios: `Picker("Select a fruit", selection: .constant("apple")) {
     Text("Not available").tag("apple")
 }
@@ -187,7 +183,8 @@ fun DropdownDemo() {
           ),
           code: {
             react: `// Multi-select via Kaayo Select atom — no generic web equivalent`,
-            reactNative: `import { Select } from '@kaayo/components/atoms/Select'
+            reactNative: {
+              kaayo: `import { Select } from '@kaayo/components/atoms/Select'
 
 <Select
   label="Filter by status"
@@ -204,6 +201,7 @@ fun DropdownDemo() {
 
 // mode="multi": value is string[], checkboxes per item, Done button at bottom
 // mode="single" (default): value is string, radio dot per item, closes on select`,
+            },
           },
         },
       ]}

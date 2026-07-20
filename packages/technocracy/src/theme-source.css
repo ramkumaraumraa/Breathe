@@ -1,0 +1,276 @@
+/**
+ * Tailwind build input for @aumraa/technocracy-ui — not shipped as-is (uses
+ * @apply/@theme/@source, which only resolve through an actual Tailwind
+ * build). scripts/build.mjs compiles this into style.css, the file the
+ * package actually ships and consumers import.
+ *
+ * Mirrors src/styles/theme.css + src/styles/tailwind.css's @theme block in
+ * the root repo, scoped to Technocracy's own primitives instead of Aumraa's
+ * defaults. Keep the three in sync (this file, packages/lemniscate's, and
+ * packages/kaayo's) if the root repo's base theme changes.
+ */
+@import "./tokens.css";
+@import "tailwindcss" source(none);
+@source "../node_modules/@aumraa/breathe-ui/src/**/*.{ts,tsx}";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  color-scheme: light;
+
+  --background: var(--thcy-color-background);
+  --foreground: var(--thcy-color-foreground);
+
+  --card: var(--thcy-color-background);
+  --card-foreground: var(--thcy-color-foreground);
+
+  --popover: var(--thcy-color-background);
+  --popover-foreground: var(--thcy-color-foreground);
+
+  --primary: var(--thcy-color-primary);
+  --primary-foreground: var(--thcy-color-primary-foreground);
+
+  --secondary: var(--thcy-color-background-secondary);
+  --secondary-foreground: var(--thcy-color-foreground);
+
+  --muted: var(--thcy-color-background-tertiary);
+  --muted-foreground: var(--thcy-color-foreground-secondary);
+
+  --accent: var(--thcy-color-tertiary);
+  --accent-foreground: var(--thcy-color-tertiary-foreground);
+
+  --destructive: var(--thcy-color-negative);
+  --destructive-foreground: var(--thcy-color-negative-foreground);
+  --success: var(--color-status-success);
+  --success-light: var(--color-status-success-light);
+  --success-dark: var(--color-status-success-dark);
+  --warning: var(--color-status-warning);
+  --warning-light: var(--color-status-warning-light);
+  --warning-dark: var(--color-status-warning-dark);
+  --danger: var(--thcy-color-negative);
+  --danger-light: var(--color-status-danger-light);
+  --danger-dark: var(--color-status-danger-dark);
+  --info: var(--color-status-info);
+  --info-light: var(--color-status-info-light);
+  --info-dark: var(--color-status-info-dark);
+
+  --border: var(--thcy-color-border);
+  --input: var(--thcy-color-background-secondary);
+  --input-background: var(--thcy-color-background-secondary);
+  --switch-background: var(--thcy-color-border-hover);
+  --ring: var(--thcy-color-primary);
+
+  --radius: var(--thcy-radius-default);
+
+  --sidebar: var(--thcy-color-background-secondary);
+  --sidebar-foreground: var(--thcy-color-foreground);
+  --sidebar-primary: var(--thcy-color-primary);
+  --sidebar-primary-foreground: var(--thcy-color-primary-foreground);
+  --sidebar-accent: var(--thcy-color-background-tertiary);
+  --sidebar-accent-foreground: var(--thcy-color-foreground);
+  --sidebar-border: var(--thcy-color-border);
+  --sidebar-ring: var(--thcy-color-primary);
+
+  --chart-1: var(--color-blue-400);
+  --chart-2: var(--color-orange-500);
+  --chart-3: var(--color-status-success);
+  --chart-4: var(--color-status-warning);
+  --chart-5: var(--color-status-info);
+
+  --gradient-brand-start: var(--thcy-color-primary);
+  --gradient-brand-end: var(--thcy-color-secondary);
+  --gradient-brand: linear-gradient(135deg, var(--gradient-brand-start) 0%, var(--gradient-brand-end) 100%);
+
+  --font-size: var(--text-base);
+}
+
+.dark {
+  color-scheme: dark;
+
+  --background: #020617;
+  --foreground: #e2e8f0;
+  --card: #0f172a;
+  --card-foreground: #e2e8f0;
+  --popover: #0f172a;
+  --popover-foreground: #e2e8f0;
+
+  --primary: var(--thcy-color-primary);
+  --primary-foreground: var(--thcy-color-primary-foreground);
+  --secondary: #1e293b;
+  --secondary-foreground: #e2e8f0;
+  --muted: #0f172a;
+  --muted-foreground: #94a3b8;
+  --accent: #1e293b;
+  --accent-foreground: #e2e8f0;
+
+  --destructive: var(--thcy-color-negative);
+  --destructive-foreground: #e2e8f0;
+  --success: var(--color-status-success);
+  --success-light: var(--color-status-success-light);
+  --success-dark: var(--color-status-success-dark);
+  --warning: var(--color-status-warning);
+  --warning-light: var(--color-status-warning-light);
+  --warning-dark: var(--color-status-warning-dark);
+  --danger: var(--thcy-color-negative);
+  --danger-light: var(--color-status-danger-light);
+  --danger-dark: var(--color-status-danger-dark);
+  --info: var(--color-status-info);
+  --info-light: var(--color-status-info-light);
+  --info-dark: var(--color-status-info-dark);
+
+  --border: #1e293b;
+  --input: #1e293b;
+  --input-background: #1e293b;
+  --switch-background: #334155;
+  --ring: var(--thcy-color-primary);
+
+  --sidebar: #0f172a;
+  --sidebar-foreground: #e2e8f0;
+  --sidebar-primary: var(--thcy-color-primary);
+  --sidebar-primary-foreground: var(--thcy-color-primary-foreground);
+  --sidebar-accent: #1e293b;
+  --sidebar-accent-foreground: #e2e8f0;
+  --sidebar-border: #1e293b;
+  --sidebar-ring: var(--thcy-color-primary);
+
+  --chart-1: var(--color-blue-300);
+  --chart-2: var(--color-orange-300);
+  --chart-3: var(--color-status-success-light);
+  --chart-4: var(--color-status-warning-light);
+  --chart-5: var(--color-status-info-light);
+
+  --gradient-brand-start: var(--thcy-color-primary);
+  --gradient-brand-end: var(--thcy-color-secondary);
+  --gradient-brand: linear-gradient(135deg, var(--gradient-brand-start) 0%, var(--gradient-brand-end) 100%);
+
+  --font-size: var(--text-base);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-light: var(--success-light);
+  --color-success-dark: var(--success-dark);
+  --color-warning: var(--warning);
+  --color-warning-light: var(--warning-light);
+  --color-warning-dark: var(--warning-dark);
+  --color-danger: var(--danger);
+  --color-danger-light: var(--danger-light);
+  --color-danger-dark: var(--danger-dark);
+  --color-info: var(--info);
+  --color-info-light: var(--info-light);
+  --color-info-dark: var(--info-dark);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  html {
+    font-size: var(--font-size);
+  }
+
+  h1 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h2 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h3 {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h4 {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  label {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  button {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  input {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.5;
+  }
+}
+
+@layer utilities {
+  .bg-gradient-brand {
+    background: var(--gradient-brand);
+  }
+
+  .text-gradient-brand {
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .shadow-brand {
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--gradient-brand-start) 28%, transparent);
+  }
+
+  .shadow-brand-hover {
+    box-shadow: 0 4px 16px color-mix(in srgb, var(--gradient-brand-start) 34%, transparent);
+  }
+}

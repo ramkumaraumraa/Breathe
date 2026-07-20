@@ -28,7 +28,8 @@ import { Label } from '@breathe/ui'
 
 <Switch id="notifications" defaultChecked />
 <Label htmlFor="notifications">Enable notifications</Label>`,
-            reactNative: `import { Switch } from '@kaayo/components/atoms/Switch'
+            reactNative: {
+              kaayo: `import { Switch } from '@kaayo/components/atoms/Switch'
 
 // Switch with label (renders label + switch in a space-between row)
 <Switch value={enabled} onChange={setEnabled} label="Enable notifications" />
@@ -37,6 +38,10 @@ import { Label } from '@breathe/ui'
 // trackColor.true  = theme.brand.primary (#970103) — crimson when on
 // trackColor.false = theme.border.default
 // thumbColor       = theme.surface.card (#ffffff)`,
+              lemniscate: `import { Switch } from '@lemniscate/components/atoms/Switch'
+
+<Switch value={enabled} onChange={setEnabled} label="Enable notifications" />`,
+            },
           },
         },
         {
@@ -62,11 +67,18 @@ import { Label } from '@breathe/ui'
             react: `<Switch defaultChecked />  {/* on */}
 <Switch />               {/* off */}
 <Switch disabled />       {/* disabled */}`,
-            reactNative: `import { Switch } from '@kaayo/components/atoms/Switch'
+            reactNative: {
+              kaayo: `import { Switch } from '@kaayo/components/atoms/Switch'
 
 <Switch value={true}  onChange={() => {}} />          // on — crimson track
 <Switch value={false} onChange={() => {}} />          // off — grey track
 <Switch value={false} onChange={() => {}} disabled /> // disabled`,
+              lemniscate: `import { Switch } from '@lemniscate/components/atoms/Switch'
+
+<Switch value={true} onChange={() => {}} />
+<Switch value={false} onChange={() => {}} />
+<Switch value={false} onChange={() => {}} disabled />`,
+            },
           },
         },
         {

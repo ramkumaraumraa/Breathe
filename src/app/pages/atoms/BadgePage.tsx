@@ -52,7 +52,8 @@ export function BadgePage() {
 <Badge variant="danger">Danger</Badge>
 <Badge variant="info">Info</Badge>
 <Badge variant="destructive">Destructive</Badge>`,
-            reactNative: `import { Badge } from '@kaayo/components/atoms/Badge'
+            reactNative: {
+              kaayo: `import { Badge } from '@kaayo/components/atoms/Badge'
 
 <Badge variant="default">Default</Badge>
 <Badge variant="secondary">Secondary</Badge>
@@ -68,6 +69,16 @@ export function BadgePage() {
 // default:  bg = theme.brand.primary (#970103), text = #fff
 // outline:  bg transparent, border + text = theme.border.strong (#3b3d3f)
 // Padding:  paddingHorizontal 10, paddingVertical 3`,
+              lemniscate: `import { Badge } from '@lemniscate/components/atoms/Badge'
+
+<Badge variant="default">Default</Badge>
+<Badge variant="secondary">Secondary</Badge>
+<Badge variant="outline">Outline</Badge>
+<Badge variant="success">Success</Badge>
+<Badge variant="warning">Warning</Badge>
+<Badge variant="danger">Danger</Badge>
+<Badge variant="info">Info</Badge>`,
+            },
             ios: `import SwiftUI
 
 struct KayoBadge: View {

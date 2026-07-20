@@ -58,7 +58,8 @@ import { Label } from '@aumraa/breathe/components/ui/label'
     <Label htmlFor="annual">Annual</Label>
   </div>
 </RadioGroup>`,
-            reactNative: `import { RadioGroup } from '@kaayo/components/atoms/RadioGroup'
+            reactNative: {
+              kaayo: `import { RadioGroup } from '@kaayo/components/atoms/RadioGroup'
 
 <RadioGroup
   value={selected}
@@ -75,6 +76,18 @@ import { Label } from '@aumraa/breathe/components/ui/label'
 // Selected ring:   border = theme.brand.primary (#970103)
 // Inner dot:       8×8 circle, bg = theme.brand.primary
 // Row gap:         kayoSpace[3] (12)`,
+              lemniscate: `import { RadioGroup } from '@lemniscate/components/atoms/RadioGroup'
+
+<RadioGroup
+  value={selected}
+  onChange={setSelected}
+  options={[
+    { value: 'monthly', label: 'Monthly' },
+    { value: 'quarterly', label: 'Quarterly' },
+    { value: 'annual', label: 'Annual' },
+  ]}
+/>`,
+            },
           },
         },
         {
@@ -110,7 +123,8 @@ import { Label } from '@aumraa/breathe/components/ui/label'
             react: `<RadioGroup defaultValue="card" className="flex gap-6">
   ...options
 </RadioGroup>`,
-            reactNative: `import { RadioGroup } from '@kaayo/components/atoms/RadioGroup'
+            reactNative: {
+              kaayo: `import { RadioGroup } from '@kaayo/components/atoms/RadioGroup'
 import { View } from 'react-native'
 
 // RadioGroup renders vertically by default.
@@ -125,6 +139,19 @@ import { View } from 'react-native'
     />
   ))}
 </View>`,
+              lemniscate: `import { RadioGroup } from '@lemniscate/components/atoms/RadioGroup'
+
+<RadioGroup
+  value={selected}
+  onChange={setSelected}
+  horizontal
+  options={[
+    { value: 'card', label: 'Card' },
+    { value: 'upi', label: 'UPI' },
+    { value: 'cash', label: 'Cash' },
+  ]}
+/>`,
+            },
           },
         },
       ]}

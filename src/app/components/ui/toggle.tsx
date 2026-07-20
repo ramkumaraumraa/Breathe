@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as TogglePrimitive from "@radix-ui/react-toggle";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/app/components/ui/utils";
@@ -25,13 +24,36 @@ const toggleVariants = cva(
   },
 );
 
-const Toggle = React.forwardRef<
-  React.ElementRef<typeof TogglePrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof TogglePrimitive.Root> & VariantProps<typeof toggleVariants>
->(({ className, variant, size, ...props }, ref) => (
-  <TogglePrimitive.Root ref={ref} className={cn(toggleVariants({ variant, size, className }))} {...props} />
-));
+interface ToggleProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "onChange">, VariantProps<typeof toggleVariants> {
+  pressed?: boolean;
+  defaultPressed?: boolean;
+  onPressedChange?: (pressed: boolean) => void;
+}
 
-Toggle.displayName = TogglePrimitive.Root.displayName;
+const Toggle = React.forwardRef<HTMLButtonElement, ToggleProps>(
+  ({ className, variant, size, pressed, defaultPressed = false, onPressedChange, onClick, ...props }, ref) => {
+    const [uncontrolled, setUncontrolled] = React.useState(defaultPressed);
+    const isControlled = pressed !== undefined;
+    const isPressed = isControlled ? pressed : uncontrolled;
+
+    return (
+      <button
+        ref={ref}
+        type="button"
+        aria-pressed={isPressed}
+        data-state={isPressed ? "on" : "off"}
+        onClick={(e) => {
+          onClick?.(e);
+          const next = !isPressed;
+          if (!isControlled) setUncontrolled(next);
+          onPressedChange?.(next);
+        }}
+        className={cn(toggleVariants({ variant, size, className }))}
+        {...props}
+      />
+    );
+  },
+);
+Toggle.displayName = "Toggle";
 
 export { Toggle, toggleVariants };

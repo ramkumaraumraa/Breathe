@@ -41,7 +41,8 @@ export function AvatarPage() {
   <AvatarImage src="https://github.com/shadcn.png" alt="User" />
   <AvatarFallback>SC</AvatarFallback>
 </Avatar>`,
-            reactNative: `import { StudentAvatar } from '@kaayo/components/atoms/StudentAvatar'
+            reactNative: {
+              kaayo: `import { StudentAvatar } from '@kaayo/components/atoms/StudentAvatar'
 
 // Kaayo uses StudentAvatar for user/student photos
 <StudentAvatar
@@ -55,6 +56,10 @@ export function AvatarPage() {
 // Border:   2px solid theme.border.strong (#3b3d3f)
 // Shadow:   kayoShadow.sm → '2px 2px 0 #191b1f'
 // Fallback: bg = theme.brand.primary (#970103), text white`,
+              lemniscate: `import { Avatar } from '@lemniscate/components/atoms/Avatar'
+
+<Avatar uri="https://example.com/photo.jpg" initials="SC" size={40} />`,
+            },
             ios: `import SwiftUI
 
 AsyncImage(url: URL(string: "https://example.com/photo.jpg")) { image in
@@ -97,12 +102,20 @@ Glide.with(context)
           code: {
             react: `<Avatar><AvatarFallback>JD</AvatarFallback></Avatar>
 <Avatar><AvatarFallback>AB</AvatarFallback></Avatar>`,
-            reactNative: `import { StudentAvatar } from '@kaayo/components/atoms/StudentAvatar'
+            reactNative: {
+              kaayo: `import { StudentAvatar } from '@kaayo/components/atoms/StudentAvatar'
 
 // No uri — renders initials on crimson background
 <StudentAvatar initials="JD" size={40} />
 <StudentAvatar initials="AB" size={40} />
 <StudentAvatar initials="RK" size={40} />`,
+              lemniscate: `import { Avatar } from '@lemniscate/components/atoms/Avatar'
+
+// No uri — renders initials
+<Avatar initials="JD" size={40} />
+<Avatar initials="AB" size={40} />
+<Avatar initials="RK" size={40} />`,
+            },
             ios: `Text("JD")
     .font(.subheadline).fontWeight(.bold).foregroundColor(.white)
     .frame(width: 40, height: 40)
@@ -143,9 +156,14 @@ Glide.with(context)
             react: `<Avatar className="w-8 h-8"><AvatarFallback>SM</AvatarFallback></Avatar>
 <Avatar><AvatarFallback>MD</AvatarFallback></Avatar>
 <Avatar className="w-12 h-12"><AvatarFallback>LG</AvatarFallback></Avatar>`,
-            reactNative: `<StudentAvatar initials="SM" size={32} />
+            reactNative: {
+              kaayo: `<StudentAvatar initials="SM" size={32} />
 <StudentAvatar initials="MD" size={40} />
 <StudentAvatar initials="LG" size={48} />`,
+              lemniscate: `<Avatar initials="SM" size={32} />
+<Avatar initials="MD" size={40} />
+<Avatar initials="LG" size={48} />`,
+            },
           },
         },
       ]}

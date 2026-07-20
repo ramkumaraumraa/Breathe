@@ -1,7 +1,7 @@
 {
-  "name": "@aumraa/kaayo-ui",
+  "name": "@aumraa/technocracy-ui",
   "version": "0.1.0",
-  "description": "Breathe's component layer, pre-themed for Kaayo (tutor & class operations, neo-brutalist).",
+  "description": "Breathe's component layer, pre-themed for Technocracy (admin dashboard — dark surfaces).",
   "type": "module",
   "license": "UNLICENSED",
   "repository": "https://github.com/AUMRAA/Breathe",

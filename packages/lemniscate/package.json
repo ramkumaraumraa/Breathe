@@ -14,18 +14,20 @@
   "types": "src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./theme.css": "./src/theme.css",
-    "./tokens.css": "./src/tokens.css"
+    "./style.css": "./src/style.css"
   },
   "files": [
     "src"
   ],
   "scripts": {
-    "build": "node scripts/copy-tokens.mjs",
+    "build": "node scripts/build.mjs",
     "prepack": "npm run build"
   },
   "dependencies": {
     "@aumraa/breathe-ui": "workspace:*"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "4.1.12"
   },
   "peerDependencies": {
     "react": ">=18.3.1",

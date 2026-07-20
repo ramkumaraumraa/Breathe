@@ -1,4 +1,3 @@
-import "./tokens.css";
-import "./theme.css";
+import "./style.css";
 
 export * from "@aumraa/breathe-ui";

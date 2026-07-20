@@ -49,10 +49,16 @@ packages, published to GitHub Packages under the `@aumraa` scope:
 
 - **`@aumraa/breathe-ui`** — the full `src/app/components/ui/` set,
   unthemed. You almost never depend on this directly.
-- **`@aumraa/lemniscate-ui`** / **`@aumraa/kaayo-ui`** — `breathe-ui`
-  re-exported with that product's tokens applied automatically (no
-  `ProductThemeContext` wrapper needed). This is what a Lemniscate or Kaayo
-  web surface actually installs.
+- **`@aumraa/lemniscate-ui`** / **`@aumraa/kaayo-ui`** / **`@aumraa/technocracy-ui`**
+  — `breathe-ui` re-exported with that product's *entire* foundation layer
+  applied automatically: colors, typography scale, spacing, radius, shadows,
+  dark mode, base element styles — not just the color theme. Each package
+  ships a single pre-compiled `style.css` (built by running the real
+  Tailwind CLI against that product's semantic mapping, `@source`-scanning
+  `breathe-ui` for every class actually used). Install, import, done — no
+  Tailwind setup required on the consumer side, no `ProductThemeContext`
+  wrapper. This is what a Lemniscate, Kaayo, or Technocracy web surface
+  actually installs.
 
 These are **web** packages — real DOM components (`<div>`, `<dialog>`,
 `<button>`, …). They are not importable into a React Native app; the

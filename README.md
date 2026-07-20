@@ -42,6 +42,27 @@ implemented — nothing in this repo uses them yet. Follow the pattern in
 `dropdown-menu.tsx`/`radio-group.tsx` to add one when a real consumer needs
 it, rather than building it speculatively.
 
+## Installable packages
+
+`packages/` turns the component layer into installable, per-product
+packages, published to GitHub Packages under the `@aumraa` scope:
+
+- **`@aumraa/breathe-ui`** — the full `src/app/components/ui/` set,
+  unthemed. You almost never depend on this directly.
+- **`@aumraa/lemniscate-ui`** / **`@aumraa/kaayo-ui`** — `breathe-ui`
+  re-exported with that product's tokens applied automatically (no
+  `ProductThemeContext` wrapper needed). This is what a Lemniscate or Kaayo
+  web surface actually installs.
+
+These are **web** packages — real DOM components (`<div>`, `<dialog>`,
+`<button>`, …). They are not importable into a React Native app; the
+Bucket A/Bucket B split above is what a native mobile implementation should
+mirror, not these packages directly.
+
+Each package's `src/` is generated (gitignored), not hand-edited — see
+`packages/breathe-ui/README.md` and `packages/{lemniscate,kaayo}/README.md`
+for how to regenerate and publish.
+
 ## Token pipeline
 
 All tokens are defined once in JSON and built by Style Dictionary

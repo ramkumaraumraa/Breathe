@@ -74,7 +74,8 @@ const [date, setDate] = useState<Date | undefined>()
   onSelect={setDate}
   className="rounded-lg border"
 />`,
-            reactNative: `import { Calendar } from '@kaayo/components/atoms/Calendar'
+            reactNative: {
+              kaayo: `import { Calendar } from '@kaayo/components/atoms/Calendar'
 import { useState } from 'react'
 
 const [date, setDate] = useState<Date | undefined>()
@@ -89,6 +90,13 @@ const [date, setDate] = useState<Date | undefined>()
 // Container shadow: kayoShadow.sm → '2px 2px 0 #191b1f'
 // Today indicator: underline dot, color theme.brand.primary (#970103)
 // Header nav arrows: color theme.foreground.default (#3b3d3f)`,
+              lemniscate: `import { Calendar } from '@lemniscate/components/atoms/Calendar'
+import { useState } from 'react'
+
+const [date, setDate] = useState<Date | undefined>()
+
+<Calendar value={date} onChange={setDate} />`,
+            },
           },
         },
         {
@@ -125,7 +133,8 @@ const [date, setDate] = useState<Date | undefined>(new Date(2026, 5, 10))
   selected={date}
   onSelect={setDate}
 />`,
-            reactNative: `import { Calendar } from '@kaayo/components/atoms/Calendar'
+            reactNative: {
+              kaayo: `import { Calendar } from '@kaayo/components/atoms/Calendar'
 
 <Calendar
   value={new Date(2026, 5, 10)}
@@ -136,6 +145,10 @@ const [date, setDate] = useState<Date | undefined>(new Date(2026, 5, 10))
 //   bg = theme.brand.primary (#970103) — crimson circle
 //   text = theme.text.onPrimary (#ffffff)
 // Unselected hover: bg = theme.surface.sunken (#f9fafb)`,
+              lemniscate: `import { Calendar } from '@lemniscate/components/atoms/Calendar'
+
+<Calendar value={new Date(2026, 5, 10)} onChange={setDate} />`,
+            },
           },
         },
         {
@@ -173,7 +186,8 @@ const [date, setDate] = useState<Date | undefined>(new Date(2026, 5, 10))
   onSelect={setRange}
   numberOfMonths={2}
 />`,
-            reactNative: `import { Calendar } from '@kaayo/components/atoms/Calendar'
+            reactNative: {
+              kaayo: `import { Calendar } from '@kaayo/components/atoms/Calendar'
 
 <Calendar
   mode="range"
@@ -185,6 +199,10 @@ const [date, setDate] = useState<Date | undefined>(new Date(2026, 5, 10))
 //   Start + end day: bg = theme.brand.primary (#970103), circle
 //   In-range days:   bg = theme.brand.primaryLight (crimson 15% opacity)
 //   In-range text:   color = theme.brand.primary`,
+              lemniscate: `import { Calendar } from '@lemniscate/components/atoms/Calendar'
+
+<Calendar mode="range" value={range} onChange={setRange} />`,
+            },
           },
         },
         {
@@ -317,7 +335,8 @@ const [ampm, setAmpm] = useState("AM")
     </div>
   </div>
 </div>`,
-            reactNative: `import { Calendar } from '@kaayo/components/atoms/Calendar'
+            reactNative: {
+              kaayo: `import { Calendar } from '@kaayo/components/atoms/Calendar'
 import { TimePicker } from '@kaayo/components/atoms/TimePicker'
 
 <View style={{ gap: 16 }}>
@@ -332,6 +351,14 @@ import { TimePicker } from '@kaayo/components/atoms/TimePicker'
 // Dropdown border: 2px, borderColor theme.border.strong
 // Selected time text: color theme.brand.primary (#970103)
 // Container shadow: kayoShadow.md → '4px 4px 0 #191b1f'`,
+              lemniscate: `import { Calendar } from '@lemniscate/components/atoms/Calendar'
+import { TimePicker } from '@lemniscate/components/atoms/TimePicker'
+
+<View style={{ gap: 16 }}>
+  <Calendar value={date} onChange={setDate} />
+  <TimePicker value={{ hour, minute, ampm }} onChange={setTime} />
+</View>`,
+            },
           },
         },
       ]}

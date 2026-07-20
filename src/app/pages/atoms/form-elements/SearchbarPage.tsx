@@ -150,7 +150,8 @@ function Searchbar({ suggestions }) {
     </div>
   )
 }`,
-            reactNative: `import { Searchbar } from '@kaayo/components/atoms/Searchbar'
+            reactNative: {
+              kaayo: `import { Searchbar } from '@kaayo/components/atoms/Searchbar'
 import { useState } from 'react'
 
 const [query, setQuery] = useState('')
@@ -169,6 +170,19 @@ const [query, setQuery] = useState('')
 // Search icon: theme.foreground.secondary (#6c6d70), size 16
 // Dropdown: border 2px, shadow kayoShadow.md (4px 4px 0 #191b1f)
 // Suggestion item hover: bg theme.surface.sunken (#f9fafb)`,
+              lemniscate: `import { Searchbar } from '@lemniscate/components/atoms/Searchbar'
+import { useState } from 'react'
+
+const [query, setQuery] = useState('')
+
+<Searchbar
+  value={query}
+  onChangeText={setQuery}
+  placeholder="Search products or brands…"
+  suggestions={SUGGESTIONS}
+  onSuggestionSelect={setQuery}
+/>`,
+            },
           },
         },
       ]}

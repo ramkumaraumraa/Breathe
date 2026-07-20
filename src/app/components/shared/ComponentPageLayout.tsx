@@ -20,7 +20,11 @@ export interface ComponentSection {
   previewClassName?: string
   code?: {
     react?: string
-    reactNative?: string
+    // A plain string is shown to every product (already product-agnostic).
+    // A per-product map only shows its entry when that product's tab is
+    // active — everyone else sees "Coming soon" instead of another
+    // product's real package/component names.
+    reactNative?: string | Partial<Record<ProductId, string>>
     ios?: string
     android?: string
     css?: string       // vanilla CSS
@@ -167,13 +171,16 @@ export function ComponentPageLayout({
       )}
 
       {/* Sections */}
-      {sections.map((section, i) => (
+      {sections.map((section, i) => {
+        const rn = section.code?.reactNative
+        const reactNativeCode = typeof rn === 'string' ? rn : rn?.[activeProduct]
+        return (
         <ComponentPreview
           key={i}
           title={section.title}
           description={section.description}
           code={section.code?.react ?? ''}
-          reactNativeCode={section.code?.reactNative}
+          reactNativeCode={reactNativeCode}
           iosCode={section.code?.ios}
           androidCode={section.code?.android}
           cssCode={section.code?.css}
@@ -184,7 +191,8 @@ export function ComponentPageLayout({
             {section.preview}
           </ProductPreviewWrapper>
         </ComponentPreview>
-      ))}
+        )
+      })}
     </div>
   )
 }

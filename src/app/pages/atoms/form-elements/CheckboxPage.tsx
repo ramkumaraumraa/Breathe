@@ -32,7 +32,8 @@ import { Label } from '@breathe/ui'
 
 <Checkbox id="terms" defaultChecked />
 <Label htmlFor="terms">Accept terms and conditions</Label>`,
-            reactNative: `import { Checkbox } from '@kaayo/components/atoms/Checkbox'
+            reactNative: {
+              kaayo: `import { Checkbox } from '@kaayo/components/atoms/Checkbox'
 
 <Checkbox
   checked={accepted}
@@ -45,6 +46,10 @@ import { Label } from '@breathe/ui'
 // Checked:   bg = theme.brand.primary (#970103), border = theme.brand.primary
 // Box:       20×20, borderRadius: kayoRadius.sm (4)
 // Check icon: lucide Check size 12, strokeWidth 3, color theme.text.onPrimary (#fff)`,
+              lemniscate: `import { Checkbox } from '@lemniscate/components/atoms/Checkbox'
+
+<Checkbox checked={accepted} onChange={setAccepted} label="Accept terms and conditions" />`,
+            },
             ios: `import SwiftUI
 
 struct CheckboxView: View {
@@ -126,13 +131,20 @@ fun CheckboxDemo() {
             react: `<Checkbox defaultChecked />   {/* checked */}
 <Checkbox />               {/* unchecked */}
 <Checkbox disabled />       {/* disabled */}`,
-            reactNative: `import { Checkbox } from '@kaayo/components/atoms/Checkbox'
+            reactNative: {
+              kaayo: `import { Checkbox } from '@kaayo/components/atoms/Checkbox'
 
 <Checkbox checked={true}  onChange={() => {}} label="Checked"   />
 <Checkbox checked={false} onChange={() => {}} label="Unchecked" />
 <Checkbox checked={false} onChange={() => {}} label="Disabled"  disabled />
 
 // disabled: applies opacity 0.5, blocks onPress internally`,
+              lemniscate: `import { Checkbox } from '@lemniscate/components/atoms/Checkbox'
+
+<Checkbox checked={true} onChange={() => {}} label="Checked" />
+<Checkbox checked={false} onChange={() => {}} label="Unchecked" />
+<Checkbox checked={false} onChange={() => {}} label="Disabled" disabled />`,
+            },
             ios: `VStack(alignment: .leading, spacing: 12) {
     Toggle("Checked", isOn: .constant(true)).toggleStyle(CheckboxToggleStyle())
     Toggle("Unchecked", isOn: .constant(false)).toggleStyle(CheckboxToggleStyle())

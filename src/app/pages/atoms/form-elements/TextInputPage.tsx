@@ -34,7 +34,8 @@ import { Label } from '@breathe/ui'
 
 <Label htmlFor="email">Email address</Label>
 <Input id="email" type="email" placeholder="you@example.com" />`,
-            reactNative: `import { Input } from '@kaayo/components/atoms/Input'
+            reactNative: {
+              kaayo: `import { Input } from '@kaayo/components/atoms/Input'
 
 <Input
   label="Email address"
@@ -51,6 +52,17 @@ import { Label } from '@breathe/ui'
 // Background: theme.surface.card (#ffffff)
 // minHeight: 48, paddingHorizontal: kayoSpace[3] (12)
 // borderWidth: kayoBorder.width (2), borderRadius: kayoRadius.md (8)`,
+              lemniscate: `import { Input } from '@lemniscate/components/atoms/Input'
+
+<Input
+  label="Email address"
+  placeholder="you@example.com"
+  keyboardType="email-address"
+  autoCapitalize="none"
+  onChangeText={setEmail}
+  value={email}
+/>`,
+            },
             ios: `import SwiftUI
 
 struct InputView: View {
@@ -108,7 +120,8 @@ fun EmailInput() {
           code: {
             react: `<Input placeholder="Disabled" disabled />
 <Input readOnly defaultValue="Read-only value" />`,
-            reactNative: `import { Input } from '@kaayo/components/atoms/Input'
+            reactNative: {
+              kaayo: `import { Input } from '@kaayo/components/atoms/Input'
 
 // Focused — border changes to theme.border.focus automatically on onFocus
 <Input label="Name" placeholder="Enter name" onChangeText={setName} value={name} />
@@ -118,6 +131,11 @@ fun EmailInput() {
 
 // Read-only
 <Input label="Read only" value="Fixed value" editable={false} />`,
+              lemniscate: `import { Input } from '@lemniscate/components/atoms/Input'
+
+<Input label="Disabled" placeholder="Not editable" editable={false} />
+<Input label="Read only" value="Fixed value" editable={false} />`,
+            },
             ios: `// Disabled and Read-Only in SwiftUI
 TextField("Disabled", text: .constant("")).disabled(true).opacity(0.5)
 TextField("Read only", text: .constant("Read-only value")).disabled(true)`,
@@ -148,7 +166,8 @@ OutlinedTextField(value = "Read-only value", onValueChange = {}, readOnly = true
           code: {
             react: `<Input helperText="Used for SMS session reminders." />
 <Input errorText="Please enter a valid 10-digit number." />`,
-            reactNative: `import { Input } from '@kaayo/components/atoms/Input'
+            reactNative: {
+              kaayo: `import { Input } from '@kaayo/components/atoms/Input'
 
 // Helper text — renders below in theme.text.secondary
 <Input
@@ -165,6 +184,7 @@ OutlinedTextField(value = "Read-only value", onValueChange = {}, readOnly = true
   errorText="Please enter a valid 10-digit number."
   onChangeText={setPhone}
 />`,
+            },
           },
         },
         {
@@ -177,7 +197,8 @@ OutlinedTextField(value = "Read-only value", onValueChange = {}, readOnly = true
           ),
           code: {
             react: `<Input type="password" placeholder="Enter password" />`,
-            reactNative: `import { Input } from '@kaayo/components/atoms/Input'
+            reactNative: {
+              kaayo: `import { Input } from '@kaayo/components/atoms/Input'
 
 // isPassword adds Eye/EyeOff toggle — internally toggles secureTextEntry
 <Input
@@ -190,6 +211,7 @@ OutlinedTextField(value = "Read-only value", onValueChange = {}, readOnly = true
 // Token reference:
 // Eye/EyeOff: lucide-react-native, size 20, color theme.text.secondary (#6c6d70)
 // Toggle is a Pressable with hitSlop={8} so it's easy to tap on mobile`,
+            },
           },
         },
       ]}

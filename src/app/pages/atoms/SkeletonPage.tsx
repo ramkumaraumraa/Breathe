@@ -62,7 +62,8 @@ export function SkeletonPage() {
   </div>
 </div>
 <Skeleton className="h-32 w-full rounded-lg" />`,
-            reactNative: `import { Skeleton } from '@kaayo/components/atoms/Skeleton'
+            reactNative: {
+              kaayo: `import { Skeleton } from '@kaayo/components/atoms/Skeleton'
 
 <View style={{ gap: 16 }}>
   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
@@ -79,6 +80,19 @@ export function SkeletonPage() {
 // bg: #e5e7eb (gray-200), border: 1px solid #d1d5db
 // borderRadius: 2 (rectangular, not rounded)
 // animation: opacity pulse 1.6s ease-in-out infinite (0.4 → 1.0)`,
+              lemniscate: `import { Skeleton } from '@lemniscate/components/atoms/Skeleton'
+
+<View style={{ gap: 16 }}>
+  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+    <Skeleton width={48} height={48} borderRadius={24} />
+    <View style={{ flex: 1, gap: 8 }}>
+      <Skeleton width="75%" height={14} />
+      <Skeleton width="50%" height={11} />
+    </View>
+  </View>
+  <Skeleton width="100%" height={120} />
+</View>`,
+            },
           },
         },
         {
@@ -123,7 +137,8 @@ export function SkeletonPage() {
     <Skeleton className="h-5 w-16 rounded-full" />
   </div>
 ))}`,
-            reactNative: `import { Skeleton } from '@kaayo/components/atoms/Skeleton'
+            reactNative: {
+              kaayo: `import { Skeleton } from '@kaayo/components/atoms/Skeleton'
 
 {[1, 2, 3].map(i => (
   <View key={i} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -137,6 +152,16 @@ export function SkeletonPage() {
     <Skeleton width={64} height={20} />
   </View>
 ))}`,
+              lemniscate: `import { Skeleton } from '@lemniscate/components/atoms/Skeleton'
+
+{[1, 2, 3].map(i => (
+  <View key={i} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+    <Skeleton width={32} height={32} />
+    <Skeleton width={110} height={11} />
+    <Skeleton width={64} height={20} />
+  </View>
+))}`,
+            },
           },
         },
       ]}

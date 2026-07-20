@@ -51,7 +51,8 @@ import { Input } from '@aumraa/breathe/components/ui/input'
 
 <Label htmlFor="name">Full Name</Label>
 <Input id="name" placeholder="Ramkumar G" />`,
-            reactNative: `import { Text, View } from 'react-native'
+            reactNative: {
+              kaayo: `import { Text, View } from 'react-native'
 import { Input } from '@kaayo/components/atoms/Input'
 
 <View style={{ gap: 4 }}>
@@ -67,6 +68,14 @@ import { Input } from '@kaayo/components/atoms/Input'
 
 // Labels are plain Text components — use fontWeight '500' and
 // theme.text.primary for default, theme.brand.primary for active/focus.`,
+              lemniscate: `import { Text, View } from 'react-native'
+import { Input } from '@lemniscate/components/atoms/Input'
+
+<View style={{ gap: 4 }}>
+  <Text style={{ fontSize: 14, fontWeight: '500' }}>Full Name</Text>
+  <Input placeholder="Ramkumar G" />
+</View>`,
+            },
           },
         },
         {
@@ -82,13 +91,18 @@ import { Input } from '@kaayo/components/atoms/Input'
           code: {
             react: `<Checkbox id="terms" />
 <Label htmlFor="terms">I agree to the terms and conditions</Label>`,
-            reactNative: `import { Checkbox } from '@kaayo/components/atoms/Checkbox'
+            reactNative: {
+              kaayo: `import { Checkbox } from '@kaayo/components/atoms/Checkbox'
 
 <Checkbox
   checked={accepted}
   onChange={setAccepted}
   label="I agree to the terms and conditions"
 />`,
+              lemniscate: `import { Checkbox } from '@lemniscate/components/atoms/Checkbox'
+
+<Checkbox checked={accepted} onChange={setAccepted} label="I agree to the terms and conditions" />`,
+            },
           },
         },
         {

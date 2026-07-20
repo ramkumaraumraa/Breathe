@@ -161,7 +161,8 @@ export function ButtonPage() {
 }
 .btn-outline:hover { background-color: color-mix(in srgb, var(--color-primary) 5%, transparent); }`,
 
-            reactNative: `import { Button } from '@kaayo/components/atoms/Button'
+            reactNative: {
+              kaayo: `import { Button } from '@kaayo/components/atoms/Button'
 
 // 4 variants — all share the 2px hard border + 8px radius
 <Button variant="primary"     label="Primary"     onPress={() => {}} />
@@ -176,6 +177,13 @@ export function ButtonPage() {
 // ghost     → { bg: 'transparent', fg: theme.text.primary }
 // All variants: borderWidth: kayoBorder.width (2), borderColor: theme.border.strong (#191B1F)
 // Non-ghost:   boxShadow: kayoShadow.sm  →  '2px 2px 0 #191B1F'`,
+              lemniscate: `import { Button } from '@lemniscate/components/atoms/Button'
+
+<Button variant="default" label="Primary" onPress={() => {}} />
+<Button variant="secondary" label="Secondary" onPress={() => {}} />
+<Button variant="destructive" label="Destructive" onPress={() => {}} />
+<Button variant="ghost" label="Ghost" onPress={() => {}} />`,
+            },
 
             ios: `import SwiftUI
 
@@ -300,7 +308,8 @@ fun ButtonVariants() {
 .btn-lg  { height: 3rem;    padding: 0 2rem;   font-size: 1rem;     border-radius: 0.5rem; }
 .btn-xl  { height: 3.5rem;  padding: 0 2.5rem; font-size: 1.125rem; border-radius: 0.5rem; }`,
 
-            reactNative: `import { Button } from '@kaayo/components/atoms/Button'
+            reactNative: {
+              kaayo: `import { Button } from '@kaayo/components/atoms/Button'
 import { kayoSpace } from '@kaayo/lib/tokens'
 import { typography } from '@kaayo/lib/typography'
 
@@ -312,6 +321,12 @@ import { typography } from '@kaayo/lib/typography'
 // sm: paddingHorizontal: kayoSpace[3] (12), paddingVertical: kayoSpace[2] (8),  minHeight: 36, font: typography.label_sm
 // md: paddingHorizontal: kayoSpace[4] (16), paddingVertical: kayoSpace[3] (12), minHeight: 44, font: typography.label_lg
 // lg: paddingHorizontal: kayoSpace[5] (20), paddingVertical: kayoSpace[4] (16), minHeight: 52, font: typography.label_lg`,
+              lemniscate: `import { Button } from '@lemniscate/components/atoms/Button'
+
+<Button size="sm" label="Small" onPress={() => {}} />
+<Button size="md" label="Medium" onPress={() => {}} />
+<Button size="lg" label="Large" onPress={() => {}} />`,
+            },
           },
         },
         {
@@ -354,7 +369,8 @@ import { typography } from '@kaayo/lib/typography'
   <svg class="h-4 w-4" .../>
 </button>`,
 
-            reactNative: `import { Button } from '@kaayo/components/atoms/Button'
+            reactNative: {
+              kaayo: `import { Button } from '@kaayo/components/atoms/Button'
 import { Download, ArrowRight, Trash2 } from 'lucide-react-native'
 import { theme } from '@kaayo/lib/theme'
 
@@ -376,6 +392,12 @@ import { theme } from '@kaayo/lib/theme'
 
 // Note: Kaayo Button requires a label — pure icon-only is not supported.
 // For icon-only actions, use an icon wrapped in Pressable directly.`,
+              lemniscate: `import { Button } from '@lemniscate/components/atoms/Button'
+import { Download, ArrowRight } from 'lucide-react-native'
+
+<Button variant="default" label="Download" iconLeft={<Download size={16} />} onPress={() => {}} />
+<Button variant="outline" label="Continue" iconRight={<ArrowRight size={16} />} onPress={() => {}} />`,
+            },
           },
         },
         {
@@ -407,7 +429,8 @@ import { theme } from '@kaayo/lib/theme'
   cursor: not-allowed;
 }`,
 
-            reactNative: `import { Button } from '@kaayo/components/atoms/Button'
+            reactNative: {
+              kaayo: `import { Button } from '@kaayo/components/atoms/Button'
 
 // Disabled — bg: neutralWhite[200] (#e5e7eb), text: text.disabled, no shadow
 <Button variant="primary" label="Disabled" disabled onPress={() => {}} />
@@ -418,6 +441,11 @@ import { theme } from '@kaayo/lib/theme'
 // Both disabled and loading block onPress internally.
 // disabled: opacity via neutralWhite[200] bg + text.disabled color
 // loading:  ActivityIndicator color matches palette.fg for the active variant`,
+              lemniscate: `import { Button } from '@lemniscate/components/atoms/Button'
+
+<Button variant="default" label="Disabled" disabled onPress={() => {}} />
+<Button variant="outline" label="Disabled Outline" disabled onPress={() => {}} />`,
+            },
 
             ios: `Button("Disabled") {}
     .buttonStyle(BreathePrimaryButtonStyle())
@@ -450,7 +478,8 @@ import { theme } from '@kaayo/lib/theme'
             react: `// KayoBrutalistButton handles the press effect automatically.
 // Press and hold any variant in the preview to see it.`,
 
-            reactNative: `import { Pressable, Text, StyleSheet } from 'react-native'
+            reactNative: {
+              kaayo: `import { Pressable, Text, StyleSheet } from 'react-native'
 import { kayoBorder, kayoRadius, kayoShadow, kayoSpace } from '@kaayo/lib/tokens'
 import { theme } from '@kaayo/lib/theme'
 import { typography } from '@kaayo/lib/typography'
@@ -490,6 +519,7 @@ const styles = StyleSheet.create({
 })
 
 // Ghost variant: skip kayoShadow.sm entirely (no shadow on any state)`,
+            },
           },
         },
         {
@@ -506,7 +536,8 @@ const styles = StyleSheet.create({
 <KayoBrutalistButton variant="primary"   label="Save student" fullWidth />
 <KayoBrutalistButton variant="secondary" label="Cancel"       fullWidth />`,
 
-            reactNative: `import { Button } from '@kaayo/components/atoms/Button'
+            reactNative: {
+              kaayo: `import { Button } from '@kaayo/components/atoms/Button'
 
 // fullWidth adds alignSelf: 'stretch' to the Pressable
 <Button variant="primary"   label="Save student" fullWidth onPress={() => {}} />
@@ -517,6 +548,7 @@ const styles = StyleSheet.create({
   <Button variant="secondary" label="Cancel"  onPress={handleCancel} />
   <Button variant="primary"   label="Submit"  onPress={handleSubmit} loading={isSubmitting} />
 </View>`,
+            },
           },
         },
       ]}

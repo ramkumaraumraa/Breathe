@@ -70,7 +70,8 @@ const [otp, setOtp] = useState('')
     <InputOTPSlot index={3} />
   </InputOTPGroup>
 </InputOTP>`,
-            reactNative: `import { OTPInput } from '@kaayo/components/atoms/OTPInput'
+            reactNative: {
+              kaayo: `import { OTPInput } from '@kaayo/components/atoms/OTPInput'
 import { useState } from 'react'
 
 const [otp, setOtp] = useState('')
@@ -88,6 +89,13 @@ const [otp, setOtp] = useState('')
 // Focus border: theme.brand.primary (#970103)
 // Shadow: 2px 2px 0 #191b1f
 // Font: 20px, bold, #191b1f`,
+              lemniscate: `import { OTPInput } from '@lemniscate/components/atoms/OTPInput'
+import { useState } from 'react'
+
+const [otp, setOtp] = useState('')
+
+<OTPInput length={4} value={otp} onChangeText={setOtp} autoFocus />`,
+            },
           },
         },
         {
@@ -154,11 +162,14 @@ const [otp, setOtp] = useState('')
     <InputOTPSlot index={5} />
   </InputOTPGroup>
 </InputOTP>`,
-            reactNative: `<OTPInput
+            reactNative: {
+              kaayo: `<OTPInput
   length={6}
   value={otp}
   onChangeText={setOtp}
 />`,
+              lemniscate: `<OTPInput length={6} value={otp} onChangeText={setOtp} />`,
+            },
           },
         },
         {
@@ -263,7 +274,8 @@ const [otp, setOtp] = useState('')
     Incorrect code. Please try again.
   </span>
 )}`,
-            reactNative: `<OTPInput
+            reactNative: {
+              kaayo: `<OTPInput
   length={6}
   value={otp}
   onChangeText={setOtp}
@@ -278,6 +290,13 @@ const [otp, setOtp] = useState('')
 // Token reference:
 // Error border: #dc2626
 // Error shadow: 2px 2px 0 #dc2626`,
+              lemniscate: `<OTPInput length={6} value={otp} onChangeText={setOtp} error={true} />
+{error && (
+  <Text style={{ fontSize: 12, fontWeight: '600' }}>
+    Incorrect code. Please try again.
+  </Text>
+)}`,
+            },
           },
         },
         {
@@ -308,11 +327,14 @@ const [otp, setOtp] = useState('')
             react: `<InputOTP maxLength={6} value="123456" disabled>
   ...
 </InputOTP>`,
-            reactNative: `<OTPInput
+            reactNative: {
+              kaayo: `<OTPInput
   length={6}
   value="123456"
   disabled
 />`,
+              lemniscate: `<OTPInput length={6} value="123456" disabled />`,
+            },
           },
         },
       ]}

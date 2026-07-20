@@ -33,7 +33,8 @@ export function TextareaInputPage() {
             react: `import { Textarea } from '@aumraa/breathe/components/ui/textarea'
 
 <Textarea placeholder="Enter a description..." />`,
-            reactNative: `import { Input } from '@kaayo/components/atoms/Input'
+            reactNative: {
+              kaayo: `import { Input } from '@kaayo/components/atoms/Input'
 
 // Textarea: use the Input atom with multiline props (extends TextInputProps)
 <Input
@@ -49,6 +50,17 @@ export function TextareaInputPage() {
 // Token reference:
 // Same border, radius, and focus behaviour as single-line Input
 // minHeight grows with numberOfLines; paddingVertical: kayoSpace[2] (8)`,
+              lemniscate: `import { Input } from '@lemniscate/components/atoms/Input'
+
+<Input
+  label="Description"
+  placeholder="Enter a description..."
+  multiline
+  numberOfLines={4}
+  onChangeText={setNotes}
+  value={notes}
+/>`,
+            },
           },
         },
         {
@@ -77,7 +89,8 @@ export function TextareaInputPage() {
             react: `<Textarea disabled />
 <Textarea rows={3} />
 <p className="text-xs text-muted-foreground">Max 500 characters</p>`,
-            reactNative: `import { Input } from '@kaayo/components/atoms/Input'
+            reactNative: {
+              kaayo: `import { Input } from '@kaayo/components/atoms/Input'
 
 // Disabled
 <Input
@@ -97,6 +110,18 @@ export function TextareaInputPage() {
   helperText="Max 500 characters. Visible on student receipt."
   onChangeText={setDesc}
 />`,
+              lemniscate: `import { Input } from '@lemniscate/components/atoms/Input'
+
+<Input label="Notes" placeholder="Disabled textarea" multiline numberOfLines={3} editable={false} />
+<Input
+  label="Description"
+  placeholder="With helper text..."
+  multiline
+  numberOfLines={4}
+  helperText="Max 500 characters"
+  onChangeText={setDesc}
+/>`,
+            },
           },
         },
       ]}

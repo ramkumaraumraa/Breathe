@@ -50,7 +50,8 @@ export function ProgressPage() {
             react: `import { Progress } from '@aumraa/breathe/components/ui/progress'
 
 <Progress value={60} />`,
-            reactNative: `import { Progress } from '@kaayo/components/atoms/Progress'
+            reactNative: {
+              kaayo: `import { Progress } from '@kaayo/components/atoms/Progress'
 
 <Progress value={25} label="Uploading…" showValue />
 <Progress value={60} label="Processing"  showValue />
@@ -62,6 +63,12 @@ export function ProgressPage() {
 // Fill:   bg = theme.brand.primary (#970103), no border-radius
 // Label:  fontSize 12, color theme.text.secondary (#6c6d70)
 // Value:  fontWeight 700, color theme.text.primary (#3b3d3f)`,
+              lemniscate: `import { Progress } from '@lemniscate/components/atoms/Progress'
+
+<Progress value={25} label="Uploading…" showValue />
+<Progress value={60} label="Processing" showValue />
+<Progress value={100} label="Complete" showValue />`,
+            },
           },
         },
         {
@@ -79,10 +86,15 @@ export function ProgressPage() {
           ),
           code: {
             react: `<Progress /> {/* value omitted = indeterminate */}`,
-            reactNative: `import { Progress } from '@kaayo/components/atoms/Progress'
+            reactNative: {
+              kaayo: `import { Progress } from '@kaayo/components/atoms/Progress'
 
 // Indeterminate: animates a shimmer across the track
 <Progress indeterminate label="Loading data…" />`,
+              lemniscate: `import { Progress } from '@lemniscate/components/atoms/Progress'
+
+<Progress indeterminate label="Loading data…" />`,
+            },
           },
         },
       ]}

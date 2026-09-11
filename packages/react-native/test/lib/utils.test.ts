@@ -9,6 +9,10 @@ describe('cn', () => {
     expect(cn('text-sm', 'text-white')).toBe('text-sm text-white');
   });
 
+  it('treats font size and a theme colour name as different groups', () => {
+    expect(cn('text-sm', 'text-foreground')).toBe('text-sm text-foreground');
+  });
+
   it('recognises the custom 2xs font size', () => {
     expect(cn('text-2xs', 'text-xs')).toBe('text-xs');
   });

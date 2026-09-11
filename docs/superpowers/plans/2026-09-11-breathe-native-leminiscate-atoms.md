@@ -100,7 +100,7 @@
 ### 0.6 File structure (created by this plan)
 
 ```
-pnpm-workspace.yaml                         (modify: add apps/*, overrides)
+pnpm-workspace.yaml                         (modify: add apps/*, overrides; Task 2 adds packageExtensions)
 package.json                                (modify: packageManager)
 vitest.config.ts                            (modify: exclude RN code)
 .github/workflows/ci.yml                    (modify: Node 22 + RN job)
@@ -274,6 +274,7 @@ git commit -m "chore(native): add apps workspace, lightningcss pin, Node 22 CI"
 **Files:**
 - Create: `packages/react-native/package.json`, `tsconfig.json`, `babel.config.js`, `jest.config.js`, `jest.setup.ts`, `nativewind-env.d.ts`, `.gitignore`
 - Create: `packages/react-native/src/lib/utils.ts`, `packages/react-native/src/index.ts`
+- Modify: `pnpm-workspace.yaml` (`packageExtensions` for `@react-native-community/slider`, Step 2b)
 - Test: `packages/react-native/test/lib/utils.test.ts`
 
 - [ ] **Step 1: `packages/react-native/package.json`**
@@ -379,8 +380,11 @@ Why these are peers: `@rn-primitives/portal` must be the single instance the app
 
 `packages/react-native/babel.config.js` (Jest only — consuming apps use their own)
 ```js
-module.exports = { presets: ['babel-preset-expo'] };
+// enableBabelRuntime: false — babel-preset-expo otherwise emits `@babel/runtime/helpers/*`
+// imports, which aren't resolvable from this package under pnpm's isolated linker.
+module.exports = { presets: [['babel-preset-expo', { enableBabelRuntime: false }]] };
 ```
+(Deviation, found in code review: the default `enableBabelRuntime` makes babel-preset-expo emit `@babel/runtime/helpers/*` imports. Under pnpm's isolated linker `@babel/runtime` is not a dependency of this package, so those imports fail to resolve — `import * as React from 'react'` and anything else transformed by this preset breaks starting with the first component task (Task 6). `enableBabelRuntime: false` avoids the runtime-helper imports entirely.)
 
 `packages/react-native/jest.config.js`
 ```js
@@ -389,11 +393,20 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testMatch: ['<rootDir>/test/**/*.test.ts?(x)'],
   transformIgnorePatterns: [
-    'node_modules/(?!(?:.pnpm/)?((jest-)?react-native|@react-native(-community)?|expo(nent)?|@expo(nent)?/.*|@rn-primitives/.*|lucide-react-native|nativewind|react-native-css))',
+    // pnpm's store spells scoped packages with `+` (e.g. `.pnpm/@rn-primitives+slot@1.5.2_.../node_modules/@rn-primitives/slot`),
+    // so scoped alternatives must match either `/` or `+` after the scope.
+    'node_modules/(?!(?:\\.pnpm/)?((jest-)?react-native|@react-native(-community)?|expo(nent)?|@expo(nent)?[/+]|@rn-primitives[/+]|lucide-react-native|nativewind|react-native-css))',
+    // jest-expo's own preset (packages/react-native/node_modules/jest-expo/jest-preset.js) sets these two
+    // alongside its default transformIgnorePatterns; since setting the option above replaces the whole
+    // array rather than merging, they're restored here.
+    '/node_modules/react-native-reanimated/plugin/',
+    '/node_modules/@react-native/babel-preset/',
   ],
 };
 ```
-(Deviation: dropped `resolver: 'react-native-reanimated/jest/resolver'` — `react-native-reanimated@4.3.1` ships no `jest/` directory at all, so pointing at it made Jest fail with a Validation Error ("Module ... was not found") before any test ran. `jest.setup.ts`'s `require('react-native-reanimated').setUpTests()` (unchanged) is what tests actually need; tests pass without the resolver.)
+(Deviation, found in code review: the original alternation used `@rn-primitives/.*` and `@expo(nent)?/.*`, which never match under pnpm — the store spells scoped packages `@scope+name@version`, not `@scope/name@version`, so nothing under `.pnpm/@rn-primitives+*` was transformed and rn-primitives' `dist` (built as ESM/JSX-adjacent output meant for Metro, not consumed as pre-transpiled CJS by Jest) threw `SyntaxError: Unexpected token '<'`. Fixed by matching `[/+]` after each scope. Also restored jest-expo's two extra `transformIgnorePatterns` entries — `/node_modules/react-native-reanimated/plugin/` and `/node_modules/@react-native/babel-preset/` — dropped because this option replaces jest-expo's array instead of merging with it.
+
+Also deviation: dropped `resolver: 'react-native-reanimated/jest/resolver'` from the original draft of this file. That path never existed — the resolver Reanimated/Worklets projects actually ship is `react-native-worklets/jest/resolver.js` (confirmed present at `packages/react-native/node_modules/react-native-worklets/jest/resolver.js`), not under `react-native-reanimated`. It isn't needed here regardless: `jest.setup.ts` fully mocks `react-native-worklets` (see below), so nothing exercises Worklets' Metro/Babel module resolution in tests, and `jest-expo`'s preset already supplies its own `resolver` (from `@react-native/jest-preset`). If a future task needs the real Worklets resolver, wire it from `react-native-worklets/jest/resolver`, not from `react-native-reanimated`.)
 
 `packages/react-native/jest.setup.ts`
 ```ts
@@ -401,10 +414,14 @@ jest.mock('react-native-worklets', () => require('react-native-worklets/src/mock
 require('react-native-reanimated').setUpTests();
 
 // NativeWind v5 rewrites imports in Metro only. In Jest `className` is a plain prop,
-// so `styled()` can be the identity.
+// so `styled()` can be the identity. This mock replaces the *entire* `nativewind` module —
+// any future import besides `styled` (e.g. `vars`, `cssInterop`) must be added here too.
 jest.mock('nativewind', () => ({ styled: (Component: unknown) => Component }));
 
 // Every lucide icon renders as a View tagged `icon-<Name>` so tests can find it.
+// Each component is cached on the target so repeated reads return the same reference
+// (e.g. `Check === Check`); symbol keys and `then` (module-interop probes, which would
+// otherwise make the mocked module thenable) pass through untouched.
 jest.mock('lucide-react-native', () => {
   const mockReact = require('react');
   const { View: MockView } = require('react-native');
@@ -412,19 +429,34 @@ jest.mock('lucide-react-native', () => {
     { __esModule: true },
     {
       get: (target: Record<string | symbol, unknown>, name: string | symbol) =>
-        name in target
+        name in target || typeof name === 'symbol' || name === 'then'
           ? target[name]
-          : (props: object) =>
-              mockReact.createElement(MockView, { testID: `icon-${String(name)}`, ...props }),
+          : (target[name] = (props: object) =>
+              mockReact.createElement(MockView, { testID: `icon-${String(name)}`, ...props })),
     },
   );
 });
 ```
+(Deviation, found in code review: the original Proxy `get` created a brand-new component function on every read — `Check !== Check` across two reads — and had no guard for symbol keys or `then`, so probing the mocked module for thenability (`await import(...)`-style interop) would call into the icon-factory branch. Now each component is cached on `target` the first time it's read, and symbol keys / `then` fall through to the plain `target[name]` lookup instead.)
 
 `packages/react-native/.gitignore`
 ```
 node_modules/
 ```
+
+- [ ] **Step 2b: `pnpm-workspace.yaml` — peer extension for the slider** (found in code review, while wiring Task 2's devDependency on `@react-native-community/slider`)
+
+`@react-native-community/slider@5.2.0` declares no peer dependencies, so under pnpm's isolated linker its `require('react')` / `require('react-native')` resolve to whichever copies are nearest in the workspace — which, without this extension, is the root web app's React 18, not this package's React 19.2.3 / React Native 0.85.3. Two React copies in one component tree throws "Invalid hook call". Add to `pnpm-workspace.yaml` (alongside the `overrides` block from Task 1):
+
+```yaml
+packageExtensions:
+  '@react-native-community/slider':
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+```
+
+Run `pnpm install` and confirm in `pnpm-lock.yaml` that `@react-native-community/slider@5.2.0(...)` now depends on `react: 19.2.3` and `react-native: 0.85.3(...)` (the react-native package's versions, not the root web app's).
 
 - [ ] **Step 3: Write the failing test** — `packages/react-native/test/lib/utils.test.ts`
 
@@ -438,6 +470,10 @@ describe('cn', () => {
 
   it('treats font size and text colour as different groups', () => {
     expect(cn('text-sm', 'text-white')).toBe('text-sm text-white');
+  });
+
+  it('treats font size and a theme colour name as different groups', () => {
+    expect(cn('text-sm', 'text-foreground')).toBe('text-sm text-foreground');
   });
 
   it('recognises the custom 2xs font size', () => {
@@ -475,14 +511,14 @@ export * from './lib/utils';
 - [ ] **Step 6: Run — expect PASS**
 
 Run: `pnpm --filter @aumraa/breathe-native test && pnpm --filter @aumraa/breathe-native typecheck`
-Expected: 4 passed; tsc exits 0.
+Expected: 5 passed; tsc exits 0.
 
-If Jest fails to transform a package with `SyntaxError: Cannot use import statement outside a module`, add that package's name to the `transformIgnorePatterns` alternation in `jest.config.js` and re-run.
+If Jest fails to transform a package with `SyntaxError: Cannot use import statement outside a module` (or `Unexpected token '<'` for a scoped package), add that package's name to the `transformIgnorePatterns` alternation in `jest.config.js` — for a scoped package use `[/+]` after the scope (pnpm's store spells scoped packages with `+`, not `/`) — and re-run.
 
 - [ ] **Step 7: Commit**
 
 ```bash
-git add packages/react-native pnpm-lock.yaml
+git add packages/react-native pnpm-workspace.yaml pnpm-lock.yaml
 git commit -m "feat(native): scaffold @aumraa/breathe-native with jest-expo and cn()"
 ```
 

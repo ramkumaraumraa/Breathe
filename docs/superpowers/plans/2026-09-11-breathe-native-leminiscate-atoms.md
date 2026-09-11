@@ -134,7 +134,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | 2 | Package skeleton + `cn` | S | ☑ |
 | 3 | Theme stylesheet | M | ☑ |
 | 4 | THEME JS mirror | S | ☑ |
-| 5 | Catalog app + device spike | M | ☐ |
+| 5 | Catalog app + device spike | M | ☑ |
 | 6 | Text | S | ☐ |
 | 7 | Icon | S | ☐ |
 | 8 | Gradient | S | ☐ |
@@ -1179,6 +1179,8 @@ pnpm create expo-app@4.0.0 native-catalog --template blank-typescript@sdk-56 --n
 cd ..
 ```
 
+Then delete the template's `AGENTS.md`, `CLAUDE.md`, `.claude/` and `LICENSE` (Expo's MIT notice), and append `!/assets/*.png` to `apps/native-catalog/.gitignore` — the repo root ignores `*.png`, and `app.json` needs the template icons. The template `.gitignore` already covers `/android`, `/ios` and `.expo/`.
+
 - [ ] **Step 2: Dependencies** — in `apps/native-catalog/package.json`, set `"name": "native-catalog"`, `"private": true`, and merge into `dependencies`:
 
 ```json
@@ -1215,8 +1217,19 @@ const { getDefaultConfig } = require('expo/metro-config');
 const { withNativewind } = require('nativewind/metro');
 
 const config = getDefaultConfig(__dirname);
+const nativewindConfig = withNativewind(config);
 
-module.exports = withNativewind(config);
+// react-native-worklets calls require.resolveWeak('react-native') to find the real RN module id.
+// NativeWind's resolver redirects `react-native` to react-native-css/components/index.cjs, which is
+// never bundled, so `expo export` fails with "Chunk containing module not found". Weak references
+// resolve without the redirect; everything else goes through NativeWind.
+const nativewindResolve = nativewindConfig.resolver.resolveRequest;
+nativewindConfig.resolver.resolveRequest = (context, moduleName, platform) =>
+  context.dependency?.data?.asyncType === 'weak'
+    ? (config.resolver.resolveRequest ?? context.resolveRequest)(context, moduleName, platform)
+    : nativewindResolve(context, moduleName, platform);
+
+module.exports = nativewindConfig;
 ```
 
 `apps/native-catalog/postcss.config.mjs`
@@ -1237,9 +1250,10 @@ export default {
 @import "@aumraa/breathe-native/styles/lemniscate.css";
 ```
 
-`apps/native-catalog/nativewind-env.d.ts`
+`apps/native-catalog/nativewind-env.d.ts` (`expo/types` declares `*.css`; without it TS 6's `noUncheckedSideEffectImports` rejects `import './global.css'`, and Expo's generated `expo-env.d.ts` is gitignored)
 ```ts
 /// <reference types="react-native-css/types" />
+/// <reference types="expo/types" />
 ```
 
 - [ ] **Step 4: Fonts and dark mode** — in `apps/native-catalog/app.json`, set `"userInterfaceStyle": "automatic"` (the template ships `"light"`, which blocks dark mode) and add to `expo.plugins`:
@@ -1425,12 +1439,18 @@ pnpm expo run:ios        # macOS only
 
 | # | Android | iOS | Notes |
 |---|---|---|---|
-| S1 | ☐ | ☐ | |
-| S1b | ☐ | ☐ | |
-| S2 | ☐ | ☐ | |
-| S3 | ☐ | ☐ | |
-| S4 | ☐ | ☐ | |
-| S5 | ☐ | ☐ | |
+| S1 | ☐ | ☐ | Pending — needs device (owner) |
+| S1b | ☐ | ☐ | Pending — needs device (owner) |
+| S2 | ☐ | ☐ | Pending — needs device (owner) |
+| S3 | ☐ | ☐ | Pending — needs device (owner) |
+| S4 | ☐ | ☐ | Pending — needs device (owner) |
+| S5 | ☐ | ☐ | Pending — needs device (owner) |
+
+**Automated verification (2026-09-11, Windows, no device or emulator attached):**
+- `expo export --platform android` succeeds: 1100 modules, 2.8 MB Hermes bundle. This proves the metro config, the PostCSS/Tailwind 4.3.3 compile, the `@import` of `@aumraa/breathe-native/styles/lemniscate.css` through the pnpm workspace symlink, and the TS/JSX transforms.
+- Compiled style table in a `--no-bytecode` export: `h-11` → `height: 44`; `text-sm` → `fontSize: 14` + `lineHeight: var(--tw-leading, 20)`; `leading-5` → `lineHeight: 20`, emitted after `nativewind/theme`'s font-relative calc (the device decides S1b); `bg-primary-500` → `#1c60c1`; `bg-red-50` → `#fef2f2`; `border-red-200` → `#fecaca`; `font-sans` → `fontFamily: "Inter"`; semantic colours resolve through vars whose dark values are keyed on `prefers-color-scheme` (e.g. background `#121821`).
+- `tsc --noEmit` in the catalog is clean.
+- `expo prebuild --clean --platform android --no-install`: the expo-font plugin resolves all four Inter TTFs through pnpm and writes `res/font/xml_inter.xml` (weights 400/500/600/700) plus `ReactFontManager.addCustomFont(…, "Inter", …)`. The native dir was deleted afterwards. Prebuild warns `android: userInterfaceStyle: Install expo-system-ui in your project to enable this feature` — if S5 fails on Android, add `expo-system-ui` (SDK 56 version).
 
 - [ ] **Step 8: Commit**
 

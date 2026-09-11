@@ -1,14 +1,32 @@
 import { useState } from 'react';
 import { PageHeader } from '../../components/shared/PageHeader';
 import { PageNavigation } from '../../components/shared/PageNavigation';
-import { brands } from './logos/logoData';
+import { brands, BRAND_ORDER } from './logos/logoData';
 import { BrandLogoTab } from './logos/BrandLogoTab';
 import { LogoPlaceholder } from './logos/LogoPlaceholder';
 import { motion } from 'motion/react';
 
+const sortedBrands = [...brands].sort((a, b) => {
+  const ai = (BRAND_ORDER as readonly string[]).indexOf(a.id);
+  const bi = (BRAND_ORDER as readonly string[]).indexOf(b.id);
+  return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+});
+
+const topLevelBrands = sortedBrands.filter(b => b.id !== 'kaayo' && b.id !== 'ilakh');
+
+const ULAGELLAM_SUBS = [
+  { id: 'kaayo', label: '🎓 Kaayo (Tutor Ops)', accent: '#970103', tagline: 'Tutor & class operations · Mobile · Tablet' },
+  { id: 'ilakh', label: '📈 Ilakh (Finance)', accent: '#0369A1', tagline: 'Goal tracking & personal finance · Web · Mobile' },
+  { id: 'ullagellam', label: '🗺️ Ulagellam (Explorer)', accent: '#7C3AED', tagline: 'Explore & discover around you · Mobile' },
+];
+
 export function LogosPage() {
-  const [activeBrand, setActiveBrand] = useState(brands[0].id);
-  const currentBrand = brands.find(b => b.id === activeBrand) || brands[0];
+  const [activeBrand, setActiveBrand] = useState('aumraa');
+  const [ulagellamSubTab, setUlagellamSubTab] = useState('kaayo');
+
+  const currentBrand = activeBrand === 'ullagellam'
+    ? (brands.find(b => b.id === ulagellamSubTab) || brands.find(b => b.id === 'ullagellam')!)
+    : (brands.find(b => b.id === activeBrand) || brands[0]);
 
   return (
     <div className="max-w-7xl px-6 lg:px-10 py-10">
@@ -24,7 +42,7 @@ export function LogosPage() {
       {/* Brand Tabs — sticky below TopBar (h-16 = 64px) */}
       <div className="sticky top-16 z-20 bg-slate-50 dark:bg-slate-950 -mx-6 lg:-mx-10 px-6 lg:px-10 mb-8 border-b border-slate-200 dark:border-slate-800 overflow-x-auto">
         <div className="flex gap-0 min-w-max" role="tablist">
-          {brands.map((brand) => {
+          {topLevelBrands.map((brand) => {
             const isActive = brand.id === activeBrand;
             return (
               <button
@@ -51,10 +69,38 @@ export function LogosPage() {
         </div>
       </div>
 
+      {/* Ulagellam Sub-tabs Segment Selector */}
+      {activeBrand === 'ullagellam' && (
+        <div className="mb-8 p-1.5 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl inline-flex flex-wrap gap-1.5 max-w-full shadow-sm">
+          {ULAGELLAM_SUBS.map((sub) => {
+            const isSubActive = ulagellamSubTab === sub.id;
+            return (
+              <button
+                key={sub.id}
+                onClick={() => setUlagellamSubTab(sub.id)}
+                className={`px-5 py-2.5 rounded-xl font-semibold transition-all cursor-pointer whitespace-nowrap text-sm ${
+                  isSubActive
+                    ? 'bg-white dark:bg-slate-950 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-800 shadow-sm'
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 border border-transparent'
+                }`}
+                style={{
+                  borderBottomColor: isSubActive ? sub.accent : undefined,
+                  borderBottomWidth: isSubActive ? '2px' : undefined,
+                  fontFamily: 'var(--font-sans)',
+                }}
+                title={sub.tagline}
+              >
+                {sub.label}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
       {/* Tab Content */}
       <div>
         <motion.div
-          key={activeBrand}
+          key={currentBrand.id}
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2 }}

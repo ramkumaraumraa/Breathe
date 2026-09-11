@@ -1,24 +1,62 @@
-import React, { ReactNode } from 'react'
-import { Bell } from 'lucide-react'
+import React, { ReactNode } from 'react';
+import { Bell } from 'lucide-react';
+import { KayoBrutalistKaayoLogo } from './KayoBrutalistKaayoLogo';
 
-export type BackdropPatternVariant = 'dashboard' | 'students' | 'attendance'
+export type BackdropPatternVariant = 'dashboard' | 'students' | 'attendance';
 
 interface BrandedScreenBackdropProps {
-  variant: BackdropPatternVariant
-  eyebrow: string
-  title: string
-  subtitle?: string
-  metricSlot?: ReactNode
-  actionSlot?: ReactNode
-  children?: ReactNode
-  onBellPress?: () => void
-  safeAreaTop?: boolean
+  variant: BackdropPatternVariant;
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  metricSlot?: ReactNode;
+  actionSlot?: ReactNode;
+  children?: ReactNode;
+  onBellPress?: () => void;
+  safeAreaTop?: boolean;
 }
 
 const PATTERN_CONFIG = {
   dashboard: { label: 'TODAY', code: 'OPS / 01', angle: -24 },
   students: { label: 'ROSTER', code: 'REG / 02', angle: -18 },
   attendance: { label: 'MARK', code: 'ATT / 03', angle: -28 },
+};
+
+export function KayoBrutalistBrandedHeaderBar({ onBellPress }: { onBellPress?: () => void }) {
+  return (
+    <div
+      style={{
+        position: 'relative',
+        zIndex: 2,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingTop: '12px',
+        height: '44px',
+      }}
+    >
+      <KayoBrutalistKaayoLogo width={104} height={38} tone="light" />
+      <button
+        type="button"
+        onClick={onBellPress}
+        style={{
+          width: '38px',
+          height: '38px',
+          borderRadius: '4px',
+          border: '1px solid rgba(255, 255, 255, 0.62)',
+          backgroundColor: 'rgba(255, 255, 255, 0.08)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: onBellPress ? 'pointer' : 'default',
+          padding: 0,
+        }}
+        aria-label="Reminders"
+      >
+        <Bell size={20} color="#ffffff" strokeWidth={2.1} />
+      </button>
+    </div>
+  );
 }
 
 export function KayoBrutalistBrandedScreenBackdrop({
@@ -32,7 +70,7 @@ export function KayoBrutalistBrandedScreenBackdrop({
   onBellPress,
   safeAreaTop = false,
 }: BrandedScreenBackdropProps) {
-  const config = PATTERN_CONFIG[variant]
+  const config = PATTERN_CONFIG[variant];
 
   return (
     <div
@@ -143,8 +181,8 @@ export function KayoBrutalistBrandedScreenBackdrop({
               right: '-12px',
               top: '110px',
               fontFamily: "'DM Sans', system-ui, sans-serif",
-              fontWeight: 800,
-              fontSize: '52px',
+              fontWeight: 700,
+              fontSize: '56px',
               color: 'rgba(255, 255, 255, 0.08)',
               letterSpacing: '2px',
               lineHeight: 1,
@@ -170,50 +208,8 @@ export function KayoBrutalistBrandedScreenBackdrop({
           </div>
         </div>
 
-        {/* Integrated Canopy Header */}
-        <div
-          style={{
-            position: 'relative',
-            zIndex: 2,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            paddingTop: '12px',
-            height: '44px',
-          }}
-        >
-          {/* Logo wordmark in white */}
-          <span
-            style={{
-              fontFamily: "'DM Sans', system-ui, sans-serif",
-              fontWeight: 800,
-              fontSize: '20px',
-              color: '#ffffff',
-              letterSpacing: '-0.5px',
-            }}
-          >
-            Kaayo
-          </span>
-
-          {/* Bell Icon in white */}
-          <button
-            onClick={onBellPress}
-            style={{
-              width: '36px',
-              height: '36px',
-              borderRadius: '6px',
-              border: '1px solid rgba(255, 255, 255, 0.4)',
-              backgroundColor: 'rgba(255, 255, 255, 0.08)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: onBellPress ? 'pointer' : 'default',
-              padding: 0,
-            }}
-          >
-            <Bell size={18} color="#ffffff" strokeWidth={2} />
-          </button>
-        </div>
+        {/* Integrated Canopy Header with Vector KaayoLogo */}
+        <KayoBrutalistBrandedHeaderBar onBellPress={onBellPress} />
 
         {/* Hero Section inside canopy */}
         <div
@@ -224,25 +220,29 @@ export function KayoBrutalistBrandedScreenBackdrop({
             flexDirection: 'row',
             alignItems: 'flex-start',
             justifyContent: 'space-between',
-            gap: '12px',
+            gap: '16px',
             marginTop: '20px',
           }}
         >
           <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', flex: 1, minWidth: 0 }}>
-            <span style={{
-              fontSize: '9px',
-              fontWeight: 700,
-              textTransform: 'uppercase',
-              letterSpacing: '1px',
-              color: 'rgba(255, 255, 255, 0.7)',
-            }}>
-              {eyebrow}
-            </span>
-            <h2
+            {eyebrow && (
+              <span
+                style={{
+                  fontSize: '10px',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '1px',
+                  color: 'rgba(255, 255, 255, 0.85)',
+                }}
+              >
+                {eyebrow}
+              </span>
+            )}
+            <h1
               style={{
                 margin: 0,
-                fontSize: '18px',
-                fontWeight: 800,
+                fontSize: '28px',
+                fontWeight: 700,
                 color: '#ffffff',
                 lineHeight: 1.25,
                 whiteSpace: 'normal',
@@ -250,25 +250,19 @@ export function KayoBrutalistBrandedScreenBackdrop({
               }}
             >
               {title}
-            </h2>
+            </h1>
             {subtitle && (
-              <span style={{ fontSize: '11px', color: 'rgba(255, 255, 255, 0.7)', maxWidth: '240px' }}>
+              <span style={{ fontSize: '14px', color: 'rgba(255, 255, 255, 0.85)', maxWidth: '320px' }}>
                 {subtitle}
               </span>
             )}
           </div>
 
-          {metricSlot && (
-            <div style={{ flexShrink: 0 }}>
-              {metricSlot}
-            </div>
-          )}
+          {metricSlot && <div style={{ flexShrink: 0 }}>{metricSlot}</div>}
         </div>
 
         {actionSlot && (
-          <div style={{ position: 'relative', zIndex: 2, marginTop: '16px' }}>
-            {actionSlot}
-          </div>
+          <div style={{ position: 'relative', zIndex: 2, marginTop: '16px' }}>{actionSlot}</div>
         )}
       </div>
 
@@ -290,5 +284,5 @@ export function KayoBrutalistBrandedScreenBackdrop({
         </div>
       )}
     </div>
-  )
+  );
 }

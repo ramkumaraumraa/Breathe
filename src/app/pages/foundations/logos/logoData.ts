@@ -31,7 +31,6 @@ export const BRAND_ORDER = [
   'leminiscate',
   'maligai-manager',
   'ullagellam',
-  'ilakh',
   'yakaizen',
 ] as const;
 
@@ -206,6 +205,89 @@ export const brands: BrandLogoConfig[] = [
         previewBg: 'checkerboard',
         files: {
           svg: '/assets/logos/leminiscate/leminiscate_alpha.svg',
+        },
+      },
+    ],
+  },
+  {
+    id: 'kaayo',
+    label: 'Kaayo',
+    tagline: 'Tutor & class operations · Mobile · Tablet',
+    platform: 'Mobile · Tablet',
+    status: 'confirmed',
+    accentColor: '#970103',
+    variants: [
+      {
+        id: 'standard',
+        name: 'Standard',
+        usageNote: 'Default use — light surfaces, documents, web',
+        previewBg: '#FFFFFF',
+        files: {
+          svg: '/assets/logos/kaayo/Horizontal.svg',
+        },
+      },
+      {
+        id: 'reversed',
+        name: 'Reversed',
+        usageNote: 'Dark backgrounds, hero sections, splash screens',
+        previewBg: '#970103',
+        previewBgDark: '#600102',
+        files: {
+          svg: '/assets/logos/kaayo/Horizontal_filled.svg',
+        },
+      },
+      {
+        id: 'mono-black',
+        name: 'Mono — Black',
+        usageNote: 'Single-colour print, B&W contexts, emboss/deboss',
+        previewBg: '#FFFFFF',
+        files: {
+          svg: '/assets/logos/kaayo/Horizontal_black.svg',
+        },
+      },
+      {
+        id: 'mono-white',
+        name: 'Mono — White',
+        usageNote: 'Single-colour on dark, merchandise, cut vinyl',
+        previewBg: '#1E293B',
+        files: {
+          svg: '/assets/logos/kaayo/Horizontal_white.svg',
+        },
+      },
+      {
+        id: 'horizontal',
+        name: 'Horizontal lockup',
+        usageNote: 'Wide/landscape layouts — nav bars, headers, email footers',
+        previewBg: '#FFFFFF',
+        files: {
+          svg: '/assets/logos/kaayo/Horizontal.svg',
+        },
+      },
+      {
+        id: 'stacked',
+        name: 'Stacked / Vertical',
+        usageNote: 'Square/portrait layouts — app stores, social profiles, print collateral',
+        previewBg: '#FFFFFF',
+        files: {
+          svg: '/assets/logos/kaayo/Vertical.svg',
+        },
+      },
+      {
+        id: 'icon',
+        name: 'Icon / Mark only',
+        usageNote: 'Favicons, app icons, small-scale usage, watermarks',
+        previewBg: '#FFFFFF',
+        files: {
+          svg: '/assets/logos/kaayo/symbol.svg',
+        },
+      },
+      {
+        id: 'alpha',
+        name: 'Alpha / Transparent',
+        usageNote: 'Overlays, video, any background where the surface colour is unknown',
+        previewBg: 'checkerboard',
+        files: {
+          svg: '/assets/logos/kaayo/Horizontal.svg',
         },
       },
     ],

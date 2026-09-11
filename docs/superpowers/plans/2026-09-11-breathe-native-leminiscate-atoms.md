@@ -136,7 +136,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | 4 | THEME JS mirror | S | ☑ |
 | 5 | Catalog app + device spike (spike pending) | M | ☐ |
 | 6 | Text | S | ☑ |
-| 7 | Icon | S | ☐ |
+| 7 | Icon | S | ☑ |
 | 8 | Gradient | S | ☐ |
 | 9 | Spinner | S | ☐ |
 | 10 | Button | L | ☐ |
@@ -1697,10 +1697,16 @@ function IconImpl({ as: Component, ...props }: IconProps) {
 }
 
 // `size-4` / `h-4 w-4` classes feed lucide's numeric `size` prop.
+// Deviation (typecheck): react-native-css 3.0.7's `StyledConfigurationObject` computes
+// `nativeStyleToProp`'s type via `ResolveDotPath<T, ComponentProps<C>>` — that generic's own
+// declaration is `ResolveDotPath<T, Path extends string>` (object, then dot-path string), so the
+// library's own usage passes the arguments in the wrong order for `target: 'style'`, resolving to
+// `never` and typing the field as exactly `undefined`. `target: 'style'` alone typechecks; only the
+// value below needs the cast. Runtime shape is unchanged (still the documented v5 API).
 const StyledIcon = styled(IconImpl, {
   className: {
     target: 'style',
-    nativeStyleToProp: { height: 'size', width: 'size' },
+    nativeStyleToProp: { height: 'size', width: 'size' } as any,
   },
 });
 
@@ -1731,7 +1737,7 @@ export * from './atoms/icon';
 - [ ] **Step 4: Run — expect PASS**
 
 Run: `pnpm --filter @aumraa/breathe-native test test/atoms/icon.test.tsx && pnpm --filter @aumraa/breathe-native typecheck`
-Expected: 3 passed; tsc 0. If tsc rejects the `styled(...)` options object, check the `styled` signature in `node_modules/nativewind/dist/typescript/**/styled.d.ts` and match its option key names. The runtime shape (`className: { target, nativeStyleToProp }`) is the documented v5 API.
+Expected: 3 passed; tsc 0. `styled` isn't declared in `nativewind` itself — it's re-exported from `react-native-css` (follow `node_modules/nativewind` — a pnpm symlink — then `dist/typescript/**/src/native/api.d.ts` and `runtime.types.d.ts`). Found (2026-09-11): `target`/`nativeStyleToProp` are the right field names, but 3.0.7's `StyledConfigurationObject` types `nativeStyleToProp` as `NativeStyleMapping<ResolveDotPath<T, ComponentProps<C>>, ComponentProps<C>>` — `ResolveDotPath<T, Path extends string>` expects (object, path-string) but is invoked here as (path-string, object), resolving to `never`/`undefined`. `target: 'style'` alone typechecks; cast only the `nativeStyleToProp` value (`as any`) to keep the documented runtime shape.
 
 - [ ] **Step 5: Commit**
 

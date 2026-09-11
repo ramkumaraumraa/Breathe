@@ -130,7 +130,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | Task | Unit | Size | Status |
 |---|---|---|---|
 | 1 | Workspace + CI | S | ☑ |
-| 2 | Package skeleton + `cn` | S | ☐ |
+| 2 | Package skeleton + `cn` | S | ☑ |
 | 3 | Theme stylesheet | M | ☐ |
 | 4 | THEME JS mirror | S | ☐ |
 | 5 | Catalog app + device spike | M | ☐ |
@@ -386,7 +386,6 @@ module.exports = { presets: ['babel-preset-expo'] };
 ```js
 module.exports = {
   preset: 'jest-expo',
-  resolver: 'react-native-reanimated/jest/resolver',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testMatch: ['<rootDir>/test/**/*.test.ts?(x)'],
   transformIgnorePatterns: [
@@ -394,6 +393,7 @@ module.exports = {
   ],
 };
 ```
+(Deviation: dropped `resolver: 'react-native-reanimated/jest/resolver'` — `react-native-reanimated@4.3.1` ships no `jest/` directory at all, so pointing at it made Jest fail with a Validation Error ("Module ... was not found") before any test ran. `jest.setup.ts`'s `require('react-native-reanimated').setUpTests()` (unchanged) is what tests actually need; tests pass without the resolver.)
 
 `packages/react-native/jest.setup.ts`
 ```ts

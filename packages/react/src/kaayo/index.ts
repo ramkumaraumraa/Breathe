@@ -23,6 +23,7 @@ export * from './KayoBrutalistDialog';
 export * from './KayoBrutalistDrawer';
 export * from './KayoBrutalistDropdownMenu';
 export * from './KayoBrutalistEmptyState';
+export * from './KayoBrutalistFab';
 export * from './KayoBrutalistForm';
 export * from './KayoBrutalistHeader';
 export * from './KayoBrutalistHoverCard';

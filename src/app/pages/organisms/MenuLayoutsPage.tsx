@@ -5,11 +5,14 @@ import { AndroidFrame } from '@/app/components/shared/AndroidFrame'
 import { KayoBrutalistHeader } from '@/app/components/custom/kaayo/KayoBrutalistHeader'
 import { KayoBrutalistBottomNav } from '@/app/components/custom/kaayo/KayoBrutalistBottomNav'
 import { KayoBrutalistBrandedScreenBackdrop } from '@/app/components/custom/kaayo/KayoBrutalistBrandedScreenBackdrop'
+import { KayoBrutalistBranchTabs } from '@/app/components/custom/kaayo/KayoBrutalistBranchTabs'
+import { KayoBrutalistFab, DEFAULT_KAAYO_DASHBOARD_ACTIONS } from '@/app/components/custom/kaayo/KayoBrutalistFab'
+import { KayoBrutalistKaayoLogo } from '@/app/components/custom/kaayo/KayoBrutalistKaayoLogo'
 import {
-  LayoutDashboard,
+  Home,
   Users,
   ClipboardList,
-  CreditCard,
+  BarChart3,
   Settings,
   Plus,
   Search,
@@ -23,7 +26,11 @@ import {
   CheckCircle,
   AlertCircle,
   Sliders,
-  DollarSign
+  DollarSign,
+  Bell,
+  Clock,
+  X,
+  UserPlus
 } from 'lucide-react'
 
 const placeholder = (
@@ -34,6 +41,8 @@ export function MenuLayoutsPage() {
   const { activeProduct } = useProductTheme()
   const isKaayo = activeProduct === 'kaayo'
   const [activeTab, setActiveTab] = useState('dashboard')
+  const [activeAlertIdx, setActiveAlertIdx] = useState(0)
+  const [selectedBranch, setSelectedBranch] = useState<string | null>(null)
 
   useEffect(() => {
     const s = document.createElement('style')
@@ -49,13 +58,18 @@ export function MenuLayoutsPage() {
     document.head.appendChild(s)
   }, [])
 
+  const alerts = [
+    { title: 'Dev mode - auth bypassed', desc: 'Lock down before production rollout.' },
+    { title: 'Attendance not marked', desc: '2 classes today need attendance marked.' },
+    { title: 'Past dues alert', desc: '4 students in South Club have overdue fees.' },
+  ]
 
-  // Data for screens
+  // Data for screens - matches Kaayo's BOTTOM_NAV specification
   const ITEMS_5 = [
-    { key: 'dashboard',  label: 'Home',        icon: <LayoutDashboard size={22} /> },
+    { key: 'dashboard',  label: 'Home',        icon: <Home size={22} /> },
     { key: 'students',   label: 'Students',    icon: <Users size={22} /> },
     { key: 'attendance', label: 'Attendance',  icon: <ClipboardList size={22} /> },
-    { key: 'payments',   label: 'Payments',    icon: <CreditCard size={22} /> },
+    { key: 'payments',   label: 'Payments',    icon: <BarChart3 size={22} /> },
     { key: 'settings',   label: 'Settings',    icon: <Settings size={22} /> },
   ]
 
@@ -67,34 +81,38 @@ export function MenuLayoutsPage() {
     switch (activeTab) {
       case 'dashboard':
         return (
-          <div style={{ display: 'flex', flexDirection: 'column', height: '100%', backgroundColor: '#fdfcfb' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', height: '100%', backgroundColor: '#fdfcfb', position: 'relative' }}>
+            {/* Fixed Branded Header Bar (pinned overlay via AppShell) */}
+            <div style={{
+              paddingTop: '28px',
+              paddingBottom: '8px',
+              paddingInline: '16px',
+              backgroundColor: '#970103',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              borderBottom: '2px solid #3b3d3f',
+              zIndex: 20,
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <KayoBrutalistKaayoLogo variant="symbol" tone="white" size={28} />
+              </div>
+              <button
+                type="button"
+                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px', display: 'flex' }}
+                title="Notifications"
+              >
+                <Bell size={20} color="#ffffff" strokeWidth={2.2} />
+              </button>
+            </div>
+
             <div style={{ flex: 1, overflowY: 'auto' }} className="no-scrollbar">
               <KayoBrutalistBrandedScreenBackdrop
                 variant="dashboard"
-                safeAreaTop={true}
-                eyebrow="Today"
+                safeAreaTop={false}
                 title="Welcome back, Ram."
-                subtitle="Keep classes, attendance, and fee follow-ups in view."
-                metricSlot={
-                  <div style={{
-                    minWidth: '80px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '8px',
-                    border: '2px solid #3b3d3f',
-                    borderRadius: '8px',
-                    backgroundColor: '#fff9db',
-                    boxShadow: '2px 2px 0px #3b3d3f',
-                    fontFamily: "'DM Sans', sans-serif"
-                  }}>
-                    <span style={{ fontSize: '18px', fontWeight: 800, color: '#970103', lineHeight: 1 }}>3</span>
-                    <span style={{ fontSize: '9px', fontWeight: 700, color: '#6b7280', textAlign: 'center', marginTop: '2px', lineHeight: 1.1 }}>batches today</span>
-                  </div>
-                }
               >
-                {/* Next Class Section overlapping the backdrop */}
+                {/* Next Class Section inside canopy */}
                 <div style={{
                   backgroundColor: '#ffffff',
                   border: '2px solid #3b3d3f',
@@ -105,34 +123,47 @@ export function MenuLayoutsPage() {
                   flexDirection: 'column',
                   gap: '8px'
                 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', color: '#6b7280', letterSpacing: '0.5px' }}>
-                      NEXT CLASS
-                    </span>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: '3px', color: '#970103', cursor: 'pointer' }}>
-                      <Plus size={12} strokeWidth={2.5} />
-                      <span style={{ fontSize: '11px', fontWeight: 700 }}>Add class</span>
-                    </span>
-                  </div>
-                  
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '2px' }}>
-                    <span style={{ fontSize: '20px', fontWeight: 800, color: '#3b3d3f', lineHeight: 1 }}>19:00</span>
-                    <span style={{ padding: '2px 6px', backgroundColor: '#fff0f0', border: '1px solid #fca5a5', borderRadius: '4px', fontSize: '9px', fontWeight: 700, color: '#970103' }}>
-                      AD-HOC
-                    </span>
-                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'stretch', gap: '8px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', flex: 1 }}>
+                      <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', color: '#6b7280', letterSpacing: '0.5px' }}>
+                        NEXT CLASS
+                      </span>
+                      
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '1px' }}>
+                        <span style={{ fontSize: '20px', fontWeight: 800, color: '#3b3d3f', lineHeight: 1 }}>19:00</span>
+                        <span style={{ padding: '1px 6px', backgroundColor: '#fff0f0', border: '1px solid #fca5a5', borderRadius: '4px', fontSize: '9px', fontWeight: 700, color: '#970103' }}>
+                          AD-HOC
+                        </span>
+                      </div>
 
-                  <span style={{ fontSize: '13px', fontWeight: 700, color: '#3b3d3f' }}>
-                    MMA Advanced · Main Branch
-                  </span>
-                  
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '11px', color: '#6b7280' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      <Calendar size={12} />
-                      <span>Today</span>
+                      <span style={{ fontSize: '13px', fontWeight: 700, color: '#3b3d3f' }}>
+                        MMA Advanced · Main Branch
+                      </span>
+                      
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: '#6b7280', marginTop: '2px' }}>
+                        <Clock size={12} />
+                        <span>Today</span>
+                        <span>·</span>
+                        <span>14 Enrolled</span>
+                      </div>
                     </div>
-                    <span>·</span>
-                    <span>14 Enrolled</span>
+
+                    {/* Batches Today Boxed Pill on right */}
+                    <div style={{
+                      minWidth: '82px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '8px 6px',
+                      border: '1.5px solid #3b3d3f',
+                      borderRadius: '8px',
+                      backgroundColor: '#fff0f0',
+                      flexShrink: 0
+                    }}>
+                      <span style={{ fontSize: '20px', fontWeight: 800, color: '#970103', lineHeight: 1 }}>3</span>
+                      <span style={{ fontSize: '9px', fontWeight: 700, color: '#6b7280', textAlign: 'center', marginTop: '3px', lineHeight: 1.1 }}>batches today</span>
+                    </div>
                   </div>
 
                   <div style={{ display: 'flex', gap: '8px', marginTop: '4px' }}>
@@ -159,9 +190,13 @@ export function MenuLayoutsPage() {
                       border: '2px solid #3b3d3f',
                       borderRadius: '6px',
                       boxShadow: '2px 2px 0px #3b3d3f',
-                      cursor: 'pointer'
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px'
                     }}>
-                      Cancel class
+                      <X size={13} strokeWidth={2.5} />
+                      <span>Cancel class</span>
                     </button>
                   </div>
                 </div>
@@ -169,37 +204,52 @@ export function MenuLayoutsPage() {
 
               {/* Page content scrolling below the canopy */}
               <div style={{ padding: '16px 12px 24px 12px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {/* Alert Banners */}
-                <div style={{
-                  backgroundColor: '#fff0f0',
-                  border: '2px solid #3b3d3f',
-                  borderRadius: '8px',
-                  padding: '8px 10px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  boxShadow: '3px 3px 0px #3b3d3f',
-                }}>
-                  <AlertTriangle size={18} color="#970103" style={{ flexShrink: 0 }} />
-                  <span style={{ fontSize: '11px', fontWeight: 600, color: '#3b3d3f', fontFamily: "'DM Sans', sans-serif" }}>
-                    Dev mode - auth bypassed. Lock down.
-                  </span>
-                </div>
-
-                <div style={{
-                  backgroundColor: '#fffbeb',
-                  border: '2px solid #3b3d3f',
-                  borderRadius: '8px',
-                  padding: '8px 10px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  boxShadow: '3px 3px 0px #3b3d3f',
-                }}>
-                  <AlertTriangle size={18} color="#d97706" style={{ flexShrink: 0 }} />
-                  <span style={{ fontSize: '11px', fontWeight: 600, color: '#3b3d3f', fontFamily: "'DM Sans', sans-serif" }}>
-                    Attendance: 2 classes today not marked.
-                  </span>
+                {/* Notifications Carousel */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <div style={{
+                    backgroundColor: activeAlertIdx === 0 ? '#fff0f0' : activeAlertIdx === 1 ? '#fffbeb' : '#f0f9ff',
+                    border: '2px solid #3b3d3f',
+                    borderRadius: '8px',
+                    padding: '10px 12px',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '8px',
+                    boxShadow: '3px 3px 0px #3b3d3f',
+                    transition: 'all 0.2s ease',
+                  }}>
+                    <AlertTriangle
+                      size={18}
+                      color={activeAlertIdx === 0 ? '#970103' : activeAlertIdx === 1 ? '#d97706' : '#0284c7'}
+                      style={{ flexShrink: 0, marginTop: '1px' }}
+                    />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: '11px', fontWeight: 700, color: '#3b3d3f', fontFamily: "'DM Sans', sans-serif" }}>
+                        {alerts[activeAlertIdx].title}
+                      </div>
+                      <div style={{ fontSize: '10px', color: '#6b7280', marginTop: '2px', fontFamily: "'DM Sans', sans-serif" }}>
+                        {alerts[activeAlertIdx].desc}
+                      </div>
+                    </div>
+                  </div>
+                  {/* Carousel navigation dots */}
+                  <div style={{ display: 'flex', justifyContent: 'center', gap: '5px' }}>
+                    {alerts.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setActiveAlertIdx(i)}
+                        style={{
+                          width: activeAlertIdx === i ? '16px' : '6px',
+                          height: '6px',
+                          borderRadius: '3px',
+                          backgroundColor: activeAlertIdx === i ? '#970103' : '#d1d5db',
+                          border: 'none',
+                          padding: 0,
+                          cursor: 'pointer',
+                          transition: 'all 0.2s ease',
+                        }}
+                      />
+                    ))}
+                  </div>
                 </div>
 
                 {/* Fee Status Grid */}
@@ -229,7 +279,8 @@ export function MenuLayoutsPage() {
                             display: 'flex',
                             flexDirection: 'column',
                             gap: '2px',
-                            boxSizing: 'border-box'
+                            boxSizing: 'border-box',
+                            cursor: 'pointer',
                           }}
                         >
                           <span style={{ fontSize: '11px', fontWeight: 700, color: '#3b3d3f', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -246,58 +297,36 @@ export function MenuLayoutsPage() {
                 </div>
               </div>
             </div>
-            {/* FAB */}
-            <div style={{ position: 'absolute', bottom: '72px', right: '16px', zIndex: 50 }}>
-              <button style={{
-                width: '48px',
-                height: '48px',
-                borderRadius: '24px',
-                backgroundColor: '#970103',
-                border: '2px solid #3b3d3f',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: '3px 3px 0px #3b3d3f',
-                color: '#ffffff',
-                cursor: 'pointer'
-              }}>
-                <Plus size={22} strokeWidth={2.5} />
-              </button>
-            </div>
+
+            {/* Interactive Kaayo Dashboard FAB with 4 Quick Actions */}
+            <KayoBrutalistFab
+              actions={DEFAULT_KAAYO_DASHBOARD_ACTIONS}
+              position="absolute"
+              bottom={16}
+              right={16}
+            />
           </div>
         )
       case 'students':
         return (
-          <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', height: '100%', position: 'relative' }}>
             <div style={{ paddingTop: '28px', backgroundColor: '#ffffff' }}>
               <KayoBrutalistHeader variant="mobile" pageTitle="Students" user={demoUser} />
             </div>
-            {/* Sub Nav Branch Tabs */}
+            {/* Sub Nav Branch Tabs using KayoBrutalistBranchTabs */}
             <div style={{
-              display: 'flex',
               padding: '8px 12px',
-              gap: '6px',
               backgroundColor: '#ffffff',
               borderBottom: '2px solid #3b3d3f'
             }}>
-              {['All', 'Main Branch', 'Annex'].map((tab, idx) => (
-                <button
-                  key={tab}
-                  style={{
-                    flex: 1,
-                    fontSize: '11px',
-                    fontWeight: 700,
-                    padding: '6px 0',
-                    borderRadius: '4px',
-                    border: '2px solid #3b3d3f',
-                    backgroundColor: idx === 0 ? '#fff0f0' : '#ffffff',
-                    color: idx === 0 ? '#970103' : '#3b3d3f',
-                    cursor: 'pointer'
-                  }}
-                >
-                  {tab}
-                </button>
-              ))}
+              <KayoBrutalistBranchTabs
+                branches={[
+                  { id: 'main', name: 'Main Branch' },
+                  { id: 'annex', name: 'Annex' },
+                ]}
+                selectedId={selectedBranch}
+                onSelect={setSelectedBranch}
+              />
             </div>
 
             <div style={{ flex: 1, overflowY: 'auto', padding: '12px', display: 'flex', flexDirection: 'column', gap: '10px', backgroundColor: '#fdfcfb' }} className="no-scrollbar">
@@ -376,24 +405,14 @@ export function MenuLayoutsPage() {
               ))}
             </div>
 
-            {/* FAB */}
-            <div style={{ position: 'absolute', bottom: '72px', right: '16px', zIndex: 50 }}>
-              <button style={{
-                width: '48px',
-                height: '48px',
-                borderRadius: '24px',
-                backgroundColor: '#970103',
-                border: '2px solid #3b3d3f',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: '3px 3px 0px #3b3d3f',
-                color: '#ffffff',
-                cursor: 'pointer'
-              }}>
-                <Plus size={22} strokeWidth={2.5} />
-              </button>
-            </div>
+            {/* Student FAB */}
+            <KayoBrutalistFab
+              position="absolute"
+              bottom={16}
+              right={16}
+              icon={<UserPlus size={22} strokeWidth={2.5} />}
+              onClick={() => {}}
+            />
           </div>
         )
       case 'attendance':

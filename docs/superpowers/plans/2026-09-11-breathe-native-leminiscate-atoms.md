@@ -129,7 +129,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 
 | Task | Unit | Size | Status |
 |---|---|---|---|
-| 1 | Workspace + CI | S | ☐ |
+| 1 | Workspace + CI | S | ☑ |
 | 2 | Package skeleton + `cn` | S | ☐ |
 | 3 | Theme stylesheet | M | ☐ |
 | 4 | THEME JS mirror | S | ☐ |

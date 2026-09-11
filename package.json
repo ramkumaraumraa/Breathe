@@ -99,7 +99,8 @@
   },
   "pnpm": {
     "overrides": {
-      "vite": "6.3.5"
+      "vite": "6.3.5",
+      "lightningcss": "1.30.1"
     }
   }
 }

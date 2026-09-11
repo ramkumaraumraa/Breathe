@@ -1473,7 +1473,7 @@ git commit -m "feat(native): Expo catalog app with foundations spike"
 
 ### Task 6: Text
 
-Web has no Text component (text inherits from `body`: Inter, 16px/24px, `text-foreground`). RN text does not inherit, so every string renders through `Text`, which applies those body defaults and merges the parent's `TextClassContext` (R10).
+Web has no Text component (text inherits from `body`: Inter, 16px/24px, `text-foreground`). RN text does not inherit, so every string renders through `Text`, which applies those body defaults and merges the parent's `TextClassContext` (R10). Nested Texts inherit their parent's styles (like web spans); only the outermost Text applies the body defaults.
 
 **Files:**
 - Create: `packages/react-native/src/atoms/text.tsx`
@@ -1484,6 +1484,8 @@ Web has no Text component (text inherits from `body`: Inter, 16px/24px, `text-fo
 - [ ] **Step 1: Write the failing test** — `packages/react-native/test/atoms/text.test.tsx`
 
 ```tsx
+import * as React from 'react';
+import type { Text as RNText } from 'react-native';
 import { render, screen } from '@testing-library/react-native';
 import { Text, TextClassContext } from '../../src/atoms/text';
 
@@ -1508,8 +1510,41 @@ describe('Text', () => {
         <Text className="text-primary">Own</Text>
       </TextClassContext.Provider>,
     );
-    expect(screen.getByText('Own').props.className).toContain('text-primary');
-    expect(screen.getByText('Own').props.className).not.toContain('text-white');
+    expect(screen.getByText('Own').props.className).toBe('font-sans text-base text-primary');
+  });
+
+  it.each([
+    [
+      'font-medium text-[11px] text-neutral-black-975',
+      undefined,
+      'font-sans font-medium text-[11px] text-neutral-black-975',
+    ],
+    ['text-primary-500 text-sm font-medium', 'font-normal', 'font-sans text-primary-500 text-sm font-normal'],
+  ])('context %s + className %s', async (ctx, cls, expected) => {
+    await render(
+      <TextClassContext.Provider value={ctx}>
+        <Text className={cls}>X</Text>
+      </TextClassContext.Provider>,
+    );
+    expect(screen.getByText('X').props.className).toBe(expected);
+  });
+
+  it('lets a nested Text inherit its parent instead of re-applying body defaults', async () => {
+    await render(
+      <Text className="text-sm text-primary">
+        Hello{' '}
+        <Text className="font-bold" testID="inner">
+          world
+        </Text>
+      </Text>,
+    );
+    expect(screen.getByTestId('inner').props.className).toBe('font-bold');
+  });
+
+  it('accepts a ref', async () => {
+    const ref = React.createRef<RNText>();
+    await render(<Text ref={ref}>R</Text>);
+    expect(ref.current).toBeTruthy();
   });
 });
 ```
@@ -1529,11 +1564,20 @@ import { cn } from '../lib/utils';
 /** Text classes a parent (Button, Badge, Toggle…) pushes down to its Text children. */
 const TextClassContext = React.createContext<string | undefined>(undefined);
 
-type TextProps = React.ComponentProps<typeof RNText>;
+/** Internal: a root Text marks its subtree so nested Texts inherit (like web spans) instead of re-applying body defaults. */
+const InsideTextContext = React.createContext(false);
+
+type TextProps = React.ComponentProps<typeof RNText> & React.RefAttributes<RNText>;
 
 function Text({ className, ...props }: TextProps) {
   const textClass = React.useContext(TextClassContext);
-  return <RNText className={cn('font-sans text-base text-foreground', textClass, className)} {...props} />;
+  // ponytail: a View inside a Text (e.g. an inline Badge) still counts as nested; reset the context there if that ever ships
+  if (React.useContext(InsideTextContext)) return <RNText className={className} {...props} />;
+  return (
+    <InsideTextContext.Provider value>
+      <RNText className={cn('font-sans text-base text-foreground', textClass, className)} {...props} />
+    </InsideTextContext.Provider>
+  );
 }
 
 export { Text, TextClassContext };
@@ -1548,7 +1592,7 @@ export * from './atoms/text';
 - [ ] **Step 4: Run — expect PASS**
 
 Run: `pnpm --filter @aumraa/breathe-native test test/atoms/text.test.tsx`
-Expected: 3 passed.
+Expected: 7 passed.
 
 - [ ] **Step 5: Catalog section** — `apps/native-catalog/sections/TextSection.tsx`
 

@@ -5,11 +5,20 @@ import { cn } from '../lib/utils';
 /** Text classes a parent (Button, Badge, Toggle…) pushes down to its Text children. */
 const TextClassContext = React.createContext<string | undefined>(undefined);
 
-type TextProps = React.ComponentProps<typeof RNText>;
+/** Internal: a root Text marks its subtree so nested Texts inherit (like web spans) instead of re-applying body defaults. */
+const InsideTextContext = React.createContext(false);
+
+type TextProps = React.ComponentProps<typeof RNText> & React.RefAttributes<RNText>;
 
 function Text({ className, ...props }: TextProps) {
   const textClass = React.useContext(TextClassContext);
-  return <RNText className={cn('font-sans text-base text-foreground', textClass, className)} {...props} />;
+  // ponytail: a View inside a Text (e.g. an inline Badge) still counts as nested; reset the context there if that ever ships
+  if (React.useContext(InsideTextContext)) return <RNText className={className} {...props} />;
+  return (
+    <InsideTextContext.Provider value>
+      <RNText className={cn('font-sans text-base text-foreground', textClass, className)} {...props} />
+    </InsideTextContext.Provider>
+  );
 }
 
 export { Text, TextClassContext };

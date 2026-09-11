@@ -63,7 +63,7 @@
 | R1 | Any class | Paste verbatim; the theme guarantees identical values. |
 | R2 | `bg-[var(--color-primary-500)]` etc. | `bg-primary-500` (scales registered as named colours with the same names). |
 | R3 | `rem` inside arbitrary values (`min-w-[8rem]`, `text-[0.8rem]`) | px (`min-w-[128px]`, `text-[12.8px]`). |
-| R4 | bare `rounded` / bare `shadow` | Forbidden (v4 meaning differs). Use explicit `rounded-[4px]` / `shadow-sm`. |
+| R4 | bare `rounded` | Forbidden (v4 compiles it to `0.25rem` = 3.5px on native, not the repo's 12px). Use explicit `rounded-[4px]` etc. Bare `shadow` is **allowed** — Tailwind 4.3.3 compiles bare `shadow` to exactly v3's bare `shadow` value, so it needs no rewrite. `test/class-rules.test.ts` enforces R3, R4 and R19 by scanning every file under `src/`. |
 | R5 | `hover:x` when an `active:` style exists | Drop. |
 | R6 | `hover:x` / `focus:x` highlight with no `active:` (menu items, toggles) | Becomes `active:x` (touch feedback). |
 | R7 | `focus-visible:ring-*` on text inputs | `useFocusRing()` → `outlineWidth: 2, outlineOffset: 2, outlineColor: ring`. On non-text controls: drop (keyboard-only on web). |
@@ -116,6 +116,7 @@ packages/react-native/
   src/atoms/button.tsx  badge.tsx  label.tsx  separator.tsx  skeleton.tsx  progress.tsx  avatar.tsx
   src/atoms/form-elements/input.tsx  textarea.tsx  checkbox.tsx  radio-group.tsx  switch.tsx
   src/atoms/form-elements/toggle.tsx  toggle-group.tsx  slider.tsx  select.tsx  input-otp.tsx  calendar.tsx
+  test/class-rules.test.ts                  regex guard over src/ for R3/R4/R19 (Task 3)
   test/**/*.test.ts(x)                      one file per unit
 apps/native-catalog/                        Expo app: one section per atom
   App.tsx  global.css  metro.config.js  postcss.config.mjs  nativewind-env.d.ts  app.json  package.json
@@ -336,6 +337,7 @@ git commit -m "chore(native): add apps workspace, lightningcss pin, Node 22 CI"
     "@rn-primitives/portal": "1.5.3",
     "@testing-library/react-native": "^14.0.1",
     "@types/jest": "29.5.14",
+    "@types/node": "^25.6.0",
     "@types/react": "~19.2.14",
     "babel-preset-expo": "~56.0.20",
     "expo": "~56.0.21",
@@ -367,7 +369,7 @@ Why these are peers: `@rn-primitives/portal` must be the single instance the app
   "compilerOptions": {
     "strict": true,
     "noEmit": true,
-    "types": ["jest"]
+    "types": ["jest", "node"]
   },
   "include": ["src", "test", "nativewind-env.d.ts", "jest.setup.ts"]
 }
@@ -529,6 +531,7 @@ git commit -m "feat(native): scaffold @aumraa/breathe-native with jest-expo and 
 **Files:**
 - Create: `packages/react-native/styles/lemniscate.css`
 - Test: `packages/react-native/test/styles.test.ts`
+- Test: `packages/react-native/test/class-rules.test.ts` — regex guard over `src/` for R3/R4/R19, so later atom tasks (6–27) can't silently reintroduce `rem`, bare `rounded`, or an unregistered palette family.
 
 Values come from the repo's `src/index.css` (HSL converted to the hex the browser renders) and `tailwind.config.ts`; scales Tailwind v3 would have supplied are written out in px.
 
@@ -559,9 +562,13 @@ export function vars(text: string): Record<string, string> {
   );
 }
 
-const light = vars(block(css, ':root'));
-const dark = vars(block(css, '@media (prefers-color-scheme: dark)'));
-const theme = vars(block(css, '@theme inline'));
+// Comments can contain marker-like text (e.g. this file's own header); strip them before
+// locating blocks so `block()` always finds the real rule, not a mention inside a comment.
+const uncommented = css.replace(/\/\*[\s\S]*?\*\//g, '');
+
+const light = vars(block(uncommented, ':root'));
+const dark = vars(block(uncommented, '@media (prefers-color-scheme: dark)'));
+const theme = vars(block(uncommented, '@theme inline'));
 
 // Leminiscate repo src/index.css :root (commit ecf73f7), HSL → rendered hex
 const LIGHT: Record<string, string> = {
@@ -628,6 +635,11 @@ describe('lemniscate.css', () => {
 
   it('registers the package source for class scanning', () => {
     expect(css).toContain('@source "../src";');
+  });
+
+  it('restores px leading (nativewind/theme makes leading-N font-relative)', () => {
+    expect(css).toContain('@utility leading-*');
+    expect(css).toContain('--spacing(--value(integer))');
   });
 
   it.each(Object.entries(LIGHT))('light --%s = %s', (name, value) => {
@@ -892,6 +904,12 @@ Expected: FAIL — `ENOENT … styles/lemniscate.css`.
   --text-5xl--line-height: 48px;
   --text-6xl: 60px;
   --text-6xl--line-height: 60px;
+  --text-7xl: 72px;
+  --text-7xl--line-height: 72px;
+  --text-8xl: 96px;
+  --text-8xl--line-height: 96px;
+  --text-9xl: 128px;
+  --text-9xl--line-height: 128px;
 
   /* Spacing: Tailwind v3 4px step */
   --spacing: 4px;
@@ -934,17 +952,117 @@ Expected: FAIL — `ENOENT … styles/lemniscate.css`.
   --container-6xl: 1152px;
   --container-7xl: 1280px;
 }
+
+/* nativewind/theme makes leading-N font-relative; restore Tailwind v3 absolute px (4px × N) */
+@utility leading-* {
+  line-height: --spacing(--value(integer));
+}
 ```
 
 - [ ] **Step 4: Run — expect PASS**
 
 Run: `pnpm --filter @aumraa/breathe-native test test/styles.test.ts`
-Expected: all cases pass (≈120 `it.each` rows).
+Expected: all cases pass (≈121 `it`/`it.each` rows).
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 5: Write the class-rule guard** — `packages/react-native/test/class-rules.test.ts`
+
+Recursively scans every `.ts`/`.tsx` file under `src/` so Tasks 6–27 can't reintroduce `rem`, bare `rounded`, or a palette family the theme doesn't define. Passes trivially today (src only has `index.ts`/`lib/utils.ts`); a self-check proves the regexes against sample strings independent of what src/ currently contains.
+
+```ts
+import { readdirSync, readFileSync } from 'fs';
+import path from 'path';
+
+const SRC_DIR = path.join(__dirname, '../src');
+
+// R3: rem inside arbitrary values (min-w-[8rem], text-[0.8rem]) — NativeWind v5 inlines rem as 14px.
+const REM = /\d(\.\d+)?rem\b/;
+// R4: bare `rounded` — Tailwind v4 compiles it to 0.25rem = 3.5px on native, not the repo's 12px.
+// `rounded-lg`, `rounded-[3px]` and `rounded-full` must NOT match (all followed by `-`).
+const BARE_ROUNDED = /(?<![\w-])rounded(?![\w-[])/;
+// R19: only families the theme defines (slate, gray, red, orange, amber, green, emerald, cyan,
+// blue, purple) may be used; every other Tailwind default-palette family compiles to OKLCH.
+const FORBIDDEN_PALETTE_FAMILY =
+  /-(yellow|lime|teal|sky|indigo|violet|fuchsia|pink|rose|zinc|stone)-\d/;
+// `neutral-white-25` / `neutral-black-975` (the repo's foundation scale) must NOT match — only a
+// *bare* `neutral-<digit>` family (Tailwind's default, unregistered in the theme) is forbidden.
+const FORBIDDEN_NEUTRAL_FAMILY = /-neutral-\d/;
+
+interface Violation {
+  file: string;
+  match: string;
+}
+
+function walk(dir: string): string[] {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) return walk(full);
+    if (/\.tsx?$/.test(entry.name)) return [full];
+    return [];
+  });
+}
+
+const SRC_FILES = walk(SRC_DIR);
+
+/** Scans every src file for `pattern`, returning one violation per match (file + matched text). */
+function scan(pattern: RegExp): Violation[] {
+  const global = new RegExp(pattern.source, 'g');
+  const violations: Violation[] = [];
+  for (const file of SRC_FILES) {
+    const content = readFileSync(file, 'utf8');
+    for (const match of content.matchAll(global)) {
+      violations.push({ file: path.relative(SRC_DIR, file), match: match[0] });
+    }
+  }
+  return violations;
+}
+
+describe('class-rules (guards packages/react-native/src against forbidden class patterns)', () => {
+  it('never uses rem in a class string (R3)', () => {
+    expect(scan(REM)).toEqual([]);
+  });
+
+  it('never uses bare `rounded` (R4 — v4 compiles it to 0.25rem = 3.5px on native)', () => {
+    expect(scan(BARE_ROUNDED)).toEqual([]);
+  });
+
+  it('never uses a Tailwind palette family the theme does not define (R19)', () => {
+    expect([...scan(FORBIDDEN_PALETTE_FAMILY), ...scan(FORBIDDEN_NEUTRAL_FAMILY)]).toEqual([]);
+  });
+
+  // Proves the regexes themselves are correct, independent of what src/ currently contains.
+  it('regex self-check: matches the intended cases, rejects the exempted ones', () => {
+    expect(REM.test('min-w-[8rem]')).toBe(true);
+    expect(REM.test('text-[0.8rem]')).toBe(true);
+    expect(REM.test('min-w-[128px]')).toBe(false);
+    expect(REM.test('text-[12.8px]')).toBe(false);
+
+    expect(BARE_ROUNDED.test('rounded')).toBe(true);
+    expect(BARE_ROUNDED.test("'rounded'")).toBe(true);
+    expect(BARE_ROUNDED.test('rounded-lg')).toBe(false);
+    expect(BARE_ROUNDED.test('rounded-[3px]')).toBe(false);
+    expect(BARE_ROUNDED.test('rounded-full')).toBe(false);
+
+    expect(FORBIDDEN_PALETTE_FAMILY.test('bg-rose-500')).toBe(true);
+    expect(FORBIDDEN_PALETTE_FAMILY.test('text-sky-400')).toBe(true);
+    expect(FORBIDDEN_PALETTE_FAMILY.test('bg-neutral-white-25')).toBe(false);
+    expect(FORBIDDEN_PALETTE_FAMILY.test('bg-slate-500')).toBe(false);
+
+    expect(FORBIDDEN_NEUTRAL_FAMILY.test('bg-neutral-500')).toBe(true);
+    expect(FORBIDDEN_NEUTRAL_FAMILY.test('bg-neutral-white-25')).toBe(false);
+    expect(FORBIDDEN_NEUTRAL_FAMILY.test('bg-neutral-black-975')).toBe(false);
+  });
+});
+```
+
+- [ ] **Step 6: Run — expect PASS**
+
+Run: `pnpm --filter @aumraa/breathe-native test test/class-rules.test.ts`
+Expected: all 4 cases pass.
+
+- [ ] **Step 7: Commit**
 
 ```bash
-git add packages/react-native/styles packages/react-native/test/styles.test.ts
+git add packages/react-native/styles packages/react-native/test/styles.test.ts packages/react-native/test/class-rules.test.ts
 git commit -m "feat(native): Leminiscate theme stylesheet with px scale and repo tokens"
 ```
 
@@ -1204,12 +1322,24 @@ const WEIGHTS = [
 
 export function FoundationsSection() {
   const [probe, setProbe] = useState(0);
+  const [smHeight, setSmHeight] = useState(0);
+  const [leadingHeight, setLeadingHeight] = useState(0);
   return (
     <Section title="Foundations">
       <View className="flex-row items-center gap-3">
         <View className="h-11 w-11 rounded-lg bg-primary shadow-sm" onLayout={(e) => setProbe(e.nativeEvent.layout.height)} />
         <Text className="font-sans text-sm text-foreground">h-11 measured: {probe}px (expect 44)</Text>
       </View>
+      <Text
+        className="font-sans text-sm text-foreground"
+        onLayout={(e) => setSmHeight(e.nativeEvent.layout.height)}>
+        text-sm measured: {smHeight}px (expect 20)
+      </Text>
+      <Text
+        className="font-sans text-base leading-5 text-foreground"
+        onLayout={(e) => setLeadingHeight(e.nativeEvent.layout.height)}>
+        text-base leading-5 measured: {leadingHeight}px (expect 20)
+      </Text>
       <View className="flex-row flex-wrap gap-2">
         {SWATCHES.map(([cls, name]) => (
           <View key={name} className="items-center gap-1">
@@ -1284,6 +1414,7 @@ pnpm expo run:ios        # macOS only
 | # | Check | Pass criterion | If it fails |
 |---|---|---|---|
 | S1 | Size probe | Reads **44** | A rem value leaked: search `nativewind/theme` output for the utility; add its v3 px value to `@theme inline`. |
+| S1b | Leading probe | `text-sm` measures **20** and `text-base leading-5` measures **20** | If `text-sm` is off, the `--text-sm--line-height` fallback isn't applied on device — check the pair is registered in `@theme inline`. If `text-base leading-5` is off (and `text-sm` isn't), the `@utility leading-*` override in `lemniscate.css` isn't taking effect — check import order and that `nativewind/theme` doesn't come after it. |
 | S2 | Swatches | Match the web app's colours (compare against a web screenshot) | If semantic colours are missing but scales render, `@theme inline` var references are not resolving: replace `@theme inline` for semantic colours with the NativeWind-documented pattern (declare each `--color-*` hex in a `@theme` block **and** in `:root`, dark overrides in the media query). |
 | S3 | `red-50 (v3)` swatch | `#fef2f2` with `#fecaca` border | Palette override not applied: confirm `lemniscate.css` is imported **after** `tailwindcss/theme.css`. |
 | S4 | Inter weights | 400/500/600/700 visibly differ on **Android** | Run `pnpm expo prebuild --clean` then `run:android` again (config plugins only apply at prebuild). |
@@ -1292,6 +1423,7 @@ pnpm expo run:ios        # macOS only
 | # | Android | iOS | Notes |
 |---|---|---|---|
 | S1 | ☐ | ☐ | |
+| S1b | ☐ | ☐ | |
 | S2 | ☐ | ☐ | |
 | S3 | ☐ | ☐ | |
 | S4 | ☐ | ☐ | |

@@ -22,9 +22,13 @@ export function vars(text: string): Record<string, string> {
   );
 }
 
-const light = vars(block(css, ':root'));
-const dark = vars(block(css, '@media (prefers-color-scheme: dark)'));
-const theme = vars(block(css, '@theme inline'));
+// Comments can contain marker-like text (e.g. this file's own header); strip them before
+// locating blocks so `block()` always finds the real rule, not a mention inside a comment.
+const uncommented = css.replace(/\/\*[\s\S]*?\*\//g, '');
+
+const light = vars(block(uncommented, ':root'));
+const dark = vars(block(uncommented, '@media (prefers-color-scheme: dark)'));
+const theme = vars(block(uncommented, '@theme inline'));
 
 // Leminiscate repo src/index.css :root (commit ecf73f7), HSL → rendered hex
 const LIGHT: Record<string, string> = {
@@ -91,6 +95,11 @@ describe('lemniscate.css', () => {
 
   it('registers the package source for class scanning', () => {
     expect(css).toContain('@source "../src";');
+  });
+
+  it('restores px leading (nativewind/theme makes leading-N font-relative)', () => {
+    expect(css).toContain('@utility leading-*');
+    expect(css).toContain('--spacing(--value(integer))');
   });
 
   it.each(Object.entries(LIGHT))('light --%s = %s', (name, value) => {

@@ -216,6 +216,12 @@
   --text-5xl--line-height: 48px;
   --text-6xl: 60px;
   --text-6xl--line-height: 60px;
+  --text-7xl: 72px;
+  --text-7xl--line-height: 72px;
+  --text-8xl: 96px;
+  --text-8xl--line-height: 96px;
+  --text-9xl: 128px;
+  --text-9xl--line-height: 128px;
 
   /* Spacing: Tailwind v3 4px step */
   --spacing: 4px;
@@ -257,4 +263,9 @@
   --container-5xl: 1024px;
   --container-6xl: 1152px;
   --container-7xl: 1280px;
+}
+
+/* nativewind/theme makes leading-N font-relative; restore Tailwind v3 absolute px (4px × N) */
+@utility leading-* {
+  line-height: --spacing(--value(integer));
 }

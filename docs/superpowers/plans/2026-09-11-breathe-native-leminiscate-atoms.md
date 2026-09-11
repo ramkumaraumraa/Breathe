@@ -134,7 +134,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | 2 | Package skeleton + `cn` | S | ☑ |
 | 3 | Theme stylesheet | M | ☑ |
 | 4 | THEME JS mirror | S | ☑ |
-| 5 | Catalog app + device spike | M | ☑ |
+| 5 | Catalog app + device spike (spike pending) | M | ☐ |
 | 6 | Text | S | ☐ |
 | 7 | Icon | S | ☐ |
 | 8 | Gradient | S | ☐ |
@@ -1185,7 +1185,7 @@ Then delete the template's `AGENTS.md`, `CLAUDE.md`, `.claude/` and `LICENSE` (E
 
 ```json
     "@aumraa/breathe-native": "workspace:*",
-    "@expo-google-fonts/inter": "^0.4.2",
+    "@expo-google-fonts/inter": "0.4.2",
     "@react-native-community/slider": "5.2.0",
     "@rn-primitives/portal": "1.5.3",
     "expo-font": "~56.0.7",
@@ -1207,30 +1207,34 @@ and into `devDependencies`:
     "tailwindcss": "4.3.3"
 ```
 
-Keep the template's `expo`, `react`, `react-native` versions (they must read `~56.0.21`, `19.2.3`, `0.85.3`; fix them if not). Run `pnpm install` at the project root.
+Keep the template's `expo`, `react`, `react-native` versions (they must read `~56.0.21`, `19.2.3`, `0.85.3`; fix them if not). Delete the template's `web` script (`react-dom`/`react-native-web` aren't installed). `@expo-google-fonts/inter` is pinned exactly because `app.json` hard-codes its file paths. Run `pnpm install` at the project root.
 
 - [ ] **Step 3: NativeWind wiring**
 
 `apps/native-catalog/metro.config.js`
 ```js
+const path = require('path');
 const { getDefaultConfig } = require('expo/metro-config');
 const { withNativewind } = require('nativewind/metro');
 
 const config = getDefaultConfig(__dirname);
 const nativewindConfig = withNativewind(config);
-
-// react-native-worklets calls require.resolveWeak('react-native') to find the real RN module id.
-// NativeWind's resolver redirects `react-native` to react-native-css/components/index.cjs, which is
-// never bundled, so `expo export` fails with "Chunk containing module not found". Weak references
-// resolve without the redirect; everything else goes through NativeWind.
 const nativewindResolve = nativewindConfig.resolver.resolveRequest;
+
+// react-native-worklets calls require.resolveWeak('react-native'). NativeWind redirects 'react-native'
+// to react-native-css's CJS components copy, which nothing else bundles, so `expo export` fails with
+// "Chunk containing module not found". Worklets never renders className components, so its
+// 'react-native' imports skip the redirect. Remove once react-native-css handles resolveWeak.
+const WORKLETS = `${path.sep}react-native-worklets${path.sep}`;
 nativewindConfig.resolver.resolveRequest = (context, moduleName, platform) =>
-  context.dependency?.data?.asyncType === 'weak'
+  moduleName === 'react-native' && context.originModulePath.includes(WORKLETS)
     ? (config.resolver.resolveRequest ?? context.resolveRequest)(context, moduleName, platform)
     : nativewindResolve(context, moduleName, platform);
 
 module.exports = nativewindConfig;
 ```
+
+The exemption is keyed on the importing module's path, not on `context.dependency`: Metro documents that field as diagnostic-only, and `asyncType` is not part of its resolution cache key.
 
 `apps/native-catalog/postcss.config.mjs`
 ```js
@@ -1256,7 +1260,7 @@ export default {
 /// <reference types="expo/types" />
 ```
 
-- [ ] **Step 4: Fonts and dark mode** — in `apps/native-catalog/app.json`, set `"userInterfaceStyle": "automatic"` (the template ships `"light"`, which blocks dark mode) and add to `expo.plugins`:
+- [ ] **Step 4: Fonts and dark mode** — in `apps/native-catalog/app.json`, set `"userInterfaceStyle": "automatic"` (the template ships `"light"`, which blocks dark mode), delete the template's `web` block (web is not a target) along with the then-unreferenced `assets/favicon.png` and `assets/splash-icon.png`, and add to `expo.plugins`:
 
 ```json
       [
@@ -1344,17 +1348,17 @@ export function FoundationsSection() {
   return (
     <Section title="Foundations">
       <View className="flex-row items-center gap-3">
-        <View className="h-11 w-11 rounded-lg bg-primary shadow-sm" onLayout={(e) => setProbe(e.nativeEvent.layout.height)} />
+        <View className="h-11 w-11 rounded-lg bg-primary shadow-sm" onLayout={(e) => setProbe(Math.round(e.nativeEvent.layout.height))} />
         <Text className="font-sans text-sm text-foreground">h-11 measured: {probe}px (expect 44)</Text>
       </View>
       <Text
         className="font-sans text-sm text-foreground"
-        onLayout={(e) => setSmHeight(e.nativeEvent.layout.height)}>
+        onLayout={(e) => setSmHeight(Math.round(e.nativeEvent.layout.height))}>
         text-sm measured: {smHeight}px (expect 20)
       </Text>
       <Text
         className="font-sans text-base leading-5 text-foreground"
-        onLayout={(e) => setLeadingHeight(e.nativeEvent.layout.height)}>
+        onLayout={(e) => setLeadingHeight(Math.round(e.nativeEvent.layout.height))}>
         text-base leading-5 measured: {leadingHeight}px (expect 20)
       </Text>
       <View className="flex-row flex-wrap gap-2">
@@ -1400,7 +1404,7 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <SafeAreaView className="flex-1 bg-background">
-        <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} />
+        <StatusBar style="auto" />
         <Pressable
           className="m-4 self-start rounded-md border border-border px-3 py-2"
           onPress={() => Appearance.setColorScheme(scheme === 'dark' ? 'light' : 'dark')}>
@@ -1411,12 +1415,14 @@ export default function App() {
             <Component key={key} />
           ))}
         </ScrollView>
-        <PortalHost />
       </SafeAreaView>
+      <PortalHost />
     </SafeAreaProvider>
   );
 }
 ```
+
+`PortalHost` sits outside `SafeAreaView`: rn-primitives positions portal content absolutely from window coordinates, so safe-area padding would offset it.
 
 - [ ] **Step 6: Run on devices (development build — Expo Go does not apply font plugins)**
 
@@ -1425,6 +1431,8 @@ cd apps/native-catalog
 pnpm expo run:android
 pnpm expo run:ios        # macOS only
 ```
+
+**Windows: build from a path without spaces.** With spaces in the repo path the Android build fails: AGP's CMake prefab step for react-native-screens and react-native-worklets fails with `[CXX1428] … Cannot run program ""D:\Aumraa\APOS pitch\…\prefab_command.bat""`, and `:app:createBundleReleaseJsAndAssets` fails with `'D:\Aumraa\APOS' is not recognized`. On Windows, build from a path without spaces, e.g. `git worktree add --detach D:\bs HEAD`, then `corepack pnpm install` there, then run the spike from `D:\bs\apps\native-catalog`. The same applies to the Leminiscate mobile app: keep its repo in a path without spaces.
 
 - [ ] **Step 7: Spike checklist** — record each result in the table below before starting Task 6.
 
@@ -1447,10 +1455,10 @@ pnpm expo run:ios        # macOS only
 | S5 | ☐ | ☐ | Pending — needs device (owner) |
 
 **Automated verification (2026-09-11, Windows, no device or emulator attached):**
-- `expo export --platform android` succeeds: 1100 modules, 2.8 MB Hermes bundle. This proves the metro config, the PostCSS/Tailwind 4.3.3 compile, the `@import` of `@aumraa/breathe-native/styles/lemniscate.css` through the pnpm workspace symlink, and the TS/JSX transforms.
+- `expo export --platform android` succeeds: 1100 modules, 2.8 MB Hermes bundle (re-verified with the origin-keyed worklets exemption). This proves the metro config, the PostCSS/Tailwind 4.3.3 compile, the `@import` of `@aumraa/breathe-native/styles/lemniscate.css` through the pnpm workspace symlink, and the TS/JSX transforms.
 - Compiled style table in a `--no-bytecode` export: `h-11` → `height: 44`; `text-sm` → `fontSize: 14` + `lineHeight: var(--tw-leading, 20)`; `leading-5` → `lineHeight: 20`, emitted after `nativewind/theme`'s font-relative calc (the device decides S1b); `bg-primary-500` → `#1c60c1`; `bg-red-50` → `#fef2f2`; `border-red-200` → `#fecaca`; `font-sans` → `fontFamily: "Inter"`; semantic colours resolve through vars whose dark values are keyed on `prefers-color-scheme` (e.g. background `#121821`).
 - `tsc --noEmit` in the catalog is clean.
-- `expo prebuild --clean --platform android --no-install`: the expo-font plugin resolves all four Inter TTFs through pnpm and writes `res/font/xml_inter.xml` (weights 400/500/600/700) plus `ReactFontManager.addCustomFont(…, "Inter", …)`. The native dir was deleted afterwards. Prebuild warns `android: userInterfaceStyle: Install expo-system-ui in your project to enable this feature` — if S5 fails on Android, add `expo-system-ui` (SDK 56 version).
+- `expo prebuild --clean --platform android --no-install`: the expo-font plugin resolves all four Inter TTFs through pnpm and writes `res/font/xml_inter.xml` (weights 400/500/600/700) plus `ReactFontManager.addCustomFont(…, "Inter", …)`. The native dir was deleted afterwards. Prebuild warns `android: userInterfaceStyle: Install expo-system-ui in your project to enable this feature`; the warning fires whenever the key is set and does not apply to `"automatic"` — the generated theme is DayNight and MainActivity handles `uiMode`. `expo-system-ui` is only needed to force `"light"`/`"dark"` or to set a root `backgroundColor`. If S5 fails, investigate react-native-css `prefers-color-scheme` handling instead.
 
 - [ ] **Step 8: Commit**
 

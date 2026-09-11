@@ -34,17 +34,17 @@ export function FoundationsSection() {
   return (
     <Section title="Foundations">
       <View className="flex-row items-center gap-3">
-        <View className="h-11 w-11 rounded-lg bg-primary shadow-sm" onLayout={(e) => setProbe(e.nativeEvent.layout.height)} />
+        <View className="h-11 w-11 rounded-lg bg-primary shadow-sm" onLayout={(e) => setProbe(Math.round(e.nativeEvent.layout.height))} />
         <Text className="font-sans text-sm text-foreground">h-11 measured: {probe}px (expect 44)</Text>
       </View>
       <Text
         className="font-sans text-sm text-foreground"
-        onLayout={(e) => setSmHeight(e.nativeEvent.layout.height)}>
+        onLayout={(e) => setSmHeight(Math.round(e.nativeEvent.layout.height))}>
         text-sm measured: {smHeight}px (expect 20)
       </Text>
       <Text
         className="font-sans text-base leading-5 text-foreground"
-        onLayout={(e) => setLeadingHeight(e.nativeEvent.layout.height)}>
+        onLayout={(e) => setLeadingHeight(Math.round(e.nativeEvent.layout.height))}>
         text-base leading-5 measured: {leadingHeight}px (expect 20)
       </Text>
       <View className="flex-row flex-wrap gap-2">

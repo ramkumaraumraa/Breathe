@@ -10,7 +10,7 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <SafeAreaView className="flex-1 bg-background">
-        <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} />
+        <StatusBar style="auto" />
         <Pressable
           className="m-4 self-start rounded-md border border-border px-3 py-2"
           onPress={() => Appearance.setColorScheme(scheme === 'dark' ? 'light' : 'dark')}>
@@ -21,8 +21,8 @@ export default function App() {
             <Component key={key} />
           ))}
         </ScrollView>
-        <PortalHost />
       </SafeAreaView>
+      <PortalHost />
     </SafeAreaProvider>
   );
 }

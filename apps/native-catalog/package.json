@@ -4,7 +4,7 @@
   "main": "index.ts",
   "dependencies": {
     "@aumraa/breathe-native": "workspace:*",
-    "@expo-google-fonts/inter": "^0.4.2",
+    "@expo-google-fonts/inter": "0.4.2",
     "@react-native-community/slider": "5.2.0",
     "@rn-primitives/portal": "1.5.3",
     "expo": "~56.0.21",
@@ -31,8 +31,7 @@
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web"
+    "ios": "expo start --ios"
   },
   "private": true
 }

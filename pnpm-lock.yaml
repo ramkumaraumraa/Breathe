@@ -238,7 +238,7 @@ importers:
         specifier: workspace:*
         version: link:../../packages/react-native
       '@expo-google-fonts/inter':
-        specifier: ^0.4.2
+        specifier: 0.4.2
         version: 0.4.2
       '@react-native-community/slider':
         specifier: 5.2.0

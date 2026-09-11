@@ -135,7 +135,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | 3 | Theme stylesheet | M | ☑ |
 | 4 | THEME JS mirror | S | ☑ |
 | 5 | Catalog app + device spike (spike pending) | M | ☐ |
-| 6 | Text | S | ☐ |
+| 6 | Text | S | ☑ |
 | 7 | Icon | S | ☐ |
 | 8 | Gradient | S | ☐ |
 | 9 | Spinner | S | ☐ |

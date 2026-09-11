@@ -131,7 +131,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 |---|---|---|---|
 | 1 | Workspace + CI | S | ☑ |
 | 2 | Package skeleton + `cn` | S | ☑ |
-| 3 | Theme stylesheet | M | ☐ |
+| 3 | Theme stylesheet | M | ☑ |
 | 4 | THEME JS mirror | S | ☐ |
 | 5 | Catalog app + device spike | M | ☐ |
 | 6 | Text | S | ☐ |

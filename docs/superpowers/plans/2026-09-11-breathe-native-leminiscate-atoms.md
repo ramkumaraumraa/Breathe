@@ -133,7 +133,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | 1 | Workspace + CI | S | ☑ |
 | 2 | Package skeleton + `cn` | S | ☑ |
 | 3 | Theme stylesheet | M | ☑ |
-| 4 | THEME JS mirror | S | ☐ |
+| 4 | THEME JS mirror | S | ☑ |
 | 5 | Catalog app + device spike | M | ☐ |
 | 6 | Text | S | ☐ |
 | 7 | Icon | S | ☐ |
@@ -1088,9 +1088,12 @@ import { block, vars } from '../styles.test';
 const css = readFileSync(path.join(__dirname, '../../styles/lemniscate.css'), 'utf8');
 const kebab = (key: string) => key.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
 
+// Strip comments first, same as styles.test.ts, so a comment can never shift the parsed blocks.
+const uncommented = css.replace(/\/\*[\s\S]*?\*\//g, '');
+
 describe('THEME mirrors lemniscate.css', () => {
-  const light = vars(block(css, ':root'));
-  const dark = vars(block(css, '@media (prefers-color-scheme: dark)'));
+  const light = vars(block(uncommented, ':root'));
+  const dark = vars(block(uncommented, '@media (prefers-color-scheme: dark)'));
 
   it.each(Object.entries(THEME.light))('light %s', (key, value) => {
     expect(value).toBe(light[kebab(key)]);

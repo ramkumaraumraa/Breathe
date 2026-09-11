@@ -14,8 +14,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - uses: actions/setup-node@v4
         with:
@@ -35,7 +33,7 @@ jobs:
         run: pnpm build
 
       - name: Native — type check
-        run: pnpm --filter @aumraa/breathe-native typecheck
+        run: pnpm --filter @aumraa/breathe-native --fail-if-no-match typecheck
 
       - name: Native — test
-        run: pnpm --filter @aumraa/breathe-native test
+        run: pnpm --filter @aumraa/breathe-native --fail-if-no-match test

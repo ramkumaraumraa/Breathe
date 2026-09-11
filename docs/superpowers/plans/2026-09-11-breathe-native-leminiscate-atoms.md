@@ -100,8 +100,8 @@
 ### 0.6 File structure (created by this plan)
 
 ```
-pnpm-workspace.yaml                         (modify: add apps/*)
-package.json                                (modify: lightningcss override)
+pnpm-workspace.yaml                         (modify: add apps/*, overrides)
+package.json                                (modify: packageManager)
 vitest.config.ts                            (modify: exclude RN code)
 .github/workflows/ci.yml                    (modify: Node 22 + RN job)
 packages/react-native/
@@ -170,7 +170,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 
 **Files:**
 - Modify: `pnpm-workspace.yaml`
-- Modify: `package.json` (root, `pnpm.overrides`)
+- Modify: `package.json` (root, `packageManager`)
 - Modify: `vitest.config.ts`
 - Modify: `.github/workflows/ci.yml`
 
@@ -178,9 +178,9 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 
 ```bash
 git checkout -b feat/breathe-native
-corepack enable && pnpm -v
+corepack pnpm -v
 ```
-Expected: pnpm `10.x`.
+Expected: `10.34.5` (pinned by root `package.json`'s `packageManager` field, set in Step 3).
 
 - [ ] **Step 2: Add `apps/*` to the workspace** — replace `pnpm-workspace.yaml` with:
 
@@ -189,19 +189,26 @@ packages:
   - '.'
   - 'packages/*'
   - 'apps/*'
+
+overrides:
+  vite: 6.3.5
+  lightningcss: 1.30.1
 ```
 
 (pnpm's default isolated linker stays on — Expo SDK 54+ supports it, and the root docs site uses React 18 while the RN packages use React 19, so hoisting would collide.)
 
-- [ ] **Step 3: Pin lightningcss** (required by NativeWind v5) — in root `package.json`, change the `pnpm` block to:
+- [ ] **Step 3: Pin lightningcss and pnpm** (lightningcss required by NativeWind v5) — pnpm 11+ ignores `package.json`'s `pnpm.overrides`, so the override lives in `pnpm-workspace.yaml` (added in Step 2, shown again here):
+
+```yaml
+overrides:
+  vite: 6.3.5
+  lightningcss: 1.30.1
+```
+
+Pin the pnpm version itself so plain `corepack pnpm` resolves to pnpm 10 locally — add to root `package.json`:
 
 ```json
-  "pnpm": {
-    "overrides": {
-      "vite": "6.3.5",
-      "lightningcss": "1.30.1"
-    }
-  }
+  "packageManager": "pnpm@10.34.5",
 ```
 
 - [ ] **Step 4: Keep vitest away from RN code** — replace `vitest.config.ts` with:
@@ -234,15 +241,17 @@ export default defineConfig({
 })
 ```
 
-- [ ] **Step 5: CI** — in `.github/workflows/ci.yml` change `node-version: 20` to `node-version: 22` and append after the `Build` step:
+- [ ] **Step 5: CI** — in `.github/workflows/ci.yml` change `node-version: 20` to `node-version: 22`, remove the `with: version: 10` input from the `pnpm/action-setup@v4` step (it now reads the version from `packageManager`; leaving both set makes `action-setup` error with "Multiple versions of pnpm specified"), and append after the `Build` step:
 
 ```yaml
       - name: Native — type check
-        run: pnpm --filter @aumraa/breathe-native typecheck
+        run: pnpm --filter @aumraa/breathe-native --fail-if-no-match typecheck
 
       - name: Native — test
-        run: pnpm --filter @aumraa/breathe-native test
+        run: pnpm --filter @aumraa/breathe-native --fail-if-no-match test
 ```
+
+(`--fail-if-no-match` makes these steps exit non-zero when the package doesn't exist yet, instead of silently passing with "No projects matched the filters".)
 
 - [ ] **Step 6: Verify the web side is untouched**
 
@@ -256,7 +265,7 @@ git add pnpm-workspace.yaml package.json pnpm-lock.yaml vitest.config.ts .github
 git commit -m "chore(native): add apps workspace, lightningcss pin, Node 22 CI"
 ```
 
-(The two `Native —` CI steps fail until Task 2 lands; land Tasks 1–2 in the same PR.)
+(The two `Native —` CI steps fail (via `--fail-if-no-match`) until Task 2 lands; land Tasks 1–2 in the same PR.)
 
 ---
 

@@ -1867,8 +1867,10 @@ Web loading state = lucide `Loader2` + `animate-spin` (1s linear infinite rotati
 - [ ] **Step 1: Write the failing test** — `packages/react-native/test/atoms/spinner.test.tsx`
 
 ```tsx
-import { render, screen } from '@testing-library/react-native';
+import { act, render, screen } from '@testing-library/react-native';
 import { Spinner } from '../../src/atoms/spinner';
+
+afterEach(() => jest.useRealTimers());
 
 describe('Spinner', () => {
   it('renders Loader2 inside a progressbar with a busy state', async () => {
@@ -1884,8 +1886,30 @@ describe('Spinner', () => {
     expect(icon.props.className).toContain('text-white');
     expect(icon.props.size).toBe(20);
   });
+
+  it('spins one turn per second', async () => {
+    jest.useFakeTimers();
+    await render(<Spinner />);
+    const v = screen.getByRole('progressbar');
+    expect(v).toHaveAnimatedStyle({ transform: [{ rotate: '0deg' }] });
+    await act(async () => {
+      jest.advanceTimersByTime(500);
+    });
+    expect(v).toHaveAnimatedStyle({ transform: [{ rotate: '180deg' }] });
+    await act(async () => {
+      jest.advanceTimersByTime(600);
+    });
+    expect(v).toHaveAnimatedStyle({ transform: [{ rotate: '36deg' }] });
+  });
+
+  it('passes accessible and testID through to the progressbar view', async () => {
+    await render(<Spinner accessible={false} testID="spinner" />);
+    const v = screen.getByTestId('spinner');
+    expect(v.props.accessible).toBe(false);
+  });
 });
 ```
+(`toHaveAnimatedStyle` comes from reanimated's `setUpTests()`, already called in `jest.setup.ts`; no extra type-reference import was needed — `pnpm --filter @aumraa/breathe-native typecheck` resolved it without changes.)
 
 - [ ] **Step 2: Run — expect FAIL**
 
@@ -1897,8 +1921,10 @@ Expected: FAIL — module not found.
 ```tsx
 import { Loader2 } from 'lucide-react-native';
 import * as React from 'react';
+import { type ViewProps } from 'react-native';
 import Animated, {
   Easing,
+  ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
@@ -1906,20 +1932,30 @@ import Animated, {
 } from 'react-native-reanimated';
 import { Icon } from './icon';
 
-type SpinnerProps = { className?: string; size?: number };
+type SpinnerProps = ViewProps & { className?: string; size?: number };
 
-/** Web: <Loader2 className="animate-spin" />, one full turn per second, linear, forever. */
-function Spinner({ className, size }: SpinnerProps) {
+/**
+ * Web: <Loader2 className="animate-spin" />, one full turn per second, linear, forever.
+ * `className` goes to the inner Icon — don't pass `animate-*` or `transition-*` classes here
+ * (react-native-css would wrap the SVG in its own Animated component).
+ */
+function Spinner({ className, size, style, ...props }: SpinnerProps) {
   const rotation = useSharedValue(0);
 
   React.useEffect(() => {
-    rotation.value = withRepeat(withTiming(360, { duration: 1000, easing: Easing.linear }), -1, false);
+    rotation.value = withRepeat(
+      withTiming(360, { duration: 1000, easing: Easing.linear }),
+      -1,
+      false,
+      undefined,
+      ReduceMotion.Never, // spinners are essential motion (web animate-spin ignores reduce-motion too)
+    );
   }, [rotation]);
 
   const spin = useAnimatedStyle(() => ({ transform: [{ rotate: `${rotation.value}deg` }] }));
 
   return (
-    <Animated.View role="progressbar" accessible accessibilityState={{ busy: true }} style={spin}>
+    <Animated.View role="progressbar" accessible accessibilityState={{ busy: true }} {...props} style={[spin, style]}>
       <Icon as={Loader2} className={className} size={size} />
     </Animated.View>
   );
@@ -1930,6 +1966,8 @@ export type { SpinnerProps };
 ```
 (Deviation, found while implementing Task 9: `role="progressbar"` alone did not satisfy `getByRole('progressbar')` in RNTL 14 — `queryAllByRole` first filters candidates through `isAccessibilityElement()` (`@testing-library/react-native/dist/helpers/accessibility.js`), which for a plain `View` requires an explicit `accessible` prop (or a host Text/TextInput/Switch); `role`/`accessibilityRole` alone don't imply it. Fix: add `accessible` alongside `role="progressbar"`. `accessibilityRole="progressbar"` was tried too (per this plan's suggested fix) but was not itself sufficient without `accessible`, and turned out to be unnecessary once `accessible` was added (`getRole()` already reads `role` when present), so it was left out to keep the diff minimal. `role`/`accessibilityState` typechecked on `Animated.View` with no changes needed.)
 
+(Deviation, found in Task 9 review: the default `ReduceMotion.System` makes `withRepeat` stop after one cycle when the OS "Reduce Motion" setting is on, freezing the spinner — spinners are essential motion, not decorative, so `ReduceMotion.Never` is passed as the 5th `withRepeat` argument. Also, `SpinnerProps` did not extend `ViewProps`, so callers (e.g. Button, Task 10) couldn't pass `accessible={false}` — needed so TalkBack doesn't announce a loading button twice — or `testID`/`style`/`accessibilityLabel`. Now `SpinnerProps = ViewProps & { className?: string; size?: number }`, with `...props` spread after the `accessible`/`role` defaults so a caller's `accessible` overrides, and `style` merged as `[spin, style]` so a caller's `style` composes with the animated transform instead of replacing it.)
+
 Append to `packages/react-native/src/index.ts`:
 ```ts
 export * from './atoms/spinner';
@@ -1938,7 +1976,7 @@ export * from './atoms/spinner';
 - [ ] **Step 4: Run — expect PASS**
 
 Run: `pnpm --filter @aumraa/breathe-native test test/atoms/spinner.test.tsx`
-Expected: 2 passed.
+Expected: 4 passed.
 
 - [ ] **Step 5: Catalog section** — `apps/native-catalog/sections/IconSection.tsx` (covers Icon, Gradient, Spinner)
 
@@ -2260,7 +2298,8 @@ function Button({
             {variant === 'gradient' && pressed && !isDisabled && (
               <View pointerEvents="none" className="absolute inset-0" style={{ backgroundColor: 'rgba(0,0,0,0.06)' }} />
             )}
-            {loading ? <Spinner /> : leftIcon}
+            {/* accessible={false}: the Pressable already reports busy via its own accessibilityState */}
+            {loading ? <Spinner accessible={false} /> : leftIcon}
             {content}
             {!loading && rightIcon}
           </TextClassContext.Provider>

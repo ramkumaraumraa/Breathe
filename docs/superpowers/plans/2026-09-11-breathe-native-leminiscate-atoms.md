@@ -144,7 +144,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | 8 | Gradient | S | ☑ |
 | 9 | Spinner | S | ☑ |
 | 10 | Button | L | ☑ |
-| 11 | Label | S | ☐ |
+| 11 | Label | S | ☑ |
 | 12 | Badge | S | ☐ |
 | 13 | Separator | S | ☐ |
 | 14 | Skeleton | S | ☐ |

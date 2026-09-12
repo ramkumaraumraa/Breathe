@@ -137,7 +137,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | 5 | Catalog app + device spike (spike pending) | M | ☐ |
 | 6 | Text | S | ☑ |
 | 7 | Icon | S | ☑ |
-| 8 | Gradient | S | ☐ |
+| 8 | Gradient | S | ☑ |
 | 9 | Spinner | S | ☐ |
 | 10 | Button | L | ☐ |
 | 11 | Label | S | ☐ |

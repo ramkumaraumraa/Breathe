@@ -1,0 +1,163 @@
+# @aumraa/breathe-native
+
+Breathe design system for React Native (Expo SDK 56, NativeWind v5). Ships Leminiscate's theme and atoms. The package is TypeScript source (no build step); your app's Metro and `tsc` compile it.
+
+## Install
+
+`.npmrc` in the app:
+
+```ini
+@aumraa:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+```
+
+```bash
+pnpm add @aumraa/breathe-native
+npx expo install nativewind@5.0.0-preview.4 react-native-css@3.0.7 react-native-reanimated react-native-worklets \
+  react-native-svg react-native-screens react-native-safe-area-context \
+  @rn-primitives/portal lucide-react-native expo-font @expo-google-fonts/inter@0.4.2
+pnpm add -D tailwindcss@4.3.3 @tailwindcss/postcss@4.3.3 postcss
+```
+
+`react-native-css` is pinned `~3.0.7`: the theme's line-height fix relies on its internal `--__rn-css-em` variable. `@react-native-community/slider` is coming with the Slider atom (Task 24).
+
+Pin `lightningcss` to `1.30.1` (the version NativeWind v5 preview is built against):
+
+- pnpm: `overrides:` block in `pnpm-workspace.yaml` — `lightningcss: 1.30.1`
+- npm: `"overrides": { "lightningcss": "1.30.1" }` in `package.json`
+- yarn: `"resolutions": { "lightningcss": "1.30.1" }` in `package.json`
+
+## Configure
+
+**`metro.config.js`**
+
+```js
+const { getDefaultConfig } = require('expo/metro-config');
+const { withBreatheNative } = require('@aumraa/breathe-native/metro');
+
+module.exports = withBreatheNative(getDefaultConfig(__dirname));
+```
+
+`withBreatheNative` is `withNativewind` plus one fix: react-native-worklets calls `require.resolveWeak('react-native')`, which NativeWind redirects to a react-native-css copy nothing bundles, so `expo export` fails with "Chunk containing module not found"; the helper lets worklets resolve the real `react-native`.
+
+**`postcss.config.mjs`**
+
+```js
+export default { plugins: { '@tailwindcss/postcss': {} } };
+```
+
+**`global.css`**
+
+```css
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css";
+@import "nativewind/theme";
+@import "@aumraa/breathe-native/styles/lemniscate.css";
+```
+
+**`nativewind-env.d.ts`**
+
+```ts
+/// <reference types="react-native-css/types" />
+/// <reference types="expo/types" />
+```
+
+**`app.json`** — `"userInterfaceStyle": "automatic"` (dark mode) and the Inter font block. Paths are bare package specifiers, so they resolve under both pnpm's isolated layout and `nodeLinker: hoisted`:
+
+```json
+{
+  "expo": {
+    "userInterfaceStyle": "automatic",
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "android": {
+            "fonts": [
+              {
+                "fontFamily": "Inter",
+                "fontDefinitions": [
+                  { "path": "@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf", "weight": 400 },
+                  { "path": "@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf", "weight": 500 },
+                  { "path": "@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf", "weight": 600 },
+                  { "path": "@expo-google-fonts/inter/700Bold/Inter_700Bold.ttf", "weight": 700 }
+                ]
+              }
+            ]
+          },
+          "ios": {
+            "fonts": [
+              "@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf",
+              "@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf",
+              "@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf",
+              "@expo-google-fonts/inter/700Bold/Inter_700Bold.ttf"
+            ]
+          }
+        }
+      ]
+    ]
+  }
+}
+```
+
+Config plugins apply at prebuild, so fonts need a **development build** (`expo run:android` / `expo run:ios`), not Expo Go.
+
+**Root layout** — `import './global.css'` first, render `<PortalHost />` (from `@rn-primitives/portal`) as the last child, and put the theme classes on a NativeWind-styled `View` (`SafeAreaView` from react-native-safe-area-context ignores `className`):
+
+```tsx
+import './global.css';
+import { PortalHost } from '@rn-primitives/portal';
+import { View } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+
+export default function App() {
+  return (
+    <SafeAreaProvider>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View className="flex-1 bg-background">{/* screens */}</View>
+      </SafeAreaView>
+      <PortalHost />
+    </SafeAreaProvider>
+  );
+}
+```
+
+## Use
+
+```tsx
+import { Button, Icon, Input, Label } from '@aumraa/breathe-native';
+import { Plus } from 'lucide-react-native';
+
+<Label>Flat number</Label>
+<Input placeholder="A-101" />
+<Button variant="gradient" leftIcon={<Icon as={Plus} />}>Add resident</Button>
+```
+
+Class names are the Leminiscate web class names and render at identical sizes (the theme is in px, so `rem` differences between web and NativeWind don't apply). Porting rules and the few intentional differences from web: `docs/superpowers/plans/2026-09-11-breathe-native-leminiscate-atoms.md` §0.4–0.5 in the Breathe repo.
+
+**Dark mode** follows the system. Switch in-app with `Appearance.setColorScheme('dark' | 'light')`. Don't use react-native-css's `colorScheme.set`: it bypasses `Appearance`, so `useThemeColors()` (placeholder colours, focus ring) would stay on the old scheme.
+
+## Consumer Jest
+
+The package ships TS source, so your Jest must transform it. Add it (and the untranspiled peers) to `transformIgnorePatterns` in `jest.config.js`. pnpm's store spells scoped packages with `+`, hence `[/+]`:
+
+```js
+transformIgnorePatterns: [
+  'node_modules/(?!(?:\\.pnpm/)?((jest-)?react-native|@react-native(-community)?|expo(nent)?|@expo(nent)?[/+]|@aumraa[/+]|@rn-primitives[/+]|lucide-react-native|nativewind|react-native-css))',
+  '/node_modules/react-native-reanimated/plugin/',
+  '/node_modules/@react-native/babel-preset/',
+],
+```
+
+Likewise your `tsc` typechecks the package under your own tsconfig; `expo/tsconfig.base` with `strict: true` is what it's tested against.
+
+## Windows Android builds
+
+Building from a path with spaces, through pnpm's linked `node_modules`, or with all four ABIs in parallel fails on Windows. What works: a worktree at a path without spaces, a local-only `nodeLinker: hoisted` in `pnpm-workspace.yaml`, JDK 21, and a single-ABI gradle build with capped native jobs. The full recipe is in the plan, Task 5 ("Windows build recipe").
+
+## Status
+
+**Available:** `cn`, `THEME`, `useThemeColors`, `useFocusRing`, `Text` (+`TextClassContext`, `wrapTextChildren`), `Icon` (+`IconSizeContext`), `Gradient` (+`BRAND_GRADIENT`), `Spinner`, `Button` (+`buttonVariants`, `buttonTextVariants`), `Label`, `Badge` (+`badgeVariants`, `badgeTextVariants`), `Separator`, `Skeleton`, `Progress` (+`clampProgress`), `Avatar` (+`AvatarImage`, `AvatarFallback`), `Input`.
+
+**Coming (plan Tasks 18–27):** Textarea, Checkbox, RadioGroup, Switch, Toggle, ToggleGroup, Slider, Select, InputOTP, Calendar.

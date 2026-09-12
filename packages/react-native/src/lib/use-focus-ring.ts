@@ -22,5 +22,5 @@ export function useFocusRing(onFocus?: InputProps['onFocus'], onBlur?: InputProp
     ? { outlineWidth: 2, outlineOffset: 2, outlineStyle: 'solid', outlineColor: ring }
     : undefined;
 
-  return { onFocus: handleFocus, onBlur: handleBlur, ringStyle };
+  return { onFocus: handleFocus, onBlur: handleBlur, ringStyle, focused };
 }

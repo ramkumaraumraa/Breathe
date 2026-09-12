@@ -6,7 +6,10 @@ import { cn } from '../../lib/utils';
 
 type TextInputProps = React.ComponentProps<typeof TextInput>;
 
-/** Web <input type> → native keyboard/autofill props. "date" is intentionally absent (use Calendar). */
+/**
+ * Web <input type> → native keyboard/autofill props. "date" is intentionally absent (use Calendar).
+ * `number` → `decimal-pad` has no minus key; pass `keyboardType="numbers-and-punctuation"` (iOS) for signed values.
+ */
 const TYPE_PROPS = {
   text: {},
   email: { keyboardType: 'email-address', autoCapitalize: 'none', autoComplete: 'email', autoCorrect: false },
@@ -14,7 +17,7 @@ const TYPE_PROPS = {
   number: { keyboardType: 'decimal-pad' },
   tel: { keyboardType: 'phone-pad', autoComplete: 'tel' },
   search: { returnKeyType: 'search' },
-  url: { keyboardType: 'url', autoCapitalize: 'none', autoCorrect: false },
+  url: { keyboardType: 'url', autoCapitalize: 'none', autoComplete: 'url', autoCorrect: false },
 } satisfies Record<string, Partial<TextInputProps>>;
 
 type InputType = keyof typeof TYPE_PROPS;

@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react-native';
-import { StyleSheet } from 'react-native';
+import * as React from 'react';
+import { StyleSheet, TextInput } from 'react-native';
 import { Input } from '../../../src/atoms/form-elements/input';
 
 const flat = (el: { props: Record<string, any> }) => StyleSheet.flatten(el.props.style) ?? {};
@@ -15,10 +16,10 @@ describe('Input', () => {
 
   it.each([
     ['email', { keyboardType: 'email-address', autoCapitalize: 'none', autoComplete: 'email' }],
-    ['password', { secureTextEntry: true, autoCapitalize: 'none' }],
+    ['password', { secureTextEntry: true, autoCapitalize: 'none', autoComplete: 'password', autoCorrect: false }],
     ['number', { keyboardType: 'decimal-pad' }],
     ['tel', { keyboardType: 'phone-pad', autoComplete: 'tel' }],
-    ['url', { keyboardType: 'url' }],
+    ['url', { keyboardType: 'url', autoComplete: 'url' }],
   ] as const)('maps type="%s" to native input props', async (type, expected) => {
     await render(<Input type={type} placeholder="x" />);
     expect(screen.getByPlaceholderText('x').props).toMatchObject(expected);
@@ -27,6 +28,12 @@ describe('Input', () => {
   it('lets explicit props win over the type mapping', async () => {
     await render(<Input type="number" keyboardType="number-pad" placeholder="x" />);
     expect(screen.getByPlaceholderText('x').props.keyboardType).toBe('number-pad');
+  });
+
+  it('forwards ref to the TextInput', async () => {
+    const ref = React.createRef<TextInput>();
+    await render(<Input ref={ref} placeholder="x" />);
+    expect(ref.current).toBeTruthy();
   });
 
   it('is read-only and dimmed when disabled', async () => {

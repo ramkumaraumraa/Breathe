@@ -104,6 +104,7 @@
 | All | Focus rings only on text inputs | Keyboard focus rings are web-only. |
 | Skeleton | Holds still (solid block) under OS Reduce Motion; web animate-pulse ignores it | Decorative motion; Spinner (essential) keeps spinning |
 | Progress | `max` not supported; value is 0–100 (web ignores max for the bar too) | rn-primitives accepts `max`, but the bar's translate math is hardcoded to a 0–100 scale, matching the repo. |
+| Input | Focus ring: the 2px offset gap is transparent (web paints it `background` via `ring-offset-background`) | RN `outlineOffset` leaves the gap unpainted; identical on `bg-background`, visible only over another colour. |
 
 ### 0.6 File structure (created by this plan)
 
@@ -114,6 +115,7 @@ vitest.config.ts                            (modify: exclude RN code)
 .github/workflows/ci.yml                    (modify: Node 22 + RN job)
 packages/react-native/
   package.json  tsconfig.json  babel.config.js  jest.config.js  jest.setup.ts  nativewind-env.d.ts  README.md
+  metro.js                                  withBreatheNative(config): withNativewind + worklets exemption (Task 28)
   styles/lemniscate.css                     theme: tokens, px scale, palette, dark mode, @source
   src/index.ts                              public exports
   src/lib/utils.ts                          cn()
@@ -165,7 +167,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | 25 | Select | L | ☐ |
 | 26 | InputOTP | M | ☐ |
 | 27 | Calendar | L | ☐ |
-| 28 | Exports, README, pack | S | ☐ |
+| 28 | Exports, README, pack | S | ☑ (scoped: atoms 1–17) |
 
 **Testing convention (all tasks):** Tests live in `packages/react-native/test/`, mirror `src/` paths, and assert (a) the variant functions return the repo's classes (parity), (b) behaviour (press, disabled, value changes). In Jest, NativeWind's import rewrite does not run, so `className` is a plain prop on host components — assert it with `el.props.className`. All RNTL calls are awaited. Atoms hidden from accessibility (`aria-hidden`, `accessibilityElementsHidden`, `importantForAccessibility="no-hide-descendants"`) are excluded from RNTL queries by default; query them with `{ hidden: true }`.
 
@@ -1332,6 +1334,8 @@ module.exports = nativewindConfig;
 ```
 
 The exemption is keyed on the importing module's path, not on `context.dependency`: Metro documents that field as diagnostic-only, and `asyncType` is not part of its resolution cache key.
+
+*Superseded by Task 28:* the exemption now lives in the package as `withBreatheNative` (`packages/react-native/metro.js`), and the catalog's `metro.config.js` is three lines calling it. The block above is what Task 5 shipped.
 
 `apps/native-catalog/postcss.config.mjs`
 ```js
@@ -3628,7 +3632,8 @@ Native: the web `type` prop is kept and mapped to keyboard/autofill props (the r
 
 ```tsx
 import { fireEvent, render, screen } from '@testing-library/react-native';
-import { StyleSheet } from 'react-native';
+import * as React from 'react';
+import { StyleSheet, TextInput } from 'react-native';
 import { Input } from '../../../src/atoms/form-elements/input';
 
 const flat = (el: { props: Record<string, any> }) => StyleSheet.flatten(el.props.style) ?? {};
@@ -3644,10 +3649,10 @@ describe('Input', () => {
 
   it.each([
     ['email', { keyboardType: 'email-address', autoCapitalize: 'none', autoComplete: 'email' }],
-    ['password', { secureTextEntry: true, autoCapitalize: 'none' }],
+    ['password', { secureTextEntry: true, autoCapitalize: 'none', autoComplete: 'password', autoCorrect: false }],
     ['number', { keyboardType: 'decimal-pad' }],
     ['tel', { keyboardType: 'phone-pad', autoComplete: 'tel' }],
-    ['url', { keyboardType: 'url' }],
+    ['url', { keyboardType: 'url', autoComplete: 'url' }],
   ] as const)('maps type="%s" to native input props', async (type, expected) => {
     await render(<Input type={type} placeholder="x" />);
     expect(screen.getByPlaceholderText('x').props).toMatchObject(expected);
@@ -3656,6 +3661,12 @@ describe('Input', () => {
   it('lets explicit props win over the type mapping', async () => {
     await render(<Input type="number" keyboardType="number-pad" placeholder="x" />);
     expect(screen.getByPlaceholderText('x').props.keyboardType).toBe('number-pad');
+  });
+
+  it('forwards ref to the TextInput', async () => {
+    const ref = React.createRef<TextInput>();
+    await render(<Input ref={ref} placeholder="x" />);
+    expect(ref.current).toBeTruthy();
   });
 
   it('is read-only and dimmed when disabled', async () => {
@@ -3729,7 +3740,7 @@ export function useFocusRing(onFocus?: InputProps['onFocus'], onBlur?: InputProp
     ? { outlineWidth: 2, outlineOffset: 2, outlineStyle: 'solid', outlineColor: ring }
     : undefined;
 
-  return { onFocus: handleFocus, onBlur: handleBlur, ringStyle };
+  return { onFocus: handleFocus, onBlur: handleBlur, ringStyle, focused };
 }
 ```
 
@@ -3746,7 +3757,10 @@ import { cn } from '../../lib/utils';
 
 type TextInputProps = React.ComponentProps<typeof TextInput>;
 
-/** Web <input type> → native keyboard/autofill props. "date" is intentionally absent (use Calendar). */
+/**
+ * Web <input type> → native keyboard/autofill props. "date" is intentionally absent (use Calendar).
+ * `number` → `decimal-pad` has no minus key; pass `keyboardType="numbers-and-punctuation"` (iOS) for signed values.
+ */
 const TYPE_PROPS = {
   text: {},
   email: { keyboardType: 'email-address', autoCapitalize: 'none', autoComplete: 'email', autoCorrect: false },
@@ -3754,7 +3768,7 @@ const TYPE_PROPS = {
   number: { keyboardType: 'decimal-pad' },
   tel: { keyboardType: 'phone-pad', autoComplete: 'tel' },
   search: { returnKeyType: 'search' },
-  url: { keyboardType: 'url', autoCapitalize: 'none', autoCorrect: false },
+  url: { keyboardType: 'url', autoCapitalize: 'none', autoComplete: 'url', autoCorrect: false },
 } satisfies Record<string, Partial<TextInputProps>>;
 
 type InputType = keyof typeof TYPE_PROPS;
@@ -5497,56 +5511,103 @@ git commit -m "feat(native): Calendar atom as a date-fns month grid matching the
 
 ### Task 28: Exports audit, README, pack check
 
+**Executed 2026-09-12 at the scope of Tasks 1–17** (the atoms that existed). When Tasks 18–27 land, each appends its names to `EXPECTED` in `test/index.test.ts` (the test also asserts nothing *unlisted* is exported), adds its atom to the README "Status" list, and — for Slider and Select — adds the `jest.mock` lines for `@react-native-community/slider` and `react-native-screens` at the top of the test. The README's install list then gains `@react-native-community/slider`.
+
+Additions beyond the original draft, all from what Tasks 5–17 taught: `useFocusRing` is exported from `index.ts` (it was missing); the worklets Metro exemption from the catalog's `metro.config.js` (Task 5) moved into the package as `withBreatheNative` (`metro.js`, exported as `@aumraa/breathe-native/metro`) so every consumer gets it, and the catalog now uses it; the README covers the lightningcss pin per package manager, the consumer Jest `transformIgnorePatterns`, the dark-mode `Appearance` caveat, and the Windows build recipe pointer. Task 17 carry-overs shipped here: `url` gained `autoComplete: 'url'`, `useFocusRing` also returns `focused`, and the Input test asserts the password autofill props and a forwarded ref.
+
 **Files:**
 - Test: `packages/react-native/test/index.test.ts`
-- Create: `packages/react-native/README.md`
-- Modify: `README.md` (root products table)
+- Create: `packages/react-native/README.md`, `packages/react-native/metro.js`
+- Modify: `packages/react-native/package.json` (`exports["./metro"]`, `files`), `packages/react-native/src/index.ts`, `apps/native-catalog/metro.config.js`, `README.md` (root products table)
 
-- [ ] **Step 1: Write the exports test** — `packages/react-native/test/index.test.ts`
+- [x] **Step 1: Write the exports test** — `packages/react-native/test/index.test.ts`
 
 ```ts
 import * as pkg from '../src';
 
-jest.mock('react-native-screens', () => ({ FullWindowOverlay: ({ children }: { children: unknown }) => children }));
-jest.mock('@react-native-community/slider', () => ({ __esModule: true, default: () => null }));
-
+// Tasks 18–27 add: Textarea, Checkbox, RadioGroup(+Item), Switch, Toggle(+variants), ToggleGroup(+Item),
+// Slider, Select*, InputOTP*, Calendar. (Slider and Select will need jest.mock for
+// @react-native-community/slider and react-native-screens here.)
 const EXPECTED = [
-  'cn', 'THEME', 'useThemeColors',
-  'Text', 'TextClassContext', 'Icon', 'IconSizeContext', 'Gradient', 'BRAND_GRADIENT', 'Spinner',
+  'cn', 'THEME', 'useThemeColors', 'useFocusRing',
+  'Text', 'TextClassContext', 'wrapTextChildren', 'Icon', 'IconSizeContext', 'Gradient', 'BRAND_GRADIENT', 'Spinner',
   'Button', 'buttonVariants', 'buttonTextVariants',
   'Label', 'Badge', 'badgeVariants', 'badgeTextVariants', 'Separator', 'Skeleton',
   'Progress', 'clampProgress', 'Avatar', 'AvatarImage', 'AvatarFallback',
-  'Input', 'Textarea', 'Checkbox', 'RadioGroup', 'RadioGroupItem', 'Switch',
-  'Toggle', 'toggleVariants', 'toggleTextClass', 'ToggleGroup', 'ToggleGroupItem', 'Slider',
-  'Select', 'SelectTrigger', 'SelectValue', 'SelectContent', 'SelectGroup', 'SelectItem', 'SelectLabel', 'SelectSeparator',
-  'InputOTP', 'InputOTPGroup', 'InputOTPSlot', 'InputOTPSeparator',
-  'Calendar',
+  'Input',
 ];
 
 describe('@aumraa/breathe-native public API', () => {
   it.each(EXPECTED)('exports %s', (name) => {
     expect((pkg as Record<string, unknown>)[name]).toBeDefined();
   });
+
+  it('exports nothing unlisted', () => {
+    expect(Object.keys(pkg).sort()).toEqual([...EXPECTED].sort());
+  });
 });
 ```
 
-- [ ] **Step 2: Run the whole suite**
+- [x] **Step 2: Run the whole suite**
 
 Run: `pnpm --filter @aumraa/breathe-native test && pnpm --filter @aumraa/breathe-native typecheck`
 Expected: every suite passes; tsc 0. A missing export means an `index.ts` append was skipped in its task; add it.
+Result 2026-09-12: 17 suites, 452 tests, tsc 0. `useFocusRing` was the one missing export.
 
-- [ ] **Step 3: Consumer README** — `packages/react-native/README.md`
+- [x] **Step 3: Metro helper** — `packages/react-native/metro.js` (plain CommonJS; `nativewind` is already a peer)
+
+```js
+const path = require('path');
+const { withNativewind } = require('nativewind/metro');
+
+/**
+ * withNativewind plus the worklets fix every consumer needs:
+ *   module.exports = withBreatheNative(getDefaultConfig(__dirname));
+ *
+ * react-native-worklets calls require.resolveWeak('react-native'). NativeWind redirects 'react-native'
+ * to react-native-css's CJS components copy, which nothing else bundles, so `expo export` fails with
+ * "Chunk containing module not found". Worklets never renders className components, so its
+ * 'react-native' imports skip the redirect. Remove once react-native-css handles resolveWeak.
+ */
+function withBreatheNative(config) {
+  const nativewindConfig = withNativewind(config);
+  const nativewindResolve = nativewindConfig.resolver.resolveRequest;
+
+  const WORKLETS = `${path.sep}react-native-worklets${path.sep}`;
+  nativewindConfig.resolver.resolveRequest = (context, moduleName, platform) =>
+    moduleName === 'react-native' && context.originModulePath.includes(WORKLETS)
+      ? (config.resolver.resolveRequest ?? context.resolveRequest)(context, moduleName, platform)
+      : nativewindResolve(context, moduleName, platform);
+
+  return nativewindConfig;
+}
+
+module.exports = { withBreatheNative };
+```
+
+`package.json`: add `"./metro": "./metro.js"` to `exports` and `metro.js` to `files`. Then `apps/native-catalog/metro.config.js` becomes:
+
+```js
+const { getDefaultConfig } = require('expo/metro-config');
+const { withBreatheNative } = require('@aumraa/breathe-native/metro');
+
+module.exports = withBreatheNative(getDefaultConfig(__dirname));
+```
+
+Verified: `expo export --platform android` from the catalog succeeds with the package export resolved through the workspace symlink (3100 modules, 5.1 MB Hermes bundle — identical hash to the inline config; the count grew from Task 5's 1100 when lucide-react-native's icon set arrived in Task 7).
+
+- [x] **Step 4: Consumer README** — `packages/react-native/README.md`
 
 ````md
 # @aumraa/breathe-native
 
-Breathe design system for React Native (Expo SDK 56, NativeWind v5). Ships Leminiscate's theme and all atoms.
+Breathe design system for React Native (Expo SDK 56, NativeWind v5). Ships Leminiscate's theme and atoms. The package is TypeScript source (no build step); your app's Metro and `tsc` compile it.
 
 ## Install
 
 `.npmrc` in the app:
 
-```
+```ini
 @aumraa:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
@@ -5554,28 +5615,114 @@ Breathe design system for React Native (Expo SDK 56, NativeWind v5). Ships Lemin
 ```bash
 pnpm add @aumraa/breathe-native
 npx expo install nativewind@5.0.0-preview.4 react-native-css@3.0.7 react-native-reanimated react-native-worklets \
-  react-native-svg react-native-screens react-native-safe-area-context @react-native-community/slider \
-  @rn-primitives/portal lucide-react-native expo-font @expo-google-fonts/inter
+  react-native-svg react-native-screens react-native-safe-area-context \
+  @rn-primitives/portal lucide-react-native expo-font @expo-google-fonts/inter@0.4.2
 pnpm add -D tailwindcss@4.3.3 @tailwindcss/postcss@4.3.3 postcss
 ```
 
-Pin `lightningcss` to `1.30.1` (`pnpm.overrides` or `overrides` in package.json).
+`react-native-css` is pinned `~3.0.7`: the theme's line-height fix relies on its internal `--__rn-css-em` variable. `@react-native-community/slider` is coming with the Slider atom (Task 24).
+
+Pin `lightningcss` to `1.30.1` (the version NativeWind v5 preview is built against):
+
+- pnpm: `overrides:` block in `pnpm-workspace.yaml` — `lightningcss: 1.30.1`
+- npm: `"overrides": { "lightningcss": "1.30.1" }` in `package.json`
+- yarn: `"resolutions": { "lightningcss": "1.30.1" }` in `package.json`
 
 ## Configure
 
-- `metro.config.js`: `module.exports = withNativewind(getDefaultConfig(__dirname));` (from `nativewind/metro`)
-- `postcss.config.mjs`: `export default { plugins: { '@tailwindcss/postcss': {} } };`
-- `global.css`:
-  ```css
-  @import "tailwindcss/theme.css" layer(theme);
-  @import "tailwindcss/preflight.css" layer(base);
-  @import "tailwindcss/utilities.css";
-  @import "nativewind/theme";
-  @import "@aumraa/breathe-native/styles/lemniscate.css";
-  ```
-- `nativewind-env.d.ts`: `/// <reference types="react-native-css/types" />`
-- `app.json`: `"userInterfaceStyle": "automatic"` and the `expo-font` Inter block from Breathe's `apps/native-catalog/app.json`. Fonts need a development build (`expo run:*`), not Expo Go.
-- Root layout: `import './global.css'` and render `<PortalHost />` (from `@rn-primitives/portal`) as the last child.
+**`metro.config.js`**
+
+```js
+const { getDefaultConfig } = require('expo/metro-config');
+const { withBreatheNative } = require('@aumraa/breathe-native/metro');
+
+module.exports = withBreatheNative(getDefaultConfig(__dirname));
+```
+
+`withBreatheNative` is `withNativewind` plus one fix: react-native-worklets calls `require.resolveWeak('react-native')`, which NativeWind redirects to a react-native-css copy nothing bundles, so `expo export` fails with "Chunk containing module not found"; the helper lets worklets resolve the real `react-native`.
+
+**`postcss.config.mjs`**
+
+```js
+export default { plugins: { '@tailwindcss/postcss': {} } };
+```
+
+**`global.css`**
+
+```css
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css";
+@import "nativewind/theme";
+@import "@aumraa/breathe-native/styles/lemniscate.css";
+```
+
+**`nativewind-env.d.ts`**
+
+```ts
+/// <reference types="react-native-css/types" />
+/// <reference types="expo/types" />
+```
+
+**`app.json`** — `"userInterfaceStyle": "automatic"` (dark mode) and the Inter font block. Paths are bare package specifiers, so they resolve under both pnpm's isolated layout and `nodeLinker: hoisted`:
+
+```json
+{
+  "expo": {
+    "userInterfaceStyle": "automatic",
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "android": {
+            "fonts": [
+              {
+                "fontFamily": "Inter",
+                "fontDefinitions": [
+                  { "path": "@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf", "weight": 400 },
+                  { "path": "@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf", "weight": 500 },
+                  { "path": "@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf", "weight": 600 },
+                  { "path": "@expo-google-fonts/inter/700Bold/Inter_700Bold.ttf", "weight": 700 }
+                ]
+              }
+            ]
+          },
+          "ios": {
+            "fonts": [
+              "@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf",
+              "@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf",
+              "@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf",
+              "@expo-google-fonts/inter/700Bold/Inter_700Bold.ttf"
+            ]
+          }
+        }
+      ]
+    ]
+  }
+}
+```
+
+Config plugins apply at prebuild, so fonts need a **development build** (`expo run:android` / `expo run:ios`), not Expo Go.
+
+**Root layout** — `import './global.css'` first, render `<PortalHost />` (from `@rn-primitives/portal`) as the last child, and put the theme classes on a NativeWind-styled `View` (`SafeAreaView` from react-native-safe-area-context ignores `className`):
+
+```tsx
+import './global.css';
+import { PortalHost } from '@rn-primitives/portal';
+import { View } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+
+export default function App() {
+  return (
+    <SafeAreaProvider>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View className="flex-1 bg-background">{/* screens */}</View>
+      </SafeAreaView>
+      <PortalHost />
+    </SafeAreaProvider>
+  );
+}
+```
 
 ## Use
 
@@ -5588,12 +5735,36 @@ import { Plus } from 'lucide-react-native';
 <Button variant="gradient" leftIcon={<Icon as={Plus} />}>Add resident</Button>
 ```
 
-Class names are the Leminiscate web class names; sizes are identical to web.
-Porting rules and the few intentional differences from web: `docs/superpowers/plans/2026-09-11-breathe-native-leminiscate-atoms.md` §0.4–0.5 in the Breathe repo.
-Dark mode follows the system; switch with `Appearance.setColorScheme('dark' | 'light')`.
+Class names are the Leminiscate web class names and render at identical sizes (the theme is in px, so `rem` differences between web and NativeWind don't apply). Porting rules and the few intentional differences from web: `docs/superpowers/plans/2026-09-11-breathe-native-leminiscate-atoms.md` §0.4–0.5 in the Breathe repo.
+
+**Dark mode** follows the system. Switch in-app with `Appearance.setColorScheme('dark' | 'light')`. Don't use react-native-css's `colorScheme.set`: it bypasses `Appearance`, so `useThemeColors()` (placeholder colours, focus ring) would stay on the old scheme.
+
+## Consumer Jest
+
+The package ships TS source, so your Jest must transform it. Add it (and the untranspiled peers) to `transformIgnorePatterns` in `jest.config.js`. pnpm's store spells scoped packages with `+`, hence `[/+]`:
+
+```js
+transformIgnorePatterns: [
+  'node_modules/(?!(?:\\.pnpm/)?((jest-)?react-native|@react-native(-community)?|expo(nent)?|@expo(nent)?[/+]|@aumraa[/+]|@rn-primitives[/+]|lucide-react-native|nativewind|react-native-css))',
+  '/node_modules/react-native-reanimated/plugin/',
+  '/node_modules/@react-native/babel-preset/',
+],
+```
+
+Likewise your `tsc` typechecks the package under your own tsconfig; `expo/tsconfig.base` with `strict: true` is what it's tested against.
+
+## Windows Android builds
+
+Building from a path with spaces, through pnpm's linked `node_modules`, or with all four ABIs in parallel fails on Windows. What works: a worktree at a path without spaces, a local-only `nodeLinker: hoisted` in `pnpm-workspace.yaml`, JDK 21, and a single-ABI gradle build with capped native jobs. The full recipe is in the plan, Task 5 ("Windows build recipe").
+
+## Status
+
+**Available:** `cn`, `THEME`, `useThemeColors`, `useFocusRing`, `Text` (+`TextClassContext`, `wrapTextChildren`), `Icon` (+`IconSizeContext`), `Gradient` (+`BRAND_GRADIENT`), `Spinner`, `Button` (+`buttonVariants`, `buttonTextVariants`), `Label`, `Badge` (+`badgeVariants`, `badgeTextVariants`), `Separator`, `Skeleton`, `Progress` (+`clampProgress`), `Avatar` (+`AvatarImage`, `AvatarFallback`), `Input`.
+
+**Coming (plan Tasks 18–27):** Textarea, Checkbox, RadioGroup, Switch, Toggle, ToggleGroup, Slider, Select, InputOTP, Calendar.
 ````
 
-- [ ] **Step 4: Pack check** — confirm the tarball contains only what consumers need.
+- [x] **Step 5: Pack check** — confirm the tarball contains only what consumers need.
 
 ```bash
 cd packages/react-native
@@ -5603,9 +5774,9 @@ rm aumraa-breathe-native-0.1.0.tgz
 cd ../..
 ```
 
-Expected: only `package/package.json`, `package/README.md`, `package/styles/lemniscate.css` and `package/src/**`. No `test/`, `jest.*`, `babel.config.js` or `tsconfig.json`.
+Expected: only `package/package.json`, `package/README.md`, `package/metro.js`, `package/styles/lemniscate.css` and `package/src/**`. No `test/`, `jest.*`, `babel.config.js` or `tsconfig.json`. Result 2026-09-12: exactly that (20 entries).
 
-- [ ] **Step 5: Root README products table** — in `README.md` replace
+- [x] **Step 6: Root README products table** — in `README.md` replace
 
 ```
 | Lemniscate | `lmns` | ✓ | — | — | — | — | — | Active |
@@ -5615,12 +5786,11 @@ with
 | Lemniscate | `lmns` | ✓ | ✓ | — | — | — | — | Active |
 ```
 
-- [ ] **Step 6: Commit and open the PR**
+- [x] **Step 7: Commit** (the PR is opened once Tasks 18–27 are in)
 
 ```bash
-git add packages/react-native README.md
-git commit -m "feat(native): public API audit, consumer README, Lemniscate RN in products table"
-git push -u origin feat/breathe-native
+git add packages/react-native apps/native-catalog/metro.config.js README.md docs/superpowers/plans/2026-09-11-breathe-native-leminiscate-atoms.md
+git commit -m "feat(native): public API audit, withBreatheNative metro helper, consumer README, pack check"
 ```
 
 Publishing (`pnpm --filter @aumraa/breathe-native publish --no-git-checks` with a GitHub token that has `write:packages`) is done by the package owner after merge to `main`.

@@ -8,7 +8,7 @@ Single source of truth for all visual decisions across every Aumraa Technologies
 |---|---|---|---|---|---|---|---|---|
 | Aumraa | `amra` | ✓ | — | — | — | — | — | Active |
 | Technocracy | `thcy` | ✓ | — | — | — | — | — | Active |
-| Lemniscate | `lmns` | ✓ | — | — | — | — | — | Active |
+| Lemniscate | `lmns` | ✓ | ✓ | — | — | — | — | Active |
 | Maligai Manager | `mlgm` | ✓ | ✓ | ✓ | ✓ | — | — | Pending kickoff |
 | Ulagellam | `ulge` | — | ✓ | ✓ | ✓ | — | — | Pending kickoff |
 | Ilakh | `ilkh` | ✓ | ✓ | ✓ | ✓ | — | — | Pending kickoff |

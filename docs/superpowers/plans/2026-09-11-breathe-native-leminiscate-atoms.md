@@ -153,7 +153,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | 13 | Separator | S | ☑ |
 | 14 | Skeleton | S | ☑ |
 | 15 | Progress | M | ☑ |
-| 16 | Avatar | S | ☐ |
+| 16 | Avatar | S | ☑ |
 | 17 | Input + focus ring | M | ☐ |
 | 18 | Textarea | S | ☐ |
 | 19 | Checkbox | S | ☐ |
@@ -3472,13 +3472,18 @@ Reference: repo `ui/avatar.tsx`. Root `relative flex h-10 w-10 shrink-0 overflow
 
 ```tsx
 import { render, screen } from '@testing-library/react-native';
-import { Avatar, AvatarFallback, AvatarImage } from '../../src/atoms/avatar';
+import { Avatar, AvatarFallback } from '../../src/atoms/avatar';
 
 describe('Avatar', () => {
-  it('shows the fallback initials while the image has not loaded', async () => {
+  // Deviation from the plan: @rn-primitives/avatar's Root starts at status "error" (Fallback
+  // shows), but AvatarImage's mount effect flips status to "loading" as soon as it sees a valid
+  // `source` — hiding Fallback — and Jest never fires the Image's onLoad/onError to move it out of
+  // "loading". So a test that renders AvatarImage alongside AvatarFallback can never observe the
+  // fallback text. This test renders without AvatarImage so status stays "error" and Fallback shows,
+  // which is the real-world case this component exists for (no photo on file).
+  it('shows the fallback initials when there is no image', async () => {
     await render(
       <Avatar alt="Ravi Kumar" testID="av">
-        <AvatarImage source={{ uri: 'https://example.com/a.png' }} />
         <AvatarFallback>RK</AvatarFallback>
       </Avatar>,
     );
@@ -3501,7 +3506,7 @@ Expected: FAIL — module not found.
 import * as AvatarPrimitive from '@rn-primitives/avatar';
 import * as React from 'react';
 import { cn } from '../lib/utils';
-import { Text } from './text';
+import { wrapTextChildren } from './text';
 
 function Avatar({ className, ...props }: React.ComponentProps<typeof AvatarPrimitive.Root>) {
   return (
@@ -3517,18 +3522,20 @@ function AvatarImage({ className, ...props }: React.ComponentProps<typeof Avatar
 }
 
 function AvatarFallback({ className, children, ...props }: React.ComponentProps<typeof AvatarPrimitive.Fallback>) {
-  const content = typeof children === 'string' ? <Text>{children}</Text> : children;
   return (
     <AvatarPrimitive.Fallback
       className={cn('flex h-full w-full items-center justify-center rounded-full bg-muted', className)}
       {...props}>
-      {content}
+      {wrapTextChildren(children)}
     </AvatarPrimitive.Fallback>
   );
 }
 
 export { Avatar, AvatarFallback, AvatarImage };
 ```
+
+Uses `wrapTextChildren` from `./text` (not a bare `typeof children === 'string'` check) so mixed children
+(e.g. an icon next to initials) also get their text runs wrapped in the `Text` atom.
 
 Append to `packages/react-native/src/index.ts`:
 ```ts

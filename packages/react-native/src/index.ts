@@ -11,3 +11,4 @@ export * from './atoms/separator';
 export * from './atoms/skeleton';
 export * from './atoms/progress';
 export * from './atoms/avatar';
+export * from './atoms/form-elements/input';

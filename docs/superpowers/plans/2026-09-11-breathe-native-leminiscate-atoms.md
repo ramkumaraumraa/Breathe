@@ -154,7 +154,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | 14 | Skeleton | S | ☑ |
 | 15 | Progress | M | ☑ |
 | 16 | Avatar | S | ☑ |
-| 17 | Input + focus ring | M | ☐ |
+| 17 | Input + focus ring | M | ☑ |
 | 18 | Textarea | S | ☐ |
 | 19 | Checkbox | S | ☐ |
 | 20 | RadioGroup | S | ☐ |
@@ -3631,7 +3631,7 @@ import { fireEvent, render, screen } from '@testing-library/react-native';
 import { StyleSheet } from 'react-native';
 import { Input } from '../../../src/atoms/form-elements/input';
 
-const flat = (el: { props: { style: unknown } }) => StyleSheet.flatten(el.props.style as never) ?? {};
+const flat = (el: { props: Record<string, any> }) => StyleSheet.flatten(el.props.style) ?? {};
 
 describe('Input', () => {
   it('uses the web input box, muted placeholder and body text', async () => {
@@ -3695,6 +3695,8 @@ describe('Input', () => {
 });
 ```
 
+Deviation from the original draft above: `flat()`'s parameter is typed `{ props: Record<string, any> }`, not `{ props: { style: unknown } }` (and the body drops the `as never` cast). `ReactTestInstance.props` (the return type of `screen.getByPlaceholderText(...)`) is `Record<string, any>`; TS does not treat an index-signature type as satisfying a target type that requires a named `style` property (`Property 'style' is missing in type 'Record<string, any>'`), so the original signature fails `tsc --noEmit` at every call site. Behaviour and assertions are unchanged.
+
 - [ ] **Step 2: Run — expect FAIL**
 
 Run: `pnpm --filter @aumraa/breathe-native test test/atoms/form-elements/input.test.tsx`
@@ -3704,7 +3706,7 @@ Expected: FAIL — module not found.
 
 ```ts
 import * as React from 'react';
-import type { TextInput, ViewStyle } from 'react-native';
+import type { TextInput, TextStyle } from 'react-native';
 import { useThemeColors } from './theme';
 
 type InputProps = React.ComponentProps<typeof TextInput>;
@@ -3723,13 +3725,15 @@ export function useFocusRing(onFocus?: InputProps['onFocus'], onBlur?: InputProp
     onBlur?.(e);
   };
 
-  const ringStyle: ViewStyle | undefined = focused
+  const ringStyle: TextStyle | undefined = focused
     ? { outlineWidth: 2, outlineOffset: 2, outlineStyle: 'solid', outlineColor: ring }
     : undefined;
 
   return { onFocus: handleFocus, onBlur: handleBlur, ringStyle };
 }
 ```
+
+Deviation from the original draft above: `ringStyle` is typed `TextStyle`, not `ViewStyle` (originally imported from `'react-native'`). `useFocusRing` is only ever consumed by text inputs (Input, Textarea), and `apps/native-catalog` (which depends on `expo`) pulls in `expo/types/react-native-web.d.ts`, which widens `ViewStyle.userSelect` to plain `string`; merging that widened `ViewStyle` into a `TextInput`'s `StyleProp<TextStyle>` array then fails `tsc --noEmit` under the catalog's tsconfig (though not under the package's own) because `TextStyle.userSelect` keeps RN's literal union. `packages/react-native/src/lib/use-focus-ring.ts` does not depend on `expo`, so this only surfaces where a consumer app that does depend on `expo` typechecks against it.
 
 - [ ] **Step 4: Implement Input** — `packages/react-native/src/atoms/form-elements/input.tsx`
 
@@ -3755,7 +3759,7 @@ const TYPE_PROPS = {
 
 type InputType = keyof typeof TYPE_PROPS;
 
-type InputProps = TextInputProps & { type?: InputType; disabled?: boolean };
+type InputProps = TextInputProps & React.RefAttributes<TextInput> & { type?: InputType; disabled?: boolean };
 
 function Input({ className, type = 'text', disabled, editable, onFocus, onBlur, style, ...props }: InputProps) {
   const colors = useThemeColors();
@@ -3784,6 +3788,8 @@ export { Input };
 export type { InputProps, InputType };
 ```
 
+Deviation from the original draft above: `InputProps` intersects `React.RefAttributes<TextInput>` (same pattern as `TextProps` in `src/atoms/text.tsx`). `React.ComponentProps<typeof TextInput>` does not include `ref` (RN's `TextInput` is a class component, and JSX only auto-injects `ref` for class components directly, not for a plain function component built from their extracted prop type), so without this the catalog's `<Input ref={emailRef} .../>` (Step 6) fails `tsc` with "Property 'ref' does not exist". `ref` still flows through the existing `...props` spread onto `<TextInput>` unchanged — no other line differs.
+
 Append to `packages/react-native/src/index.ts`:
 ```ts
 export * from './atoms/form-elements/input';
@@ -3797,7 +3803,7 @@ Expected: all pass; tsc 0.
 - [ ] **Step 6: Catalog** — `apps/native-catalog/sections/InputSection.tsx`
 
 ```tsx
-import { Input, Label, Textarea } from '@aumraa/breathe-native';
+import { Input, Label } from '@aumraa/breathe-native';
 import { useRef } from 'react';
 import { TextInput, View } from 'react-native';
 import { Section } from '../components/Section';
@@ -3805,7 +3811,7 @@ import { Section } from '../components/Section';
 export function InputSection() {
   const emailRef = useRef<TextInput>(null);
   return (
-    <Section title="Input · Textarea">
+    <Section title="Input">
       <View className="gap-2">
         <Label onPress={() => emailRef.current?.focus()}>Email</Label>
         <Input ref={emailRef} type="email" placeholder="you@society.in" />
@@ -3814,14 +3820,12 @@ export function InputSection() {
       <Input type="tel" placeholder="Phone" />
       <Input type="password" placeholder="Password" />
       <Input disabled placeholder="Disabled" />
-      <Textarea placeholder="Notes for the committee" />
-      <Textarea disabled placeholder="Disabled notes" />
     </Section>
   );
 }
 ```
 
-This file imports `Textarea` from Task 18, so register `{ key: 'input', Component: InputSection }` only after Task 18 lands.
+Task 18 adds `Textarea` to this same file (import + two `<Textarea>` lines) and renames the section title to "Input · Textarea" — it does not create a new file. Register it now: add `import { InputSection } from './InputSection';` and `{ key: 'input', Component: InputSection }` to `apps/native-catalog/sections/index.ts`.
 
 - [ ] **Step 7: Commit**
 
@@ -3838,7 +3842,7 @@ Reference: repo `ui/textarea.tsx`: `flex min-h-[80px] w-full rounded-md border b
 
 **Files:**
 - Create: `packages/react-native/src/atoms/form-elements/textarea.tsx`
-- Modify: `packages/react-native/src/index.ts`, `apps/native-catalog/sections/index.ts`
+- Modify: `packages/react-native/src/index.ts`, `apps/native-catalog/sections/InputSection.tsx`
 - Test: `packages/react-native/test/atoms/form-elements/textarea.test.tsx`
 
 - [ ] **Step 1: Write the failing test** — `packages/react-native/test/atoms/form-elements/textarea.test.tsx`
@@ -3927,7 +3931,7 @@ export * from './atoms/form-elements/textarea';
 
 Run: `pnpm --filter @aumraa/breathe-native test test/atoms/form-elements/textarea.test.tsx` → 3 passed.
 
-- [ ] **Step 5: Register the Input catalog section** — add `import { InputSection } from './InputSection';` and `{ key: 'input', Component: InputSection }` to `apps/native-catalog/sections/index.ts`. On device, check S11: focusing an input draws a 2px ring colour outline 2px outside the border, matching the web. If there's no outline, confirm the New Architecture is on (the SDK 56 default).
+- [ ] **Step 5: Add Textarea to the Input catalog section** — `InputSection.tsx` and its `{ key: 'input', Component: InputSection }` registration already exist (Task 17). Add `Textarea` to the named import from `@aumraa/breathe-native`, change the `<Section title="Input">` to `<Section title="Input · Textarea">`, and add `<Textarea placeholder="Notes for the committee" />` and `<Textarea disabled placeholder="Disabled notes" />` after the existing `<Input disabled placeholder="Disabled" />` line. On device, check S11: focusing an input draws a 2px ring colour outline 2px outside the border, matching the web. If there's no outline, confirm the New Architecture is on (the SDK 56 default).
 
 - [ ] **Step 6: Commit**
 

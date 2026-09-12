@@ -4,6 +4,7 @@ import { ButtonSection } from './ButtonSection';
 import { DisplaySection } from './DisplaySection';
 import { FoundationsSection } from './FoundationsSection';
 import { IconSection } from './IconSection';
+import { InputSection } from './InputSection';
 import { LabelSection } from './LabelSection';
 import { TextSection } from './TextSection';
 
@@ -13,6 +14,7 @@ export const sections: { key: string; Component: ComponentType }[] = [
   { key: 'icon', Component: IconSection },
   { key: 'button', Component: ButtonSection },
   { key: 'label', Component: LabelSection },
+  { key: 'input', Component: InputSection },
   { key: 'badge', Component: BadgeSection },
   { key: 'display', Component: DisplaySection },
 ];

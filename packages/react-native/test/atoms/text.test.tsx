@@ -1,7 +1,7 @@
 import * as React from 'react';
-import type { Text as RNText } from 'react-native';
+import { View, type Text as RNText } from 'react-native';
 import { render, screen } from '@testing-library/react-native';
-import { Text, TextClassContext } from '../../src/atoms/text';
+import { Text, TextClassContext, wrapTextChildren } from '../../src/atoms/text';
 
 describe('Text', () => {
   it('applies the web body defaults', async () => {
@@ -59,5 +59,18 @@ describe('Text', () => {
     const ref = React.createRef<RNText>();
     await render(<Text ref={ref}>R</Text>);
     expect(ref.current).toBeTruthy();
+  });
+});
+
+describe('wrapTextChildren', () => {
+  it('wraps an all-text children array in a single Text', async () => {
+    await render(<>{wrapTextChildren(['a', 1])}</>);
+    expect(screen.getByText('a1')).toBeOnTheScreen();
+  });
+
+  it('wraps only the text runs when children are mixed with an element', async () => {
+    await render(<>{wrapTextChildren([<View key="v" testID="v" />, 'x'])}</>);
+    expect(screen.getByTestId('v')).toBeOnTheScreen();
+    expect(screen.getByText('x')).toBeOnTheScreen();
   });
 });

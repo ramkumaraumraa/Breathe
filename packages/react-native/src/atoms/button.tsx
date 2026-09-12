@@ -5,7 +5,7 @@ import { cn } from '../lib/utils';
 import { BRAND_GRADIENT } from './gradient';
 import { IconSizeContext } from './icon';
 import { Spinner } from './spinner';
-import { Text, TextClassContext } from './text';
+import { TextClassContext, wrapTextChildren } from './text';
 
 // Container: bg, border, radius, height, press state. Web hover:* dropped (touch).
 const containerVariants = cva('shrink-0 flex-row items-center justify-center active:translate-y-px', {
@@ -132,7 +132,7 @@ function Button({
   const isIconOnly = !children && !!(leftIcon || rightIcon || loading);
   const resolvedSize: NonNullable<ButtonSize> = isIconOnly && (size == null || size === 'default') ? 'icon' : size ?? 'default';
   const label = loading && loadingText ? loadingText : children;
-  const content = typeof label === 'string' || typeof label === 'number' ? <Text numberOfLines={1}>{label}</Text> : label;
+  const content = wrapTextChildren(label, { numberOfLines: 1 });
   const isGradient = variant === 'gradient' && !isDisabled;
 
   if (__DEV__ && isIconOnly && !accessibilityLabel && !ariaLabel) {

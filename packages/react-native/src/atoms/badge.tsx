@@ -3,9 +3,9 @@ import * as React from 'react';
 import { View, type StyleProp, type ViewStyle } from 'react-native';
 import { cn } from '../lib/utils';
 import { BRAND_GRADIENT } from './gradient';
-import { Text, TextClassContext } from './text';
+import { TextClassContext, wrapTextChildren } from './text';
 
-const badgeVariants = cva('flex-row items-center self-start overflow-hidden rounded-full border px-2.5 py-0.5', {
+const badgeVariants = cva('flex-row items-center self-start rounded-full border px-2.5 py-0.5', {
   variants: {
     variant: {
       default: 'border-transparent bg-primary',
@@ -46,17 +46,21 @@ const badgeTextVariants = cva('text-xs font-semibold', {
 });
 
 type BadgeProps = Omit<React.ComponentProps<typeof View>, 'style'> &
-  VariantProps<typeof badgeVariants> & { style?: StyleProp<ViewStyle> };
+  VariantProps<typeof badgeVariants> & { style?: StyleProp<ViewStyle>; textClassName?: string };
 
-function Badge({ className, variant, children, style, ...props }: BadgeProps) {
-  const content = typeof children === 'string' || typeof children === 'number' ? <Text>{children}</Text> : children;
+/**
+ * self-start keeps the badge inline-sized in RN's stretching column layout (web `inline-flex`); in a
+ * row next to taller content, add `self-center`.
+ */
+function Badge({ className, variant, children, style, textClassName, ...props }: BadgeProps) {
+  const content = wrapTextChildren(children);
   // Gradient painted on the View (not a child layer) so it renders under the border; see Task 8 review.
   // Badge has `border` in its base classes; an absolutely positioned child sits inside the parent's
   // border and Android clips children to the padding box — painting the View's own background image
   // renders under its border, as in CSS (see button.tsx for the same pattern).
   const isGradient = variant === 'gradient';
   return (
-    <TextClassContext.Provider value={badgeTextVariants({ variant })}>
+    <TextClassContext.Provider value={cn(badgeTextVariants({ variant }), textClassName)}>
       <View
         className={cn(badgeVariants({ variant }), className)}
         style={isGradient ? [{ experimental_backgroundImage: BRAND_GRADIENT }, style] : style}

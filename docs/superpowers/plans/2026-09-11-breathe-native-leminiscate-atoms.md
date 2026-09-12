@@ -90,6 +90,8 @@
 | Atom | Difference | Why |
 |---|---|---|
 | Button | `hover:*` gone; gradient press = 6% black overlay instead of `brightness(0.94)` | Touch has no hover; overlay is deterministic. |
+| Badge | Text classes that the web puts on the badge div go in `textClassName` on native | RN can't put text classes on a View (R10); a separate prop lets a consumer restyle the label. |
+| Badge | `self-start` keeps it inline-sized in RN's stretching column layout; add `self-center` in a row next to taller content | Web `inline-flex` sizes to content by default; RN `View` stretches to fill a column unless told otherwise. |
 | Input | `type="date"` not supported → use Calendar (inside a popover/sheet molecule) | No native date text field. |
 | Label | `htmlFor` is removed from the type → pass `onPress={() => ref.current?.focus()}` | RN has no `for` association. |
 | Select | `value`/`onValueChange` use `{ value, label }` objects (rn-primitives `Option`), not strings | Native closed Select must know the label without rendering items. |
@@ -1615,7 +1617,7 @@ git commit -m "feat(native): Expo catalog app with foundations spike"
 
 ### Task 6: Text
 
-Web has no Text component (text inherits from `body`: Inter, 16px/24px, `text-foreground`). RN text does not inherit, so every string renders through `Text`, which applies those body defaults and merges the parent's `TextClassContext` (R10). Nested Texts inherit their parent's styles (like web spans); only the outermost Text applies the body defaults.
+Web has no Text component (text inherits from `body`: Inter, 16px/24px, `text-foreground`). RN text does not inherit, so every string renders through `Text`, which applies those body defaults and merges the parent's `TextClassContext` (R10). Nested Texts inherit their parent's styles (like web spans); only the outermost Text applies the body defaults. Also exported: `wrapTextChildren`, which wraps bare string/number children in a `Text` — including mixed children like `<Badge><Icon/>{label}</Badge>` — for parents (Badge, Button) that accept both text and elements; a View cannot host a bare string directly, or RN throws "Text strings must be rendered within a `<Text>` component" (Task 12 review).
 
 **Files:**
 - Create: `packages/react-native/src/atoms/text.tsx`
@@ -1627,9 +1629,9 @@ Web has no Text component (text inherits from `body`: Inter, 16px/24px, `text-fo
 
 ```tsx
 import * as React from 'react';
-import type { Text as RNText } from 'react-native';
+import { View, type Text as RNText } from 'react-native';
 import { render, screen } from '@testing-library/react-native';
-import { Text, TextClassContext } from '../../src/atoms/text';
+import { Text, TextClassContext, wrapTextChildren } from '../../src/atoms/text';
 
 describe('Text', () => {
   it('applies the web body defaults', async () => {
@@ -1689,6 +1691,19 @@ describe('Text', () => {
     expect(ref.current).toBeTruthy();
   });
 });
+
+describe('wrapTextChildren', () => {
+  it('wraps an all-text children array in a single Text', async () => {
+    await render(<>{wrapTextChildren(['a', 1])}</>);
+    expect(screen.getByText('a1')).toBeOnTheScreen();
+  });
+
+  it('wraps only the text runs when children are mixed with an element', async () => {
+    await render(<>{wrapTextChildren([<View key="v" testID="v" />, 'x'])}</>);
+    expect(screen.getByTestId('v')).toBeOnTheScreen();
+    expect(screen.getByText('x')).toBeOnTheScreen();
+  });
+});
 ```
 
 - [ ] **Step 2: Run — expect FAIL**
@@ -1722,7 +1737,17 @@ function Text({ className, ...props }: TextProps) {
   );
 }
 
-export { Text, TextClassContext };
+const isTextChild = (c: React.ReactNode): c is string | number => typeof c === 'string' || typeof c === 'number';
+
+/** Wraps bare strings/numbers so they can sit inside a View: all-text children become one <Text>; mixed children get each text run wrapped. */
+function wrapTextChildren(children: React.ReactNode, textProps?: TextProps): React.ReactNode {
+  const parts = React.Children.toArray(children);
+  if (parts.length === 0) return children;
+  if (parts.every(isTextChild)) return <Text {...textProps}>{children}</Text>;
+  return parts.map((c, i) => (isTextChild(c) ? <Text key={i} {...textProps}>{c}</Text> : c));
+}
+
+export { Text, TextClassContext, wrapTextChildren };
 export type { TextProps };
 ```
 
@@ -1734,7 +1759,7 @@ export * from './atoms/text';
 - [ ] **Step 4: Run — expect PASS**
 
 Run: `pnpm --filter @aumraa/breathe-native test test/atoms/text.test.tsx`
-Expected: 7 passed.
+Expected: 9 passed.
 
 - [ ] **Step 5: Catalog section** — `apps/native-catalog/sections/TextSection.tsx`
 
@@ -2163,7 +2188,7 @@ git commit -m "feat(native): Spinner atom and icon/gradient catalog"
 
 Reference: repo `src/design-system/ui/button.tsx` (13 variants × 9 sizes, `loading`, `loadingText`, `leftIcon`, `rightIcon`). Structure from rnr `button.tsx`: the Pressable owns bg/border/`active:`, and text classes go down through `TextClassContext`.
 
-Native changes (see §0.4/§0.5): `hover:*` dropped (R5); `bg-[var(--x)]` → named colours (R2); `disabled:*` → `disabled` cva variant (R8); `[&_svg]:size-*` → `IconSizeContext` (R9); gradient press `brightness(0.94)` → 6% black overlay; no `asChild` (R20); string children are wrapped in `Text` automatically (so `<Button>Save</Button>` works like web).
+Native changes (see §0.4/§0.5): `hover:*` dropped (R5); `bg-[var(--x)]` → named colours (R2); `disabled:*` → `disabled` cva variant (R8); `[&_svg]:size-*` → `IconSizeContext` (R9); gradient press `brightness(0.94)` → 6% black overlay; no `asChild` (R20); the label goes through `wrapTextChildren` (Task 6) so bare and mixed string/number children are wrapped in `Text` automatically (`<Button>Save</Button>` and `<Button>{count} items</Button>` both work like web — Task 12 review).
 
 Note: gradient is painted on the Pressable (not a child layer) so it renders under the transparent border (Task 8 review). Exported `buttonVariants` is `cn()`-merged so the disabled fill replaces the variant fill (the parity test asserts `not.toContain('bg-primary-500')`).
 
@@ -2378,6 +2403,11 @@ describe('Button', () => {
     await render(<Button>Save</Button>);
     expect(screen.getByText('Save').props.numberOfLines).toBe(1);
   });
+
+  it('wraps mixed number/string children without throwing', async () => {
+    await render(<Button>{2} items</Button>);
+    expect(screen.getByText('2 items').props.numberOfLines).toBe(1);
+  });
 });
 ```
 
@@ -2396,7 +2426,7 @@ import { cn } from '../lib/utils';
 import { BRAND_GRADIENT } from './gradient';
 import { IconSizeContext } from './icon';
 import { Spinner } from './spinner';
-import { Text, TextClassContext } from './text';
+import { TextClassContext, wrapTextChildren } from './text';
 
 // Container: bg, border, radius, height, press state. Web hover:* dropped (touch).
 const containerVariants = cva('shrink-0 flex-row items-center justify-center active:translate-y-px', {
@@ -2523,7 +2553,7 @@ function Button({
   const isIconOnly = !children && !!(leftIcon || rightIcon || loading);
   const resolvedSize: NonNullable<ButtonSize> = isIconOnly && (size == null || size === 'default') ? 'icon' : size ?? 'default';
   const label = loading && loadingText ? loadingText : children;
-  const content = typeof label === 'string' || typeof label === 'number' ? <Text numberOfLines={1}>{label}</Text> : label;
+  const content = wrapTextChildren(label, { numberOfLines: 1 });
   const isGradient = variant === 'gradient' && !isDisabled;
 
   if (__DEV__ && isIconOnly && !accessibilityLabel && !ariaLabel) {
@@ -2581,7 +2611,7 @@ export * from './atoms/button';
 - [ ] **Step 4: Run — expect PASS**
 
 Run: `pnpm --filter @aumraa/breathe-native test test/atoms/button.test.tsx && pnpm --filter @aumraa/breathe-native typecheck`
-Expected: all 38 Button tests pass (22 parity + 16 behaviour); tsc 0.
+Expected: all 39 Button tests pass (22 parity + 17 behaviour); tsc 0.
 
 - [ ] **Step 5: Catalog section** — `apps/native-catalog/sections/ButtonSection.tsx`
 
@@ -2808,9 +2838,11 @@ Reference: repo `ui/badge.tsx`, 12 variants including the role badges (`super-ad
 
 ```tsx
 import { render, screen } from '@testing-library/react-native';
+import { Check } from 'lucide-react-native';
 import { StyleSheet } from 'react-native';
 import { Badge, badgeTextVariants, badgeVariants } from '../../src/atoms/badge';
 import { BRAND_GRADIENT } from '../../src/atoms/gradient';
+import { Icon } from '../../src/atoms/icon';
 
 describe('badge variants (parity with web badge.tsx)', () => {
   it.each([
@@ -2827,8 +2859,10 @@ describe('badge variants (parity with web badge.tsx)', () => {
     ['admin', 'bg-info-light', 'text-info-dark'],
     ['viewer', 'bg-secondary', 'text-foreground-secondary'],
   ] as const)('%s', (variant, container, text) => {
-    expect(badgeVariants({ variant })).toContain(container);
-    expect(badgeTextVariants({ variant })).toContain(text);
+    // split+toContain-on-array: avoids a false match where one class name is a substring of another
+    // (e.g. 'bg-secondary' inside a hypothetical 'bg-secondary-500').
+    expect(badgeVariants({ variant }).split(' ')).toContain(container);
+    expect(badgeTextVariants({ variant }).split(' ')).toContain(text);
   });
 
   it('has the web pill geometry and type', () => {
@@ -2841,6 +2875,40 @@ describe('Badge', () => {
   it('wraps string children in styled Text', async () => {
     await render(<Badge variant="success">Paid</Badge>);
     expect(screen.getByText('Paid').props.className).toContain('text-success-dark');
+  });
+
+  it('wraps mixed number/string children without throwing', async () => {
+    await render(<Badge>{3} pending</Badge>);
+    expect(screen.getByText('3 pending')).toBeOnTheScreen();
+  });
+
+  it('wraps only the text run when children mix an icon and a string', async () => {
+    await render(
+      <Badge variant="success">
+        <Icon as={Check} />
+        Paid
+      </Badge>,
+    );
+    expect(screen.getByTestId('icon-Check')).toBeOnTheScreen();
+    expect(screen.getByText('Paid').props.className).toContain('text-success-dark');
+  });
+
+  it('lets a consumer restyle the text via textClassName', async () => {
+    await render(<Badge textClassName="text-2xs">X</Badge>);
+    const cls = screen.getByText('X').props.className.split(' ');
+    expect(cls).toContain('text-2xs');
+    expect(cls).not.toContain('text-xs');
+  });
+
+  it('merges a caller className, dropping the conflicting default padding', async () => {
+    await render(
+      <Badge testID="badge" className="px-3">
+        X
+      </Badge>,
+    );
+    const cls = screen.getByTestId('badge').props.className.split(' ');
+    expect(cls).toContain('px-3');
+    expect(cls).not.toContain('px-2.5');
   });
 
   // Deviation from plan (Task 8 review): gradient is painted on the Badge View itself (a
@@ -2860,6 +2928,18 @@ describe('Badge', () => {
     await render(<Badge testID="badge">Pro</Badge>);
     expect(StyleSheet.flatten(screen.getByTestId('badge').props.style)?.experimental_backgroundImage).toBeUndefined();
   });
+
+  it('keeps a consumer style alongside the gradient', async () => {
+    await render(
+      <Badge testID="badge" variant="gradient" style={{ opacity: 0.5 }}>
+        Pro
+      </Badge>,
+    );
+    expect(StyleSheet.flatten(screen.getByTestId('badge').props.style)).toMatchObject({
+      experimental_backgroundImage: BRAND_GRADIENT,
+      opacity: 0.5,
+    });
+  });
 });
 ```
 
@@ -2876,9 +2956,9 @@ import * as React from 'react';
 import { View, type StyleProp, type ViewStyle } from 'react-native';
 import { cn } from '../lib/utils';
 import { BRAND_GRADIENT } from './gradient';
-import { Text, TextClassContext } from './text';
+import { TextClassContext, wrapTextChildren } from './text';
 
-const badgeVariants = cva('flex-row items-center self-start overflow-hidden rounded-full border px-2.5 py-0.5', {
+const badgeVariants = cva('flex-row items-center self-start rounded-full border px-2.5 py-0.5', {
   variants: {
     variant: {
       default: 'border-transparent bg-primary',
@@ -2919,17 +2999,21 @@ const badgeTextVariants = cva('text-xs font-semibold', {
 });
 
 type BadgeProps = Omit<React.ComponentProps<typeof View>, 'style'> &
-  VariantProps<typeof badgeVariants> & { style?: StyleProp<ViewStyle> };
+  VariantProps<typeof badgeVariants> & { style?: StyleProp<ViewStyle>; textClassName?: string };
 
-function Badge({ className, variant, children, style, ...props }: BadgeProps) {
-  const content = typeof children === 'string' || typeof children === 'number' ? <Text>{children}</Text> : children;
+/**
+ * self-start keeps the badge inline-sized in RN's stretching column layout (web `inline-flex`); in a
+ * row next to taller content, add `self-center`.
+ */
+function Badge({ className, variant, children, style, textClassName, ...props }: BadgeProps) {
+  const content = wrapTextChildren(children);
   // Gradient painted on the View (not a child layer) so it renders under the border; see Task 8 review.
   // Badge has `border` in its base classes; an absolutely positioned child sits inside the parent's
   // border and Android clips children to the padding box — painting the View's own background image
   // renders under its border, as in CSS (see button.tsx for the same pattern).
   const isGradient = variant === 'gradient';
   return (
-    <TextClassContext.Provider value={badgeTextVariants({ variant })}>
+    <TextClassContext.Provider value={cn(badgeTextVariants({ variant }), textClassName)}>
       <View
         className={cn(badgeVariants({ variant }), className)}
         style={isGradient ? [{ experimental_backgroundImage: BRAND_GRADIENT }, style] : style}

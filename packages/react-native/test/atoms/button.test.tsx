@@ -200,4 +200,9 @@ describe('Button', () => {
     await render(<Button>Save</Button>);
     expect(screen.getByText('Save').props.numberOfLines).toBe(1);
   });
+
+  it('wraps mixed number/string children without throwing', async () => {
+    await render(<Button>{2} items</Button>);
+    expect(screen.getByText('2 items').props.numberOfLines).toBe(1);
+  });
 });

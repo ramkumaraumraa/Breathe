@@ -21,5 +21,15 @@ function Text({ className, ...props }: TextProps) {
   );
 }
 
-export { Text, TextClassContext };
+const isTextChild = (c: React.ReactNode): c is string | number => typeof c === 'string' || typeof c === 'number';
+
+/** Wraps bare strings/numbers so they can sit inside a View: all-text children become one <Text>; mixed children get each text run wrapped. */
+function wrapTextChildren(children: React.ReactNode, textProps?: TextProps): React.ReactNode {
+  const parts = React.Children.toArray(children);
+  if (parts.length === 0) return children;
+  if (parts.every(isTextChild)) return <Text {...textProps}>{children}</Text>;
+  return parts.map((c, i) => (isTextChild(c) ? <Text key={i} {...textProps}>{c}</Text> : c));
+}
+
+export { Text, TextClassContext, wrapTextChildren };
 export type { TextProps };

@@ -7,3 +7,4 @@ export * from './atoms/spinner';
 export * from './atoms/button';
 export * from './atoms/label';
 export * from './atoms/badge';
+export * from './atoms/separator';

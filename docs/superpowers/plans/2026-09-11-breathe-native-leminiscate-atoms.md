@@ -151,7 +151,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | 12 | Badge | S | ☑ |
 | 13 | Separator | S | ☑ |
 | 14 | Skeleton | S | ☑ |
-| 15 | Progress | M | ☐ |
+| 15 | Progress | M | ☑ |
 | 16 | Avatar | S | ☐ |
 | 17 | Input + focus ring | M | ☐ |
 | 18 | Textarea | S | ☐ |

@@ -9,3 +9,4 @@ export * from './atoms/label';
 export * from './atoms/badge';
 export * from './atoms/separator';
 export * from './atoms/skeleton';
+export * from './atoms/progress';

@@ -103,6 +103,7 @@
 | Calendar | Single-date mode only | Repo only uses `mode="single"`. |
 | All | Focus rings only on text inputs | Keyboard focus rings are web-only. |
 | Skeleton | Holds still (solid block) under OS Reduce Motion; web animate-pulse ignores it | Decorative motion; Spinner (essential) keeps spinning |
+| Progress | `max` not supported; value is 0–100 (web ignores max for the bar too) | rn-primitives accepts `max`, but the bar's translate math is hardcoded to a 0–100 scale, matching the repo. |
 
 ### 0.6 File structure (created by this plan)
 
@@ -3306,13 +3307,16 @@ Reference: repo `ui/progress.tsx`. Track `relative h-2 w-full overflow-hidden ro
 - [ ] **Step 1: Write the failing test** — `packages/react-native/test/atoms/progress.test.tsx`
 
 ```tsx
-import { render, screen } from '@testing-library/react-native';
+import { act, fireEvent, render, screen } from '@testing-library/react-native';
 import { clampProgress, Progress } from '../../src/atoms/progress';
+
+afterEach(() => jest.useRealTimers());
 
 describe('clampProgress', () => {
   it.each([
     [undefined, 0],
     [null, 0],
+    [NaN, 0],
     [-5, 0],
     [42, 42],
     [140, 100],
@@ -3335,6 +3339,25 @@ describe('Progress', () => {
     expect(screen.getByTestId('p').props.className).toContain('h-1');
     expect(screen.getByTestId('p').props.className).not.toContain('h-2');
   });
+
+  it('slides to the measured width and hides the indicator until measured', async () => {
+    jest.useFakeTimers();
+    const { rerender } = await render(<Progress testID="p" value={30} />);
+    const indicator = screen.getByTestId('progress-indicator');
+    expect(indicator).toHaveAnimatedStyle({ opacity: 0 });
+
+    await fireEvent(screen.getByTestId('p'), 'layout', { nativeEvent: { layout: { width: 200 } } });
+    await act(async () => {
+      jest.advanceTimersByTime(600);
+    });
+    expect(indicator).toHaveAnimatedStyle({ transform: [{ translateX: -140 }], opacity: 1 });
+
+    await rerender(<Progress testID="p" value={80} />);
+    await act(async () => {
+      jest.advanceTimersByTime(550);
+    });
+    expect(indicator).toHaveAnimatedStyle({ transform: [{ translateX: -40 }], opacity: 1 });
+  });
 });
 ```
 
@@ -3348,18 +3371,31 @@ Expected: FAIL — module not found.
 ```tsx
 import * as ProgressPrimitive from '@rn-primitives/progress';
 import * as React from 'react';
-import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, {
+  Easing,
+  ReduceMotion,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import { cn } from '../lib/utils';
 import { Gradient } from './gradient';
 
 // Tailwind ease-out = cubic-bezier(0, 0, 0.2, 1); web duration-500
-const TIMING = { duration: 500, easing: Easing.bezier(0, 0, 0.2, 1) };
+const TIMING = {
+  duration: 500,
+  easing: Easing.bezier(0, 0, 0.2, 1),
+  reduceMotion: ReduceMotion.System, // jumps to target under Reduce Motion (state still conveyed)
+};
 
 function clampProgress(value: number | null | undefined): number {
-  return Math.min(100, Math.max(0, value ?? 0));
+  const n = Number.isFinite(value) ? (value as number) : 0;
+  return Math.min(100, Math.max(0, n));
 }
 
-type ProgressProps = React.ComponentProps<typeof ProgressPrimitive.Root> & { indicatorClassName?: string };
+type ProgressProps = Omit<React.ComponentProps<typeof ProgressPrimitive.Root>, 'max'> & {
+  indicatorClassName?: string;
+};
 
 function Progress({ className, value, indicatorClassName, onLayout, ...props }: ProgressProps) {
   const trackWidth = useSharedValue(0);
@@ -3369,14 +3405,16 @@ function Progress({ className, value, indicatorClassName, onLayout, ...props }: 
     progress.value = withTiming(clampProgress(value), TIMING);
   }, [progress, value]);
 
-  // Web: transform: translateX(-(100 - value)%) on a full-width indicator
+  // Web: transform: translateX(-(100 - value)%) on a full-width indicator.
+  // Hidden until the track is measured so mount doesn't flash a full bar at width 0.
   const slide = useAnimatedStyle(() => ({
+    opacity: trackWidth.value ? 1 : 0,
     transform: [{ translateX: -((100 - progress.value) / 100) * trackWidth.value }],
   }));
 
   return (
     <ProgressPrimitive.Root
-      value={value}
+      value={clampProgress(value)}
       className={cn('relative h-2 w-full overflow-hidden rounded-full bg-secondary', className)}
       onLayout={(e) => {
         trackWidth.value = e.nativeEvent.layout.width;
@@ -3384,7 +3422,10 @@ function Progress({ className, value, indicatorClassName, onLayout, ...props }: 
       }}
       {...props}>
       <ProgressPrimitive.Indicator asChild>
-        <Animated.View className={cn('h-full w-full', indicatorClassName)} style={slide}>
+        <Animated.View
+          testID="progress-indicator"
+          className={cn('h-full w-full', indicatorClassName)}
+          style={slide}>
           {/* static inner layer: gradients must not sit on an animated view (reanimated#8297) */}
           <Gradient testID="progress-gradient" />
         </Animated.View>
@@ -3404,7 +3445,7 @@ export * from './atoms/progress';
 
 - [ ] **Step 4: Run — expect PASS**
 
-Run: `pnpm --filter @aumraa/breathe-native test test/atoms/progress.test.tsx && pnpm --filter @aumraa/breathe-native typecheck` → all pass.
+Run: `pnpm --filter @aumraa/breathe-native test test/atoms/progress.test.tsx && pnpm --filter @aumraa/breathe-native typecheck` → 9 passed.
 
 - [ ] **Step 5: Commit**
 
@@ -3412,6 +3453,8 @@ Run: `pnpm --filter @aumraa/breathe-native test test/atoms/progress.test.tsx && 
 git add packages/react-native
 git commit -m "feat(native): Progress atom with sliding brand gradient"
 ```
+
+`max` is accepted by `@rn-primitives/progress` but ignored by this bar (matches the web, which also ignores `max` — see §0.5).
 
 ---
 
@@ -5579,3 +5622,4 @@ Publishing (`pnpm --filter @aumraa/breathe-native publish --no-git-checks` with 
 5. **Confirm D5 (custom Calendar) and D6 (gradient as rendered today)** with the product owner. Changing D6 is a one-line change to `BRAND_GRADIENT`.
 6. **On any react-native-css or nativewind version bump**, re-run the line-height compile probe (`scratchpad\t3\lh-probe.cjs`) and the S1b device check — the peer is pinned to `~3.0.7` (Task 2) specifically because the fix relies on the internal `--__rn-css-em` name, which a later 3.x could rename.
 7. **Comment on upstream issue react-native-css#254** with a repro: static `line-height: 20px` is dropped, and `line-height: var(--x)` with `--x: 20px` becomes 280 on 14px text. Root cause: units are stripped before runtime. Proposed fix: emit length line-heights as px at compile time and em-multiply only unitless values.
+8. **Progress: try percentage translate** (`` translateX: `${-(100-p)}%` ``, RN 0.85 typed) on device; if it works, drop `onLayout`/`trackWidth`.

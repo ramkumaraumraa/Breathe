@@ -142,7 +142,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | 7 | Icon | S | ☑ |
 | 8 | Gradient | S | ☑ |
 | 9 | Spinner | S | ☑ |
-| 10 | Button | L | ☐ |
+| 10 | Button | L | ☑ |
 | 11 | Label | S | ☐ |
 | 12 | Badge | S | ☐ |
 | 13 | Separator | S | ☐ |
@@ -2124,6 +2124,8 @@ Reference: repo `src/design-system/ui/button.tsx` (13 variants × 9 sizes, `load
 
 Native changes (see §0.4/§0.5): `hover:*` dropped (R5); `bg-[var(--x)]` → named colours (R2); `disabled:*` → `disabled` cva variant (R8); `[&_svg]:size-*` → `IconSizeContext` (R9); gradient press `brightness(0.94)` → 6% black overlay; no `asChild` (R20); string children are wrapped in `Text` automatically (so `<Button>Save</Button>` works like web).
 
+Note: gradient is painted on the Pressable (not a child layer) so it renders under the transparent border (Task 8 review). Exported `buttonVariants` is `cn()`-merged so the disabled fill replaces the variant fill (the parity test asserts `not.toContain('bg-primary-500')`).
+
 **Files:**
 - Create: `packages/react-native/src/atoms/button.tsx`
 - Modify: `packages/react-native/src/index.ts`
@@ -2135,8 +2137,11 @@ Native changes (see §0.4/§0.5): `hover:*` dropped (R5); `bg-[var(--x)]` → na
 ```tsx
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import { Plus } from 'lucide-react-native';
+import { StyleSheet } from 'react-native';
 import { Button, buttonTextVariants, buttonVariants } from '../../src/atoms/button';
+import { BRAND_GRADIENT } from '../../src/atoms/gradient';
 import { Icon } from '../../src/atoms/icon';
+import { Text } from '../../src/atoms/text';
 
 describe('buttonVariants (parity with web button.tsx)', () => {
   it.each([
@@ -2196,6 +2201,19 @@ describe('Button', () => {
     expect(screen.getByText('Save').props.className).toContain('font-medium');
   });
 
+  it('pushes label classes to the outer Text only; nested Texts inherit', async () => {
+    await render(
+      <Button>
+        <Text testID="outer">
+          Save <Text testID="inner" className="font-bold">now</Text>
+        </Text>
+      </Button>,
+    );
+    expect(screen.getByTestId('outer').props.className).toContain('text-white');
+    expect(screen.getByTestId('outer').props.className).toContain('font-medium');
+    expect(screen.getByTestId('inner').props.className).toBe('font-bold');
+  });
+
   it('does not fire when disabled and reports the state', async () => {
     const onPress = jest.fn();
     await render(<Button disabled onPress={onPress}>Save</Button>);
@@ -2238,14 +2256,16 @@ describe('Button', () => {
     expect(screen.getByTestId('icon-Plus').props.size).toBe(20);
   });
 
-  it('paints the brand gradient for the gradient variant', async () => {
+  it('paints the brand gradient on the Pressable for the gradient variant', async () => {
     await render(<Button variant="gradient">Go</Button>);
-    expect(screen.getByTestId('button-gradient')).toBeOnTheScreen();
+    expect(StyleSheet.flatten(screen.getByRole('button').props.style)).toMatchObject({
+      experimental_backgroundImage: BRAND_GRADIENT,
+    });
   });
 
-  it('hides the gradient when disabled', async () => {
+  it('drops the gradient when disabled', async () => {
     await render(<Button variant="gradient" disabled>Go</Button>);
-    expect(screen.queryByTestId('button-gradient')).toBeNull();
+    expect(StyleSheet.flatten(screen.getByRole('button').props.style)?.experimental_backgroundImage).toBeUndefined();
   });
 });
 ```
@@ -2262,13 +2282,13 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import * as React from 'react';
 import { Pressable, View } from 'react-native';
 import { cn } from '../lib/utils';
-import { Gradient } from './gradient';
+import { BRAND_GRADIENT } from './gradient';
 import { IconSizeContext } from './icon';
 import { Spinner } from './spinner';
 import { Text, TextClassContext } from './text';
 
 // Container: bg, border, radius, height, press state. Web hover:* dropped (touch).
-const buttonVariants = cva('shrink-0 flex-row items-center justify-center overflow-hidden active:translate-y-px', {
+const containerVariants = cva('shrink-0 flex-row items-center justify-center overflow-hidden active:translate-y-px', {
   variants: {
     variant: {
       default: 'border border-transparent bg-primary-500 shadow-sm active:bg-primary-700',
@@ -2306,6 +2326,10 @@ const buttonVariants = cva('shrink-0 flex-row items-center justify-center overfl
   defaultVariants: { variant: 'default', size: 'default', disabled: false },
 });
 
+// Merged, so the disabled fill/shadow win over the variant's (web merges inside Button via cn; native
+// consumers may apply buttonVariants() to e.g. a Link, so the exported function must already be merged).
+const buttonVariants = (props?: Parameters<typeof containerVariants>[0]) => cn(containerVariants(props));
+
 // Label: web puts these on <button>; RN needs them on Text (R10).
 const buttonTextVariants = cva('font-medium', {
   variants: {
@@ -2342,6 +2366,8 @@ const buttonTextVariants = cva('font-medium', {
   defaultVariants: { variant: 'default', size: 'default', pressed: false, disabled: false },
 });
 
+const GRADIENT_STYLE = { experimental_backgroundImage: BRAND_GRADIENT };
+
 // Web [&_svg]:size-* per size
 const ICON_SIZE: Record<NonNullable<ButtonSize>, number> = {
   default: 16, xs: 14, sm: 16, lg: 16, xl: 20, xxl: 20, icon: 16, 'icon-sm': 16, 'icon-xs': 14,
@@ -2372,6 +2398,7 @@ function Button({
   loading = false,
   loadingText,
   accessibilityState,
+  style,
   ...props
 }: ButtonProps) {
   const isDisabled = disabled || loading;
@@ -2379,6 +2406,7 @@ function Button({
   const resolvedSize: NonNullable<ButtonSize> = isIconOnly && (size == null || size === 'default') ? 'icon' : size ?? 'default';
   const label = loading && loadingText ? loadingText : children;
   const content = typeof label === 'string' || typeof label === 'number' ? <Text>{label}</Text> : label;
+  const isGradient = variant === 'gradient' && !isDisabled;
 
   return (
     <Pressable
@@ -2390,12 +2418,17 @@ function Button({
         variant === 'link' && !isIconOnly && 'h-auto',
         className,
       )}
+      // Gradient painted on the Pressable itself so it renders under the transparent border like CSS
+      // (a child layer would sit inside the border and Android clips it to the padding box). Never give
+      // this Pressable transition-*/animate-* classes: Reanimated can't animate the gradient (reanimated#8297).
+      style={
+        !isGradient ? style : typeof style === 'function' ? (state) => [GRADIENT_STYLE, style(state)] : [GRADIENT_STYLE, style]
+      }
       {...props}>
       {({ pressed }) => (
         <IconSizeContext.Provider value={ICON_SIZE[resolvedSize]}>
           <TextClassContext.Provider value={buttonTextVariants({ variant, size: resolvedSize, pressed, disabled: isDisabled })}>
-            {variant === 'gradient' && !isDisabled && <Gradient testID="button-gradient" />}
-            {variant === 'gradient' && pressed && !isDisabled && (
+            {isGradient && pressed && (
               <View pointerEvents="none" className="absolute inset-0" style={{ backgroundColor: 'rgba(0,0,0,0.06)' }} />
             )}
             {/* accessible={false}: the Pressable already reports busy via its own accessibilityState */}

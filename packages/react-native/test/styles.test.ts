@@ -97,9 +97,28 @@ describe('lemniscate.css', () => {
     expect(css).toContain('@source "../src";');
   });
 
-  it('restores px leading (nativewind/theme makes leading-N font-relative)', () => {
-    expect(css).toContain('@utility leading-*');
-    expect(css).toContain('--spacing(--value(integer))');
+  // react-native-css 3.0.7 drops static line-heights and multiplies var()/calc() ones by the element
+  // font size, so text sizes carry unitless ratios and leading-N divides its px by the font size.
+  it.each([
+    ['xs', 16, 12], ['sm', 20, 14], ['base', 24, 16], ['lg', 28, 18], ['xl', 28, 20], ['2xl', 32, 24],
+    ['3xl', 36, 30], ['4xl', 40, 36], ['5xl', 48, 48], ['6xl', 60, 60], ['7xl', 72, 72], ['8xl', 96, 96],
+    ['9xl', 128, 128],
+  ] as const)('text-%s line-height is the unitless ratio %spx / %spx', (size, lineHeight, fontSize) => {
+    expect(theme[`text-${size}`]).toBe(`${fontSize}px`);
+    const ratio = theme[`text-${size}--line-height`];
+    expect(ratio).toMatch(/^\d+(\.\d+)?$/);
+    expect(Number(ratio) * fontSize).toBeCloseTo(lineHeight, 5);
+  });
+
+  it.each([3, 4, 5, 6, 7, 8, 9, 10])('leading-%s is 4px × N divided by the element font size', (n) => {
+    const px = n * 4;
+    expect(uncommented).toContain(
+      `.leading-${n} { --tw-leading: calc(${px} / var(--__rn-css-em)); line-height: calc(${px} / var(--__rn-css-em)); }`,
+    );
+  });
+
+  it('does not use @utility leading-* (nativewind/theme would win the cascade)', () => {
+    expect(uncommented).not.toContain('@utility leading-*');
   });
 
   it.each(Object.entries(LIGHT))('light --%s = %s', (name, value) => {
@@ -129,7 +148,6 @@ describe('lemniscate.css', () => {
     expect(theme['radius-lg']).toBe('12px');
     expect(theme['radius-xl']).toBe('12px');
     expect(theme['text-sm']).toBe('14px');
-    expect(theme['text-sm--line-height']).toBe('20px');
     expect(theme['text-2xs']).toBe('10px');
     expect(theme['shadow-sm']).toBe('0 1px 2px 0 rgb(0 0 0 / 0.05)');
     expect(theme['font-sans']).toBe('Inter');

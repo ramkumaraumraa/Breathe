@@ -91,7 +91,7 @@
 |---|---|---|
 | Button | `hover:*` gone; gradient press = 6% black overlay instead of `brightness(0.94)` | Touch has no hover; overlay is deterministic. |
 | Input | `type="date"` not supported → use Calendar (inside a popover/sheet molecule) | No native date text field. |
-| Label | `htmlFor` → pass `onPress={() => ref.current?.focus()}` | RN has no `for` association. |
+| Label | `htmlFor` is removed from the type → pass `onPress={() => ref.current?.focus()}` | RN has no `for` association. |
 | Select | `value`/`onValueChange` use `{ value, label }` objects (rn-primitives `Option`), not strings | Native closed Select must know the label without rendering items. |
 | Select | Scroll up/down buttons not exported | Web-only in rnr; native list scrolls. |
 | Select | `<SelectItem value="monthly" label="Monthly" />`, not `<SelectItem value="monthly">Monthly</SelectItem>` | rn-primitives renders the item text from `label`. |
@@ -2648,7 +2648,7 @@ git commit -m "feat(native): Button atom with all 13 variants and 9 sizes from L
 
 ### Task 11: Label
 
-Reference: repo `ui/label.tsx`: `text-sm font-medium leading-none peer-disabled:opacity-70`. Structure: rnr `label.tsx` (`@rn-primitives/label`). `htmlFor` becomes `onPress` focusing the input (§0.5).
+Reference: repo `ui/label.tsx`: `text-sm font-medium leading-none peer-disabled:opacity-70`. Structure: rnr `label.tsx` (`@rn-primitives/label`). `htmlFor` becomes `onPress` focusing the input (§0.5). Without `onPress`/`onLongPress` the Label is a plain Text: no focus stop, no responder. The text renders through the `Text` atom so nested Texts inherit.
 
 **Files:**
 - Create: `packages/react-native/src/atoms/label.tsx`
@@ -2661,12 +2661,13 @@ Reference: repo `ui/label.tsx`: `text-sm font-medium leading-none peer-disabled:
 ```tsx
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import { Label } from '../../src/atoms/label';
+import { Text } from '../../src/atoms/text';
 
 describe('Label', () => {
   it('uses the web label typography', async () => {
     await render(<Label>Email</Label>);
     expect(screen.getByText('Email').props.className).toBe(
-      'font-sans text-sm font-medium leading-none text-foreground',
+      'font-sans text-foreground text-sm font-medium leading-none',
     );
   });
 
@@ -2683,6 +2684,39 @@ describe('Label', () => {
     await fireEvent.press(screen.getByText('Email'));
     expect(onPress).not.toHaveBeenCalled();
   });
+
+  it('forwards nativeID to the text', async () => {
+    await render(<Label nativeID="x">Email</Label>);
+    expect(screen.getByText('Email').props.nativeID).toBe('x');
+  });
+
+  it('applies opacity-70 when disabled', async () => {
+    await render(<Label disabled>Email</Label>);
+    expect(screen.getByText('Email').props.className).toContain('opacity-70');
+  });
+
+  it('is not a focus stop or responder without a handler', async () => {
+    await render(<Label>Email</Label>);
+    // Walk every ancestor: a plain Label must not be wrapped in a Pressable, so nothing above the
+    // text should claim the responder or force focusability. fireEvent.press on a parent would pass
+    // even with the bug (RNTL walks up to the nearest onPress), so this checks host node props instead.
+    let node = screen.getByText('Email').parent;
+    while (node) {
+      expect(node.props.focusable).not.toBe(true);
+      expect(node.props.onClick).toBeUndefined();
+      expect(node.props.onResponderGrant).toBeUndefined();
+      node = node.parent;
+    }
+  });
+
+  it('lets a nested Text inherit the label typography context', async () => {
+    await render(
+      <Label>
+        Name <Text testID="star" className="text-danger">*</Text>
+      </Label>,
+    );
+    expect(screen.getByTestId('star').props.className).toBe('text-danger');
+  });
 });
 ```
 
@@ -2697,22 +2731,24 @@ Expected: FAIL — module not found.
 import * as LabelPrimitive from '@rn-primitives/label';
 import * as React from 'react';
 import { cn } from '../lib/utils';
+import { Text } from './text';
 
-type LabelProps = React.ComponentProps<typeof LabelPrimitive.Text>;
+type LabelProps = Omit<React.ComponentProps<typeof LabelPrimitive.Text>, 'htmlFor'>;
 
-function Label({ className, onPress, onLongPress, onPressIn, onPressOut, disabled, ...props }: LabelProps) {
+function Label({ className, onPress, onLongPress, onPressIn, onPressOut, disabled, accessible, accessibilityHint, ...props }: LabelProps) {
+  const text = <Text className={cn('text-sm font-medium leading-none', disabled && 'opacity-70', className)} {...props} />;
+  // Plain caption: no focus stop and no responder, so a parent row still gets the tap.
+  if (!onPress && !onLongPress) return text;
   return (
     <LabelPrimitive.Root
-      className={cn('flex-row items-center', disabled && 'opacity-70')}
       onPress={onPress}
       onLongPress={onLongPress}
       onPressIn={onPressIn}
       onPressOut={onPressOut}
-      disabled={disabled}>
-      <LabelPrimitive.Text
-        className={cn('font-sans text-sm font-medium leading-none text-foreground', className)}
-        {...props}
-      />
+      disabled={disabled}
+      accessible={accessible}
+      accessibilityHint={accessibilityHint}>
+      {text}
     </LabelPrimitive.Root>
   );
 }
@@ -2729,7 +2765,7 @@ export * from './atoms/label';
 - [ ] **Step 4: Run — expect PASS**
 
 Run: `pnpm --filter @aumraa/breathe-native test test/atoms/label.test.tsx`
-Expected: 3 passed.
+Expected: 7 passed.
 
 - [ ] **Step 5: Catalog** — `apps/native-catalog/sections/LabelSection.tsx`
 

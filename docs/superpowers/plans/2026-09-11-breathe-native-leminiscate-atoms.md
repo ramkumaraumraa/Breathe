@@ -55,6 +55,8 @@
 8. **`@rn-primitives/slider` has no native gesture handling** ⇒ Slider uses `@react-native-community/slider`.
 9. **RNTL 14**: `render`, `fireEvent`, `act` are **async** (`await`). Matchers auto-register on import. Uses `test-renderer`, not `react-test-renderer`.
 10. **Expo font weights on Android**: `expo-font` config plugin `android.fonts[].fontDefinitions[{path, weight}]` makes `fontFamily: 'Inter'` + `fontWeight` work ⇒ `font-medium/semibold/bold` classes need no mapping. Requires a **development build** (not Expo Go).
+11. **react-native-css 3.0.7 drops every static `line-height` and multiplies `var()`/`calc()` line-heights by the element font size** (found on device 2026-09-12: `src/compiler/declarations.ts:2193-2219` wraps px/unitless values so `src/native/styles/line-height.ts:4-8` discards them; `:10-20` multiplies by `--__rn-css-em`).
+    ⇒ `--text-*--line-height` are font-size ratios and `.leading-3`…`.leading-10` are `calc(4N / var(--__rn-css-em))`; both resolve to exact px on device (Task 3 note, R21).
 
 ### 0.4 Web → Native translation rules (apply to every atom)
 
@@ -80,6 +82,7 @@
 | R18 | `inline-flex` | `flex-row` (+ `self-start` when the web element was inline and must not stretch). |
 | R19 | Default Tailwind palette (`bg-red-50`) | Only families defined in the theme with v3 hex (slate, gray, red, orange, amber, green, emerald, cyan, blue, purple). Add a family's v3 hex before using it. |
 | R20 | `asChild` on Button for links | RN idiom is the reverse: `<Link href="…" asChild><Button/></Link>`. Button has no `asChild`. |
+| R21 | Static `line-height` (`leading-[20px]`, `[line-height:…]`, a px or unitless `line-height` in the stylesheet) | Never write a static px/unitless `line-height` in atom classes or the stylesheet; use `text-*` sizes and `leading-3`..`leading-10` (both are ratio-based). The named leadings (`leading-none`/`tight`/`snug`/`normal`/`relaxed`/`loose`) act only through `--tw-leading`, so they need a `text-*` class on the same element (the Text atom always has one). §0.3 fact 11. |
 
 ### 0.5 Accepted parity differences (the only places native ≠ web)
 
@@ -134,7 +137,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | 2 | Package skeleton + `cn` | S | ☑ |
 | 3 | Theme stylesheet | M | ☑ |
 | 4 | THEME JS mirror | S | ☑ |
-| 5 | Catalog app + device spike (spike pending) | M | ☐ |
+| 5 | Catalog app + device spike | M | ☑ |
 | 6 | Text | S | ☑ |
 | 7 | Icon | S | ☑ |
 | 8 | Gradient | S | ☑ |
@@ -638,9 +641,28 @@ describe('lemniscate.css', () => {
     expect(css).toContain('@source "../src";');
   });
 
-  it('restores px leading (nativewind/theme makes leading-N font-relative)', () => {
-    expect(css).toContain('@utility leading-*');
-    expect(css).toContain('--spacing(--value(integer))');
+  // react-native-css 3.0.7 drops static line-heights and multiplies var()/calc() ones by the element
+  // font size, so text sizes carry unitless ratios and leading-N divides its px by the font size.
+  it.each([
+    ['xs', 16, 12], ['sm', 20, 14], ['base', 24, 16], ['lg', 28, 18], ['xl', 28, 20], ['2xl', 32, 24],
+    ['3xl', 36, 30], ['4xl', 40, 36], ['5xl', 48, 48], ['6xl', 60, 60], ['7xl', 72, 72], ['8xl', 96, 96],
+    ['9xl', 128, 128],
+  ] as const)('text-%s line-height is the unitless ratio %spx / %spx', (size, lineHeight, fontSize) => {
+    expect(theme[`text-${size}`]).toBe(`${fontSize}px`);
+    const ratio = theme[`text-${size}--line-height`];
+    expect(ratio).toMatch(/^\d+(\.\d+)?$/);
+    expect(Number(ratio) * fontSize).toBeCloseTo(lineHeight, 5);
+  });
+
+  it.each([3, 4, 5, 6, 7, 8, 9, 10])('leading-%s is 4px × N divided by the element font size', (n) => {
+    const px = n * 4;
+    expect(uncommented).toContain(
+      `.leading-${n} { --tw-leading: calc(${px} / var(--__rn-css-em)); line-height: calc(${px} / var(--__rn-css-em)); }`,
+    );
+  });
+
+  it('does not use @utility leading-* (nativewind/theme would win the cascade)', () => {
+    expect(uncommented).not.toContain('@utility leading-*');
   });
 
   it.each(Object.entries(LIGHT))('light --%s = %s', (name, value) => {
@@ -670,7 +692,6 @@ describe('lemniscate.css', () => {
     expect(theme['radius-lg']).toBe('12px');
     expect(theme['radius-xl']).toBe('12px');
     expect(theme['text-sm']).toBe('14px');
-    expect(theme['text-sm--line-height']).toBe('20px');
     expect(theme['text-2xs']).toBe('10px');
     expect(theme['shadow-sm']).toBe('0 1px 2px 0 rgb(0 0 0 / 0.05)');
     expect(theme['font-sans']).toBe('Inter');
@@ -886,31 +907,31 @@ Expected: FAIL — `ENOENT … styles/lemniscate.css`.
   --font-sans: Inter;
   --text-2xs: 10px;
   --text-xs: 12px;
-  --text-xs--line-height: 16px;
+  --text-xs--line-height: 1.3333333; /* 16px */
   --text-sm: 14px;
-  --text-sm--line-height: 20px;
+  --text-sm--line-height: 1.4285714; /* 20px */
   --text-base: 16px;
-  --text-base--line-height: 24px;
+  --text-base--line-height: 1.5; /* 24px */
   --text-lg: 18px;
-  --text-lg--line-height: 28px;
+  --text-lg--line-height: 1.5555556; /* 28px */
   --text-xl: 20px;
-  --text-xl--line-height: 28px;
+  --text-xl--line-height: 1.4; /* 28px */
   --text-2xl: 24px;
-  --text-2xl--line-height: 32px;
+  --text-2xl--line-height: 1.3333333; /* 32px */
   --text-3xl: 30px;
-  --text-3xl--line-height: 36px;
+  --text-3xl--line-height: 1.2; /* 36px */
   --text-4xl: 36px;
-  --text-4xl--line-height: 40px;
+  --text-4xl--line-height: 1.1111111; /* 40px */
   --text-5xl: 48px;
-  --text-5xl--line-height: 48px;
+  --text-5xl--line-height: 1; /* 48px */
   --text-6xl: 60px;
-  --text-6xl--line-height: 60px;
+  --text-6xl--line-height: 1; /* 60px */
   --text-7xl: 72px;
-  --text-7xl--line-height: 72px;
+  --text-7xl--line-height: 1; /* 72px */
   --text-8xl: 96px;
-  --text-8xl--line-height: 96px;
+  --text-8xl--line-height: 1; /* 96px */
   --text-9xl: 128px;
-  --text-9xl--line-height: 128px;
+  --text-9xl--line-height: 1; /* 128px */
 
   /* Spacing: Tailwind v3 4px step */
   --spacing: 4px;
@@ -954,16 +975,46 @@ Expected: FAIL — `ENOENT … styles/lemniscate.css`.
   --container-7xl: 1280px;
 }
 
-/* nativewind/theme makes leading-N font-relative; restore Tailwind v3 absolute px (4px × N) */
-@utility leading-* {
-  line-height: --spacing(--value(integer));
-}
+/* leading-N (Tailwind v3 absolute 4px × N). Static px is dropped by react-native-css 3.0.7 (see above)
+   and nativewind/theme's @utility leading-* still emits a font-relative value after ours, so these are
+   plain rules, which land after the utilities layer: divide by the element font size, which
+   react-native-css exposes as --__rn-css-em, and the runtime multiplies it back to px. */
+.leading-3 { --tw-leading: calc(12 / var(--__rn-css-em)); line-height: calc(12 / var(--__rn-css-em)); }
+.leading-4 { --tw-leading: calc(16 / var(--__rn-css-em)); line-height: calc(16 / var(--__rn-css-em)); }
+.leading-5 { --tw-leading: calc(20 / var(--__rn-css-em)); line-height: calc(20 / var(--__rn-css-em)); }
+.leading-6 { --tw-leading: calc(24 / var(--__rn-css-em)); line-height: calc(24 / var(--__rn-css-em)); }
+.leading-7 { --tw-leading: calc(28 / var(--__rn-css-em)); line-height: calc(28 / var(--__rn-css-em)); }
+.leading-8 { --tw-leading: calc(32 / var(--__rn-css-em)); line-height: calc(32 / var(--__rn-css-em)); }
+.leading-9 { --tw-leading: calc(36 / var(--__rn-css-em)); line-height: calc(36 / var(--__rn-css-em)); }
+.leading-10 { --tw-leading: calc(40 / var(--__rn-css-em)); line-height: calc(40 / var(--__rn-css-em)); }
 ```
+
+**Line heights on device: root cause (2026-09-12 emulator spike).** react-native-css 3.0.7 drops every static `line-height`. In `node_modules/react-native-css/src`:
+- `compiler/declarations.ts:2193-2203` (`parseLineHeightDeclaration`) wraps the value as `[{}, "lineHeight", [value], 1]`.
+- `parseLineHeight` (`:2205-2219`) turns a unitless `1.25` into `em(1.25)` and `20px` into the number `20` (via `parseLength`, `:1367-1378`).
+- At runtime, `native/styles/line-height.ts:4-8` returns nothing, because that wrapped argument resolves to an array, not a number (`native/styles/resolve.ts:90`, `:158-163`).
+- Only `var()`/`calc()` line-heights survive, and `line-height.ts:10-20` multiplies them by the element font size (`--__rn-css-em`, set alongside `fontSize` at `compiler/declarations.ts:2251`).
+
+With px line heights the device measured `text-sm` = 280 (20 × 14). `text-base leading-5` measured 23: that is nativewind/theme's `.leading-5 { line-height: calc(var(--spacing) / 1rem * 5) }`, with rem inlined as 14, so 1.4286 × 16. The old `@utility leading-*` px override was static, so it was dropped. Hence:
+- `--text-*--line-height` are **ratios** (px line height ÷ px font size), which Tailwind emits as `line-height: var(--tw-leading, <ratio>)`; the runtime multiplies back to exactly the v3 px.
+- `.leading-3`…`.leading-10` are plain rules, `calc(4N / var(--__rn-css-em))` for both `line-height` and `--tw-leading`. Plain rules land after the utilities layer, so they beat nativewind/theme's `@utility leading-*`; the runtime multiplies back to exactly 4N px.
+- The named leadings (`leading-none`, `leading-tight`, …) keep web em semantics through `--tw-leading`, which the `text-*` fallback reads.
+
+Compiled and resolved with react-native-css's own `resolveValue`, before → after:
+- `text-sm` 280 → 20
+- `text-base` 384 → 24
+- `text-4xl` 1440 → 40
+- `text-base leading-5` 22.86 → 20
+- `text-2xl leading-6` 41.14 → 24
+- `text-sm leading-none` = 14 and `text-sm leading-tight` = 17.5
+
+On device (Task 5, S1b) both probes read 20.
+
 
 - [ ] **Step 4: Run — expect PASS**
 
 Run: `pnpm --filter @aumraa/breathe-native test test/styles.test.ts`
-Expected: all cases pass (≈121 `it`/`it.each` rows).
+Expected: all cases pass (≈142 `it`/`it.each` rows).
 
 - [ ] **Step 5: Write the class-rule guard** — `packages/react-native/test/class-rules.test.ts`
 
@@ -1272,25 +1323,28 @@ export default {
               {
                 "fontFamily": "Inter",
                 "fontDefinitions": [
-                  { "path": "./node_modules/@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf", "weight": 400 },
-                  { "path": "./node_modules/@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf", "weight": 500 },
-                  { "path": "./node_modules/@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf", "weight": 600 },
-                  { "path": "./node_modules/@expo-google-fonts/inter/700Bold/Inter_700Bold.ttf", "weight": 700 }
+                  { "path": "@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf", "weight": 400 },
+                  { "path": "@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf", "weight": 500 },
+                  { "path": "@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf", "weight": 600 },
+                  { "path": "@expo-google-fonts/inter/700Bold/Inter_700Bold.ttf", "weight": 700 }
                 ]
               }
             ]
           },
           "ios": {
             "fonts": [
-              "./node_modules/@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf",
-              "./node_modules/@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf",
-              "./node_modules/@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf",
-              "./node_modules/@expo-google-fonts/inter/700Bold/Inter_700Bold.ttf"
+              "@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf",
+              "@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf",
+              "@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf",
+              "@expo-google-fonts/inter/700Bold/Inter_700Bold.ttf"
             ]
           }
         }
       ]
 ```
+
+The paths are bare package specifiers. expo-font's plugin tries `path.resolve(projectRoot, p)` first, then falls back to `require.resolve(p)` from the project root (`expo-font/plugin/build/utils.js`, `resolveFontPaths`), so they work with pnpm's default isolated layout and with `nodeLinker: hoisted` (the Windows recipe in Step 6). With hoisting, `@expo-google-fonts/inter` sits in the root `node_modules`, and `./node_modules/...` fails prebuild with `Cannot find module './node_modules/@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf'`.
+
 
 The same block goes into the Leminiscate app's `app.json` (Task 28 README).
 
@@ -1396,7 +1450,7 @@ export const sections: { key: string; Component: ComponentType }[] = [
 import './global.css';
 import { PortalHost } from '@rn-primitives/portal';
 import { StatusBar } from 'expo-status-bar';
-import { Appearance, Pressable, ScrollView, Text, useColorScheme } from 'react-native';
+import { Appearance, Pressable, ScrollView, Text, useColorScheme, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { sections } from './sections';
 
@@ -1404,24 +1458,30 @@ export default function App() {
   const scheme = useColorScheme();
   return (
     <SafeAreaProvider>
-      <SafeAreaView className="flex-1 bg-background">
-        <StatusBar style="auto" />
-        <Pressable
-          className="m-4 self-start rounded-md border border-border px-3 py-2"
-          onPress={() => Appearance.setColorScheme(scheme === 'dark' ? 'light' : 'dark')}>
-          <Text className="font-sans text-sm text-foreground">Toggle {scheme === 'dark' ? 'light' : 'dark'}</Text>
-        </Pressable>
-        <ScrollView>
-          {sections.map(({ key, Component }) => (
-            <Component key={key} />
-          ))}
-        </ScrollView>
+      {/* SafeAreaView is not NativeWind-wrapped, so className is ignored on it: the View carries the styles */}
+      <SafeAreaView style={{ flex: 1 }}>
+        <View className="flex-1 bg-background">
+          <StatusBar style="auto" />
+          <Pressable
+            className="m-4 self-start rounded-md border border-border px-3 py-2"
+            onPress={() => Appearance.setColorScheme(scheme === 'dark' ? 'light' : 'dark')}>
+            <Text className="font-sans text-sm text-foreground">Toggle {scheme === 'dark' ? 'light' : 'dark'}</Text>
+          </Pressable>
+          <ScrollView>
+            {sections.map(({ key, Component }) => (
+              <Component key={key} />
+            ))}
+          </ScrollView>
+        </View>
       </SafeAreaView>
       <PortalHost />
     </SafeAreaProvider>
   );
 }
 ```
+
+`SafeAreaView` (react-native-safe-area-context) is not NativeWind-wrapped, so a `className` on it is ignored. The spike measured Android's window colour instead of `bg-background` (`#fafafa`, and `#303030` in night mode). So it takes `style={{ flex: 1 }}`, and the inner `<View className="flex-1 bg-background">` carries the theme. Without `flex: 1`, the ScrollView also overflows the screen by the header's height.
+
 
 `PortalHost` sits outside `SafeAreaView`: rn-primitives positions portal content absolutely from window coordinates, so safe-area padding would offset it.
 
@@ -1433,31 +1493,71 @@ pnpm expo run:android
 pnpm expo run:ios        # macOS only
 ```
 
-**Windows: build from a path without spaces.** With spaces in the repo path the Android build fails: AGP's CMake prefab step for react-native-screens and react-native-worklets fails with `[CXX1428] … Cannot run program ""D:\Aumraa\APOS pitch\…\prefab_command.bat""`, and `:app:createBundleReleaseJsAndAssets` fails with `'D:\Aumraa\APOS' is not recognized`. On Windows, build from a path without spaces, e.g. `git worktree add --detach D:\bs HEAD`, then `corepack pnpm install` there, then run the spike from `D:\bs\apps\native-catalog`. The same applies to the Leminiscate mobile app: keep its repo in a path without spaces.
+**Windows build recipe (verified 2026-09-12; the Leminiscate mobile app on Windows needs the same).** Building from the repo as-is fails three ways on Windows:
+- **The repo path has spaces.** AGP's CMake prefab step fails with `[CXX1428] … Cannot run program ""D:\Aumraa\APOS pitch\…\prefab_command.bat""`, and `:app:createBundleReleaseJsAndAssets` fails with `'D:\Aumraa\APOS' is not recognized`.
+- **pnpm's linked `node_modules`** send ninja into `manifest 'build.ninja' still dirty after 100 tries`.
+- **A 4-ABI parallel native build runs a 16 GB machine out of memory**: `LLVM ERROR: out of memory` in clang, and `0xC0000005` in the Hermes step.
+
+What works:
+
+1. **Path without spaces.** Build from a worktree at a path without spaces: `git worktree add D:\bs <branch>` (or `git worktree add --detach D:\bs HEAD`).
+2. **Hoisted linker, local only.** In that worktree only, add `nodeLinker: hoisted` as the first line of `pnpm-workspace.yaml` (local, never committed), then run `corepack pnpm install`. Run Jest from a normal (isolated) install instead: hoisting nests a second React under `@testing-library/react-native`, and the Text/Icon/Spinner suites fail with `Invalid hook call`.
+3. **JDK 21.** Set `JAVA_HOME` to Temurin 21 and `ANDROID_HOME` to `%LOCALAPPDATA%\Android\Sdk`. The first build installs NDK 27.1.12297006 and CMake 3.22.1 automatically.
+4. **Prebuild.** `cd apps/native-catalog`, then `corepack pnpm expo prebuild --platform android --no-install`.
+5. **Capped release build.** Shut the emulator down while this compiles (it needs the memory), then in `android/` run `./gradlew app:assembleRelease -x lint -x test --configure-on-demand --build-cache --max-workers=2 -PreactNativeArchitectures=x86_64 --init-script <path>/cap-native-jobs.gradle`. `x86_64` is the emulator ABI; use `arm64-v8a` for a phone. The init script caps ninja at 3 concurrent compiles per native module:
+```groovy
+// ponytail: caps concurrent clang per native module (ninja job pool) so a low-memory
+// Windows box doesn't hit "LLVM ERROR: out of memory". Raise compile=N if RAM allows.
+allprojects {
+  plugins.withId('com.android.library') {
+    android.defaultConfig.externalNativeBuild.cmake.arguments(
+      '-DCMAKE_JOB_POOLS=compile=3;link=1',
+      '-DCMAKE_JOB_POOL_COMPILE=compile',
+      '-DCMAKE_JOB_POOL_LINK=link')
+  }
+  plugins.withId('com.android.application') {
+    android.defaultConfig.externalNativeBuild.cmake.arguments(
+      '-DCMAKE_JOB_POOLS=compile=3;link=1',
+      '-DCMAKE_JOB_POOL_COMPILE=compile',
+      '-DCMAKE_JOB_POOL_LINK=link')
+  }
+}
+```
+6. **Install and clean up.** Boot the emulator, then `adb install -r android/app/build/outputs/apk/release/app-release.apk`. The APK is signed with the debug keystore and embeds the bundle, so it needs no Metro. Afterwards, `git checkout -- pnpm-workspace.yaml apps/native-catalog/package.json apps/native-catalog/app.json`, because prebuild rewrites the scripts and reformats `app.json`.
+
+The incremental build takes about 7 minutes; the first takes about 14.
 
 - [ ] **Step 7: Spike checklist** — record each result in the table below before starting Task 6.
 
 | # | Check | Pass criterion | If it fails |
 |---|---|---|---|
 | S1 | Size probe | Reads **44** | A rem value leaked: search `nativewind/theme` output for the utility; add its v3 px value to `@theme inline`. |
-| S1b | Leading probe | `text-sm` measures **20** and `text-base leading-5` measures **20** | If `text-sm` is off, the `--text-sm--line-height` fallback isn't applied on device — check the pair is registered in `@theme inline`. If `text-base leading-5` is off (and `text-sm` isn't), the `@utility leading-*` override in `lemniscate.css` isn't taking effect — check import order and that `nativewind/theme` doesn't come after it. |
+| S1b | Leading probe | `text-sm` measures **20** and `text-base leading-5` measures **20** | A multiple of the font size (e.g. 280 = 20 × 14), or 23 for `leading-5`, means a static or px line height reached react-native-css (§0.3 fact 11). Keep `--text-*--line-height` as unitless ratios, and keep the `.leading-N` `calc(4N / var(--__rn-css-em))` rules as plain rules after `nativewind/theme` (Task 3 note). |
 | S2 | Swatches | Match the web app's colours (compare against a web screenshot) | If semantic colours are missing but scales render, `@theme inline` var references are not resolving: replace `@theme inline` for semantic colours with the NativeWind-documented pattern (declare each `--color-*` hex in a `@theme` block **and** in `:root`, dark overrides in the media query). |
 | S3 | `red-50 (v3)` swatch | `#fef2f2` with `#fecaca` border | Palette override not applied: confirm `lemniscate.css` is imported **after** `tailwindcss/theme.css`. |
 | S4 | Inter weights | 400/500/600/700 visibly differ on **Android** | Run `pnpm expo prebuild --clean` then `run:android` again (config plugins only apply at prebuild). |
-| S5 | Dark toggle | Background and text flip | Check `userInterfaceStyle: "automatic"`. |
+| S5 | Dark toggle | Background and text flip | Check `userInterfaceStyle: "automatic"`, and that the background class is on a NativeWind-wrapped component (not `SafeAreaView`, see Step 5). |
 
 | # | Android | iOS | Notes |
 |---|---|---|---|
-| S1 | ☐ | ☐ | Pending — needs device (owner) |
-| S1b | ☐ | ☐ | Pending — needs device (owner) |
-| S2 | ☐ | ☐ | Pending — needs device (owner) |
-| S3 | ☐ | ☐ | Pending — needs device (owner) |
-| S4 | ☐ | ☐ | Pending — needs device (owner) |
-| S5 | ☐ | ☐ | Pending — needs device (owner) |
+| S1 | ☑ PASS | ☐ Pending — needs macOS | 2026-09-12, emulator `Medium_Phone_API_36.1` (API 36, 1080×2400 at 420 dpi, 2.625 px/dp), release build: the probe reads 44, and the square spans 115 px = 44 dp. |
+| S1b | ☑ PASS | ☐ Pending — needs macOS | 2026-09-12: `text-sm` 20, `text-base leading-5` 20. Before the Task 3 line-height fix these read 280 and 23. |
+| S2 | ☑ PASS | ☐ Pending — needs macOS | 2026-09-12: swatch centres sampled exactly: `#ffffff` `#f2f2f3` `#191b1f` `#1b60c0` `#1c60c1` `#40aad4` `#16a249` `#f59f0a` `#dc2828` `#d6d6d7` `#191b1f`. |
+| S3 | ☑ PASS | ☐ Pending — needs macOS | 2026-09-12: fill `#fef2f2`, 2 px border `#fecaca`. |
+| S4 | ☑ PASS | ☐ Pending — needs macOS | 2026-09-12: the `I` stem of each row is 3 / 4 / 4 (darker edges) / 6 px for 400 / 500 / 600 / 700, and the four weights are visibly distinct. Prebuild writes `res/font/xml_inter.xml` with all four weights. |
+| S5 | ☑ PASS | ☐ Pending — needs macOS | 2026-09-12: the in-app toggle and system night mode (`adb shell cmd uimode night yes`, then relaunch) both flip background `#ffffff` → `#121821`, text `#191b1f` → `#f8fafc`, and primary `#1b60c0` → `#3cb6d7`. This needs the `App.tsx` View wrapper (Step 5); `expo-system-ui` is not needed. |
+
+**IconSection (Tasks 7–9), Android, 2026-09-12:**
+- **Size and colour:** `<Icon as={Bell} className="size-6 text-primary" />` draws in `#1b60c0` with a 53 × 59 px glyph. That is lucide's bell (about 20 × 22.5 of its 24 viewBox units) at 24 dp; a 16 dp icon would draw about 35 × 39. The 16 dp `Plus` measures 28 px, as expected.
+- **Spinners:** both rotate, since two frames 0.3 s apart differ. With the emulator's animator duration scale at 0 they freeze, because Reanimated honours it.
+- **Gradient:** the bar runs from `#3cb6d7` top-left (sampled `#3bb4d7`) to `#2262ec` bottom-right (sampled `#2364eb`), along the 135° diagonal.
+- **Label:** the white text is centred; its bbox centre is x 539 / y 2215, against a bar centre of 540 / 2211.
+
+iOS: pending, needs macOS.
 
 **Automated verification (2026-09-11, Windows, no device or emulator attached):**
 - `expo export --platform android` succeeds: 1100 modules, 2.8 MB Hermes bundle (re-verified with the origin-keyed worklets exemption). This proves the metro config, the PostCSS/Tailwind 4.3.3 compile, the `@import` of `@aumraa/breathe-native/styles/lemniscate.css` through the pnpm workspace symlink, and the TS/JSX transforms.
-- Compiled style table in a `--no-bytecode` export: `h-11` → `height: 44`; `text-sm` → `fontSize: 14` + `lineHeight: var(--tw-leading, 20)`; `leading-5` → `lineHeight: 20`, emitted after `nativewind/theme`'s font-relative calc (the device decides S1b); `bg-primary-500` → `#1c60c1`; `bg-red-50` → `#fef2f2`; `border-red-200` → `#fecaca`; `font-sans` → `fontFamily: "Inter"`; semantic colours resolve through vars whose dark values are keyed on `prefers-color-scheme` (e.g. background `#121821`).
+- Compiled style table in a `--no-bytecode` export: `h-11` → `height: 44`; `text-sm` → `fontSize: 14` + `lineHeight: var(--tw-leading, 20)`; `leading-5` → `lineHeight: 20`, emitted after `nativewind/theme`'s font-relative calc (the device decides S1b); `bg-primary-500` → `#1c60c1`; `bg-red-50` → `#fef2f2`; `border-red-200` → `#fecaca`; `font-sans` → `fontFamily: "Inter"`; semantic colours resolve through vars whose dark values are keyed on `prefers-color-scheme` (e.g. background `#121821`). The device later showed both line heights were wrong (280 and 23; see the Task 3 note). After the fix they compile to `var(--tw-leading, 1.4286)` and `calc(20 / var(--__rn-css-em))`.
 - `tsc --noEmit` in the catalog is clean.
 - `expo prebuild --clean --platform android --no-install`: the expo-font plugin resolves all four Inter TTFs through pnpm and writes `res/font/xml_inter.xml` (weights 400/500/600/700) plus `ReactFontManager.addCustomFont(…, "Inter", …)`. The native dir was deleted afterwards. Prebuild warns `android: userInterfaceStyle: Install expo-system-ui in your project to enable this feature`; the warning fires whenever the key is set and does not apply to `"automatic"` — the generated theme is DayNight and MainActivity handles `uiMode`. `expo-system-ui` is only needed to force `"light"`/`"dark"` or to set a root `backgroundColor`. If S5 fails, investigate react-native-css `prefers-color-scheme` handling instead.
 

@@ -4,7 +4,7 @@ require('react-native-reanimated').setUpTests();
 // NativeWind v5 rewrites imports in Metro only. In Jest `className` is a plain prop,
 // so `styled()` can be the identity. This mock replaces the *entire* `nativewind` module —
 // any future import besides `styled` (e.g. `vars`, `cssInterop`) must be added here too.
-jest.mock('nativewind', () => ({ styled: (Component: unknown) => Component }));
+jest.mock('nativewind', () => ({ styled: jest.fn((Component: unknown) => Component) }));
 
 // Every lucide icon renders as a View tagged `icon-<Name>` so tests can find it.
 // Each component is cached on the target so repeated reads return the same reference

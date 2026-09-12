@@ -1,5 +1,6 @@
 import type { LucideProps } from 'lucide-react-native';
 import { styled } from 'nativewind';
+import type { StyledConfiguration } from 'react-native-css';
 import * as React from 'react';
 import { cn } from '../lib/utils';
 import { TextClassContext } from './text';
@@ -15,19 +16,12 @@ function IconImpl({ as: Component, ...props }: IconProps) {
   return <Component {...props} />;
 }
 
-// `size-4` / `h-4 w-4` classes feed lucide's numeric `size` prop.
-// Deviation (typecheck): react-native-css 3.0.7's `StyledConfigurationObject` computes
-// `nativeStyleToProp`'s type via `ResolveDotPath<T, ComponentProps<C>>` — that generic's own
-// declaration is `ResolveDotPath<T, Path extends string>` (object, then dot-path string), so the
-// library's own usage passes the arguments in the wrong order for `target: 'style'`, resolving to
-// `never` and typing the field as exactly `undefined`. `target: 'style'` alone typechecks; only the
-// value below needs the cast. Runtime shape is unchanged (still the documented v5 API).
-const StyledIcon = styled(IconImpl, {
-  className: {
-    target: 'style',
-    nativeStyleToProp: { height: 'size', width: 'size' } as any,
-  },
-});
+// className size classes (size-6, h-4 w-6) map to lucide's width/height props, which lucide prefers over `size`.
+// Precedence: className size > explicit `size` prop > IconSizeContext (web: CSS beats the svg width attribute).
+const mapping: StyledConfiguration<typeof IconImpl, 'className'> = {
+  className: { target: 'style', nativeStyleMapping: { height: 'height', width: 'width' } },
+};
+const StyledIcon = styled(IconImpl, mapping);
 
 function Icon({ as, className, size, ...props }: IconProps) {
   const textClass = React.useContext(TextClassContext);

@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react-native';
 import { Check } from 'lucide-react-native';
+import { styled } from 'nativewind';
 import { Icon, IconSizeContext } from '../../src/atoms/icon';
 import { TextClassContext } from '../../src/atoms/text';
 
@@ -21,7 +22,7 @@ describe('Icon', () => {
     );
     const icon = screen.getByTestId('icon-Check');
     expect(icon.props.size).toBe(20);
-    expect(icon.props.className).toContain('text-white');
+    expect(icon.props.className).toBe('text-sm text-white');
   });
 
   it('prefers an explicit size', async () => {
@@ -31,5 +32,11 @@ describe('Icon', () => {
       </IconSizeContext.Provider>,
     );
     expect(screen.getByTestId('icon-Check').props.size).toBe(12);
+  });
+
+  it('maps className size classes to lucide width/height so they beat the size prop', () => {
+    expect(styled).toHaveBeenCalledWith(expect.anything(), {
+      className: { target: 'style', nativeStyleMapping: { height: 'height', width: 'width' } },
+    });
   });
 });

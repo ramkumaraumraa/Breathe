@@ -310,6 +310,7 @@ git commit -m "chore(native): add apps workspace, lightningcss pin, Node 22 CI"
     "nativewind": "5.0.0-preview.4",
     "react": ">=19.2.0",
     "react-native": ">=0.85.0",
+    "react-native-css": "^3.0.7",
     "react-native-reanimated": ">=4.3.1",
     "react-native-screens": ">=4.26.0",
     "react-native-svg": ">=15.15.4"
@@ -418,7 +419,7 @@ require('react-native-reanimated').setUpTests();
 // NativeWind v5 rewrites imports in Metro only. In Jest `className` is a plain prop,
 // so `styled()` can be the identity. This mock replaces the *entire* `nativewind` module —
 // any future import besides `styled` (e.g. `vars`, `cssInterop`) must be added here too.
-jest.mock('nativewind', () => ({ styled: (Component: unknown) => Component }));
+jest.mock('nativewind', () => ({ styled: jest.fn((Component: unknown) => Component) }));
 
 // Every lucide icon renders as a View tagged `icon-<Name>` so tests can find it.
 // Each component is cached on the target so repeated reads return the same reference
@@ -1626,6 +1627,8 @@ git commit -m "feat(native): Text atom with TextClassContext"
 
 Wraps any lucide icon so it takes `className` (colour via `text-*`, size via `size-*`) and inherits the parent's text colour and icon size (R9).
 
+Size precedence: a className size (`size-6`, `h-4 w-6`) > the `size` prop > the parent's IconSizeContext.
+
 **Files:**
 - Create: `packages/react-native/src/atoms/icon.tsx`
 - Modify: `packages/react-native/src/index.ts`
@@ -1636,6 +1639,7 @@ Wraps any lucide icon so it takes `className` (colour via `text-*`, size via `si
 ```tsx
 import { render, screen } from '@testing-library/react-native';
 import { Check } from 'lucide-react-native';
+import { styled } from 'nativewind';
 import { Icon, IconSizeContext } from '../../src/atoms/icon';
 import { TextClassContext } from '../../src/atoms/text';
 
@@ -1657,7 +1661,7 @@ describe('Icon', () => {
     );
     const icon = screen.getByTestId('icon-Check');
     expect(icon.props.size).toBe(20);
-    expect(icon.props.className).toContain('text-white');
+    expect(icon.props.className).toBe('text-sm text-white');
   });
 
   it('prefers an explicit size', async () => {
@@ -1667,6 +1671,12 @@ describe('Icon', () => {
       </IconSizeContext.Provider>,
     );
     expect(screen.getByTestId('icon-Check').props.size).toBe(12);
+  });
+
+  it('maps className size classes to lucide width/height so they beat the size prop', () => {
+    expect(styled).toHaveBeenCalledWith(expect.anything(), {
+      className: { target: 'style', nativeStyleMapping: { height: 'height', width: 'width' } },
+    });
   });
 });
 ```
@@ -1681,6 +1691,7 @@ Expected: FAIL — module not found.
 ```tsx
 import type { LucideProps } from 'lucide-react-native';
 import { styled } from 'nativewind';
+import type { StyledConfiguration } from 'react-native-css';
 import * as React from 'react';
 import { cn } from '../lib/utils';
 import { TextClassContext } from './text';
@@ -1696,19 +1707,12 @@ function IconImpl({ as: Component, ...props }: IconProps) {
   return <Component {...props} />;
 }
 
-// `size-4` / `h-4 w-4` classes feed lucide's numeric `size` prop.
-// Deviation (typecheck): react-native-css 3.0.7's `StyledConfigurationObject` computes
-// `nativeStyleToProp`'s type via `ResolveDotPath<T, ComponentProps<C>>` — that generic's own
-// declaration is `ResolveDotPath<T, Path extends string>` (object, then dot-path string), so the
-// library's own usage passes the arguments in the wrong order for `target: 'style'`, resolving to
-// `never` and typing the field as exactly `undefined`. `target: 'style'` alone typechecks; only the
-// value below needs the cast. Runtime shape is unchanged (still the documented v5 API).
-const StyledIcon = styled(IconImpl, {
-  className: {
-    target: 'style',
-    nativeStyleToProp: { height: 'size', width: 'size' } as any,
-  },
-});
+// className size classes (size-6, h-4 w-6) map to lucide's width/height props, which lucide prefers over `size`.
+// Precedence: className size > explicit `size` prop > IconSizeContext (web: CSS beats the svg width attribute).
+const mapping: StyledConfiguration<typeof IconImpl, 'className'> = {
+  className: { target: 'style', nativeStyleMapping: { height: 'height', width: 'width' } },
+};
+const StyledIcon = styled(IconImpl, mapping);
 
 function Icon({ as, className, size, ...props }: IconProps) {
   const textClass = React.useContext(TextClassContext);
@@ -1737,7 +1741,7 @@ export * from './atoms/icon';
 - [ ] **Step 4: Run — expect PASS**
 
 Run: `pnpm --filter @aumraa/breathe-native test test/atoms/icon.test.tsx && pnpm --filter @aumraa/breathe-native typecheck`
-Expected: 3 passed; tsc 0. `styled` isn't declared in `nativewind` itself — it's re-exported from `react-native-css` (follow `node_modules/nativewind` — a pnpm symlink — then `dist/typescript/**/src/native/api.d.ts` and `runtime.types.d.ts`). Found (2026-09-11): `target`/`nativeStyleToProp` are the right field names, but 3.0.7's `StyledConfigurationObject` types `nativeStyleToProp` as `NativeStyleMapping<ResolveDotPath<T, ComponentProps<C>>, ComponentProps<C>>` — `ResolveDotPath<T, Path extends string>` expects (object, path-string) but is invoked here as (path-string, object), resolving to `never`/`undefined`. `target: 'style'` alone typechecks; cast only the `nativeStyleToProp` value (`as any`) to keep the documented runtime shape.
+Expected: 4 passed; tsc 0. react-native-css 3.0.7's runtime reads `nativeStyleMapping` (the older `nativeStyleToProp` key is a deprecated type only and is ignored at runtime), and mapping to lucide's `width`/`height` lets className sizes beat the always-passed `size`.
 
 - [ ] **Step 5: Commit**
 

@@ -145,7 +145,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | 9 | Spinner | S | ☑ |
 | 10 | Button | L | ☑ |
 | 11 | Label | S | ☑ |
-| 12 | Badge | S | ☐ |
+| 12 | Badge | S | ☑ |
 | 13 | Separator | S | ☐ |
 | 14 | Skeleton | S | ☐ |
 | 15 | Progress | M | ☐ |
@@ -2808,7 +2808,9 @@ Reference: repo `ui/badge.tsx`, 12 variants including the role badges (`super-ad
 
 ```tsx
 import { render, screen } from '@testing-library/react-native';
+import { StyleSheet } from 'react-native';
 import { Badge, badgeTextVariants, badgeVariants } from '../../src/atoms/badge';
+import { BRAND_GRADIENT } from '../../src/atoms/gradient';
 
 describe('badge variants (parity with web badge.tsx)', () => {
   it.each([
@@ -2841,11 +2843,22 @@ describe('Badge', () => {
     expect(screen.getByText('Paid').props.className).toContain('text-success-dark');
   });
 
-  it('paints the gradient layer only for the gradient variant', async () => {
-    const { rerender } = await render(<Badge variant="gradient">Pro</Badge>);
-    expect(screen.getByTestId('badge-gradient')).toBeOnTheScreen();
-    await rerender(<Badge>Pro</Badge>);
-    expect(screen.queryByTestId('badge-gradient')).toBeNull();
+  // Deviation from plan (Task 8 review): gradient is painted on the Badge View itself (a
+  // background image), not a `<Gradient/>` child — see badge.tsx for why.
+  it('paints the gradient on the View for the gradient variant', async () => {
+    await render(
+      <Badge testID="badge" variant="gradient">
+        Pro
+      </Badge>,
+    );
+    expect(StyleSheet.flatten(screen.getByTestId('badge').props.style)).toMatchObject({
+      experimental_backgroundImage: BRAND_GRADIENT,
+    });
+  });
+
+  it('does not paint the gradient for the default variant', async () => {
+    await render(<Badge testID="badge">Pro</Badge>);
+    expect(StyleSheet.flatten(screen.getByTestId('badge').props.style)?.experimental_backgroundImage).toBeUndefined();
   });
 });
 ```
@@ -2860,9 +2873,9 @@ Expected: FAIL — module not found.
 ```tsx
 import { cva, type VariantProps } from 'class-variance-authority';
 import * as React from 'react';
-import { View } from 'react-native';
+import { View, type StyleProp, type ViewStyle } from 'react-native';
 import { cn } from '../lib/utils';
-import { Gradient } from './gradient';
+import { BRAND_GRADIENT } from './gradient';
 import { Text, TextClassContext } from './text';
 
 const badgeVariants = cva('flex-row items-center self-start overflow-hidden rounded-full border px-2.5 py-0.5', {
@@ -2905,14 +2918,22 @@ const badgeTextVariants = cva('text-xs font-semibold', {
   defaultVariants: { variant: 'default' },
 });
 
-type BadgeProps = React.ComponentProps<typeof View> & VariantProps<typeof badgeVariants>;
+type BadgeProps = Omit<React.ComponentProps<typeof View>, 'style'> &
+  VariantProps<typeof badgeVariants> & { style?: StyleProp<ViewStyle> };
 
-function Badge({ className, variant, children, ...props }: BadgeProps) {
+function Badge({ className, variant, children, style, ...props }: BadgeProps) {
   const content = typeof children === 'string' || typeof children === 'number' ? <Text>{children}</Text> : children;
+  // Gradient painted on the View (not a child layer) so it renders under the border; see Task 8 review.
+  // Badge has `border` in its base classes; an absolutely positioned child sits inside the parent's
+  // border and Android clips children to the padding box — painting the View's own background image
+  // renders under its border, as in CSS (see button.tsx for the same pattern).
+  const isGradient = variant === 'gradient';
   return (
     <TextClassContext.Provider value={badgeTextVariants({ variant })}>
-      <View className={cn(badgeVariants({ variant }), className)} {...props}>
-        {variant === 'gradient' && <Gradient testID="badge-gradient" />}
+      <View
+        className={cn(badgeVariants({ variant }), className)}
+        style={isGradient ? [{ experimental_backgroundImage: BRAND_GRADIENT }, style] : style}
+        {...props}>
         {content}
       </View>
     </TextClassContext.Provider>

@@ -15,6 +15,14 @@ const FORBIDDEN_PALETTE_FAMILY =
 // `neutral-white-25` / `neutral-black-975` (the repo's foundation scale) must NOT match — only a
 // *bare* `neutral-<digit>` family (Tailwind's default, unregistered in the theme) is forbidden.
 const FORBIDDEN_NEUTRAL_FAMILY = /-neutral-\d/;
+// R21: react-native-css 3.0.7 drops static line-heights and multiplies var()/calc() ones by the
+// element font size — an arbitrary length leading (`leading-[20px]`) silently breaks; unitless
+// `leading-[1.25]` is fine.
+const ARBITRARY_LEADING = /leading-\[[^\]]*\d(px|rem|em)\]/;
+// R21: a font-size utility with a slash line-height (`text-sm/6`, `text-[11px]/4`) gets no
+// line-height at all under react-native-css 3.0.7. Colour opacity like `text-white/80` must not
+// match — only a recognised size token or arbitrary-length size before the slash counts.
+const TEXT_SLASH_LEADING = /(?<![\w-])text-(2xs|xs|sm|base|lg|xl|[2-9]xl|\[[^\]]+\])\/[\w.[\]]+/;
 
 interface Violation {
   file: string;
@@ -58,6 +66,14 @@ describe('class-rules (guards packages/react-native/src against forbidden class 
     expect([...scan(FORBIDDEN_PALETTE_FAMILY), ...scan(FORBIDDEN_NEUTRAL_FAMILY)]).toEqual([]);
   });
 
+  it('never uses an arbitrary-length leading (R21 — react-native-css 3.0.7 drops/mis-scales it)', () => {
+    expect(scan(ARBITRARY_LEADING)).toEqual([]);
+  });
+
+  it('never uses a text size with a slash line-height (R21 — gets no line-height at all)', () => {
+    expect(scan(TEXT_SLASH_LEADING)).toEqual([]);
+  });
+
   // Proves the regexes themselves are correct, independent of what src/ currently contains.
   it('regex self-check: matches the intended cases, rejects the exempted ones', () => {
     expect(REM.test('min-w-[8rem]')).toBe(true);
@@ -79,5 +95,15 @@ describe('class-rules (guards packages/react-native/src against forbidden class 
     expect(FORBIDDEN_NEUTRAL_FAMILY.test('bg-neutral-500')).toBe(true);
     expect(FORBIDDEN_NEUTRAL_FAMILY.test('bg-neutral-white-25')).toBe(false);
     expect(FORBIDDEN_NEUTRAL_FAMILY.test('bg-neutral-black-975')).toBe(false);
+
+    expect(ARBITRARY_LEADING.test('leading-[20px]')).toBe(true);
+    expect(ARBITRARY_LEADING.test('leading-[1.5rem]')).toBe(true);
+    expect(ARBITRARY_LEADING.test('leading-[1.25]')).toBe(false);
+    expect(ARBITRARY_LEADING.test('leading-5')).toBe(false);
+
+    expect(TEXT_SLASH_LEADING.test('text-sm/6')).toBe(true);
+    expect(TEXT_SLASH_LEADING.test('text-[11px]/4')).toBe(true);
+    expect(TEXT_SLASH_LEADING.test('text-white/80')).toBe(false);
+    expect(TEXT_SLASH_LEADING.test('text-xs')).toBe(false);
   });
 });

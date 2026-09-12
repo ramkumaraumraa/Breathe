@@ -27,7 +27,7 @@
     "nativewind": "5.0.0-preview.4",
     "react": ">=19.2.0",
     "react-native": ">=0.85.0",
-    "react-native-css": "^3.0.7",
+    "react-native-css": "~3.0.7",
     "react-native-reanimated": ">=4.3.1",
     "react-native-screens": ">=4.26.0",
     "react-native-svg": ">=15.15.4"

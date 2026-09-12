@@ -82,7 +82,7 @@
 | R18 | `inline-flex` | `flex-row` (+ `self-start` when the web element was inline and must not stretch). |
 | R19 | Default Tailwind palette (`bg-red-50`) | Only families defined in the theme with v3 hex (slate, gray, red, orange, amber, green, emerald, cyan, blue, purple). Add a family's v3 hex before using it. |
 | R20 | `asChild` on Button for links | RN idiom is the reverse: `<Link href="…" asChild><Button/></Link>`. Button has no `asChild`. |
-| R21 | Static `line-height` (`leading-[20px]`, `[line-height:…]`, a px or unitless `line-height` in the stylesheet) | Never write a static px/unitless `line-height` in atom classes or the stylesheet; use `text-*` sizes and `leading-3`..`leading-10` (both are ratio-based). The named leadings (`leading-none`/`tight`/`snug`/`normal`/`relaxed`/`loose`) act only through `--tw-leading`, so they need a `text-*` class on the same element (the Text atom always has one). §0.3 fact 11. |
+| R21 | Static `line-height` (`leading-[20px]`, `[line-height:…]`, a px or unitless `line-height` in the stylesheet) | **Allowed:** `leading-{none,tight,snug,normal,relaxed,loose}`, `leading-3`..`leading-10`, and unitless `leading-[1.25]`. **Forbidden:** arbitrary length leadings (`leading-[20px]`, `leading-[1.5rem]`, `leading-[1em]`) and a font size with a slash line-height (`text-sm/6`, `text-[11px]/4`) — react-native-css 3.0.7 drops the first outright and gives the second no line-height at all. Every allowed form (including the named leadings, which act only through `--tw-leading`) needs a `text-*` size set on the same element or an ancestor (the Text atom always has one) — that's what `--__rn-css-em` resolves to. `test/class-rules.test.ts` enforces both forbidden patterns by scanning every file under `src/`. §0.3 fact 11. |
 
 ### 0.5 Accepted parity differences (the only places native ≠ web)
 
@@ -313,7 +313,7 @@ git commit -m "chore(native): add apps workspace, lightningcss pin, Node 22 CI"
     "nativewind": "5.0.0-preview.4",
     "react": ">=19.2.0",
     "react-native": ">=0.85.0",
-    "react-native-css": "^3.0.7",
+    "react-native-css": "~3.0.7",
     "react-native-reanimated": ">=4.3.1",
     "react-native-screens": ">=4.26.0",
     "react-native-svg": ">=15.15.4"
@@ -665,6 +665,15 @@ describe('lemniscate.css', () => {
     expect(uncommented).not.toContain('@utility leading-*');
   });
 
+  it('every --text-*--line-height in @theme inline is unitless (react-native-css multiplies it by font size)', () => {
+    const lineHeightVars = Object.entries(theme).filter(([name]) => /^text-.*--line-height$/.test(name));
+    expect(lineHeightVars.length).toBeGreaterThan(0);
+    lineHeightVars.forEach(([, value]) => {
+      expect(value).not.toMatch(/px|rem|em/);
+      expect(value).toMatch(/^\d+(\.\d+)?$/);
+    });
+  });
+
   it.each(Object.entries(LIGHT))('light --%s = %s', (name, value) => {
     expect(light[name]).toBe(value);
   });
@@ -903,7 +912,10 @@ Expected: FAIL — `ENOENT … styles/lemniscate.css`.
   --color-blue-50: #eff6ff; --color-blue-100: #dbeafe; --color-blue-200: #bfdbfe; --color-blue-300: #93c5fd; --color-blue-400: #60a5fa; --color-blue-500: #3b82f6; --color-blue-600: #2563eb; --color-blue-700: #1d4ed8; --color-blue-800: #1e40af; --color-blue-900: #1e3a8a; --color-blue-950: #172554;
   --color-purple-50: #faf5ff; --color-purple-100: #f3e8ff; --color-purple-200: #e9d5ff; --color-purple-300: #d8b4fe; --color-purple-400: #c084fc; --color-purple-500: #a855f7; --color-purple-600: #9333ea; --color-purple-700: #7e22ce; --color-purple-800: #6b21a8; --color-purple-900: #581c87; --color-purple-950: #3b0764;
 
-  /* Typography: Inter weights are registered by the app's expo-font plugin */
+  /* Typography: Inter weights are registered by the app's expo-font plugin.
+     --text-*--line-height values below are unitless font-size ratios, not px: react-native-css
+     3.0.7 drops a static line-height and multiplies a var()/calc() one by the element's font size
+     via its internal --__rn-css-em, so a ratio is what lands back on the intended px. */
   --font-sans: Inter;
   --text-2xs: 10px;
   --text-xs: 12px;
@@ -975,10 +987,12 @@ Expected: FAIL — `ENOENT … styles/lemniscate.css`.
   --container-7xl: 1280px;
 }
 
-/* leading-N (Tailwind v3 absolute 4px × N). Static px is dropped by react-native-css 3.0.7 (see above)
-   and nativewind/theme's @utility leading-* still emits a font-relative value after ours, so these are
-   plain rules, which land after the utilities layer: divide by the element font size, which
-   react-native-css exposes as --__rn-css-em, and the runtime multiplies it back to px. */
+/* leading-N (Tailwind v3 absolute 4px × N). Same react-native-css 3.0.7 behaviour as the
+   --text-*--line-height ratios above: static px is dropped, so these divide the target px by
+   --__rn-css-em, which the runtime multiplies by the font size and lands back on the intended px.
+   That means leading-N only comes out right when a text-* size is set on the element itself or an
+   ancestor. nativewind/theme's @utility leading-* still emits a font-relative value after ours,
+   so these are plain rules, which land after the utilities layer. */
 .leading-3 { --tw-leading: calc(12 / var(--__rn-css-em)); line-height: calc(12 / var(--__rn-css-em)); }
 .leading-4 { --tw-leading: calc(16 / var(--__rn-css-em)); line-height: calc(16 / var(--__rn-css-em)); }
 .leading-5 { --tw-leading: calc(20 / var(--__rn-css-em)); line-height: calc(20 / var(--__rn-css-em)); }
@@ -1038,6 +1052,14 @@ const FORBIDDEN_PALETTE_FAMILY =
 // `neutral-white-25` / `neutral-black-975` (the repo's foundation scale) must NOT match — only a
 // *bare* `neutral-<digit>` family (Tailwind's default, unregistered in the theme) is forbidden.
 const FORBIDDEN_NEUTRAL_FAMILY = /-neutral-\d/;
+// R21: react-native-css 3.0.7 drops static line-heights and multiplies var()/calc() ones by the
+// element font size — an arbitrary length leading (`leading-[20px]`) silently breaks; unitless
+// `leading-[1.25]` is fine.
+const ARBITRARY_LEADING = /leading-\[[^\]]*\d(px|rem|em)\]/;
+// R21: a font-size utility with a slash line-height (`text-sm/6`, `text-[11px]/4`) gets no
+// line-height at all under react-native-css 3.0.7. Colour opacity like `text-white/80` must not
+// match — only a recognised size token or arbitrary-length size before the slash counts.
+const TEXT_SLASH_LEADING = /(?<![\w-])text-(2xs|xs|sm|base|lg|xl|[2-9]xl|\[[^\]]+\])\/[\w.[\]]+/;
 
 interface Violation {
   file: string;
@@ -1081,6 +1103,14 @@ describe('class-rules (guards packages/react-native/src against forbidden class 
     expect([...scan(FORBIDDEN_PALETTE_FAMILY), ...scan(FORBIDDEN_NEUTRAL_FAMILY)]).toEqual([]);
   });
 
+  it('never uses an arbitrary-length leading (R21 — react-native-css 3.0.7 drops/mis-scales it)', () => {
+    expect(scan(ARBITRARY_LEADING)).toEqual([]);
+  });
+
+  it('never uses a text size with a slash line-height (R21 — gets no line-height at all)', () => {
+    expect(scan(TEXT_SLASH_LEADING)).toEqual([]);
+  });
+
   // Proves the regexes themselves are correct, independent of what src/ currently contains.
   it('regex self-check: matches the intended cases, rejects the exempted ones', () => {
     expect(REM.test('min-w-[8rem]')).toBe(true);
@@ -1102,6 +1132,16 @@ describe('class-rules (guards packages/react-native/src against forbidden class 
     expect(FORBIDDEN_NEUTRAL_FAMILY.test('bg-neutral-500')).toBe(true);
     expect(FORBIDDEN_NEUTRAL_FAMILY.test('bg-neutral-white-25')).toBe(false);
     expect(FORBIDDEN_NEUTRAL_FAMILY.test('bg-neutral-black-975')).toBe(false);
+
+    expect(ARBITRARY_LEADING.test('leading-[20px]')).toBe(true);
+    expect(ARBITRARY_LEADING.test('leading-[1.5rem]')).toBe(true);
+    expect(ARBITRARY_LEADING.test('leading-[1.25]')).toBe(false);
+    expect(ARBITRARY_LEADING.test('leading-5')).toBe(false);
+
+    expect(TEXT_SLASH_LEADING.test('text-sm/6')).toBe(true);
+    expect(TEXT_SLASH_LEADING.test('text-[11px]/4')).toBe(true);
+    expect(TEXT_SLASH_LEADING.test('text-white/80')).toBe(false);
+    expect(TEXT_SLASH_LEADING.test('text-xs')).toBe(false);
   });
 });
 ```
@@ -5259,3 +5299,5 @@ Publishing (`pnpm --filter @aumraa/breathe-native publish --no-git-checks` with 
 3. **NativeWind v5 stable** (currently `5.0.0-preview.4`): bump the version, then re-run spike checks S1–S14.
 4. **Expo SDK 57:** upgrade the catalog and peer ranges together.
 5. **Confirm D5 (custom Calendar) and D6 (gradient as rendered today)** with the product owner. Changing D6 is a one-line change to `BRAND_GRADIENT`.
+6. **On any react-native-css or nativewind version bump**, re-run the line-height compile probe (`scratchpad\t3\lh-probe.cjs`) and the S1b device check — the peer is pinned to `~3.0.7` (Task 2) specifically because the fix relies on the internal `--__rn-css-em` name, which a later 3.x could rename.
+7. **Comment on upstream issue react-native-css#254** with a repro: static `line-height: 20px` is dropped, and `line-height: var(--x)` with `--x: 20px` becomes 280 on 14px text. Root cause: units are stripped before runtime. Proposed fix: emit length line-heights as px at compile time and em-multiply only unitless values.

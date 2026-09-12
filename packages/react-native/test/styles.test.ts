@@ -121,6 +121,15 @@ describe('lemniscate.css', () => {
     expect(uncommented).not.toContain('@utility leading-*');
   });
 
+  it('every --text-*--line-height in @theme inline is unitless (react-native-css multiplies it by font size)', () => {
+    const lineHeightVars = Object.entries(theme).filter(([name]) => /^text-.*--line-height$/.test(name));
+    expect(lineHeightVars.length).toBeGreaterThan(0);
+    lineHeightVars.forEach(([, value]) => {
+      expect(value).not.toMatch(/px|rem|em/);
+      expect(value).toMatch(/^\d+(\.\d+)?$/);
+    });
+  });
+
   it.each(Object.entries(LIGHT))('light --%s = %s', (name, value) => {
     expect(light[name]).toBe(value);
   });

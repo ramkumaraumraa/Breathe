@@ -130,4 +130,74 @@ describe('Button', () => {
     await render(<Button variant="gradient" disabled>Go</Button>);
     expect(StyleSheet.flatten(screen.getByRole('button').props.style)?.experimental_backgroundImage).toBeUndefined();
   });
+
+  it('turns the link label primary-700 and underlined while pressed', async () => {
+    await render(
+      <Button variant="link" testOnly_pressed>
+        Go
+      </Button>,
+    );
+    expect(screen.getByText('Go').props.className).toContain('text-primary-700');
+    expect(screen.getByText('Go').props.className).toContain('underline');
+  });
+
+  it('shows the gradient pressed overlay only while pressed', async () => {
+    await render(
+      <Button variant="gradient" testOnly_pressed>
+        Go
+      </Button>,
+    );
+    expect(screen.getByTestId('button-pressed-overlay')).toBeOnTheScreen();
+
+    await render(<Button variant="gradient">Go</Button>);
+    expect(screen.queryByTestId('button-pressed-overlay')).toBeNull();
+  });
+
+  it('keeps the neutral disabled border on outline and drops the variant border', async () => {
+    await render(
+      <Button variant="outline" disabled>
+        X
+      </Button>,
+    );
+    const cls = screen.getByRole('button').props.className;
+    expect(cls).toContain('border-neutral-white-200');
+    expect(cls).not.toContain('border-primary-500');
+  });
+
+  it('sizes icon-xs icons at 14', async () => {
+    await render(<Button size="icon-xs" leftIcon={<Icon as={Plus} />} accessibilityLabel="Add" />);
+    expect(screen.getByTestId('icon-Plus').props.size).toBe(14);
+  });
+
+  it('lets a caller override size/variant classes (e.g. the Calendar day button)', async () => {
+    await render(
+      <Button variant="ghost" className="h-9 w-9 p-0 bg-primary active:bg-primary">
+        5
+      </Button>,
+    );
+    const cls = screen.getByRole('button').props.className;
+    expect(cls).toContain('h-9');
+    expect(cls).toContain('w-9');
+    expect(cls).toContain('p-0');
+    expect(cls).toContain('bg-primary');
+    expect(cls).not.toContain('h-11');
+    expect(cls).not.toContain('px-4');
+    expect(cls).not.toContain('bg-transparent');
+    expect(cls).not.toContain('active:bg-primary-50');
+  });
+
+  it('warns once for an icon-only button without an accessible name, and not when one is given', async () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    await render(<Button leftIcon={<Icon as={Plus} />} />);
+    expect(warn).toHaveBeenCalledTimes(1);
+    warn.mockClear();
+    await render(<Button leftIcon={<Icon as={Plus} />} accessibilityLabel="Add" />);
+    expect(warn).not.toHaveBeenCalled();
+    warn.mockRestore();
+  });
+
+  it('caps the label to a single line', async () => {
+    await render(<Button>Save</Button>);
+    expect(screen.getByText('Save').props.numberOfLines).toBe(1);
+  });
 });

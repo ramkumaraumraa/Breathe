@@ -57,6 +57,7 @@
 10. **Expo font weights on Android**: `expo-font` config plugin `android.fonts[].fontDefinitions[{path, weight}]` makes `fontFamily: 'Inter'` + `fontWeight` work ⇒ `font-medium/semibold/bold` classes need no mapping. Requires a **development build** (not Expo Go).
 11. **react-native-css 3.0.7 drops every static `line-height` and multiplies `var()`/`calc()` line-heights by the element font size** (found on device 2026-09-12: `src/compiler/declarations.ts:2193-2219` wraps px/unitless values so `src/native/styles/line-height.ts:4-8` discards them; `:10-20` multiplies by `--__rn-css-em`).
     ⇒ `--text-*--line-height` are font-size ratios and `.leading-3`…`.leading-10` are `calc(4N / var(--__rn-css-em))`; both resolve to exact px on device (Task 3 note, R21).
+12. **react-native-css drops a function-form `style` on any component that also has a className** (it merges to `[classStyle, fn]`; RN only calls a top-level function). Atom props type `style` as `StyleProp<ViewStyle>`, not Pressable's function form.
 
 ### 0.4 Web → Native translation rules (apply to every atom)
 
@@ -78,7 +79,7 @@
 | R14 | `transition-*`, `duration-*` | Drop, unless motion is the component's point (Switch, Progress, Skeleton, Spinner) → Reanimated with the same duration/easing. |
 | R15 | `animate-spin` / `animate-pulse` | `<Spinner/>` / `<Skeleton/>`. |
 | R16 | `bg-gradient-brand` | `<Gradient/>` layer. |
-| R17 | `ring-offset-*`, `outline-none`, `cursor-*`, `select-none`, `pointer-events-none`, `whitespace-nowrap`, `file:*`, `peer-*` | Drop (`whitespace-nowrap` → `numberOfLines={1}` where text can wrap). |
+| R17 | `ring-offset-*`, `outline-none`, `cursor-*`, `select-none`, `pointer-events-none`, `whitespace-nowrap`, `file:*`, `peer-*` | Drop (`whitespace-nowrap` → `numberOfLines={1}` where text can wrap). Button labels use `numberOfLines={1}`. |
 | R18 | `inline-flex` | `flex-row` (+ `self-start` when the web element was inline and must not stretch). |
 | R19 | Default Tailwind palette (`bg-red-50`) | Only families defined in the theme with v3 hex (slate, gray, red, orange, amber, green, emerald, cyan, blue, purple). Add a family's v3 hex before using it. |
 | R20 | `asChild` on Button for links | RN idiom is the reverse: `<Link href="…" asChild><Button/></Link>`. Button has no `asChild`. |
@@ -2307,6 +2308,76 @@ describe('Button', () => {
     await render(<Button variant="gradient" disabled>Go</Button>);
     expect(StyleSheet.flatten(screen.getByRole('button').props.style)?.experimental_backgroundImage).toBeUndefined();
   });
+
+  it('turns the link label primary-700 and underlined while pressed', async () => {
+    await render(
+      <Button variant="link" testOnly_pressed>
+        Go
+      </Button>,
+    );
+    expect(screen.getByText('Go').props.className).toContain('text-primary-700');
+    expect(screen.getByText('Go').props.className).toContain('underline');
+  });
+
+  it('shows the gradient pressed overlay only while pressed', async () => {
+    await render(
+      <Button variant="gradient" testOnly_pressed>
+        Go
+      </Button>,
+    );
+    expect(screen.getByTestId('button-pressed-overlay')).toBeOnTheScreen();
+
+    await render(<Button variant="gradient">Go</Button>);
+    expect(screen.queryByTestId('button-pressed-overlay')).toBeNull();
+  });
+
+  it('keeps the neutral disabled border on outline and drops the variant border', async () => {
+    await render(
+      <Button variant="outline" disabled>
+        X
+      </Button>,
+    );
+    const cls = screen.getByRole('button').props.className;
+    expect(cls).toContain('border-neutral-white-200');
+    expect(cls).not.toContain('border-primary-500');
+  });
+
+  it('sizes icon-xs icons at 14', async () => {
+    await render(<Button size="icon-xs" leftIcon={<Icon as={Plus} />} accessibilityLabel="Add" />);
+    expect(screen.getByTestId('icon-Plus').props.size).toBe(14);
+  });
+
+  it('lets a caller override size/variant classes (e.g. the Calendar day button)', async () => {
+    await render(
+      <Button variant="ghost" className="h-9 w-9 p-0 bg-primary active:bg-primary">
+        5
+      </Button>,
+    );
+    const cls = screen.getByRole('button').props.className;
+    expect(cls).toContain('h-9');
+    expect(cls).toContain('w-9');
+    expect(cls).toContain('p-0');
+    expect(cls).toContain('bg-primary');
+    expect(cls).not.toContain('h-11');
+    expect(cls).not.toContain('px-4');
+    expect(cls).not.toContain('bg-transparent');
+    expect(cls).not.toContain('active:bg-primary-50');
+  });
+
+  it('warns once for an icon-only button without an accessible name, and not when one is given', async () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    await render(<Button leftIcon={<Icon as={Plus} />} />);
+    expect(warn).toHaveBeenCalledTimes(1);
+    warn.mockClear();
+    await render(<Button leftIcon={<Icon as={Plus} />} accessibilityLabel="Add" />);
+    expect(warn).not.toHaveBeenCalled();
+    warn.mockRestore();
+  });
+
+  it('caps the label to a single line', async () => {
+    await render(<Button>Save</Button>);
+    expect(screen.getByText('Save').props.numberOfLines).toBe(1);
+  });
 });
 ```
 
@@ -2320,7 +2391,7 @@ Expected: FAIL — module not found.
 ```tsx
 import { cva, type VariantProps } from 'class-variance-authority';
 import * as React from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, View, type StyleProp, type ViewStyle } from 'react-native';
 import { cn } from '../lib/utils';
 import { BRAND_GRADIENT } from './gradient';
 import { IconSizeContext } from './icon';
@@ -2328,17 +2399,17 @@ import { Spinner } from './spinner';
 import { Text, TextClassContext } from './text';
 
 // Container: bg, border, radius, height, press state. Web hover:* dropped (touch).
-const containerVariants = cva('shrink-0 flex-row items-center justify-center overflow-hidden active:translate-y-px', {
+const containerVariants = cva('shrink-0 flex-row items-center justify-center active:translate-y-px', {
   variants: {
     variant: {
       default: 'border border-transparent bg-primary-500 shadow-sm active:bg-primary-700',
-      gradient: 'border border-transparent shadow-sm',
+      gradient: 'border border-transparent shadow-sm overflow-hidden',
       destructive: 'border border-transparent bg-negative-500 shadow-sm active:bg-negative-700',
       outline: 'border border-primary-500 bg-neutral-white-25 active:bg-primary-50',
       brandOutline: 'border-[0.7px] border-neutral-white-300 bg-transparent active:bg-neutral-white-75',
       secondary: 'border border-transparent bg-neutral-white-50 active:bg-neutral-white-100',
       ghost: 'border border-transparent bg-transparent active:bg-primary-50',
-      link: 'border border-transparent bg-transparent px-0',
+      link: 'border border-transparent bg-transparent px-0', // web keeps the size's px-4 after twMerge too; parity
       success: 'border border-transparent bg-positive-500 shadow-sm active:bg-positive-700',
       warning: 'border border-transparent bg-alert-500 shadow-sm active:bg-alert-700',
       danger: 'border border-transparent bg-negative-500 shadow-sm active:bg-negative-700',
@@ -2413,10 +2484,13 @@ const ICON_SIZE: Record<NonNullable<ButtonSize>, number> = {
   default: 16, xs: 14, sm: 16, lg: 16, xl: 20, xxl: 20, icon: 16, 'icon-sm': 16, 'icon-xs': 14,
 };
 
+// Bigger touch target than the visual box for the small/icon-only sizes (web has no equivalent; touch-only).
+const HIT_SLOP: Partial<Record<NonNullable<ButtonSize>, number>> = { xs: 8, 'icon-xs': 8, sm: 4, 'icon-sm': 4 };
+
 type ButtonVariant = VariantProps<typeof buttonVariants>['variant'];
 type ButtonSize = VariantProps<typeof buttonVariants>['size'];
 
-type ButtonProps = Omit<React.ComponentProps<typeof Pressable>, 'children' | 'disabled'> & {
+type ButtonProps = Omit<React.ComponentProps<typeof Pressable>, 'children' | 'disabled' | 'style'> & {
   variant?: ButtonVariant;
   size?: ButtonSize;
   disabled?: boolean;
@@ -2425,6 +2499,7 @@ type ButtonProps = Omit<React.ComponentProps<typeof Pressable>, 'children' | 'di
   rightIcon?: React.ReactNode;
   loading?: boolean;
   loadingText?: string;
+  style?: StyleProp<ViewStyle>;
 };
 
 function Button({
@@ -2438,21 +2513,29 @@ function Button({
   loading = false,
   loadingText,
   accessibilityState,
+  accessibilityLabel,
   style,
   ...props
 }: ButtonProps) {
+  // Not destructured above so it still lands in `...props` and reaches the Pressable.
+  const ariaLabel = (props as { 'aria-label'?: string })['aria-label'];
   const isDisabled = disabled || loading;
   const isIconOnly = !children && !!(leftIcon || rightIcon || loading);
   const resolvedSize: NonNullable<ButtonSize> = isIconOnly && (size == null || size === 'default') ? 'icon' : size ?? 'default';
   const label = loading && loadingText ? loadingText : children;
-  const content = typeof label === 'string' || typeof label === 'number' ? <Text>{label}</Text> : label;
+  const content = typeof label === 'string' || typeof label === 'number' ? <Text numberOfLines={1}>{label}</Text> : label;
   const isGradient = variant === 'gradient' && !isDisabled;
+
+  if (__DEV__ && isIconOnly && !accessibilityLabel && !ariaLabel) {
+    console.warn('Button: icon-only buttons need an accessibilityLabel');
+  }
 
   return (
     <Pressable
       role="button"
       disabled={isDisabled}
       accessibilityState={{ ...accessibilityState, disabled: isDisabled, busy: loading }}
+      accessibilityLabel={accessibilityLabel}
       className={cn(
         buttonVariants({ variant, size: resolvedSize, disabled: isDisabled }),
         variant === 'link' && !isIconOnly && 'h-auto',
@@ -2461,15 +2544,19 @@ function Button({
       // Gradient painted on the Pressable itself so it renders under the transparent border like CSS
       // (a child layer would sit inside the border and Android clips it to the padding box). Never give
       // this Pressable transition-*/animate-* classes: Reanimated can't animate the gradient (reanimated#8297).
-      style={
-        !isGradient ? style : typeof style === 'function' ? (state) => [GRADIENT_STYLE, style(state)] : [GRADIENT_STYLE, style]
-      }
+      style={isGradient ? [GRADIENT_STYLE, style] : style}
+      hitSlop={HIT_SLOP[resolvedSize]}
       {...props}>
       {({ pressed }) => (
         <IconSizeContext.Provider value={ICON_SIZE[resolvedSize]}>
           <TextClassContext.Provider value={buttonTextVariants({ variant, size: resolvedSize, pressed, disabled: isDisabled })}>
             {isGradient && pressed && (
-              <View pointerEvents="none" className="absolute inset-0" style={{ backgroundColor: 'rgba(0,0,0,0.06)' }} />
+              <View
+                testID="button-pressed-overlay"
+                pointerEvents="none"
+                className="absolute inset-0"
+                style={{ backgroundColor: 'rgba(0,0,0,0.06)' }}
+              />
             )}
             {/* accessible={false}: the Pressable already reports busy via its own accessibilityState */}
             {loading ? <Spinner accessible={false} /> : leftIcon}
@@ -2494,7 +2581,7 @@ export * from './atoms/button';
 - [ ] **Step 4: Run — expect PASS**
 
 Run: `pnpm --filter @aumraa/breathe-native test test/atoms/button.test.tsx && pnpm --filter @aumraa/breathe-native typecheck`
-Expected: all Button tests pass; tsc 0.
+Expected: all 38 Button tests pass (22 parity + 16 behaviour); tsc 0.
 
 - [ ] **Step 5: Catalog section** — `apps/native-catalog/sections/ButtonSection.tsx`
 

@@ -15,14 +15,33 @@ describe('Skeleton', () => {
     expect(screen.getByTestId('sk', { hidden: true }).props.importantForAccessibility).toBe('no-hide-descendants');
   });
 
-  it('pulses opacity 1 -> 0.5 over 1s', async () => {
+  it('pulses opacity 1 -> 0.75 -> 0.5 -> 1 over 2s', async () => {
     jest.useFakeTimers();
     await render(<Skeleton testID="sk" />);
     const el = screen.getByTestId('sk', { hidden: true });
     expect(el).toHaveAnimatedStyle({ opacity: 1 });
     await act(async () => {
+      jest.advanceTimersByTime(500);
+    });
+    expect(el).toHaveAnimatedStyle({ opacity: 0.75 });
+    await act(async () => {
+      jest.advanceTimersByTime(500);
+    });
+    expect(el).toHaveAnimatedStyle({ opacity: 0.5 });
+    await act(async () => {
+      jest.advanceTimersByTime(1000);
+    });
+    expect(el).toHaveAnimatedStyle({ opacity: 1 });
+  });
+
+  it('merges consumer style with the pulse animation', async () => {
+    jest.useFakeTimers();
+    await render(<Skeleton testID="sk" style={{ marginTop: 4 }} />);
+    const el = screen.getByTestId('sk', { hidden: true });
+    await act(async () => {
       jest.advanceTimersByTime(1000);
     });
     expect(el).toHaveAnimatedStyle({ opacity: 0.5 });
+    expect(el).toHaveStyle({ marginTop: 4 });
   });
 });

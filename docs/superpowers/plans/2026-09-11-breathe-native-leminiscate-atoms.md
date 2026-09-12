@@ -102,6 +102,7 @@
 | Slider | Thumb is the OS thumb (tinted), not a 20px white disc with 2px primary border | Native control (Fact 8). |
 | Calendar | Single-date mode only | Repo only uses `mode="single"`. |
 | All | Focus rings only on text inputs | Keyboard focus rings are web-only. |
+| Skeleton | Holds still (solid block) under OS Reduce Motion; web animate-pulse ignores it | Decorative motion; Spinner (essential) keeps spinning |
 
 ### 0.6 File structure (created by this plan)
 
@@ -3185,15 +3186,34 @@ describe('Skeleton', () => {
     expect(screen.getByTestId('sk', { hidden: true }).props.importantForAccessibility).toBe('no-hide-descendants');
   });
 
-  it('pulses opacity 1 -> 0.5 over 1s', async () => {
+  it('pulses opacity 1 -> 0.75 -> 0.5 -> 1 over 2s', async () => {
     jest.useFakeTimers();
     await render(<Skeleton testID="sk" />);
     const el = screen.getByTestId('sk', { hidden: true });
     expect(el).toHaveAnimatedStyle({ opacity: 1 });
     await act(async () => {
+      jest.advanceTimersByTime(500);
+    });
+    expect(el).toHaveAnimatedStyle({ opacity: 0.75 });
+    await act(async () => {
+      jest.advanceTimersByTime(500);
+    });
+    expect(el).toHaveAnimatedStyle({ opacity: 0.5 });
+    await act(async () => {
+      jest.advanceTimersByTime(1000);
+    });
+    expect(el).toHaveAnimatedStyle({ opacity: 1 });
+  });
+
+  it('merges consumer style with the pulse animation', async () => {
+    jest.useFakeTimers();
+    await render(<Skeleton testID="sk" style={{ marginTop: 4 }} />);
+    const el = screen.getByTestId('sk', { hidden: true });
+    await act(async () => {
       jest.advanceTimersByTime(1000);
     });
     expect(el).toHaveAnimatedStyle({ opacity: 0.5 });
+    expect(el).toHaveStyle({ marginTop: 4 });
   });
 });
 ```
@@ -3210,6 +3230,7 @@ import * as React from 'react';
 import { View } from 'react-native';
 import Animated, {
   Easing,
+  ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
@@ -3223,11 +3244,17 @@ const PULSE = { duration: 1000, easing: Easing.bezier(0.4, 0, 0.6, 1) };
 type SkeletonProps = React.ComponentProps<typeof View>;
 
 /** Web: animate-pulse, opacity 1 → 0.5 → 1 every 2s. */
-function Skeleton({ className, ...props }: SkeletonProps) {
+function Skeleton({ className, style, ...props }: SkeletonProps) {
   const opacity = useSharedValue(1);
 
   React.useEffect(() => {
-    opacity.value = withRepeat(withSequence(withTiming(0.5, PULSE), withTiming(1, PULSE)), -1);
+    opacity.value = withRepeat(
+      withSequence(withTiming(0.5, PULSE), withTiming(1, PULSE)),
+      -1,
+      false,
+      undefined,
+      ReduceMotion.System, // decorative motion: honour Reduce Motion; the sequence ends at 1 so it freezes as a solid block
+    );
   }, [opacity]);
 
   const pulse = useAnimatedStyle(() => ({ opacity: opacity.value }));
@@ -3237,8 +3264,8 @@ function Skeleton({ className, ...props }: SkeletonProps) {
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants"
       className={cn('rounded-md bg-muted', className)}
-      style={pulse}
       {...props}
+      style={[pulse, style]}
     />
   );
 }
@@ -3254,9 +3281,9 @@ export * from './atoms/skeleton';
 
 - [ ] **Step 4: Run — expect PASS**
 
-Run: `pnpm --filter @aumraa/breathe-native test test/atoms/skeleton.test.tsx` → 3 passed.
+Run: `pnpm --filter @aumraa/breathe-native test test/atoms/skeleton.test.tsx` → 4 passed.
 
-- [ ] **Step 5: Device check S10** — in the catalog (Task 16), the skeleton shows a muted rounded block that pulses. If it pulses but the colour or radius is missing, NativeWind isn't styling `Animated.View`: wrap it as `<Animated.View style={pulse}><View className={cn('rounded-md bg-muted', className)} {...props} /></Animated.View>`.
+- [ ] **Step 5: Device check S10** — in the catalog (Task 16), the skeleton shows a muted rounded block that pulses. `className` on reanimated's `Animated.View` is expected to be styled: NativeWind's Metro resolver redirects reanimated's `import { View } from 'react-native'` to react-native-css's `View`, and `className` passes through `filterNonAnimatedProps`. If the colour or radius is still missing, fall back to wrapping it — `<Animated.View style={pulse}><View className={cn('rounded-md bg-muted', className)} {...props} /></Animated.View>` — keeping the outer view's `style={[pulse, style]}`.
 
 - [ ] **Step 6: Commit**
 

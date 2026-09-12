@@ -138,7 +138,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | 6 | Text | S | ☑ |
 | 7 | Icon | S | ☑ |
 | 8 | Gradient | S | ☑ |
-| 9 | Spinner | S | ☐ |
+| 9 | Spinner | S | ☑ |
 | 10 | Button | L | ☐ |
 | 11 | Label | S | ☐ |
 | 12 | Badge | S | ☐ |
@@ -1765,6 +1765,7 @@ Reproduces the web `.bg-gradient-brand` utility exactly (D6), using RN's CSS gra
 
 ```tsx
 import { render, screen } from '@testing-library/react-native';
+import { StyleSheet } from 'react-native';
 import { BRAND_GRADIENT, Gradient } from '../../src/atoms/gradient';
 
 describe('Gradient', () => {
@@ -1777,7 +1778,15 @@ describe('Gradient', () => {
     const g = screen.getByTestId('g');
     expect(g.props.className).toBe('absolute inset-0');
     expect(g.props.pointerEvents).toBe('none');
-    expect(g.props.style).toEqual([{ experimental_backgroundImage: BRAND_GRADIENT }, undefined]);
+    expect(StyleSheet.flatten(g.props.style)).toEqual({ experimental_backgroundImage: BRAND_GRADIENT });
+  });
+
+  it('merges a custom style with the gradient style', async () => {
+    await render(<Gradient testID="g" style={{ opacity: 0.5 }} />);
+    expect(StyleSheet.flatten(screen.getByTestId('g').props.style)).toEqual({
+      experimental_backgroundImage: BRAND_GRADIENT,
+      opacity: 0.5,
+    });
   });
 
   it('accepts a custom gradient', async () => {
@@ -1788,6 +1797,7 @@ describe('Gradient', () => {
   });
 });
 ```
+(Deviation, found in Task 8 review: `g.props.style` is brittle — it asserts the exact `[style, undefined]` tuple shape RN happens to produce for an unstyled element, which breaks the moment a caller passes their own `style`. Replaced with `StyleSheet.flatten(g.props.style)` and added a test that passes `style={{ opacity: 0.5 }}` and asserts the flattened style contains both the gradient layer and the caller's style.)
 
 - [ ] **Step 2: Run — expect FAIL**
 
@@ -1808,7 +1818,8 @@ type GradientProps = React.ComponentProps<typeof View> & { gradient?: string };
 
 /**
  * Static gradient layer, by default absolutely filling its parent (give the parent `overflow-hidden`
- * and a radius). Never make this an Animated view (reanimated#8297). Animate a parent instead.
+ * and a radius). Never make this an Animated view (reanimated#8297), and don't give it `animate-*` or
+ * `transition-*` classes (react-native-css would wrap it in a Reanimated view). Animate a parent instead.
  */
 function Gradient({ gradient = BRAND_GRADIENT, className, style, ...props }: GradientProps) {
   return (
@@ -1833,7 +1844,7 @@ export * from './atoms/gradient';
 - [ ] **Step 4: Run — expect PASS**
 
 Run: `pnpm --filter @aumraa/breathe-native test test/atoms/gradient.test.tsx`
-Expected: 3 passed.
+Expected: 4 passed.
 
 - [ ] **Step 5: Commit**
 
@@ -1908,7 +1919,7 @@ function Spinner({ className, size }: SpinnerProps) {
   const spin = useAnimatedStyle(() => ({ transform: [{ rotate: `${rotation.value}deg` }] }));
 
   return (
-    <Animated.View role="progressbar" accessibilityState={{ busy: true }} style={spin}>
+    <Animated.View role="progressbar" accessible accessibilityState={{ busy: true }} style={spin}>
       <Icon as={Loader2} className={className} size={size} />
     </Animated.View>
   );
@@ -1917,6 +1928,7 @@ function Spinner({ className, size }: SpinnerProps) {
 export { Spinner };
 export type { SpinnerProps };
 ```
+(Deviation, found while implementing Task 9: `role="progressbar"` alone did not satisfy `getByRole('progressbar')` in RNTL 14 — `queryAllByRole` first filters candidates through `isAccessibilityElement()` (`@testing-library/react-native/dist/helpers/accessibility.js`), which for a plain `View` requires an explicit `accessible` prop (or a host Text/TextInput/Switch); `role`/`accessibilityRole` alone don't imply it. Fix: add `accessible` alongside `role="progressbar"`. `accessibilityRole="progressbar"` was tried too (per this plan's suggested fix) but was not itself sufficient without `accessible`, and turned out to be unnecessary once `accessible` was added (`getRole()` already reads `role` when present), so it was left out to keep the diff minimal. `role`/`accessibilityState` typechecked on `Animated.View` with no changes needed.)
 
 Append to `packages/react-native/src/index.ts`:
 ```ts

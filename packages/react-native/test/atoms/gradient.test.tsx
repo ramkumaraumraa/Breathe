@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react-native';
+import { StyleSheet } from 'react-native';
 import { BRAND_GRADIENT, Gradient } from '../../src/atoms/gradient';
 
 describe('Gradient', () => {
@@ -11,7 +12,15 @@ describe('Gradient', () => {
     const g = screen.getByTestId('g');
     expect(g.props.className).toBe('absolute inset-0');
     expect(g.props.pointerEvents).toBe('none');
-    expect(g.props.style).toEqual([{ experimental_backgroundImage: BRAND_GRADIENT }, undefined]);
+    expect(StyleSheet.flatten(g.props.style)).toEqual({ experimental_backgroundImage: BRAND_GRADIENT });
+  });
+
+  it('merges a custom style with the gradient style', async () => {
+    await render(<Gradient testID="g" style={{ opacity: 0.5 }} />);
+    expect(StyleSheet.flatten(screen.getByTestId('g').props.style)).toEqual({
+      experimental_backgroundImage: BRAND_GRADIENT,
+      opacity: 0.5,
+    });
   });
 
   it('accepts a custom gradient', async () => {

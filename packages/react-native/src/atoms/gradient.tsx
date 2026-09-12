@@ -9,7 +9,8 @@ type GradientProps = React.ComponentProps<typeof View> & { gradient?: string };
 
 /**
  * Static gradient layer, by default absolutely filling its parent (give the parent `overflow-hidden`
- * and a radius). Never make this an Animated view (reanimated#8297). Animate a parent instead.
+ * and a radius). Never make this an Animated view (reanimated#8297), and don't give it `animate-*` or
+ * `transition-*` classes (react-native-css would wrap it in a Reanimated view). Animate a parent instead.
  */
 function Gradient({ gradient = BRAND_GRADIENT, className, style, ...props }: GradientProps) {
   return (

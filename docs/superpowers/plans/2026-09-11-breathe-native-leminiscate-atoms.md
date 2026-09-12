@@ -3471,16 +3471,12 @@ Reference: repo `ui/avatar.tsx`. Root `relative flex h-10 w-10 shrink-0 overflow
 - [ ] **Step 1: Write the failing test** — `packages/react-native/test/atoms/avatar.test.tsx`
 
 ```tsx
-import { render, screen } from '@testing-library/react-native';
-import { Avatar, AvatarFallback } from '../../src/atoms/avatar';
+import { act, fireEvent, render, screen } from '@testing-library/react-native';
+import { Avatar, AvatarFallback, AvatarImage } from '../../src/atoms/avatar';
 
 describe('Avatar', () => {
-  // Deviation from the plan: @rn-primitives/avatar's Root starts at status "error" (Fallback
-  // shows), but AvatarImage's mount effect flips status to "loading" as soon as it sees a valid
-  // `source` — hiding Fallback — and Jest never fires the Image's onLoad/onError to move it out of
-  // "loading". So a test that renders AvatarImage alongside AvatarFallback can never observe the
-  // fallback text. This test renders without AvatarImage so status stays "error" and Fallback shows,
-  // which is the real-world case this component exists for (no photo on file).
+  // Jest never fires onLoad/onError, so the initial-render test omits AvatarImage; the error path
+  // is covered below.
   it('shows the fallback initials when there is no image', async () => {
     await render(
       <Avatar alt="Ravi Kumar" testID="av">
@@ -3491,6 +3487,19 @@ describe('Avatar', () => {
     expect(screen.getByTestId('av').props.className).toBe(
       'relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full',
     );
+  });
+
+  it('falls back to initials when the image errors', async () => {
+    await render(
+      <Avatar alt="Ravi Kumar">
+        <AvatarImage testID="img" source={{ uri: 'https://example.com/a.png' }} />
+        <AvatarFallback>RK</AvatarFallback>
+      </Avatar>,
+    );
+    expect(screen.queryByText('RK')).toBeNull();
+    expect(screen.getByTestId('img').props.alt).toBe('Ravi Kumar');
+    await act(async () => { fireEvent(screen.getByTestId('img'), 'error', { nativeEvent: {} }); });
+    expect(screen.getByText('RK')).toBeOnTheScreen();
   });
 });
 ```
@@ -3544,7 +3553,7 @@ export * from './atoms/avatar';
 
 - [ ] **Step 4: Run — expect PASS**
 
-Run: `pnpm --filter @aumraa/breathe-native test test/atoms/avatar.test.tsx` → 1 passed.
+Run: `pnpm --filter @aumraa/breathe-native test test/atoms/avatar.test.tsx` → 2 passed.
 
 - [ ] **Step 5: Catalog** — `apps/native-catalog/sections/DisplaySection.tsx` (Separator, Skeleton, Progress, Avatar)
 
@@ -5630,3 +5639,4 @@ Publishing (`pnpm --filter @aumraa/breathe-native publish --no-git-checks` with 
 6. **On any react-native-css or nativewind version bump**, re-run the line-height compile probe (`scratchpad\t3\lh-probe.cjs`) and the S1b device check — the peer is pinned to `~3.0.7` (Task 2) specifically because the fix relies on the internal `--__rn-css-em` name, which a later 3.x could rename.
 7. **Comment on upstream issue react-native-css#254** with a repro: static `line-height: 20px` is dropped, and `line-height: var(--x)` with `--x: 20px` becomes 280 on 14px text. Root cause: units are stripped before runtime. Proposed fix: emit length line-heights as px at compile time and em-multiply only unitless values.
 8. **Progress: try percentage translate** (`` translateX: `${-(100-p)}%` ``, RN 0.85 typed) on device; if it works, drop `onLayout`/`trackWidth`.
+9. **Avatar 16b:** on device the primitive hides the fallback during image loading (blank circle until `onLoad`); web/Radix shows initials until loaded. Decide whether to own a `loaded` flag and keep initials visible while loading (~15 lines, diverges from rnr).

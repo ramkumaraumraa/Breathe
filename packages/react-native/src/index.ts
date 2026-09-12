@@ -8,3 +8,4 @@ export * from './atoms/button';
 export * from './atoms/label';
 export * from './atoms/badge';
 export * from './atoms/separator';
+export * from './atoms/skeleton';

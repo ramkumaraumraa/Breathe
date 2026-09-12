@@ -149,7 +149,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | 11 | Label | S | ☑ |
 | 12 | Badge | S | ☑ |
 | 13 | Separator | S | ☑ |
-| 14 | Skeleton | S | ☐ |
+| 14 | Skeleton | S | ☑ |
 | 15 | Progress | M | ☐ |
 | 16 | Avatar | S | ☐ |
 | 17 | Input + focus ring | M | ☐ |
@@ -165,7 +165,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | 27 | Calendar | L | ☐ |
 | 28 | Exports, README, pack | S | ☐ |
 
-**Testing convention (all tasks):** Tests live in `packages/react-native/test/`, mirror `src/` paths, and assert (a) the variant functions return the repo's classes (parity), (b) behaviour (press, disabled, value changes). In Jest, NativeWind's import rewrite does not run, so `className` is a plain prop on host components — assert it with `el.props.className`. All RNTL calls are awaited.
+**Testing convention (all tasks):** Tests live in `packages/react-native/test/`, mirror `src/` paths, and assert (a) the variant functions return the repo's classes (parity), (b) behaviour (press, disabled, value changes). In Jest, NativeWind's import rewrite does not run, so `className` is a plain prop on host components — assert it with `el.props.className`. All RNTL calls are awaited. Atoms hidden from accessibility (`aria-hidden`, `accessibilityElementsHidden`, `importantForAccessibility="no-hide-descendants"`) are excluded from RNTL queries by default; query them with `{ hidden: true }`.
 
 **Run tests:** `pnpm --filter @aumraa/breathe-native test` (from project root).
 
@@ -3092,12 +3092,19 @@ describe('Separator', () => {
   // `{ hidden: true }` opts back in to querying it.
   it('is a 1px horizontal border-coloured line by default', async () => {
     await render(<Separator testID="s" />);
-    expect(screen.getByTestId('s', { hidden: true }).props.className).toBe('shrink-0 bg-border h-[1px] w-full');
+    const el = screen.getByTestId('s', { hidden: true });
+    expect(el.props.className).toBe('shrink-0 bg-border h-[1px] w-full');
+    expect(el.props['aria-hidden']).toBe(true);
   });
 
   it('supports vertical orientation', async () => {
     await render(<Separator testID="s" orientation="vertical" />);
     expect(screen.getByTestId('s', { hidden: true }).props.className).toBe('shrink-0 bg-border h-full w-[1px]');
+  });
+
+  it('is not hidden and has role="separator" when decorative is false', async () => {
+    await render(<Separator testID="s" decorative={false} />);
+    expect(screen.getByTestId('s').props.role).toBe('separator');
   });
 });
 ```
@@ -3138,7 +3145,7 @@ export * from './atoms/separator';
 
 - [ ] **Step 4: Run — expect PASS**, then **Step 5: Commit**
 
-Run: `pnpm --filter @aumraa/breathe-native test test/atoms/separator.test.tsx` → 2 passed.
+Run: `pnpm --filter @aumraa/breathe-native test test/atoms/separator.test.tsx` → 3 passed.
 
 ```bash
 git add packages/react-native
@@ -3161,19 +3168,32 @@ Reference: repo `ui/skeleton.tsx`: `animate-pulse rounded-md bg-muted`. Tailwind
 - [ ] **Step 1: Write the failing test** — `packages/react-native/test/atoms/skeleton.test.tsx`
 
 ```tsx
-import { render, screen } from '@testing-library/react-native';
+import { act, render, screen } from '@testing-library/react-native';
 import { Skeleton } from '../../src/atoms/skeleton';
+
+afterEach(() => jest.useRealTimers());
 
 describe('Skeleton', () => {
   it('uses the web muted block and merges sizing classes', async () => {
     await render(<Skeleton testID="sk" className="h-4 w-24" />);
-    expect(screen.getByTestId('sk').props.className).toBe('rounded-md bg-muted h-4 w-24');
+    expect(screen.getByTestId('sk', { hidden: true }).props.className).toBe('rounded-md bg-muted h-4 w-24');
   });
 
   it('is hidden from screen readers', async () => {
     await render(<Skeleton testID="sk" />);
-    expect(screen.getByTestId('sk').props.accessibilityElementsHidden).toBe(true);
-    expect(screen.getByTestId('sk').props.importantForAccessibility).toBe('no-hide-descendants');
+    expect(screen.getByTestId('sk', { hidden: true }).props.accessibilityElementsHidden).toBe(true);
+    expect(screen.getByTestId('sk', { hidden: true }).props.importantForAccessibility).toBe('no-hide-descendants');
+  });
+
+  it('pulses opacity 1 -> 0.5 over 1s', async () => {
+    jest.useFakeTimers();
+    await render(<Skeleton testID="sk" />);
+    const el = screen.getByTestId('sk', { hidden: true });
+    expect(el).toHaveAnimatedStyle({ opacity: 1 });
+    await act(async () => {
+      jest.advanceTimersByTime(1000);
+    });
+    expect(el).toHaveAnimatedStyle({ opacity: 0.5 });
   });
 });
 ```
@@ -3234,7 +3254,7 @@ export * from './atoms/skeleton';
 
 - [ ] **Step 4: Run — expect PASS**
 
-Run: `pnpm --filter @aumraa/breathe-native test test/atoms/skeleton.test.tsx` → 2 passed.
+Run: `pnpm --filter @aumraa/breathe-native test test/atoms/skeleton.test.tsx` → 3 passed.
 
 - [ ] **Step 5: Device check S10** — in the catalog (Task 16), the skeleton shows a muted rounded block that pulses. If it pulses but the colour or radius is missing, NativeWind isn't styling `Animated.View`: wrap it as `<Animated.View style={pulse}><View className={cn('rounded-md bg-muted', className)} {...props} /></Animated.View>`.
 

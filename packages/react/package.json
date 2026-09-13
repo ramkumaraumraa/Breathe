@@ -19,6 +19,10 @@
       "types": "./dist/technocracy/index.d.ts",
       "import": "./dist/technocracy/index.js"
     },
+    "./lemniscate": {
+      "types": "./dist/lemniscate/index.d.ts",
+      "import": "./dist/lemniscate/index.js"
+    },
     "./styles/*": "./styles/*"
   },
   "scripts": {

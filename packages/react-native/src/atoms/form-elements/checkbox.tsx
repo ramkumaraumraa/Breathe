@@ -1,10 +1,12 @@
 import * as CheckboxPrimitive from '@rn-primitives/checkbox';
 import Check from 'lucide-react-native/icons/check';
 import * as React from 'react';
+import { type StyleProp, type ViewStyle } from 'react-native';
 import { cn } from '../../lib/utils';
 import { Icon } from '../icon';
 
-type CheckboxProps = React.ComponentProps<typeof CheckboxPrimitive.Root>;
+// Function-form style is dropped by react-native-css when className is set (fact 12); web-only keys stripped like Label does.
+type CheckboxProps = Omit<React.ComponentProps<typeof CheckboxPrimitive.Root>, 'style' | 'asChild' | 'onKeyDown' | 'onKeyUp'> & { style?: StyleProp<ViewStyle> };
 
 function Checkbox({ className, ...props }: CheckboxProps) {
   return (

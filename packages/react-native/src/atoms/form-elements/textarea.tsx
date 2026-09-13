@@ -4,7 +4,7 @@ import { useFocusRing } from '../../lib/use-focus-ring';
 import { useThemeColors } from '../../lib/theme';
 import { cn } from '../../lib/utils';
 
-type TextareaProps = React.ComponentProps<typeof TextInput> & { disabled?: boolean };
+type TextareaProps = React.ComponentProps<typeof TextInput> & React.RefAttributes<TextInput> & { disabled?: boolean };
 
 function Textarea({ className, disabled, editable, onFocus, onBlur, style, ...props }: TextareaProps) {
   const colors = useThemeColors();

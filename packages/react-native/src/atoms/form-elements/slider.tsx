@@ -1,8 +1,13 @@
 import NativeSlider from '@react-native-community/slider';
+import { styled } from 'nativewind';
 import * as React from 'react';
 import { Platform } from 'react-native';
 import { useThemeColors } from '../../lib/theme';
 import { cn } from '../../lib/utils';
+
+// className on the third-party slider is a no-op on device unless wrapped: react-native-css
+// only patches core RN components, not arbitrary third-party ones (icon.tsx does the same).
+const StyledSlider = styled(NativeSlider);
 
 type SliderProps = {
   value?: number[];
@@ -32,7 +37,7 @@ function Slider({
 }: SliderProps) {
   const colors = useThemeColors();
   return (
-    <NativeSlider
+    <StyledSlider
       className={cn('h-5 w-full', disabled && 'opacity-50', className)}
       value={(value ?? defaultValue)?.[0] ?? min}
       minimumValue={min}
@@ -43,8 +48,8 @@ function Slider({
       minimumTrackTintColor={colors.primary}
       maximumTrackTintColor={colors.secondary}
       thumbTintColor={Platform.OS === 'android' ? colors.primary : undefined}
-      onValueChange={(v) => onValueChange?.([v])}
-      onSlidingComplete={(v) => onValueCommit?.([v])}
+      onValueChange={(v: number) => onValueChange?.([v])}
+      onSlidingComplete={(v: number) => onValueCommit?.([v])}
     />
   );
 }

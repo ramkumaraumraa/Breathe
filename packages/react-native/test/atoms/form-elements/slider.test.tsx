@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react-native';
 import { Slider } from '../../../src/atoms/form-elements/slider';
+import { THEME } from '../../../src/lib/theme';
 
 jest.mock('@react-native-community/slider', () => {
   const mockReact = require('react');
@@ -19,8 +20,8 @@ describe('Slider', () => {
       minimumValue: 0,
       maximumValue: 200,
       step: 5,
-      minimumTrackTintColor: '#1c60c1',
-      maximumTrackTintColor: '#40aad4',
+      minimumTrackTintColor: THEME.light.primary,
+      maximumTrackTintColor: THEME.light.secondary,
     });
   });
 

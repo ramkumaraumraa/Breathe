@@ -1,5 +1,7 @@
 import { PortalHost } from '@rn-primitives/portal';
 import { fireEvent, render, screen } from '@testing-library/react-native';
+import { View } from 'react-native';
+// react-native-screens is mocked once in jest.setup.ts.
 import {
   Select,
   SelectContent,
@@ -9,15 +11,15 @@ import {
   SelectValue,
 } from '../../../src/atoms/form-elements/select';
 
-jest.mock('react-native-screens', () => {
-  const mockReact = require('react');
-  return { FullWindowOverlay: ({ children }: { children: unknown }) => mockReact.createElement(mockReact.Fragment, null, children) };
+beforeAll(() => {
+  // RN's Jest View mock stubs measure(); rn-primitives' Portal renders nothing until the trigger reports a position.
+  jest.spyOn(View.prototype as any, 'measure').mockImplementation((cb: any) => cb(0, 0, 100, 40, 0, 0));
 });
 
-function Frequency({ onValueChange }: { onValueChange: jest.Mock }) {
+function Frequency({ onValueChange, disabled }: { onValueChange: jest.Mock; disabled?: boolean }) {
   return (
     <>
-      <Select onValueChange={onValueChange}>
+      <Select onValueChange={onValueChange} disabled={disabled}>
         <SelectTrigger testID="trigger">
           <SelectValue placeholder="Select frequency" />
         </SelectTrigger>
@@ -49,5 +51,10 @@ describe('Select', () => {
     expect(screen.getByText('Billing')).toBeOnTheScreen();
     await fireEvent.press(screen.getByText('Yearly'));
     expect(onValueChange).toHaveBeenCalledWith({ value: 'yearly', label: 'Yearly' });
+  });
+
+  it('dims the trigger when the root Select is disabled', async () => {
+    await render(<Frequency onValueChange={jest.fn()} disabled />);
+    expect(screen.getByTestId('trigger').props.className).toContain('opacity-50');
   });
 });

@@ -1618,6 +1618,7 @@ The incremental build takes about 7 minutes; the first takes about 14.
 | S3 | ☑ PASS | ☐ Pending — needs macOS | 2026-09-12: fill `#fef2f2`, 2 px border `#fecaca`. |
 | S4 | ☑ PASS | ☐ Pending — needs macOS | 2026-09-12: the `I` stem of each row is 3 / 4 / 4 (darker edges) / 6 px for 400 / 500 / 600 / 700, and the four weights are visibly distinct. Prebuild writes `res/font/xml_inter.xml` with all four weights. |
 | S5 | ☑ PASS | ☐ Pending — needs macOS | 2026-09-12: the in-app toggle and system night mode (`adb shell cmd uimode night yes`, then relaunch) both flip background `#ffffff` → `#121821`, text `#191b1f` → `#f8fafc`, and primary `#1b60c0` → `#3cb6d7`. This needs the `App.tsx` View wrapper (Step 5); `expo-system-ui` is not needed. |
+| S12 | ☐ PENDING | ☐ PENDING | Select item pressed text colour (`group-active:text-accent-foreground`, Task 25 Step 7): nobody has run this device check yet. Class left unchanged in the review pass (2026-09-13). If it fails on device, apply the Task 25 Step 7 fallback (remove `group-active:text-accent-foreground`; the background flash still gives feedback) and record the change here and in §0.5. |
 
 **IconSection (Tasks 7–9), Android, 2026-09-12:**
 - **Size and colour:** `<Icon as={Bell} className="size-6 text-primary" />` draws in `#1b60c0` with a 53 × 59 px glyph. That is lucide's bell (about 20 × 22.5 of its 24 viewBox units) at 24 dp; a 16 dp icon would draw about 35 × 39. The 16 dp `Plus` measures 28 px, as expected.

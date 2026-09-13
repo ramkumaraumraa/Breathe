@@ -6,6 +6,11 @@ require('react-native-reanimated').setUpTests();
 // any future import besides `styled` (e.g. `vars`, `cssInterop`) must be added here too.
 jest.mock('nativewind', () => ({ styled: jest.fn((Component: unknown) => Component) }));
 
+jest.mock('react-native-screens', () => {
+  const mockReact = require('react');
+  return { FullWindowOverlay: ({ children }: { children: unknown }) => mockReact.createElement(mockReact.Fragment, null, children) };
+});
+
 // Every lucide icon renders as a View tagged `icon-<Name>` so tests can find it.
 // Each component is cached on the target so repeated reads return the same reference
 // (e.g. `Check === Check`); symbol keys and `then` (module-interop probes, which would

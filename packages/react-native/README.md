@@ -19,7 +19,7 @@ npx expo install nativewind@5.0.0-preview.4 react-native-css@3.0.7 react-native-
 pnpm add -D tailwindcss@4.3.3 @tailwindcss/postcss@4.3.3 postcss
 ```
 
-`react-native-css` is pinned `~3.0.7`: the theme's line-height fix relies on its internal `--__rn-css-em` variable. `@react-native-community/slider` is used by the Slider atom (Task 24).
+`react-native-css` is pinned `~3.0.7`: the theme's line-height fix relies on its internal `--__rn-css-em` variable. `@react-native-community/slider` is optional; required only if you use `Slider`.
 
 Pin `lightningcss` to `1.30.1` (the version react-native-css 3.0.x / NativeWind v5 preview is tested with):
 

@@ -2,13 +2,13 @@ import * as SelectPrimitive from '@rn-primitives/select';
 import Check from 'lucide-react-native/icons/check';
 import ChevronDown from 'lucide-react-native/icons/chevron-down';
 import * as React from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { FadeIn, FadeOut, ReduceMotion } from 'react-native-reanimated';
 import { FullWindowOverlay as RNFullWindowOverlay } from 'react-native-screens';
 import { NativeOnlyAnimatedView } from '../../lib/native-only-animated-view';
 import { cn } from '../../lib/utils';
 import { Icon } from '../icon';
-import { TextClassContext } from '../text';
+import { TextClassContext, wrapTextChildren } from '../text';
 
 type Option = SelectPrimitive.Option;
 
@@ -20,32 +20,24 @@ function SelectValue({ className, ...props }: React.ComponentProps<typeof Select
   return <SelectPrimitive.Value className={cn('font-sans text-sm text-foreground', className)} numberOfLines={1} {...props} />;
 }
 
-function SelectTrigger({
-  className,
-  children,
-  ref,
-  ...props
-}: React.ComponentProps<typeof SelectPrimitive.Trigger> & { children?: React.ReactNode }) {
+// Trigger is Pressable-based; function-form style is dropped by react-native-css when className is set (fact 12); web-only keys stripped like Checkbox does.
+type SelectTriggerProps = Omit<React.ComponentProps<typeof SelectPrimitive.Trigger>, 'style' | 'children' | 'asChild' | 'onKeyDown' | 'onKeyUp'> & {
+  style?: StyleProp<ViewStyle>;
+  children?: React.ReactNode;
+};
+
+function SelectTrigger({ className, children, ...props }: SelectTriggerProps) {
+  const { disabled: rootDisabled } = SelectPrimitive.useRootContext();
+  const disabled = props.disabled ?? rootDisabled;
   return (
     <SelectPrimitive.Trigger
-      ref={(node: any) => {
-        if (node && process.env.NODE_ENV === 'test') {
-          const origMeasure = node.measure;
-          node.measure = (cb: any) => {
-            origMeasure?.(cb);
-            cb?.(0, 0, 100, 40, 0, 0);
-          };
-        }
-        if (typeof ref === 'function') ref(node);
-        else if (ref) (ref as React.MutableRefObject<any>).current = node;
-      }}
       className={cn(
         'h-10 w-full flex-row items-center justify-between rounded-md border border-input bg-background px-3 py-2',
-        props.disabled && 'opacity-50',
+        disabled && 'opacity-50',
         className,
       )}
       {...props}>
-      <>{children}</>
+      {wrapTextChildren(children)}
       <Icon as={ChevronDown} size={16} className="opacity-50" />
     </SelectPrimitive.Trigger>
   );
@@ -96,7 +88,10 @@ function SelectLabel({ className, ...props }: React.ComponentProps<typeof Select
   );
 }
 
-function SelectItem({ className, ...props }: React.ComponentProps<typeof SelectPrimitive.Item>) {
+// Item is Pressable-based; function-form style is dropped by react-native-css when className is set (fact 12); web-only keys stripped like Checkbox does.
+type SelectItemProps = Omit<React.ComponentProps<typeof SelectPrimitive.Item>, 'style' | 'asChild' | 'onKeyDown' | 'onKeyUp'> & { style?: StyleProp<ViewStyle> };
+
+function SelectItem({ className, ...props }: SelectItemProps) {
   return (
     <SelectPrimitive.Item
       className={cn(
@@ -120,4 +115,4 @@ function SelectSeparator({ className, ...props }: React.ComponentProps<typeof Se
 }
 
 export { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue };
-export type { Option };
+export type { Option, SelectItemProps, SelectTriggerProps };

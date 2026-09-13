@@ -27,7 +27,7 @@
 | Task | Unit | Status |
 |---|---|---|
 | T1 | Baseline, decisions, rules into main plan | ☑ |
-| T2 | Docs chrome stops reading Lemniscate tokens | ☐ |
+| T2 | Docs chrome stops reading Lemniscate tokens | ☑ |
 | T3 | Leminiscate tab renders the package stylesheet (light+dark), deep links | ☐ |
 | T4 | One JSON → web tokens + native stylesheet | ☐ |
 | T5 | Web theme slots (no-op for other products) | ☐ |

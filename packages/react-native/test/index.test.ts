@@ -1,3 +1,12 @@
+jest.mock('@react-native-community/slider', () => {
+  const mockReact = require('react');
+  const { View } = require('react-native');
+  return {
+    __esModule: true,
+    default: (props: object) => mockReact.createElement(View, { testID: 'native-slider', ...props }),
+  };
+});
+
 import * as pkg from '../src';
 
 // Tasks 18–27 add: Textarea, Checkbox, RadioGroup(+Item), Switch, Toggle(+variants), ToggleGroup(+Item),
@@ -11,6 +20,7 @@ const EXPECTED = [
   'Progress', 'clampProgress', 'Avatar', 'AvatarImage', 'AvatarFallback',
   'Input',
   'Textarea',
+  'Slider',
 ];
 
 describe('@aumraa/breathe-native public API', () => {

@@ -15,11 +15,11 @@ Breathe design system for React Native (Expo SDK 56, NativeWind v5). Ships Lemin
 pnpm add @aumraa/breathe-native
 npx expo install nativewind@5.0.0-preview.4 react-native-css@3.0.7 react-native-reanimated react-native-worklets \
   react-native-svg react-native-screens react-native-safe-area-context \
-  @rn-primitives/portal lucide-react-native expo-font @expo-google-fonts/inter@0.4.2
+  @rn-primitives/portal @react-native-community/slider lucide-react-native expo-font @expo-google-fonts/inter@0.4.2
 pnpm add -D tailwindcss@4.3.3 @tailwindcss/postcss@4.3.3 postcss
 ```
 
-`react-native-css` is pinned `~3.0.7`: the theme's line-height fix relies on its internal `--__rn-css-em` variable. `@react-native-community/slider` is coming with the Slider atom (Task 24); until then it is an optional peer.
+`react-native-css` is pinned `~3.0.7`: the theme's line-height fix relies on its internal `--__rn-css-em` variable. `@react-native-community/slider` is used by the Slider atom (Task 24).
 
 Pin `lightningcss` to `1.30.1` (the version react-native-css 3.0.x / NativeWind v5 preview is tested with):
 
@@ -170,6 +170,6 @@ Building from a path with spaces, through pnpm's linked `node_modules`, or with 
 
 ## Status
 
-**Available:** `cn`, `THEME`, `useThemeColors`, `useFocusRing`, `Text` (+`TextClassContext`, `wrapTextChildren`), `Icon` (+`IconSizeContext`), `Gradient` (+`BRAND_GRADIENT`), `Spinner`, `Button` (+`buttonVariants`, `buttonTextVariants`), `Label`, `Badge` (+`badgeVariants`, `badgeTextVariants`), `Separator`, `Skeleton`, `Progress` (+`clampProgress`), `Avatar` (+`AvatarImage`, `AvatarFallback`), `Input`.
+**Available:** `cn`, `THEME`, `useThemeColors`, `useFocusRing`, `Text` (+`TextClassContext`, `wrapTextChildren`), `Icon` (+`IconSizeContext`), `Gradient` (+`BRAND_GRADIENT`), `Spinner`, `Button` (+`buttonVariants`, `buttonTextVariants`), `Label`, `Badge` (+`badgeVariants`, `badgeTextVariants`), `Separator`, `Skeleton`, `Progress` (+`clampProgress`), `Avatar` (+`AvatarImage`, `AvatarFallback`), `Input`, `Slider`.
 
 **Coming (plan Tasks 18–27):** Textarea, Checkbox, RadioGroup, Switch, Toggle, ToggleGroup, Slider, Select, InputOTP, Calendar.

@@ -35,7 +35,7 @@
 | T7 | TabBar text colours | ☑ |
 | T8 | Dialog mobile fit (D10 approved) | ☑ |
 | T9 | CI freshness guard + docs | ☑ |
-| T10 | Visual verification | ☐ |
+| T10 | Visual verification | ☑ (finding F1 below) |
 
 ---
 
@@ -393,5 +393,9 @@ describe('Leminiscate Button: web ↔ native', () => {
 - [ ] **Step 3:** Aumraa, Technocracy, Kaayo identical to the T1 baseline.
 - [ ] **Step 4:** Native emulator re-check optional (values identical by T4 Step 7).
 - [ ] **Step 5:** Tracker: mark T1–T10 ☑.
+
+**Findings from T10 (2026-09-13):**
+- **F1 — Leminiscate Button ignores dark mode on web AND native.** The repo Button paints from foundation-scale vars (`--color-primary-500`, `--color-neutral-white-25` …) which the app repo (`src/index.css:13,46`) defines only once, never under `.dark`; Breathe mirrors that faithfully on both platforms (`lmns.palette` has no dark variant; native uses the same `bg-primary-500` classes). In dark mode secondary/outline/neutral buttons show light surfaces and primary stays `#1c60c1` instead of `#3cb6d7`. Not a regression of this phase — web == native == app. Follow-up: give `lmns.palette` a dark block (or move the Button onto semantic tokens) in one commit for both platforms (R23).
+- Aumraa `/atoms/button` MD5-identical to the pre-phase baseline; Technocracy and Kaayo render in their own brands.
 
 **Risks:** `?raw` CSS under vitest (T3 fallback); a colour class next to a no-fallback theme colour (T5 Step 1); Windows CRLF noise in byte-identical diffs (`--ignore-cr-at-eol`); external consumers of removed `--lmns-*` tokens (D13); web v3/v4 shadow gap remains (D11).

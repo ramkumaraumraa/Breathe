@@ -169,7 +169,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | 16 | Avatar | S | ☑ |
 | 17 | Input + focus ring | M | ☑ |
 | 18 | Textarea | S | ☑ |
-| 19 | Checkbox | S | ☐ |
+| 19 | Checkbox | S | ☑ |
 | 20 | RadioGroup | S | ☐ |
 | 21 | Switch | M | ☐ |
 | 22 | Toggle | S | ☐ |

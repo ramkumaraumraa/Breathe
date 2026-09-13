@@ -10,6 +10,7 @@ import { TextSection } from './TextSection';
 import { SliderSection } from './SliderSection';
 import { SelectSection } from './SelectSection';
 import { OtpSection } from './OtpSection';
+import { CalendarSection } from './CalendarSection';
 
 export const sections: { key: string; Component: ComponentType }[] = [
   { key: 'foundations', Component: FoundationsSection },
@@ -23,4 +24,5 @@ export const sections: { key: string; Component: ComponentType }[] = [
   { key: 'slider', Component: SliderSection },
   { key: 'select', Component: SelectSection },
   { key: 'otp', Component: OtpSection },
+  { key: 'calendar', Component: CalendarSection },
 ];

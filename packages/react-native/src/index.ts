@@ -17,3 +17,4 @@ export * from './atoms/form-elements/textarea';
 export * from './atoms/form-elements/slider';
 export * from './atoms/form-elements/select';
 export * from './atoms/form-elements/input-otp';
+export * from './atoms/form-elements/calendar';

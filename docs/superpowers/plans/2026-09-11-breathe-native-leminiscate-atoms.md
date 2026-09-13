@@ -177,7 +177,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | 24 | Slider | S | ☑ |
 | 25 | Select | L | ☑ |
 | 26 | InputOTP | M | ☑ |
-| 27 | Calendar | L | ☐ |
+| 27 | Calendar | L | ☑ |
 | 28 | Exports, README, pack | S | ☑ (scoped: Tasks 1–17) |
 
 **Testing convention (all tasks):** Tests live in `packages/react-native/test/`, mirror `src/` paths, and assert (a) the variant functions return the repo's classes (parity), (b) behaviour (press, disabled, value changes). In Jest, NativeWind's import rewrite does not run, so `className` is a plain prop on host components — assert it with `el.props.className`. All RNTL calls are awaited. Atoms hidden from accessibility (`aria-hidden`, `accessibilityElementsHidden`, `importantForAccessibility="no-hide-descendants"`) are excluded from RNTL queries by default; query them with `{ hidden: true }`.

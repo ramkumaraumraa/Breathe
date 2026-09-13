@@ -8,7 +8,8 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
     globals: true,
-    css: false,
+    // Skip CSS processing, but let `x.css?raw` string imports through (vitest blanks them otherwise)
+    css: { include: [/\?raw$/] },
     // packages/react-native and apps/* are tested with jest-expo, not vitest
     exclude: [...configDefaults.exclude, 'packages/react-native/**', 'apps/**'],
   },

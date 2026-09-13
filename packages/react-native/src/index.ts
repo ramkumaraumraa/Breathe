@@ -18,3 +18,4 @@ export * from './atoms/form-elements/checkbox';
 export * from './atoms/form-elements/radio-group';
 export * from './atoms/form-elements/switch';
 export * from './atoms/form-elements/toggle';
+export * from './atoms/form-elements/toggle-group';

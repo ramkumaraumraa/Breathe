@@ -11,7 +11,7 @@ type CheckboxProps = Omit<React.ComponentProps<typeof CheckboxPrimitive.Root>, '
 function Checkbox({ className, ...props }: CheckboxProps) {
   return (
     <CheckboxPrimitive.Root
-      hitSlop={24}
+      hitSlop={{ top: 4, bottom: 4, left: 12, right: 12 }}
       className={cn(
         'h-4 w-4 shrink-0 overflow-hidden rounded-[3px] border border-primary',
         props.checked && 'bg-primary',

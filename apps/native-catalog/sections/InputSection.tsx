@@ -34,8 +34,8 @@ export function InputSection() {
       <Textarea placeholder="Notes for the committee" />
       <Textarea disabled placeholder="Disabled notes" />
       <View className="flex-row items-center gap-2">
-        <Checkbox checked={agreed} onCheckedChange={setAgreed} />
-        <Label onPress={() => setAgreed((v) => !v)}>I agree to the society bylaws</Label>
+        <Checkbox checked={agreed} onCheckedChange={setAgreed} aria-labelledby="agree-checkbox" />
+        <Label nativeID="agree-checkbox" onPress={() => setAgreed((v) => !v)}>I agree to the society bylaws</Label>
       </View>
       <View className="flex-row items-center gap-2">
         <Checkbox checked disabled onCheckedChange={() => {}} />

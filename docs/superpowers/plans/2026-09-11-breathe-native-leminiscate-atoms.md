@@ -179,7 +179,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | 25 | Select | L | ☑ |
 | 26 | InputOTP | M | ☑ |
 | 27 | Calendar | L | ☑ |
-| 28 | Exports, README, pack | S | ☑ (scoped: Tasks 1–17) |
+| 28 | Exports, README, pack | S | ☑ (Tasks 1–27) |
 
 **Testing convention (all tasks):** Tests live in `packages/react-native/test/`, mirror `src/` paths, and assert (a) the variant functions return the repo's classes (parity), (b) behaviour (press, disabled, value changes). In Jest, NativeWind's import rewrite does not run, so `className` is a plain prop on host components — assert it with `el.props.className`. All RNTL calls are awaited. Atoms hidden from accessibility (`aria-hidden`, `accessibilityElementsHidden`, `importantForAccessibility="no-hide-descendants"`) are excluded from RNTL queries by default; query them with `{ hidden: true }`.
 
@@ -5843,6 +5843,8 @@ git commit -m "feat(native): public API audit, withBreatheNative metro helper, c
 
 Publishing (`pnpm --filter @aumraa/breathe-native publish --no-git-checks` with a GitHub token that has `write:packages`) is done by the package owner after merge to `main`.
 
+**Re-run 2026-09-13 (Tasks 18–27):** re-audited at full scope now that Textarea, Checkbox, RadioGroup, Switch, Toggle, ToggleGroup, Slider, Select, InputOTP and Calendar are in. `test/index.test.ts` EXPECTED and every atom's exports (`*Variants`, `*Props`) already matched — no gaps. R22 icon audit: clean (only a type-only `LucideProps` import; every value import is already deep). Class rules: clean on all ten new atoms (no `rem`, bare `rounded`, `hover:`, stray `focus:`, `placeholder:`, `space-x/y-`, or `[&_svg]`). Found and fixed three things: (1) Checkbox's `hitSlop={24}` was scalar on all sides — changed to `{ top: 4, bottom: 4, left: 12, right: 12 }` so two checkboxes stacked under `gap-2` don't get overlapping hit areas; no test asserted the old value. (2) The catalog's Checkbox demo had no `aria-labelledby`/`nativeID` pairing (RadioGroup and Switch right below it in the same file did) — added it. (3) `expo export --platform android` came back at 1739 modules / 3.8MB, a jump of +468 over the 1271/3.2MB baseline — traced to `calendar.tsx` and `CalendarSection.tsx` importing `{ format, addMonths, ... }` from the `date-fns` barrel, which (like the lucide-react-native index, R22) re-exports date-fns's ~200 functions from one file that Metro can't tree-shake. Converted both to named deep imports (`import { format } from 'date-fns/format'`, etc.); re-export is 1481 modules / 3.5MB — the remaining +210 over baseline is the new atoms' own rn-primitives (checkbox, radio-group, switch, toggle, toggle-group, select) plus `@react-native-community/slider` and `react-native-screens`, all expected. README's install list, peer/dependency declarations (`react-native-screens` was already a plain peer, not optional — correct, since `select.tsx` imports it unconditionally), Consumer Jest section (now lists the slider, react-native-screens and all six deep-icon mocks), and Status list were already current from the in-flight review commits; no other changes needed. Full verification: 239/239 native tests, tsc 0 (package and root), 183/183 web vitest, pack check clean (31 entries, no test/jest/babel/tsconfig leakage).
+
 ---
 
 ## Self-review (done while writing)
@@ -5863,3 +5865,4 @@ Publishing (`pnpm --filter @aumraa/breathe-native publish --no-git-checks` with 
 8. **Progress: try percentage translate** (`` translateX: `${-(100-p)}%` ``, RN 0.85 typed) on device; if it works, drop `onLayout`/`trackWidth`.
 9. **Avatar 16b:** on device the primitive hides the fallback during image loading (blank circle until `onLoad`); web/Radix shows initials until loaded. Decide whether to own a `loaded` flag and keep initials visible while loading (~15 lines, diverges from rnr).
 10. **Phase 4 — Leminiscate token unification (web + native from one JSON):** see `2026-09-13-lemniscate-token-unification.md`.
+11. **PENDING — device checks for Tasks 18–27's atoms** (not run this pass; simulator/emulator or physical device needed): S12 Select — pressed-state text colour on the trigger; Switch — thumb travel distance/easing across the track; Slider — OS thumb tint on Android (Fact 8, no custom thumb); Select — portal rendering on iOS through `FullWindowOverlay` (`react-native-screens`); InputOTP — keyboard type and autofill/one-time-code behavior; Calendar — full month-grid rendering and month-nav interaction on device.

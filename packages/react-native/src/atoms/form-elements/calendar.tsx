@@ -1,15 +1,16 @@
-import {
-  addMonths,
-  eachDayOfInterval,
-  endOfMonth,
-  endOfWeek,
-  format,
-  isSameDay,
-  isSameMonth,
-  startOfMonth,
-  startOfWeek,
-  subMonths,
-} from 'date-fns';
+// Deep imports: date-fns's barrel index re-exports its ~200 functions from one file, and Expo's
+// Metro doesn't tree-shake (same reasoning as R22 for lucide-react-native), so `{ format } from
+// 'date-fns'` pulls the whole library into the bundle.
+import { addMonths } from 'date-fns/addMonths';
+import { eachDayOfInterval } from 'date-fns/eachDayOfInterval';
+import { endOfMonth } from 'date-fns/endOfMonth';
+import { endOfWeek } from 'date-fns/endOfWeek';
+import { format } from 'date-fns/format';
+import { isSameDay } from 'date-fns/isSameDay';
+import { isSameMonth } from 'date-fns/isSameMonth';
+import { startOfMonth } from 'date-fns/startOfMonth';
+import { startOfWeek } from 'date-fns/startOfWeek';
+import { subMonths } from 'date-fns/subMonths';
 import ChevronLeft from 'lucide-react-native/icons/chevron-left';
 import ChevronRight from 'lucide-react-native/icons/chevron-right';
 import * as React from 'react';

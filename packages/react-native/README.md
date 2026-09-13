@@ -162,6 +162,31 @@ require('react-native-reanimated').setUpTests();
 jest.mock('nativewind', () => ({ styled: (Component: unknown) => Component }));
 ```
 
+Rendering specific atoms in your tests needs their native/module mocks too — add only the ones you use:
+
+```ts
+// Slider (wraps the @react-native-community/slider native module):
+jest.mock('@react-native-community/slider', () => {
+  const mockReact = require('react');
+  const { View } = require('react-native');
+  return { __esModule: true, default: (props: object) => mockReact.createElement(View, props) };
+});
+
+// Select (its iOS content portal renders through react-native-screens' FullWindowOverlay):
+jest.mock('react-native-screens', () => {
+  const mockReact = require('react');
+  return { FullWindowOverlay: ({ children }: { children: unknown }) => mockReact.createElement(mockReact.Fragment, null, children) };
+});
+
+// Checkbox, Select, InputOTP, Calendar, Spinner deep-import their icons (R22); each needs its own mock line:
+jest.mock('lucide-react-native/icons/check', () => ({ __esModule: true, default: 'Check' }));
+jest.mock('lucide-react-native/icons/chevron-down', () => ({ __esModule: true, default: 'ChevronDown' }));
+jest.mock('lucide-react-native/icons/dot', () => ({ __esModule: true, default: 'Dot' }));
+jest.mock('lucide-react-native/icons/chevron-left', () => ({ __esModule: true, default: 'ChevronLeft' }));
+jest.mock('lucide-react-native/icons/chevron-right', () => ({ __esModule: true, default: 'ChevronRight' }));
+jest.mock('lucide-react-native/icons/loader-circle', () => ({ __esModule: true, default: 'Loader2' }));
+```
+
 Likewise your `tsc` typechecks the package under your own tsconfig; `expo/tsconfig.base` with `strict: true` is what it's tested against.
 
 ## Windows Android builds

@@ -1,5 +1,5 @@
 import { Calendar, Text } from '@aumraa/breathe-native';
-import { format } from 'date-fns';
+import { format } from 'date-fns/format';
 import { useState } from 'react';
 import { View } from 'react-native';
 import { Section } from '../components/Section';

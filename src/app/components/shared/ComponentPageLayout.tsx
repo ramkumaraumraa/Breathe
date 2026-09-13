@@ -18,6 +18,8 @@ export interface ComponentSection {
   description?: string
   preview: ReactNode
   previewClassName?: string
+  /** Products this section belongs to. Omit to show on every product tab. */
+  products?: ProductId[]
   code?: {
     react?: string
     reactNative?: string
@@ -145,6 +147,7 @@ export function ComponentPageLayout({
 }: ComponentPageLayoutProps) {
   const { activeProduct, setActiveProduct } = useProductTheme()
   const isUllagellamGroup = activeProduct === 'kaayo' || activeProduct === 'ilakh' || activeProduct === 'ulagellam'
+  const visibleSections = sections.filter((s) => !s.products || s.products.includes(activeProduct))
 
   return (
     <div className="max-w-7xl px-6 lg:px-10 py-10 space-y-8">
@@ -195,10 +198,17 @@ export function ComponentPageLayout({
         </div>
       )}
 
-      {/* Sections */}
-      {sections.map((section, i) => (
+      {/* Sections — only those tagged for the active product (untagged = all products) */}
+      {visibleSections.length === 0 && (
+        <div className="rounded-xl border border-slate-200 dark:border-slate-700/60 flex items-center justify-center py-10 bg-slate-50 dark:bg-slate-900/60">
+          <p className="text-slate-400 dark:text-slate-500 italic" style={{ fontFamily: 'var(--font-sans)', fontSize: '0.8125rem' }}>
+            {`Not available for ${productMeta[activeProduct].label} yet`}
+          </p>
+        </div>
+      )}
+      {visibleSections.map((section) => (
         <ComponentPreview
-          key={i}
+          key={section.title}
           title={section.title}
           description={section.description}
           code={section.code?.react ?? ''}

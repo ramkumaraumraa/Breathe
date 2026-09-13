@@ -137,6 +137,9 @@ function ProductSwitcher({ implemented }: { implemented: ProductId[] }) {
 
 // ─── Main layout ──────────────────────────────────────────────────────────────
 
+// ponytail: regex heuristic until each page has real non-Kaayo snippets; replace per page when written
+const KAAYO_CODE = /Kayo|Kaayo|@kaayo|breathe\/kaayo/
+
 export function ComponentPageLayout({
   title,
   description,
@@ -148,6 +151,8 @@ export function ComponentPageLayout({
   const { activeProduct, setActiveProduct } = useProductTheme()
   const isUllagellamGroup = activeProduct === 'kaayo' || activeProduct === 'ilakh' || activeProduct === 'ulagellam'
   const visibleSections = sections.filter((s) => !s.products || s.products.includes(activeProduct))
+  // Off Kaayo, drop Kaayo-only snippets so ComponentPreview shows its "Coming soon" code placeholder.
+  const code = (s?: string) => (activeProduct !== 'kaayo' && s && KAAYO_CODE.test(s) ? undefined : s)
 
   return (
     <div className="max-w-7xl px-6 lg:px-10 py-10 space-y-8">
@@ -211,12 +216,12 @@ export function ComponentPageLayout({
           key={section.title}
           title={section.title}
           description={section.description}
-          code={section.code?.react ?? ''}
-          reactNativeCode={section.code?.reactNative}
-          iosCode={section.code?.ios}
-          androidCode={section.code?.android}
-          cssCode={section.code?.css}
-          tailwindCode={section.code?.tailwind}
+          code={code(section.code?.react) ?? ''}
+          reactNativeCode={code(section.code?.reactNative)}
+          iosCode={code(section.code?.ios)}
+          androidCode={code(section.code?.android)}
+          cssCode={code(section.code?.css)}
+          tailwindCode={code(section.code?.tailwind)}
           previewClassName={section.previewClassName}
         >
           <ProductPreviewWrapper>

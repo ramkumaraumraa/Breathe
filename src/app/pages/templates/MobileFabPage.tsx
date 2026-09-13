@@ -206,7 +206,7 @@ import { tokens } from '@breathe/tokens/react-native/lemniscate'
   return (
     <ComponentPageLayout
       title="Mobile FAB"
-      description="Fixed floating action button — visible on mobile layouts for primary actions. Adapts to the active brand treatment, including Lemniscate's smooth gradient or Kaayo's neo-brutalist 52px quick-actions popover."
+      description="Fixed floating action button — visible on mobile layouts for primary actions. Adapts to the active product's brand treatment."
       level="Template"
       status="Stable"
       implemented={['lemniscate', 'kaayo']}

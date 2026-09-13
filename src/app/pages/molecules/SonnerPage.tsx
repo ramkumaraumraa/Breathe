@@ -125,12 +125,12 @@ import { toast } from 'sonner'
 ${mount.tag}
 
 // Trigger from anywhere:
-toast('${c.default}')
-toast.success('${c.success}')
-toast.error('${c.error}')
-toast.warning('${c.warning}')
-toast.info('${c.info}')
-toast.loading('${c.loading}')`,
+toast(${JSON.stringify(c.default)})
+toast.success(${JSON.stringify(c.success)})
+toast.error(${JSON.stringify(c.error)})
+toast.warning(${JSON.stringify(c.warning)})
+toast.info(${JSON.stringify(c.info)})
+toast.loading(${JSON.stringify(c.loading)})`,
           },
         },
         {
@@ -138,8 +138,8 @@ toast.loading('${c.loading}')`,
           description: 'Toast with a supporting description line — use for actions with context.',
           preview: row(trigger('Show toast', () => toast.success(c.described[0], { description: c.described[1] }))),
           code: {
-            react: `toast.success('${c.described[0]}', {
-  description: '${c.described[1]}',
+            react: `toast.success(${JSON.stringify(c.described[0])}, {
+  description: ${JSON.stringify(c.described[1])},
 })`,
           },
         },
@@ -153,8 +153,8 @@ toast.loading('${c.loading}')`,
             })),
           ),
           code: {
-            react: `toast.error('${c.failed[0]}', {
-  description: '${c.failed[1]}',
+            react: `toast.error(${JSON.stringify(c.failed[0])}, {
+  description: ${JSON.stringify(c.failed[1])},
   action: { label: 'Retry', onClick: () => retry() },
 })`,
           },
@@ -186,9 +186,9 @@ toast('Bottom left', { position: 'bottom-left' })`,
             react: `const promise = doWork() // returns a Promise
 
 toast.promise(promise, {
-  loading: '${c.promise.loading}',
-  success: '${c.promise.success}',
-  error: '${c.promise.error}',
+  loading: ${JSON.stringify(c.promise.loading)},
+  success: ${JSON.stringify(c.promise.success)},
+  error: ${JSON.stringify(c.promise.error)},
 })`,
           },
         },
@@ -204,9 +204,9 @@ toast.promise(promise, {
           ),
           code: {
             react: `// Fire multiple toasts — they stack, oldest slides out when limit reached:
-toast.success('${c.stacked[0]}')
-toast.success('${c.stacked[1]}')
-toast.warning('${c.stacked[2]}')`,
+toast.success(${JSON.stringify(c.stacked[0])})
+toast.success(${JSON.stringify(c.stacked[1])})
+toast.warning(${JSON.stringify(c.stacked[2])})`,
           },
         },
       ]}

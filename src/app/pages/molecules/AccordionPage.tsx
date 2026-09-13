@@ -219,7 +219,7 @@ function KayoAccordion({ items }) {
         },
         {
           title: 'With Action in Content',
-          description: 'Expanded content includes a KayoBrutalistButton — for contextual next actions.',
+          description: 'Expanded content includes a button — for contextual next actions.',
           preview: isKaayo ? (
             <div style={{ width: '100%', maxWidth: '480px' }}>
               <KayoBrutalistAccordion

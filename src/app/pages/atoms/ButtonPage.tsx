@@ -317,7 +317,9 @@ import { typography } from '@kaayo/lib/typography'
         },
         {
           title: 'With icons',
-          description: 'Left icon, right icon, or icon-only. Note: Kaayo Button requires a label — pure icon-only is not supported; use an icon wrapped in Pressable directly.',
+          description: isKaayo
+            ? 'Left icon or right icon. Note: Kaayo Button requires a label — pure icon-only is not supported; use an icon wrapped in Pressable directly.'
+            : 'Left icon, right icon, or icon-only.',
           preview: isKaayo ? (
             <div className="flex flex-wrap items-center gap-4">
               <KayoBrutalistButton variant="primary" label="Download" iconLeft={<Download size={16} color="#fff" strokeWidth={2.5} />} />

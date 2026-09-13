@@ -604,7 +604,7 @@ import { Sidebar, SidebarContent, SidebarGroup,
         // ── Section 11: Custom header (logo) ──────────────────────────────────
         {
           title: 'Custom header (logo)',
-          description: 'header prop renders a branded wordmark in Kaayo red.',
+          description: 'header prop renders a branded wordmark.',
           preview: isKaayo ? (
             <PreviewShell>
               <KayoBrutalistSideNav

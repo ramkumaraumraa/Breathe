@@ -5,16 +5,17 @@ import { useState, useRef, useEffect } from 'react'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistSearchbar } from '@/app/components/custom/kaayo/KayoBrutalistSearchbar'
 
+// Product-neutral suggestions: this list feeds both the Kaayo and the shared preview.
 const SUGGESTIONS = [
-  'Kaayo Tutor Ops',
-  'Ilakh Personal Finance',
-  'Ulagellam Explorer',
-  'Breathe Design System',
-  'Aumraa Studio Brand',
-  'Technocracy Dashboard',
-  'Lemniscate Finance SaaS',
-  'Maligai Manager',
-  'Yakaizen Widgets',
+  'Dashboard',
+  'Reports',
+  'Settings',
+  'Billing',
+  'Team members',
+  'Notifications',
+  'Integrations',
+  'Help center',
+  'Activity log',
 ]
 
 export function SearchbarPage() {
@@ -65,7 +66,7 @@ export function SearchbarPage() {
                   value={query}
                   onChange={(e) => { setQuery(e.target.value); setIsFocused(true) }}
                   onFocus={() => setIsFocused(true)}
-                  placeholder="Search products or brands..."
+                  placeholder="Search pages..."
                   className="pl-9 pr-8 py-5 h-11 border-slate-200 focus-visible:ring-teal-500 rounded-xl"
                 />
                 {query && (

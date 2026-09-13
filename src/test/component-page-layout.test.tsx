@@ -37,3 +37,24 @@ describe('ComponentPageLayout product filtering', () => {
     expect(screen.getByText('Not available for Lemniscate yet')).toBeInTheDocument()
   })
 })
+
+describe('ComponentPageLayout Kaayo code guard', () => {
+  const kaayoCode: ComponentSection = {
+    title: 'Code',
+    preview: <p>preview</p>,
+    code: { react: `<KayoBrutalistButton label="Save" />` },
+  }
+
+  it('hides Kaayo code on a non-Kaayo product and shows the placeholder', () => {
+    renderOn(/Leminiscate/, [kaayoCode])
+    fireEvent.click(screen.getByRole('button', { name: 'React' }))
+    expect(document.body.textContent).not.toContain('KayoBrutalistButton')
+    expect(screen.getByText('Coming soon')).toBeInTheDocument()
+  })
+
+  it('shows Kaayo code on Kaayo', () => {
+    renderOn(/Ullagellam/, [kaayoCode])
+    fireEvent.click(screen.getByRole('button', { name: 'React' }))
+    expect(document.body.textContent).toContain('KayoBrutalistButton')
+  })
+})

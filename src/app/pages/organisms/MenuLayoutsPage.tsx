@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { AndroidFrame } from '@/app/components/shared/AndroidFrame'
 import { KayoBrutalistHeader } from '@/app/components/custom/kaayo/KayoBrutalistHeader'
 import { KayoBrutalistBottomNav } from '@/app/components/custom/kaayo/KayoBrutalistBottomNav'
@@ -33,13 +32,7 @@ import {
   UserPlus
 } from 'lucide-react'
 
-const placeholder = (
-  <div style={{ color: '#6b7280', padding: 16 }}>Switch to Kaayo theme to preview</div>
-)
-
 export function MenuLayoutsPage() {
-  const { activeProduct } = useProductTheme()
-  const isKaayo = activeProduct === 'kaayo'
   const [activeTab, setActiveTab] = useState('dashboard')
   const [activeAlertIdx, setActiveAlertIdx] = useState(0)
   const [selectedBranch, setSelectedBranch] = useState<string | null>(null)
@@ -731,7 +724,8 @@ export function MenuLayoutsPage() {
         {
           title: 'Kaayo App Simulator',
           description: 'Fully interactive Pixel-style mockup showcasing all 5 primary menu screens under the Android OS container.',
-          preview: isKaayo ? (
+          products: ['kaayo'],
+          preview: (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBlock: '12px' }}>
               <AndroidFrame
                 width={340}
@@ -757,7 +751,7 @@ export function MenuLayoutsPage() {
                 </div>
               </AndroidFrame>
             </div>
-          ) : placeholder,
+          ),
           code: {
             react: `// React router mapping inside Kaayo Mobile Shell
 import { AppShell } from '@breathe/templates'

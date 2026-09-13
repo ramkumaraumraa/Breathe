@@ -12,6 +12,7 @@ const EXPECTED = [
   'Input',
   'Textarea',
   'Checkbox',
+  'RadioGroup', 'RadioGroupItem',
 ];
 
 describe('@aumraa/breathe-native public API', () => {

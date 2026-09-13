@@ -1,4 +1,4 @@
-import { Checkbox, Input, Label, Textarea } from '@aumraa/breathe-native';
+import { Checkbox, Input, Label, RadioGroup, RadioGroupItem, Textarea } from '@aumraa/breathe-native';
 import { useRef, useState } from 'react';
 import { TextInput, View } from 'react-native';
 import { Section } from '../components/Section';
@@ -6,8 +6,9 @@ import { Section } from '../components/Section';
 export function InputSection() {
   const emailRef = useRef<TextInput>(null);
   const [agreed, setAgreed] = useState(false);
+  const [plan, setPlan] = useState('monthly');
   return (
-    <Section title="Input · Textarea · Checkbox">
+    <Section title="Input · Textarea · Checkbox · RadioGroup">
       <View className="gap-2">
         <Label onPress={() => emailRef.current?.focus()}>Email</Label>
         <Input ref={emailRef} type="email" placeholder="you@society.in" />
@@ -26,6 +27,16 @@ export function InputSection() {
         <Checkbox checked disabled onCheckedChange={() => {}} />
         <Label disabled>Disabled checked</Label>
       </View>
+      <RadioGroup value={plan} onValueChange={setPlan}>
+        <View className="flex-row items-center gap-2">
+          <RadioGroupItem value="monthly" />
+          <Label onPress={() => setPlan('monthly')}>Monthly</Label>
+        </View>
+        <View className="flex-row items-center gap-2">
+          <RadioGroupItem value="yearly" />
+          <Label onPress={() => setPlan('yearly')}>Yearly</Label>
+        </View>
+      </RadioGroup>
     </Section>
   );
 }

@@ -170,6 +170,4 @@ Building from a path with spaces, through pnpm's linked `node_modules`, or with 
 
 ## Status
 
-**Available:** `cn`, `THEME`, `useThemeColors`, `useFocusRing`, `Text` (+`TextClassContext`, `wrapTextChildren`), `Icon` (+`IconSizeContext`), `Gradient` (+`BRAND_GRADIENT`), `Spinner`, `Button` (+`buttonVariants`, `buttonTextVariants`), `Label`, `Badge` (+`badgeVariants`, `badgeTextVariants`), `Separator`, `Skeleton`, `Progress` (+`clampProgress`), `Avatar` (+`AvatarImage`, `AvatarFallback`), `Input`, `Slider`, `Select`, `InputOTP` (+`InputOTPGroup`, `InputOTPSeparator`, `InputOTPSlot`), `Calendar`.
-
-**Coming (plan Tasks 18–27):** Textarea, Checkbox, RadioGroup, Switch, Toggle, ToggleGroup, Slider, Select, InputOTP, Calendar.
+**Available:** `cn`, `THEME`, `useThemeColors`, `useFocusRing`, `Text` (+`TextClassContext`, `wrapTextChildren`), `Icon` (+`IconSizeContext`), `Gradient` (+`BRAND_GRADIENT`), `Spinner`, `Button` (+`buttonVariants`, `buttonTextVariants`), `Label`, `Badge` (+`badgeVariants`, `badgeTextVariants`), `Separator`, `Skeleton`, `Progress` (+`clampProgress`), `Avatar` (+`AvatarImage`, `AvatarFallback`), `Input`, `Textarea`, `Checkbox`, `RadioGroup` (+`RadioGroupItem`), `Switch`, `Toggle` (+`toggleTextClass`, `toggleVariants`), `ToggleGroup` (+`ToggleGroupItem`), `Slider`, `Select` (+`SelectContent`, `SelectGroup`, `SelectItem`, `SelectLabel`, `SelectSeparator`, `SelectTrigger`, `SelectValue`), `InputOTP` (+`InputOTPGroup`, `InputOTPSeparator`, `InputOTPSlot`), `Calendar`.

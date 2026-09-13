@@ -58,6 +58,7 @@ function InputOTP({
           onChangeText={handleChange}
           maxLength={maxLength}
           editable={!disabled}
+          accessibilityState={{ disabled: !!disabled }}
           keyboardType="number-pad"
           textContentType="oneTimeCode"
           autoComplete="sms-otp"

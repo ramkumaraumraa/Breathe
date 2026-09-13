@@ -7,7 +7,7 @@ export function OtpSection() {
   const [done, setDone] = useState('');
   return (
     <Section title="InputOTP">
-      <InputOTP maxLength={6} value={code} onChange={setCode} onComplete={setDone}>
+      <InputOTP maxLength={6} value={code} onChange={setCode} onComplete={setDone} accessibilityLabel="One-time code">
         <InputOTPGroup>
           <InputOTPSlot index={0} />
           <InputOTPSlot index={1} />

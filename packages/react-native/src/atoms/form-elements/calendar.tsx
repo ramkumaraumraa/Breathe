@@ -21,7 +21,10 @@ import { Text } from '../text';
 
 /** Weeks (Sunday-first) covering the month, as react-day-picker v8 renders without fixedWeeks. */
 function getMonthGrid(month: Date): Date[][] {
-  const days = eachDayOfInterval({ start: startOfWeek(startOfMonth(month)), end: endOfWeek(endOfMonth(month)) });
+  const days = eachDayOfInterval({
+    start: startOfWeek(startOfMonth(month), { weekStartsOn: 0 }),
+    end: endOfWeek(endOfMonth(month), { weekStartsOn: 0 }),
+  });
   const weeks: Date[][] = [];
   for (let i = 0; i < days.length; i += 7) weeks.push(days.slice(i, i + 7));
   return weeks;
@@ -54,7 +57,7 @@ function Calendar({ selected, onSelect, defaultMonth, today = new Date(), showOu
           accessibilityLabel="Go to previous month"
           onPress={() => setMonth(subMonths(month, 1))}
         />
-        <Text role="heading" className="text-sm font-medium">
+        <Text role="heading" accessibilityLiveRegion="polite" className="text-sm font-medium">
           {format(month, 'LLLL y')}
         </Text>
         <Button

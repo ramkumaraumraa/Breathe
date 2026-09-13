@@ -55,6 +55,7 @@ describe('InputOTP', () => {
     await render(<Code onComplete={onComplete} />);
     await fireEvent.changeText(screen.getByTestId('otp'), '4271');
     expect(onComplete).toHaveBeenCalledWith('4271');
+    expect(onComplete).toHaveBeenCalledTimes(1);
   });
 
   it('is read-only and dimmed when disabled', async () => {

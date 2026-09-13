@@ -15,3 +15,4 @@ export * from './atoms/avatar';
 export * from './atoms/form-elements/input';
 export * from './atoms/form-elements/textarea';
 export * from './atoms/form-elements/slider';
+export * from './atoms/form-elements/select';

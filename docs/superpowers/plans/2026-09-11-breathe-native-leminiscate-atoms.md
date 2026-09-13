@@ -175,7 +175,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | 22 | Toggle | S | ☐ |
 | 23 | ToggleGroup | S | ☐ |
 | 24 | Slider | S | ☑ |
-| 25 | Select | L | ☐ |
+| 25 | Select | L | ☑ |
 | 26 | InputOTP | M | ☐ |
 | 27 | Calendar | L | ☐ |
 | 28 | Exports, README, pack | S | ☑ (scoped: Tasks 1–17) |

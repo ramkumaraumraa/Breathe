@@ -31,3 +31,11 @@ jest.mock('lucide-react-native/icons/loader-circle', () => ({
   __esModule: true,
   default: jest.requireMock('lucide-react-native').Loader2,
 }));
+jest.mock('lucide-react-native/icons/check', () => ({
+  __esModule: true,
+  default: jest.requireMock('lucide-react-native').Check,
+}));
+jest.mock('lucide-react-native/icons/chevron-down', () => ({
+  __esModule: true,
+  default: jest.requireMock('lucide-react-native').ChevronDown,
+}));

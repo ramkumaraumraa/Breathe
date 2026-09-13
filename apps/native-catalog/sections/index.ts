@@ -8,6 +8,7 @@ import { InputSection } from './InputSection';
 import { LabelSection } from './LabelSection';
 import { TextSection } from './TextSection';
 import { SliderSection } from './SliderSection';
+import { SelectSection } from './SelectSection';
 
 export const sections: { key: string; Component: ComponentType }[] = [
   { key: 'foundations', Component: FoundationsSection },
@@ -19,4 +20,5 @@ export const sections: { key: string; Component: ComponentType }[] = [
   { key: 'badge', Component: BadgeSection },
   { key: 'display', Component: DisplaySection },
   { key: 'slider', Component: SliderSection },
+  { key: 'select', Component: SelectSection },
 ];

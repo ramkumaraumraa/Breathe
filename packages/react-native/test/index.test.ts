@@ -7,6 +7,11 @@ jest.mock('@react-native-community/slider', () => {
   };
 });
 
+jest.mock('react-native-screens', () => {
+  const mockReact = require('react');
+  return { FullWindowOverlay: ({ children }: { children: unknown }) => mockReact.createElement(mockReact.Fragment, null, children) };
+});
+
 import * as pkg from '../src';
 
 // Tasks 18–27 add: Textarea, Checkbox, RadioGroup(+Item), Switch, Toggle(+variants), ToggleGroup(+Item),
@@ -21,6 +26,7 @@ const EXPECTED = [
   'Input',
   'Textarea',
   'Slider',
+  'Select', 'SelectContent', 'SelectGroup', 'SelectItem', 'SelectLabel', 'SelectSeparator', 'SelectTrigger', 'SelectValue',
 ];
 
 describe('@aumraa/breathe-native public API', () => {

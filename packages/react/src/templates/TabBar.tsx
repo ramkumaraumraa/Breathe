@@ -27,7 +27,9 @@ export function TabBar({ tabs, value, onChange, className }: TabBarProps) {
             'flex items-center gap-1.5 rounded px-3 py-1.5 text-xs font-medium transition-all duration-150',
             value === tab.value
               ? 'bg-background text-foreground shadow-sm'
-              : 'text-muted-foreground hover:text-foreground',
+              : // ponytail: repo tokens where a product defines them, today's colours everywhere else (R24).
+                // Upgrade path: a --tabbar-inactive-foreground / --tabbar-hover-foreground component token.
+                'text-[color:var(--foreground-tertiary,var(--muted-foreground))] hover:text-[color:var(--foreground-secondary,var(--foreground))]',
           )}
         >
           {tab.icon}

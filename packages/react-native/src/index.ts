@@ -19,3 +19,7 @@ export * from './atoms/form-elements/radio-group';
 export * from './atoms/form-elements/switch';
 export * from './atoms/form-elements/toggle';
 export * from './atoms/form-elements/toggle-group';
+export * from './atoms/form-elements/slider';
+export * from './atoms/form-elements/select';
+export * from './atoms/form-elements/input-otp';
+export * from './atoms/form-elements/calendar';

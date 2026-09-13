@@ -35,3 +35,19 @@ jest.mock('lucide-react-native/icons/check', () => ({
   __esModule: true,
   default: jest.requireMock('lucide-react-native').Check,
 }));
+jest.mock('lucide-react-native/icons/chevron-down', () => ({
+  __esModule: true,
+  default: jest.requireMock('lucide-react-native').ChevronDown,
+}));
+jest.mock('lucide-react-native/icons/dot', () => ({
+  __esModule: true,
+  default: jest.requireMock('lucide-react-native').Dot,
+}));
+jest.mock('lucide-react-native/icons/chevron-left', () => ({
+  __esModule: true,
+  default: jest.requireMock('lucide-react-native').ChevronLeft,
+}));
+jest.mock('lucide-react-native/icons/chevron-right', () => ({
+  __esModule: true,
+  default: jest.requireMock('lucide-react-native').ChevronRight,
+}));

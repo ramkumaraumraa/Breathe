@@ -10,6 +10,7 @@ const EXPECTED = [
   'Label', 'Badge', 'badgeVariants', 'badgeTextVariants', 'Separator', 'Skeleton',
   'Progress', 'clampProgress', 'Avatar', 'AvatarImage', 'AvatarFallback',
   'Input',
+  'Textarea',
 ];
 
 describe('@aumraa/breathe-native public API', () => {

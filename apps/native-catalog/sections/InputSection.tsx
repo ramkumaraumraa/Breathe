@@ -1,4 +1,4 @@
-import { Input, Label } from '@aumraa/breathe-native';
+import { Input, Label, Textarea } from '@aumraa/breathe-native';
 import { useRef } from 'react';
 import { TextInput, View } from 'react-native';
 import { Section } from '../components/Section';
@@ -6,7 +6,7 @@ import { Section } from '../components/Section';
 export function InputSection() {
   const emailRef = useRef<TextInput>(null);
   return (
-    <Section title="Input">
+    <Section title="Input · Textarea">
       <View className="gap-2">
         <Label onPress={() => emailRef.current?.focus()}>Email</Label>
         <Input ref={emailRef} type="email" placeholder="you@society.in" />
@@ -15,6 +15,8 @@ export function InputSection() {
       <Input type="tel" placeholder="Phone" />
       <Input type="password" placeholder="Password" />
       <Input disabled placeholder="Disabled" />
+      <Textarea placeholder="Notes for the committee" />
+      <Textarea disabled placeholder="Disabled notes" />
     </Section>
   );
 }

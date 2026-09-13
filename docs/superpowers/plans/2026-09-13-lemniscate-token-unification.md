@@ -34,7 +34,7 @@
 | T6 | Leminiscate Button web ↔ native (per D7) | ☑ |
 | T7 | TabBar text colours | ☑ |
 | T8 | Dialog mobile fit (D10 approved) | ☑ |
-| T9 | CI freshness guard + docs | ☐ |
+| T9 | CI freshness guard + docs | ☑ |
 | T10 | Visual verification | ☐ |
 
 ---

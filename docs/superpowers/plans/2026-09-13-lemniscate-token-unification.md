@@ -33,7 +33,7 @@
 | T5 | Web theme slots (no-op for other products) | ☑ |
 | T6 | Leminiscate Button web ↔ native (per D7) | ☑ |
 | T7 | TabBar text colours | ☑ |
-| T8 | Dialog mobile fit (D10 approved) | ☐ |
+| T8 | Dialog mobile fit (D10 approved) | ☑ |
 | T9 | CI freshness guard + docs | ☐ |
 | T10 | Visual verification | ☐ |
 

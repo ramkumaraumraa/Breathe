@@ -173,7 +173,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | 19 | Checkbox | S | ☑ |
 | 20 | RadioGroup | S | ☑ |
 | 21 | Switch | M | ☑ |
-| 22 | Toggle | S | ☐ |
+| 22 | Toggle | S | ☑ |
 | 23 | ToggleGroup | S | ☐ |
 | 24 | Slider | S | ☐ |
 | 25 | Select | L | ☐ |

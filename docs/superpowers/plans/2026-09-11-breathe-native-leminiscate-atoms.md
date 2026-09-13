@@ -25,6 +25,14 @@
 | D4 | `react-native-reusables` (rnr) is the scaffolding source (copy-in code, not a runtime dependency). Registry: `github.com/founded-labs/react-native-reusables/tree/main/packages/registry/src/nativewind`. |
 | D5 | Calendar = custom month grid (matches web look), not the OS date picker. *(Default — confirm with product owner.)* |
 | D6 | Brand gradient = exactly what renders on web today: `.bg-gradient-brand` utility = `linear-gradient(135deg, #3cb6d7 0%, #2262ec 100%)`. The unused `--gradient-brand` var (sky→brand-blue 138°) is **not** used. *(Default — confirm with product owner.)* |
+| D7 | Leminiscate web Button: the repo's Button is added as `@aumraa/breathe-react/lemniscate`, locked to the native Button by a parity test; per-product component tokens are a follow-up. (Owner approved 2026-09-13.) |
+| D8 | Web `--gradient-brand` = the repo's rendered `.bg-gradient-brand` (135°, `#3cb6d7` → `#2262ec`), same as native D6. |
+| D9 | Semantic colours HSL-rendered vs scale hex — resolved together with D13. |
+| D10 | Shared Dialog gets the repo's mobile-fit classes for ALL products. (Owner approved 2026-09-13.) |
+| D11 | Web Tailwind v4 vs repo v3 shadow differences: out of scope; follow-up. |
+| D12 | `tokens/src/global.json` is not edited (Style Dictionary emits into all 6 web outputs). |
+| D13 | Breathe's `tokens/src/lemniscate.json` colours are canonical for Leminiscate on web AND native (owner decided 2026-09-13: "breathe colors are correct"). All existing `lmns.*` tokens (tertiary, positive, negative, primaryLight/Dark, borderHover) stay. Native `packages/react-native/styles/lemniscate.css` will be regenerated from the same JSON in T4; where Breathe has no Leminiscate dark-mode value, the dark palette comes from the app repo's `.dark` block. |
+| D14 | `.bg-gradient-brand`/`.shadow-brand` ship in `packages/react/styles/lemniscate.css` only. (Owner approved 2026-09-13.) |
 
 ### 0.2 Pinned versions (Expo SDK 56 `bundledNativeModules.json`)
 
@@ -85,6 +93,8 @@
 | R20 | `asChild` on Button for links | RN idiom is the reverse: `<Link href="…" asChild><Button/></Link>`. Button has no `asChild`. |
 | R21 | Static `line-height` (`leading-[20px]`, `[line-height:…]`, a px or unitless `line-height` in the stylesheet) | **Allowed:** `leading-{none,tight,snug,normal,relaxed,loose}`, `leading-3`..`leading-10`, and unitless `leading-[1.25]`. **Forbidden:** arbitrary length leadings (`leading-[20px]`, `leading-[1.5rem]`, `leading-[1em]`) and a font size with a slash line-height (`text-sm/6`, `text-[11px]/4`) — react-native-css 3.0.7 drops the first outright and gives the second no line-height at all. Every allowed form (including the named leadings, which act only through `--tw-leading`) needs a `text-*` size set on the same element or an ancestor (the Text atom always has one) — that's what `--__rn-css-em` resolves to. `test/class-rules.test.ts` enforces both forbidden patterns by scanning every file under `src/`. §0.3 fact 11. |
 | R22 | `import { X } from 'lucide-react-native'` in a component | In `src/`, deep-import `import X from 'lucide-react-native/icons/<kebab-name>'` and add a matching `jest.mock` line to `jest.setup.ts`: Expo's Metro doesn't tree-shake, so one index import bundles all ~1,800 icons into every consuming app. Tests keep index imports (the index is mocked). The code blocks in Tasks 18–27 predate this rule; convert their icon imports when implementing. Check that the `.mjs` exists: some names are type-only aliases (`trash-2` → use `trash`). |
+| R23 | Every change updates web React and React Native together. | A Leminiscate token or component change updates `packages/react` and `packages/react-native` in the same commit. Tokens change only in `tokens/src/lemniscate.json` followed by `pnpm tokens`. Never hand-edit `tokens/dist/**` or generated native styles. If the other platform has no counterpart yet, add a tracker row in the same commit. |
+| R24 | A change for one product leaves every other product byte-identical. | `pnpm tokens && git diff --exit-code -- tokens/dist ':(exclude)tokens/dist/web/<product>.css'` must pass. A shared web file may change only through a var slot whose fallback is today's value. |
 
 ### 0.5 Accepted parity differences (the only places native ≠ web)
 
@@ -5850,3 +5860,4 @@ Publishing (`pnpm --filter @aumraa/breathe-native publish --no-git-checks` with 
 7. **Comment on upstream issue react-native-css#254** with a repro: static `line-height: 20px` is dropped, and `line-height: var(--x)` with `--x: 20px` becomes 280 on 14px text. Root cause: units are stripped before runtime. Proposed fix: emit length line-heights as px at compile time and em-multiply only unitless values.
 8. **Progress: try percentage translate** (`` translateX: `${-(100-p)}%` ``, RN 0.85 typed) on device; if it works, drop `onLayout`/`trackWidth`.
 9. **Avatar 16b:** on device the primitive hides the fallback during image loading (blank circle until `onLoad`); web/Radix shows initials until loaded. Decide whether to own a `loaded` flag and keep initials visible while loading (~15 lines, diverges from rnr).
+10. **Phase 4 — Leminiscate token unification (web + native from one JSON):** see `2026-09-13-lemniscate-token-unification.md`.

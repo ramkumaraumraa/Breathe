@@ -170,6 +170,6 @@ Building from a path with spaces, through pnpm's linked `node_modules`, or with 
 
 ## Status
 
-**Available:** `cn`, `THEME`, `useThemeColors`, `useFocusRing`, `Text` (+`TextClassContext`, `wrapTextChildren`), `Icon` (+`IconSizeContext`), `Gradient` (+`BRAND_GRADIENT`), `Spinner`, `Button` (+`buttonVariants`, `buttonTextVariants`), `Label`, `Badge` (+`badgeVariants`, `badgeTextVariants`), `Separator`, `Skeleton`, `Progress` (+`clampProgress`), `Avatar` (+`AvatarImage`, `AvatarFallback`), `Input`, `Slider`, `Select`.
+**Available:** `cn`, `THEME`, `useThemeColors`, `useFocusRing`, `Text` (+`TextClassContext`, `wrapTextChildren`), `Icon` (+`IconSizeContext`), `Gradient` (+`BRAND_GRADIENT`), `Spinner`, `Button` (+`buttonVariants`, `buttonTextVariants`), `Label`, `Badge` (+`badgeVariants`, `badgeTextVariants`), `Separator`, `Skeleton`, `Progress` (+`clampProgress`), `Avatar` (+`AvatarImage`, `AvatarFallback`), `Input`, `Slider`, `Select`, `InputOTP` (+`InputOTPGroup`, `InputOTPSeparator`, `InputOTPSlot`).
 
 **Coming (plan Tasks 18–27):** Textarea, Checkbox, RadioGroup, Switch, Toggle, ToggleGroup, Slider, Select, InputOTP, Calendar.

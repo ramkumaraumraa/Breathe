@@ -27,6 +27,7 @@ const EXPECTED = [
   'Textarea',
   'Slider',
   'Select', 'SelectContent', 'SelectGroup', 'SelectItem', 'SelectLabel', 'SelectSeparator', 'SelectTrigger', 'SelectValue',
+  'InputOTP', 'InputOTPGroup', 'InputOTPSeparator', 'InputOTPSlot',
 ];
 
 describe('@aumraa/breathe-native public API', () => {

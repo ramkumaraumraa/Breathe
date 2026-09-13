@@ -93,13 +93,13 @@
 
   --radius:               var(--amra-radius-default);
 
-  --sidebar:              var(--lmns-color-background-secondary);
-  --sidebar-foreground:   var(--lmns-color-foreground);
+  --sidebar:              var(--color-neutral-50);
+  --sidebar-foreground:   var(--color-ink-500);
   --sidebar-primary:      var(--amra-color-primary);
   --sidebar-primary-foreground: var(--amra-color-primary-foreground);
-  --sidebar-accent:       var(--lmns-color-background-tertiary);
-  --sidebar-accent-foreground: var(--lmns-color-foreground);
-  --sidebar-border:       var(--lmns-color-border);
+  --sidebar-accent:       var(--color-neutral-100);
+  --sidebar-accent-foreground: var(--color-ink-500);
+  --sidebar-border:       var(--color-neutral-200);
   --sidebar-ring:         var(--amra-color-primary);
 
   --gradient-brand-start: var(--amra-color-gradient-start);
@@ -167,8 +167,8 @@
 
 :root {
   --font-size:            var(--text-base);
-  --input-background:     var(--lmns-color-background-secondary);
-  --switch-background:    var(--lmns-color-border-hover);
+  --input-background:     var(--color-neutral-50);
+  --switch-background:    var(--color-neutral-400);
   --chart-1:              var(--color-blue-400);
   --chart-2:              var(--color-orange-500);
   --chart-3:              var(--color-success);
@@ -262,7 +262,7 @@
   }
 
   .shadow-brand {
-    box-shadow: 0 2px 8px color-mix(in srgb, var(--gradient-brand-start) 28%, transparent);
+    box-shadow: var(--breathe-shadow-brand, 0 2px 8px color-mix(in srgb, var(--gradient-brand-start) 28%, transparent));
   }
 
   .shadow-brand-hover {

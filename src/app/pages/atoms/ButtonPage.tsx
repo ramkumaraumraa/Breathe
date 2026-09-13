@@ -4,10 +4,13 @@ import { ArrowRight, Download, Send, Sparkles, Trash2 } from 'lucide-react'
 import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistButton } from '@/app/components/custom/kaayo/KayoBrutalistButton'
 import { KayoBrutalistScreenFooterButton } from '@aumraa/breathe-react/kaayo'
+import { Button as LemniscateButton } from '@aumraa/breathe-react/lemniscate'
 
 export function ButtonPage() {
   const { activeProduct } = useProductTheme()
   const isKaayo = activeProduct === 'kaayo'
+  // Leminiscate tab renders the repo-verbatim Button; every variant/size used below exists on both.
+  const Btn = (activeProduct === 'lemniscate' ? LemniscateButton : Button) as typeof Button
 
   return (
     <ComponentPageLayout
@@ -29,16 +32,16 @@ export function ButtonPage() {
             </div>
           ) : (
             <div className="flex flex-wrap gap-3">
-              <Button variant="gradient"><Sparkles className="h-4 w-4" />Gradient</Button>
-              <Button variant="default">Default Primary</Button>
-              <Button variant="brandOutline">Brand Outline</Button>
-              <Button variant="secondary">Secondary</Button>
-              <Button variant="outline">Outline</Button>
-              <Button variant="ghost">Ghost</Button>
-              <Button variant="destructive">Danger</Button>
-              <Button variant="success">Success</Button>
-              <Button variant="warning">Warning</Button>
-              <Button variant="link">Link</Button>
+              <Btn variant="gradient"><Sparkles className="h-4 w-4" />Gradient</Btn>
+              <Btn variant="default">Default Primary</Btn>
+              <Btn variant="brandOutline">Brand Outline</Btn>
+              <Btn variant="secondary">Secondary</Btn>
+              <Btn variant="outline">Outline</Btn>
+              <Btn variant="ghost">Ghost</Btn>
+              <Btn variant="destructive">Danger</Btn>
+              <Btn variant="success">Success</Btn>
+              <Btn variant="warning">Warning</Btn>
+              <Btn variant="link">Link</Btn>
             </div>
           ),
           code: {
@@ -269,13 +272,13 @@ fun ButtonVariants() {
             </div>
           ) : (
             <div className="flex flex-wrap items-center gap-3">
-              <Button size="xs">Extra Small</Button>
-              <Button size="sm">Small</Button>
-              <Button size="default">Default</Button>
-              <Button size="lg">Large</Button>
-              <Button size="xl">Extra Large</Button>
-              <Button size="icon-sm" aria-label="Send"><Send className="h-4 w-4" /></Button>
-              <Button size="icon" aria-label="Download"><Download className="h-4 w-4" /></Button>
+              <Btn size="xs">Extra Small</Btn>
+              <Btn size="sm">Small</Btn>
+              <Btn size="default">Default</Btn>
+              <Btn size="lg">Large</Btn>
+              <Btn size="xl">Extra Large</Btn>
+              <Btn size="icon-sm" aria-label="Send"><Send className="h-4 w-4" /></Btn>
+              <Btn size="icon" aria-label="Download"><Download className="h-4 w-4" /></Btn>
             </div>
           ),
           code: {
@@ -317,7 +320,9 @@ import { typography } from '@kaayo/lib/typography'
         },
         {
           title: 'With icons',
-          description: 'Left icon, right icon, or icon-only. Note: Kaayo Button requires a label — pure icon-only is not supported; use an icon wrapped in Pressable directly.',
+          description: isKaayo
+            ? 'Left icon or right icon. Note: Kaayo Button requires a label — pure icon-only is not supported; use an icon wrapped in Pressable directly.'
+            : 'Left icon, right icon, or icon-only.',
           preview: isKaayo ? (
             <div className="flex flex-wrap items-center gap-4">
               <KayoBrutalistButton variant="primary" label="Download" iconLeft={<Download size={16} color="#fff" strokeWidth={2.5} />} />
@@ -326,9 +331,9 @@ import { typography } from '@kaayo/lib/typography'
             </div>
           ) : (
             <div className="flex flex-wrap items-center gap-3">
-              <Button><Download className="mr-2 h-4 w-4" />Download</Button>
-              <Button variant="outline">Continue <ArrowRight className="ml-2 h-4 w-4" /></Button>
-              <Button variant="destructive" size="icon"><Trash2 className="h-4 w-4" /></Button>
+              <Btn><Download className="mr-2 h-4 w-4" />Download</Btn>
+              <Btn variant="outline">Continue <ArrowRight className="ml-2 h-4 w-4" /></Btn>
+              <Btn variant="destructive" size="icon"><Trash2 className="h-4 w-4" /></Btn>
             </div>
           ),
           code: {
@@ -391,8 +396,8 @@ import { theme } from '@kaayo/lib/theme'
             </div>
           ) : (
             <div className="flex flex-wrap items-center gap-3">
-              <Button disabled>Disabled</Button>
-              <Button variant="outline" disabled>Disabled Outline</Button>
+              <Btn disabled>Disabled</Btn>
+              <Btn variant="outline" disabled>Disabled Outline</Btn>
             </div>
           ),
           code: {
@@ -434,7 +439,63 @@ import { theme } from '@kaayo/lib/theme'
           },
         },
         {
+          title: 'Leminiscate variants',
+          products: ['lemniscate'],
+          description: 'Semantic variants, the xxl / icon-xs sizes, and the loading / icon-slot props. The web and native Buttons share the same 13 variants and 9 sizes.',
+          preview: (
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-wrap items-center gap-3">
+                <LemniscateButton variant="danger">Danger</LemniscateButton>
+                <LemniscateButton variant="info">Info</LemniscateButton>
+                <LemniscateButton variant="neutral">Neutral</LemniscateButton>
+                <LemniscateButton variant="brandOutline">Brand Outline</LemniscateButton>
+              </div>
+              <div className="flex flex-wrap items-center gap-3">
+                <LemniscateButton size="xxl">Double Extra Large</LemniscateButton>
+                <LemniscateButton size="icon-xs" aria-label="Send"><Send /></LemniscateButton>
+              </div>
+              <div className="flex flex-wrap items-center gap-3">
+                <LemniscateButton loading loadingText="Exporting…">Export report</LemniscateButton>
+                <LemniscateButton leftIcon={<Download />}>Download</LemniscateButton>
+                <LemniscateButton variant="outline" rightIcon={<ArrowRight />}>Continue</LemniscateButton>
+              </div>
+            </div>
+          ),
+          code: {
+            react: `import { Button } from '@aumraa/breathe-react/lemniscate'
+import { ArrowRight, Download, Send } from 'lucide-react'
+
+<Button variant="danger">Danger</Button>
+<Button variant="info">Info</Button>
+<Button variant="neutral">Neutral</Button>
+<Button variant="brandOutline">Brand Outline</Button>
+
+<Button size="xxl">Double Extra Large</Button>
+<Button size="icon-xs" aria-label="Send"><Send /></Button>
+
+<Button loading loadingText="Exporting…">Export report</Button>
+<Button leftIcon={<Download />}>Download</Button>
+<Button variant="outline" rightIcon={<ArrowRight />}>Continue</Button>`,
+
+            reactNative: `import { Button } from '@aumraa/breathe-native'
+import { ArrowRight, Download, Send } from 'lucide-react-native'
+
+<Button variant="danger" onPress={() => {}}>Danger</Button>
+<Button variant="info" onPress={() => {}}>Info</Button>
+<Button variant="neutral" onPress={() => {}}>Neutral</Button>
+<Button variant="brandOutline" onPress={() => {}}>Brand Outline</Button>
+
+<Button size="xxl" onPress={() => {}}>Double Extra Large</Button>
+<Button size="icon-xs" accessibilityLabel="Send" leftIcon={<Send />} onPress={() => {}} />
+
+<Button loading loadingText="Exporting…">Export report</Button>
+<Button leftIcon={<Download />} onPress={() => {}}>Download</Button>
+<Button variant="outline" rightIcon={<ArrowRight />} onPress={() => {}}>Continue</Button>`,
+          },
+        },
+        {
           title: 'Press / Touch',
+          products: ['kaayo'],
           description: 'Neo-Brutalist signature: the button physically falls into the page on press. Shadow drops and the element translates 2 × 2 px in the direction of the shadow offset.',
           preview: (
             <div className="flex flex-col gap-3">
@@ -495,6 +556,7 @@ const styles = StyleSheet.create({
         },
         {
           title: 'Full Width',
+          products: ['kaayo'],
           description: 'Stretches to fill its container. Use for primary actions in mobile forms and bottom CTAs.',
           preview: (
             <div className="flex flex-col gap-3 w-full max-w-sm">
@@ -522,6 +584,7 @@ const styles = StyleSheet.create({
         },
         {
           title: 'Screen Footer Button (Kaayo Sub-Component)',
+          products: ['kaayo'],
           description: 'Sticky bottom container for mobile forms and workflow CTAs with safe area inset padding.',
           preview: (
             <div className="w-full max-w-md border-2 border-slate-200 rounded-lg overflow-hidden relative min-h-[160px] bg-slate-50 flex flex-col justify-end">

@@ -1,5 +1,4 @@
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistHeader } from '@/app/components/custom/kaayo/KayoBrutalistHeader'
 import { AndroidFrame } from '@/app/components/shared/AndroidFrame'
 
@@ -12,13 +11,7 @@ const DEMO_NAV = [
   { label: 'Payments',  href: '#', active: false },
 ]
 
-const placeholder = (
-  <div style={{ color: '#6b7280', padding: 16 }}>Switch to Kaayo theme to preview</div>
-)
-
 export function HeaderPage() {
-  const { activeProduct } = useProductTheme()
-  const isKaayo = activeProduct === 'kaayo'
 
   const wrapFrame = (child: React.ReactNode, variant: 'mobile' | 'tablet' = 'mobile') => {
     if (variant === 'tablet') {
@@ -43,17 +36,18 @@ export function HeaderPage() {
       description="App top bar with logo, bell notification badge, and user chip. Supports mobile, tablet, and desktop layouts."
       level="Molecule"
       status="Stable"
-      implemented={['lemniscate', 'aumraa', 'kaayo']}
+      implemented={['kaayo']}
       sections={[
         {
           title: 'Mobile layout',
           description: 'Compact header for phones — logo on the left, bell + avatar icon on the right. No nav links.',
-          preview: isKaayo ? wrapFrame(
+          products: ['kaayo'],
+          preview: wrapFrame(
             <KayoBrutalistHeader
               variant="mobile"
               user={DEMO_USER}
             />
-          ) : placeholder,
+          ),
           code: {
             react: `import { KayoBrutalistHeader } from '@breathe/kaayo'
 
@@ -66,13 +60,14 @@ export function HeaderPage() {
         {
           title: 'Tablet layout',
           description: 'Tablet header — logo on the left, bell + full user chip (avatar + name + role badge) on the right.',
-          preview: isKaayo ? wrapFrame(
+          products: ['kaayo'],
+          preview: wrapFrame(
             <KayoBrutalistHeader
               variant="tablet"
               user={DEMO_USER}
             />,
             'tablet'
-          ) : placeholder,
+          ),
           code: {
             react: `<KayoBrutalistHeader
   variant="tablet"
@@ -83,13 +78,14 @@ export function HeaderPage() {
         {
           title: 'Desktop layout',
           description: 'Full desktop header — logo + nav links on the left, bell + user chip on the right.',
-          preview: isKaayo ? (
+          products: ['kaayo'],
+          preview: (
             <KayoBrutalistHeader
               variant="desktop"
               navItems={DEMO_NAV}
               user={DEMO_USER}
             />
-          ) : placeholder,
+          ),
           code: {
             react: `const NAV = [
   { label: 'Dashboard', href: '#' },
@@ -108,7 +104,8 @@ export function HeaderPage() {
         {
           title: 'Active nav item',
           description: 'The third nav item (Attendance) is marked `active` — underlined in crimson with bold weight.',
-          preview: isKaayo ? (
+          products: ['kaayo'],
+          preview: (
             <KayoBrutalistHeader
               variant="desktop"
               navItems={[
@@ -119,7 +116,7 @@ export function HeaderPage() {
               ]}
               user={DEMO_USER}
             />
-          ) : placeholder,
+          ),
           code: {
             react: `<KayoBrutalistHeader
   variant="desktop"
@@ -136,13 +133,14 @@ export function HeaderPage() {
         {
           title: 'With page title',
           description: '`pageTitle` renders a centred title — useful when nav links are hidden but a section name is needed.',
-          preview: isKaayo ? wrapFrame(
+          products: ['kaayo'],
+          preview: wrapFrame(
             <KayoBrutalistHeader
               variant="mobile"
               pageTitle="Dashboard"
               user={DEMO_USER}
             />
-          ) : placeholder,
+          ),
           code: {
             react: `<KayoBrutalistHeader
   variant="mobile"
@@ -154,13 +152,14 @@ export function HeaderPage() {
         {
           title: 'Bell with unread count',
           description: '`bellCount={3}` renders a crimson badge on the bell icon showing the count.',
-          preview: isKaayo ? wrapFrame(
+          products: ['kaayo'],
+          preview: wrapFrame(
             <KayoBrutalistHeader
               variant="mobile"
               bellCount={3}
               user={DEMO_USER}
             />
-          ) : placeholder,
+          ),
           code: {
             react: `<KayoBrutalistHeader
   variant="mobile"
@@ -172,13 +171,14 @@ export function HeaderPage() {
         {
           title: 'High unread count',
           description: 'When `bellCount` exceeds 9, the badge collapses to "9+" to prevent overflow.',
-          preview: isKaayo ? wrapFrame(
+          products: ['kaayo'],
+          preview: wrapFrame(
             <KayoBrutalistHeader
               variant="mobile"
               bellCount={12}
               user={DEMO_USER}
             />
-          ) : placeholder,
+          ),
           code: {
             react: `<KayoBrutalistHeader
   variant="mobile"
@@ -190,7 +190,8 @@ export function HeaderPage() {
         {
           title: 'Sticky header demo',
           description: '`sticky={true}` pins the header to the top when scrolling. Scroll inside the box below to see the shadow appear.',
-          preview: isKaayo ? (
+          products: ['kaayo'],
+          preview: (
             <div style={{ height: 200, overflowY: 'auto', border: '2px solid #3b3d3f' }}>
               <KayoBrutalistHeader
                 variant="desktop"
@@ -209,7 +210,7 @@ export function HeaderPage() {
                 <p style={{ marginTop: 12 }}>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
               </div>
             </div>
-          ) : placeholder,
+          ),
           code: {
             react: `<KayoBrutalistHeader
   variant="desktop"
@@ -221,11 +222,12 @@ export function HeaderPage() {
         {
           title: 'No user (guest)',
           description: 'Omitting the `user` prop renders the header in guest mode — bell is still visible, user chip is absent.',
-          preview: isKaayo ? wrapFrame(
+          products: ['kaayo'],
+          preview: wrapFrame(
             <KayoBrutalistHeader
               variant="mobile"
             />
-          ) : placeholder,
+          ),
           code: {
             react: `<KayoBrutalistHeader variant="mobile" />`,
           },
@@ -233,7 +235,8 @@ export function HeaderPage() {
         {
           title: 'Custom logo slot',
           description: 'The `logo` prop accepts any ReactNode — pass a styled wordmark, SVG, or image in place of the default.',
-          preview: isKaayo ? wrapFrame(
+          products: ['kaayo'],
+          preview: wrapFrame(
             <KayoBrutalistHeader
               variant="mobile"
               logo={
@@ -249,7 +252,7 @@ export function HeaderPage() {
               }
               user={DEMO_USER}
             />
-          ) : placeholder,
+          ),
           code: {
             react: `<KayoBrutalistHeader
   variant="mobile"

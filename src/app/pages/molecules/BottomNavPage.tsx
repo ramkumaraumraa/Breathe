@@ -1,17 +1,10 @@
 import { useState } from 'react'
 import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout'
-import { useProductTheme } from '@/app/context/ProductThemeContext'
 import { KayoBrutalistBottomNav } from '@/app/components/custom/kaayo/KayoBrutalistBottomNav'
 import { AndroidFrame } from '@/app/components/shared/AndroidFrame'
 import { LayoutDashboard, Users, ClipboardList, CreditCard, Settings } from 'lucide-react'
 
-const placeholder = (
-  <div style={{ color: '#6b7280', padding: 16 }}>Switch to Kaayo theme to preview</div>
-)
-
 export function BottomNavPage() {
-  const { activeProduct } = useProductTheme()
-  const isKaayo = activeProduct === 'kaayo'
   const [active, setActive] = useState('dashboard')
 
   const ITEMS_5 = [
@@ -51,18 +44,19 @@ export function BottomNavPage() {
       description="Fixed 5-tab navigation bar for mobile and tablet layouts. Uses crimson active indicator with badge support."
       level="Molecule"
       status="Stable"
-      implemented={['lemniscate', 'aumraa', 'kaayo']}
+      implemented={['kaayo']}
       sections={[
         {
           title: 'Mobile — 5 items',
           description: 'Standard 5-tab bottom nav in mobile variant. Active indicator is a crimson top border on the tab.',
-          preview: isKaayo ? wrapFrame(
+          products: ['kaayo'],
+          preview: wrapFrame(
             <KayoBrutalistBottomNav
               variant="mobile"
               activeKey="dashboard"
               items={ITEMS_5}
             />
-          ) : placeholder,
+          ),
           code: {
             react: `import { KayoBrutalistBottomNav } from '@breathe/kaayo'
 import { LayoutDashboard, Users, ClipboardList, CreditCard, Settings } from 'lucide-react'
@@ -85,14 +79,15 @@ const ITEMS = [
         {
           title: 'Tablet — 5 items',
           description: 'Tablet variant adds more vertical padding and larger label text to suit wider screens.',
-          preview: isKaayo ? wrapFrame(
+          products: ['kaayo'],
+          preview: wrapFrame(
             <KayoBrutalistBottomNav
               variant="tablet"
               activeKey="dashboard"
               items={ITEMS_5}
             />,
             'tablet'
-          ) : placeholder,
+          ),
           code: {
             react: `<KayoBrutalistBottomNav
   variant="tablet"
@@ -104,13 +99,14 @@ const ITEMS = [
         {
           title: 'Active: Students',
           description: 'Second tab (Students) is active — crimson top border and crimson icon/label.',
-          preview: isKaayo ? wrapFrame(
+          products: ['kaayo'],
+          preview: wrapFrame(
             <KayoBrutalistBottomNav
               variant="mobile"
               activeKey="students"
               items={ITEMS_5}
             />
-          ) : placeholder,
+          ),
           code: {
             react: `<KayoBrutalistBottomNav
   variant="mobile"
@@ -122,13 +118,14 @@ const ITEMS = [
         {
           title: 'Active: Attendance',
           description: 'Third tab (Attendance) is active.',
-          preview: isKaayo ? wrapFrame(
+          products: ['kaayo'],
+          preview: wrapFrame(
             <KayoBrutalistBottomNav
               variant="mobile"
               activeKey="attendance"
               items={ITEMS_5}
             />
-          ) : placeholder,
+          ),
           code: {
             react: `<KayoBrutalistBottomNav
   variant="mobile"
@@ -140,13 +137,14 @@ const ITEMS = [
         {
           title: 'Active: Payments',
           description: 'Fourth tab (Payments) is active.',
-          preview: isKaayo ? wrapFrame(
+          products: ['kaayo'],
+          preview: wrapFrame(
             <KayoBrutalistBottomNav
               variant="mobile"
               activeKey="payments"
               items={ITEMS_5}
             />
-          ) : placeholder,
+          ),
           code: {
             react: `<KayoBrutalistBottomNav
   variant="mobile"
@@ -158,13 +156,14 @@ const ITEMS = [
         {
           title: 'Active: Settings',
           description: 'Fifth tab (Settings) is active.',
-          preview: isKaayo ? wrapFrame(
+          products: ['kaayo'],
+          preview: wrapFrame(
             <KayoBrutalistBottomNav
               variant="mobile"
               activeKey="settings"
               items={ITEMS_5}
             />
-          ) : placeholder,
+          ),
           code: {
             react: `<KayoBrutalistBottomNav
   variant="mobile"
@@ -176,12 +175,13 @@ const ITEMS = [
         {
           title: 'None active',
           description: 'No `activeKey` provided — all tabs render in muted grey with no active indicator.',
-          preview: isKaayo ? wrapFrame(
+          products: ['kaayo'],
+          preview: wrapFrame(
             <KayoBrutalistBottomNav
               variant="mobile"
               items={ITEMS_5}
             />
-          ) : placeholder,
+          ),
           code: {
             react: `<KayoBrutalistBottomNav
   variant="mobile"
@@ -192,13 +192,14 @@ const ITEMS = [
         {
           title: 'With badge — single',
           description: '`badge: 3` on Payments renders a crimson pill above the icon.',
-          preview: isKaayo ? wrapFrame(
+          products: ['kaayo'],
+          preview: wrapFrame(
             <KayoBrutalistBottomNav
               variant="mobile"
               activeKey="dashboard"
               items={ITEMS_5.map(i => i.key === 'payments' ? { ...i, badge: 3 } : i)}
             />
-          ) : placeholder,
+          ),
           code: {
             react: `<KayoBrutalistBottomNav
   variant="mobile"
@@ -210,7 +211,8 @@ const ITEMS = [
         {
           title: 'With badge — multiple',
           description: 'Multiple tabs can carry badges simultaneously — Payments (3) and Attendance (1).',
-          preview: isKaayo ? wrapFrame(
+          products: ['kaayo'],
+          preview: wrapFrame(
             <KayoBrutalistBottomNav
               variant="mobile"
               items={ITEMS_5.map(i =>
@@ -219,7 +221,7 @@ const ITEMS = [
                 : i
               )}
             />
-          ) : placeholder,
+          ),
           code: {
             react: `<KayoBrutalistBottomNav
   variant="mobile"
@@ -234,12 +236,13 @@ const ITEMS = [
         {
           title: 'With badge — overflow',
           description: 'When `badge` exceeds 9 the pill displays "9+" to prevent overflow.',
-          preview: isKaayo ? wrapFrame(
+          products: ['kaayo'],
+          preview: wrapFrame(
             <KayoBrutalistBottomNav
               variant="mobile"
               items={ITEMS_5.map(i => i.key === 'payments' ? { ...i, badge: 99 } : i)}
             />
-          ) : placeholder,
+          ),
           code: {
             react: `<KayoBrutalistBottomNav
   variant="mobile"
@@ -250,13 +253,14 @@ const ITEMS = [
         {
           title: '3-item minimal',
           description: 'Bottom nav scales down gracefully with fewer tabs — tabs stretch to fill the full width.',
-          preview: isKaayo ? wrapFrame(
+          products: ['kaayo'],
+          preview: wrapFrame(
             <KayoBrutalistBottomNav
               variant="mobile"
               activeKey="dashboard"
               items={ITEMS_3}
             />
-          ) : placeholder,
+          ),
           code: {
             react: `const ITEMS_3 = [
   { key: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={22} /> },
@@ -274,7 +278,8 @@ const ITEMS = [
         {
           title: 'Interactive demo',
           description: 'Click any tab to update the active state. The area inside the frame tracks the current selection.',
-          preview: isKaayo ? wrapFrame(
+          products: ['kaayo'],
+          preview: wrapFrame(
             <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
               <div style={{
                 flex: 1,
@@ -294,7 +299,7 @@ const ITEMS = [
                 items={ITEMS_5}
               />
             </div>
-          ) : placeholder,
+          ),
           code: {
             react: `const [active, setActive] = useState('dashboard')
 

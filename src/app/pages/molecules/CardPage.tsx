@@ -22,7 +22,7 @@ export function CardPage() {
   return (
     <ComponentPageLayout
       title="Card"
-      description="Surface that groups related information and actions. Cards create visual hierarchy and make content scannable, with specialized financial card variations."
+      description="Surface that groups related information and actions. Cards create visual hierarchy and make content scannable."
       level="Molecule"
       status="Stable"
       implemented={['lemniscate', 'aumraa', 'kaayo']}
@@ -74,6 +74,7 @@ export function CardPage() {
         },
         {
           title: 'Payment Summary Card (Kaayo Sub-Component)',
+          products: ['kaayo'],
           description: 'Specialized dashboard card for tuition fee metric breakdowns (Expected, Collected, Pending) and student payment status counts.',
           preview: (
             <div className="w-full max-w-xl">

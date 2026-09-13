@@ -20,6 +20,8 @@ To regenerate dist files after editing source tokens:
 pnpm tokens
 ```
 
+lemniscate also generates `packages/react-native/styles/lemniscate.css` (format `tokens/formats/nativewind.js`, template `tokens/formats/nativewind.template.css`); never hand-edit generated files.
+
 CSS vars are organized in layers:
 1. **Primitive tokens** — `aumraa.css` loaded globally (color-neutral-*, color-status-*)
 2. **Product tokens** — `lemniscate.css`, `technocracy.css`, etc. loaded globally

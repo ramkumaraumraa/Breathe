@@ -1,6 +1,4 @@
 export { PageBody } from './PageBody'
-export { TabBar } from './TabBar'
-export type { TabBarItem } from './TabBar'
 export { PageToolbar } from './PageToolbar'
 export { StatGrid } from './StatGrid'
 export type { StatGridVariant } from './StatGrid'

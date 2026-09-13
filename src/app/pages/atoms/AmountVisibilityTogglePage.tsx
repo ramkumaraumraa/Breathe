@@ -15,6 +15,7 @@ export function AmountVisibilityTogglePage() {
       sections={[
         {
           title: 'Interactive Toggle',
+          products: ['kaayo'],
           description: 'Click the eye control to toggle figure masking state.',
           preview: (
             <div className="flex flex-col gap-4 items-start">

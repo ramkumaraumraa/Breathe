@@ -16,6 +16,7 @@ export function PhotoViewerPage() {
       sections={[
         {
           title: 'Full Screen Image Lightbox',
+          products: ['kaayo'],
           description: 'Click to open the photo viewer.',
           preview: (
             <div>

@@ -35,6 +35,7 @@ export default defineConfig({
       '@/app/components/custom/kaayo': path.resolve(__dirname, './packages/react/src/kaayo'),
       '@aumraa/breathe-react/kaayo': path.resolve(__dirname, './packages/react/src/kaayo'),
       '@aumraa/breathe-react/technocracy': path.resolve(__dirname, './packages/react/src/technocracy'),
+      '@aumraa/breathe-react/lemniscate': path.resolve(__dirname, './packages/react/src/lemniscate'),
       // Alias @ to the src directory
       '@': path.resolve(__dirname, './src'),
     },

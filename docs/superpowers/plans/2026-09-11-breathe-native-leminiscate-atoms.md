@@ -25,6 +25,14 @@
 | D4 | `react-native-reusables` (rnr) is the scaffolding source (copy-in code, not a runtime dependency). Registry: `github.com/founded-labs/react-native-reusables/tree/main/packages/registry/src/nativewind`. |
 | D5 | Calendar = custom month grid (matches web look), not the OS date picker. *(Default — confirm with product owner.)* |
 | D6 | Brand gradient = exactly what renders on web today: `.bg-gradient-brand` utility = `linear-gradient(135deg, #3cb6d7 0%, #2262ec 100%)`. The unused `--gradient-brand` var (sky→brand-blue 138°) is **not** used. *(Default — confirm with product owner.)* |
+| D7 | Leminiscate web Button: the repo's Button is added as `@aumraa/breathe-react/lemniscate`, locked to the native Button by a parity test; per-product component tokens are a follow-up. (Owner approved 2026-09-13.) |
+| D8 | Web `--gradient-brand` = the repo's rendered `.bg-gradient-brand` (135°, `#3cb6d7` → `#2262ec`), same as native D6. |
+| D9 | Semantic colours HSL-rendered vs scale hex — resolved together with D13. |
+| D10 | Shared Dialog gets the repo's mobile-fit classes for ALL products. (Owner approved 2026-09-13.) |
+| D11 | Web Tailwind v4 vs repo v3 shadow differences: out of scope; follow-up. |
+| D12 | `tokens/src/global.json` is not edited (Style Dictionary emits into all 6 web outputs). |
+| D13 | Breathe's `tokens/src/lemniscate.json` colours are canonical for Leminiscate on web AND native (owner decided 2026-09-13: "breathe colors are correct"). All existing `lmns.*` tokens (tertiary, positive, negative, primaryLight/Dark, borderHover) stay. Native `packages/react-native/styles/lemniscate.css` will be regenerated from the same JSON in T4; where Breathe has no Leminiscate dark-mode value, the dark palette comes from the app repo's `.dark` block. |
+| D14 | `.bg-gradient-brand`/`.shadow-brand` ship in `packages/react/styles/lemniscate.css` only. (Owner approved 2026-09-13.) |
 
 ### 0.2 Pinned versions (Expo SDK 56 `bundledNativeModules.json`)
 
@@ -55,6 +63,9 @@
 8. **`@rn-primitives/slider` has no native gesture handling** ⇒ Slider uses `@react-native-community/slider`.
 9. **RNTL 14**: `render`, `fireEvent`, `act` are **async** (`await`). Matchers auto-register on import. Uses `test-renderer`, not `react-test-renderer`.
 10. **Expo font weights on Android**: `expo-font` config plugin `android.fonts[].fontDefinitions[{path, weight}]` makes `fontFamily: 'Inter'` + `fontWeight` work ⇒ `font-medium/semibold/bold` classes need no mapping. Requires a **development build** (not Expo Go).
+11. **react-native-css 3.0.7 drops every static `line-height` and multiplies `var()`/`calc()` line-heights by the element font size** (found on device 2026-09-12: `src/compiler/declarations.ts:2193-2219` wraps px/unitless values so `src/native/styles/line-height.ts:4-8` discards them; `:10-20` multiplies by `--__rn-css-em`).
+    ⇒ `--text-*--line-height` are font-size ratios and `.leading-3`…`.leading-10` are `calc(4N / var(--__rn-css-em))`; both resolve to exact px on device (Task 3 note, R21).
+12. **react-native-css drops a function-form `style` on any component that also has a className** (it merges to `[classStyle, fn]`; RN only calls a top-level function). Atom props type `style` as `StyleProp<ViewStyle>`, not Pressable's function form.
 
 ### 0.4 Web → Native translation rules (apply to every atom)
 
@@ -63,7 +74,7 @@
 | R1 | Any class | Paste verbatim; the theme guarantees identical values. |
 | R2 | `bg-[var(--color-primary-500)]` etc. | `bg-primary-500` (scales registered as named colours with the same names). |
 | R3 | `rem` inside arbitrary values (`min-w-[8rem]`, `text-[0.8rem]`) | px (`min-w-[128px]`, `text-[12.8px]`). |
-| R4 | bare `rounded` / bare `shadow` | Forbidden (v4 meaning differs). Use explicit `rounded-[4px]` / `shadow-sm`. |
+| R4 | bare `rounded` | Forbidden (v4 compiles it to `0.25rem` = 3.5px on native, not the repo's 12px). Use explicit `rounded-[4px]` etc. Bare `shadow` is **allowed** — Tailwind 4.3.3 compiles bare `shadow` to exactly v3's bare `shadow` value, so it needs no rewrite. `test/class-rules.test.ts` enforces R3, R4 and R19 by scanning every file under `src/`. |
 | R5 | `hover:x` when an `active:` style exists | Drop. |
 | R6 | `hover:x` / `focus:x` highlight with no `active:` (menu items, toggles) | Becomes `active:x` (touch feedback). |
 | R7 | `focus-visible:ring-*` on text inputs | `useFocusRing()` → `outlineWidth: 2, outlineOffset: 2, outlineColor: ring`. On non-text controls: drop (keyboard-only on web). |
@@ -76,18 +87,24 @@
 | R14 | `transition-*`, `duration-*` | Drop, unless motion is the component's point (Switch, Progress, Skeleton, Spinner) → Reanimated with the same duration/easing. |
 | R15 | `animate-spin` / `animate-pulse` | `<Spinner/>` / `<Skeleton/>`. |
 | R16 | `bg-gradient-brand` | `<Gradient/>` layer. |
-| R17 | `ring-offset-*`, `outline-none`, `cursor-*`, `select-none`, `pointer-events-none`, `whitespace-nowrap`, `file:*`, `peer-*` | Drop (`whitespace-nowrap` → `numberOfLines={1}` where text can wrap). |
+| R17 | `ring-offset-*`, `outline-none`, `cursor-*`, `select-none`, `pointer-events-none`, `whitespace-nowrap`, `file:*`, `peer-*` | Drop (`whitespace-nowrap` → `numberOfLines={1}` where text can wrap). Button labels use `numberOfLines={1}`. |
 | R18 | `inline-flex` | `flex-row` (+ `self-start` when the web element was inline and must not stretch). |
 | R19 | Default Tailwind palette (`bg-red-50`) | Only families defined in the theme with v3 hex (slate, gray, red, orange, amber, green, emerald, cyan, blue, purple). Add a family's v3 hex before using it. |
 | R20 | `asChild` on Button for links | RN idiom is the reverse: `<Link href="…" asChild><Button/></Link>`. Button has no `asChild`. |
+| R21 | Static `line-height` (`leading-[20px]`, `[line-height:…]`, a px or unitless `line-height` in the stylesheet) | **Allowed:** `leading-{none,tight,snug,normal,relaxed,loose}`, `leading-3`..`leading-10`, and unitless `leading-[1.25]`. **Forbidden:** arbitrary length leadings (`leading-[20px]`, `leading-[1.5rem]`, `leading-[1em]`) and a font size with a slash line-height (`text-sm/6`, `text-[11px]/4`) — react-native-css 3.0.7 drops the first outright and gives the second no line-height at all. Every allowed form (including the named leadings, which act only through `--tw-leading`) needs a `text-*` size set on the same element or an ancestor (the Text atom always has one) — that's what `--__rn-css-em` resolves to. `test/class-rules.test.ts` enforces both forbidden patterns by scanning every file under `src/`. §0.3 fact 11. |
+| R22 | `import { X } from 'lucide-react-native'` in a component | In `src/`, deep-import `import X from 'lucide-react-native/icons/<kebab-name>'` and add a matching `jest.mock` line to `jest.setup.ts`: Expo's Metro doesn't tree-shake, so one index import bundles all ~1,800 icons into every consuming app. Tests keep index imports (the index is mocked). The code blocks in Tasks 18–27 predate this rule; convert their icon imports when implementing. Check that the `.mjs` exists: some names are type-only aliases (`trash-2` → use `trash`). |
+| R23 | Every change updates web React and React Native together. | A Leminiscate token or component change updates `packages/react` and `packages/react-native` in the same commit. Tokens change only in `tokens/src/lemniscate.json` followed by `pnpm tokens`. Never hand-edit `tokens/dist/**` or generated native styles. If the other platform has no counterpart yet, add a tracker row in the same commit. |
+| R24 | A change for one product leaves every other product byte-identical. | `pnpm tokens && git diff --exit-code -- tokens/dist ':(exclude)tokens/dist/web/<product>.css'` must pass. A shared web file may change only through a var slot whose fallback is today's value. |
 
 ### 0.5 Accepted parity differences (the only places native ≠ web)
 
 | Atom | Difference | Why |
 |---|---|---|
 | Button | `hover:*` gone; gradient press = 6% black overlay instead of `brightness(0.94)` | Touch has no hover; overlay is deterministic. |
+| Badge | Text classes that the web puts on the badge div go in `textClassName` on native | RN can't put text classes on a View (R10); a separate prop lets a consumer restyle the label. |
+| Badge | `self-start` keeps it inline-sized in RN's stretching column layout; add `self-center` in a row next to taller content | Web `inline-flex` sizes to content by default; RN `View` stretches to fill a column unless told otherwise. |
 | Input | `type="date"` not supported → use Calendar (inside a popover/sheet molecule) | No native date text field. |
-| Label | `htmlFor` → pass `onPress={() => ref.current?.focus()}` | RN has no `for` association. |
+| Label | `htmlFor` is removed from the type → pass `onPress={() => ref.current?.focus()}` | RN has no `for` association. |
 | Select | `value`/`onValueChange` use `{ value, label }` objects (rn-primitives `Option`), not strings | Native closed Select must know the label without rendering items. |
 | Select | Scroll up/down buttons not exported | Web-only in rnr; native list scrolls. |
 | Select | `<SelectItem value="monthly" label="Monthly" />`, not `<SelectItem value="monthly">Monthly</SelectItem>` | rn-primitives renders the item text from `label`. |
@@ -96,16 +113,21 @@
 | Slider | Thumb is the OS thumb (tinted), not a 20px white disc with 2px primary border | Native control (Fact 8). |
 | Calendar | Single-date mode only | Repo only uses `mode="single"`. |
 | All | Focus rings only on text inputs | Keyboard focus rings are web-only. |
+| Skeleton | Holds still (solid block) under OS Reduce Motion; web animate-pulse ignores it | Decorative motion; Spinner (essential) keeps spinning |
+| Progress | `max` not supported; value is 0–100 (web ignores max for the bar too) | rn-primitives accepts `max`, but the bar's translate math is hardcoded to a 0–100 scale, matching the repo. |
+| Input | Focus ring: the 2px offset gap is transparent (web paints it `background` via `ring-offset-background`) | RN `outlineOffset` leaves the gap unpainted; identical on `bg-background`, visible only over another colour. |
+| Switch | Track colour snaps; only the thumb slides | Class flip, not a shared value; a fade would need interpolateColor over THEME |
 
 ### 0.6 File structure (created by this plan)
 
 ```
-pnpm-workspace.yaml                         (modify: add apps/*)
-package.json                                (modify: lightningcss override)
+pnpm-workspace.yaml                         (modify: add apps/*, overrides; Task 2 adds packageExtensions)
+package.json                                (modify: packageManager)
 vitest.config.ts                            (modify: exclude RN code)
 .github/workflows/ci.yml                    (modify: Node 22 + RN job)
 packages/react-native/
   package.json  tsconfig.json  babel.config.js  jest.config.js  jest.setup.ts  nativewind-env.d.ts  README.md
+  metro.js                                  withBreatheNative(config): withNativewind + worklets exemption (Task 28)
   styles/lemniscate.css                     theme: tokens, px scale, palette, dark mode, @source
   src/index.ts                              public exports
   src/lib/utils.ts                          cn()
@@ -116,6 +138,7 @@ packages/react-native/
   src/atoms/button.tsx  badge.tsx  label.tsx  separator.tsx  skeleton.tsx  progress.tsx  avatar.tsx
   src/atoms/form-elements/input.tsx  textarea.tsx  checkbox.tsx  radio-group.tsx  switch.tsx
   src/atoms/form-elements/toggle.tsx  toggle-group.tsx  slider.tsx  select.tsx  input-otp.tsx  calendar.tsx
+  test/class-rules.test.ts                  regex guard over src/ for R3/R4/R19 (Task 3)
   test/**/*.test.ts(x)                      one file per unit
 apps/native-catalog/                        Expo app: one section per atom
   App.tsx  global.css  metro.config.js  postcss.config.mjs  nativewind-env.d.ts  app.json  package.json
@@ -129,36 +152,36 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 
 | Task | Unit | Size | Status |
 |---|---|---|---|
-| 1 | Workspace + CI | S | ☐ |
-| 2 | Package skeleton + `cn` | S | ☐ |
-| 3 | Theme stylesheet | M | ☐ |
-| 4 | THEME JS mirror | S | ☐ |
-| 5 | Catalog app + device spike | M | ☐ |
-| 6 | Text | S | ☐ |
-| 7 | Icon | S | ☐ |
-| 8 | Gradient | S | ☐ |
-| 9 | Spinner | S | ☐ |
-| 10 | Button | L | ☐ |
-| 11 | Label | S | ☐ |
-| 12 | Badge | S | ☐ |
-| 13 | Separator | S | ☐ |
-| 14 | Skeleton | S | ☐ |
-| 15 | Progress | M | ☐ |
-| 16 | Avatar | S | ☐ |
-| 17 | Input + focus ring | M | ☐ |
-| 18 | Textarea | S | ☐ |
-| 19 | Checkbox | S | ☐ |
-| 20 | RadioGroup | S | ☐ |
-| 21 | Switch | M | ☐ |
-| 22 | Toggle | S | ☐ |
-| 23 | ToggleGroup | S | ☐ |
-| 24 | Slider | S | ☐ |
-| 25 | Select | L | ☐ |
-| 26 | InputOTP | M | ☐ |
-| 27 | Calendar | L | ☐ |
-| 28 | Exports, README, pack | S | ☐ |
+| 1 | Workspace + CI | S | ☑ |
+| 2 | Package skeleton + `cn` | S | ☑ |
+| 3 | Theme stylesheet | M | ☑ |
+| 4 | THEME JS mirror | S | ☑ |
+| 5 | Catalog app + device spike | M | ☑ |
+| 6 | Text | S | ☑ |
+| 7 | Icon | S | ☑ |
+| 8 | Gradient | S | ☑ |
+| 9 | Spinner | S | ☑ |
+| 10 | Button | L | ☑ |
+| 11 | Label | S | ☑ |
+| 12 | Badge | S | ☑ |
+| 13 | Separator | S | ☑ |
+| 14 | Skeleton | S | ☑ |
+| 15 | Progress | M | ☑ |
+| 16 | Avatar | S | ☑ |
+| 17 | Input + focus ring | M | ☑ |
+| 18 | Textarea | S | ☑ |
+| 19 | Checkbox | S | ☑ |
+| 20 | RadioGroup | S | ☑ |
+| 21 | Switch | M | ☑ |
+| 22 | Toggle | S | ☑ |
+| 23 | ToggleGroup | S | ☑ |
+| 24 | Slider | S | ☑ |
+| 25 | Select | L | ☑ |
+| 26 | InputOTP | M | ☑ |
+| 27 | Calendar | L | ☑ |
+| 28 | Exports, README, pack | S | ☑ (Tasks 1–27) |
 
-**Testing convention (all tasks):** Tests live in `packages/react-native/test/`, mirror `src/` paths, and assert (a) the variant functions return the repo's classes (parity), (b) behaviour (press, disabled, value changes). In Jest, NativeWind's import rewrite does not run, so `className` is a plain prop on host components — assert it with `el.props.className`. All RNTL calls are awaited.
+**Testing convention (all tasks):** Tests live in `packages/react-native/test/`, mirror `src/` paths, and assert (a) the variant functions return the repo's classes (parity), (b) behaviour (press, disabled, value changes). In Jest, NativeWind's import rewrite does not run, so `className` is a plain prop on host components — assert it with `el.props.className`. All RNTL calls are awaited. Atoms hidden from accessibility (`aria-hidden`, `accessibilityElementsHidden`, `importantForAccessibility="no-hide-descendants"`) are excluded from RNTL queries by default; query them with `{ hidden: true }`.
 
 **Run tests:** `pnpm --filter @aumraa/breathe-native test` (from project root).
 
@@ -170,7 +193,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 
 **Files:**
 - Modify: `pnpm-workspace.yaml`
-- Modify: `package.json` (root, `pnpm.overrides`)
+- Modify: `package.json` (root, `packageManager`)
 - Modify: `vitest.config.ts`
 - Modify: `.github/workflows/ci.yml`
 
@@ -178,9 +201,9 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 
 ```bash
 git checkout -b feat/breathe-native
-corepack enable && pnpm -v
+corepack pnpm -v
 ```
-Expected: pnpm `10.x`.
+Expected: `10.34.5` (pinned by root `package.json`'s `packageManager` field, set in Step 3).
 
 - [ ] **Step 2: Add `apps/*` to the workspace** — replace `pnpm-workspace.yaml` with:
 
@@ -189,19 +212,26 @@ packages:
   - '.'
   - 'packages/*'
   - 'apps/*'
+
+overrides:
+  vite: 6.3.5
+  lightningcss: 1.30.1
 ```
 
 (pnpm's default isolated linker stays on — Expo SDK 54+ supports it, and the root docs site uses React 18 while the RN packages use React 19, so hoisting would collide.)
 
-- [ ] **Step 3: Pin lightningcss** (required by NativeWind v5) — in root `package.json`, change the `pnpm` block to:
+- [ ] **Step 3: Pin lightningcss and pnpm** (lightningcss required by NativeWind v5) — pnpm 11+ ignores `package.json`'s `pnpm.overrides`, so the override lives in `pnpm-workspace.yaml` (added in Step 2, shown again here):
+
+```yaml
+overrides:
+  vite: 6.3.5
+  lightningcss: 1.30.1
+```
+
+Pin the pnpm version itself so plain `corepack pnpm` resolves to pnpm 10 locally — add to root `package.json`:
 
 ```json
-  "pnpm": {
-    "overrides": {
-      "vite": "6.3.5",
-      "lightningcss": "1.30.1"
-    }
-  }
+  "packageManager": "pnpm@10.34.5",
 ```
 
 - [ ] **Step 4: Keep vitest away from RN code** — replace `vitest.config.ts` with:
@@ -234,15 +264,17 @@ export default defineConfig({
 })
 ```
 
-- [ ] **Step 5: CI** — in `.github/workflows/ci.yml` change `node-version: 20` to `node-version: 22` and append after the `Build` step:
+- [ ] **Step 5: CI** — in `.github/workflows/ci.yml` change `node-version: 20` to `node-version: 22`, remove the `with: version: 10` input from the `pnpm/action-setup@v4` step (it now reads the version from `packageManager`; leaving both set makes `action-setup` error with "Multiple versions of pnpm specified"), and append after the `Build` step:
 
 ```yaml
       - name: Native — type check
-        run: pnpm --filter @aumraa/breathe-native typecheck
+        run: pnpm --filter @aumraa/breathe-native --fail-if-no-match typecheck
 
       - name: Native — test
-        run: pnpm --filter @aumraa/breathe-native test
+        run: pnpm --filter @aumraa/breathe-native --fail-if-no-match test
 ```
+
+(`--fail-if-no-match` makes these steps exit non-zero when the package doesn't exist yet, instead of silently passing with "No projects matched the filters".)
 
 - [ ] **Step 6: Verify the web side is untouched**
 
@@ -256,7 +288,7 @@ git add pnpm-workspace.yaml package.json pnpm-lock.yaml vitest.config.ts .github
 git commit -m "chore(native): add apps workspace, lightningcss pin, Node 22 CI"
 ```
 
-(The two `Native —` CI steps fail until Task 2 lands; land Tasks 1–2 in the same PR.)
+(The two `Native —` CI steps fail (via `--fail-if-no-match`) until Task 2 lands; land Tasks 1–2 in the same PR.)
 
 ---
 
@@ -265,6 +297,7 @@ git commit -m "chore(native): add apps workspace, lightningcss pin, Node 22 CI"
 **Files:**
 - Create: `packages/react-native/package.json`, `tsconfig.json`, `babel.config.js`, `jest.config.js`, `jest.setup.ts`, `nativewind-env.d.ts`, `.gitignore`
 - Create: `packages/react-native/src/lib/utils.ts`, `packages/react-native/src/index.ts`
+- Modify: `pnpm-workspace.yaml` (`packageExtensions` for `@react-native-community/slider`, Step 2b)
 - Test: `packages/react-native/test/lib/utils.test.ts`
 
 - [ ] **Step 1: `packages/react-native/package.json`**
@@ -280,10 +313,11 @@ git commit -m "chore(native): add apps workspace, lightningcss pin, Node 22 CI"
   "react-native": "src/index.ts",
   "exports": {
     ".": { "types": "./src/index.ts", "default": "./src/index.ts" },
+    "./metro": "./metro.js",
     "./styles/*": "./styles/*",
     "./package.json": "./package.json"
   },
-  "files": ["src", "styles", "README.md"],
+  "files": ["src", "styles", "metro.js", "README.md"],
   "sideEffects": ["**/*.css"],
   "scripts": {
     "test": "jest",
@@ -299,9 +333,13 @@ git commit -m "chore(native): add apps workspace, lightningcss pin, Node 22 CI"
     "nativewind": "5.0.0-preview.4",
     "react": ">=19.2.0",
     "react-native": ">=0.85.0",
+    "react-native-css": "~3.0.7",
     "react-native-reanimated": ">=4.3.1",
     "react-native-screens": ">=4.26.0",
     "react-native-svg": ">=15.15.4"
+  },
+  "peerDependenciesMeta": {
+    "@react-native-community/slider": { "optional": true }
   },
   "dependencies": {
     "@rn-primitives/avatar": "1.5.2",
@@ -326,6 +364,7 @@ git commit -m "chore(native): add apps workspace, lightningcss pin, Node 22 CI"
     "@rn-primitives/portal": "1.5.3",
     "@testing-library/react-native": "^14.0.1",
     "@types/jest": "29.5.14",
+    "@types/node": "^25.6.0",
     "@types/react": "~19.2.14",
     "babel-preset-expo": "~56.0.20",
     "expo": "~56.0.21",
@@ -357,7 +396,7 @@ Why these are peers: `@rn-primitives/portal` must be the single instance the app
   "compilerOptions": {
     "strict": true,
     "noEmit": true,
-    "types": ["jest"]
+    "types": ["jest", "node"]
   },
   "include": ["src", "test", "nativewind-env.d.ts", "jest.setup.ts"]
 }
@@ -370,21 +409,33 @@ Why these are peers: `@rn-primitives/portal` must be the single instance the app
 
 `packages/react-native/babel.config.js` (Jest only — consuming apps use their own)
 ```js
-module.exports = { presets: ['babel-preset-expo'] };
+// enableBabelRuntime: false — babel-preset-expo otherwise emits `@babel/runtime/helpers/*`
+// imports, which aren't resolvable from this package under pnpm's isolated linker.
+module.exports = { presets: [['babel-preset-expo', { enableBabelRuntime: false }]] };
 ```
+(Deviation, found in code review: the default `enableBabelRuntime` makes babel-preset-expo emit `@babel/runtime/helpers/*` imports. Under pnpm's isolated linker `@babel/runtime` is not a dependency of this package, so those imports fail to resolve — `import * as React from 'react'` and anything else transformed by this preset breaks starting with the first component task (Task 6). `enableBabelRuntime: false` avoids the runtime-helper imports entirely.)
 
 `packages/react-native/jest.config.js`
 ```js
 module.exports = {
   preset: 'jest-expo',
-  resolver: 'react-native-reanimated/jest/resolver',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testMatch: ['<rootDir>/test/**/*.test.ts?(x)'],
   transformIgnorePatterns: [
-    'node_modules/(?!(?:.pnpm/)?((jest-)?react-native|@react-native(-community)?|expo(nent)?|@expo(nent)?/.*|@rn-primitives/.*|lucide-react-native|nativewind|react-native-css))',
+    // pnpm's store spells scoped packages with `+` (e.g. `.pnpm/@rn-primitives+slot@1.5.2_.../node_modules/@rn-primitives/slot`),
+    // so scoped alternatives must match either `/` or `+` after the scope.
+    'node_modules/(?!(?:\\.pnpm/)?((jest-)?react-native|@react-native(-community)?|expo(nent)?|@expo(nent)?[/+]|@rn-primitives[/+]|lucide-react-native|nativewind|react-native-css))',
+    // jest-expo's own preset (packages/react-native/node_modules/jest-expo/jest-preset.js) sets these two
+    // alongside its default transformIgnorePatterns; since setting the option above replaces the whole
+    // array rather than merging, they're restored here.
+    '/node_modules/react-native-reanimated/plugin/',
+    '/node_modules/@react-native/babel-preset/',
   ],
 };
 ```
+(Deviation, found in code review: the original alternation used `@rn-primitives/.*` and `@expo(nent)?/.*`, which never match under pnpm — the store spells scoped packages `@scope+name@version`, not `@scope/name@version`, so nothing under `.pnpm/@rn-primitives+*` was transformed and rn-primitives' `dist` (built as ESM/JSX-adjacent output meant for Metro, not consumed as pre-transpiled CJS by Jest) threw `SyntaxError: Unexpected token '<'`. Fixed by matching `[/+]` after each scope. Also restored jest-expo's two extra `transformIgnorePatterns` entries — `/node_modules/react-native-reanimated/plugin/` and `/node_modules/@react-native/babel-preset/` — dropped because this option replaces jest-expo's array instead of merging with it.
+
+Also deviation: dropped `resolver: 'react-native-reanimated/jest/resolver'` from the original draft of this file. That path never existed — the resolver Reanimated/Worklets projects actually ship is `react-native-worklets/jest/resolver.js` (confirmed present at `packages/react-native/node_modules/react-native-worklets/jest/resolver.js`), not under `react-native-reanimated`. It isn't needed here regardless: `jest.setup.ts` fully mocks `react-native-worklets` (see below), so nothing exercises Worklets' Metro/Babel module resolution in tests, and `jest-expo`'s preset already supplies its own `resolver` (from `@react-native/jest-preset`). If a future task needs the real Worklets resolver, wire it from `react-native-worklets/jest/resolver`, not from `react-native-reanimated`.)
 
 `packages/react-native/jest.setup.ts`
 ```ts
@@ -392,10 +443,14 @@ jest.mock('react-native-worklets', () => require('react-native-worklets/src/mock
 require('react-native-reanimated').setUpTests();
 
 // NativeWind v5 rewrites imports in Metro only. In Jest `className` is a plain prop,
-// so `styled()` can be the identity.
-jest.mock('nativewind', () => ({ styled: (Component: unknown) => Component }));
+// so `styled()` can be the identity. This mock replaces the *entire* `nativewind` module —
+// any future import besides `styled` (e.g. `vars`, `cssInterop`) must be added here too.
+jest.mock('nativewind', () => ({ styled: jest.fn((Component: unknown) => Component) }));
 
 // Every lucide icon renders as a View tagged `icon-<Name>` so tests can find it.
+// Each component is cached on the target so repeated reads return the same reference
+// (e.g. `Check === Check`); symbol keys and `then` (module-interop probes, which would
+// otherwise make the mocked module thenable) pass through untouched.
 jest.mock('lucide-react-native', () => {
   const mockReact = require('react');
   const { View: MockView } = require('react-native');
@@ -403,19 +458,41 @@ jest.mock('lucide-react-native', () => {
     { __esModule: true },
     {
       get: (target: Record<string | symbol, unknown>, name: string | symbol) =>
-        name in target
+        name in target || typeof name === 'symbol' || name === 'then'
           ? target[name]
-          : (props: object) =>
-              mockReact.createElement(MockView, { testID: `icon-${String(name)}`, ...props }),
+          : (target[name] = (props: object) =>
+              mockReact.createElement(MockView, { testID: `icon-${String(name)}`, ...props })),
     },
   );
 });
+
+// Deep-imported icons (`lucide-react-native/icons/<kebab-name>`) bypass the index mock above,
+// so each one needs its own line here, reusing the index mock's `icon-<Name>` component.
+jest.mock('lucide-react-native/icons/loader-circle', () => ({
+  __esModule: true,
+  default: jest.requireMock('lucide-react-native').Loader2,
+}));
 ```
+(Deviation, found in code review: the original Proxy `get` created a brand-new component function on every read — `Check !== Check` across two reads — and had no guard for symbol keys or `then`, so probing the mocked module for thenability (`await import(...)`-style interop) would call into the icon-factory branch. Now each component is cached on `target` the first time it's read, and symbol keys / `then` fall through to the plain `target[name]` lookup instead.)
 
 `packages/react-native/.gitignore`
 ```
 node_modules/
 ```
+
+- [ ] **Step 2b: `pnpm-workspace.yaml` — peer extension for the slider** (found in code review, while wiring Task 2's devDependency on `@react-native-community/slider`)
+
+`@react-native-community/slider@5.2.0` declares no peer dependencies, so under pnpm's isolated linker its `require('react')` / `require('react-native')` resolve to whichever copies are nearest in the workspace — which, without this extension, is the root web app's React 18, not this package's React 19.2.3 / React Native 0.85.3. Two React copies in one component tree throws "Invalid hook call". Add to `pnpm-workspace.yaml` (alongside the `overrides` block from Task 1):
+
+```yaml
+packageExtensions:
+  '@react-native-community/slider':
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+```
+
+Run `pnpm install` and confirm in `pnpm-lock.yaml` that `@react-native-community/slider@5.2.0(...)` now depends on `react: 19.2.3` and `react-native: 0.85.3(...)` (the react-native package's versions, not the root web app's).
 
 - [ ] **Step 3: Write the failing test** — `packages/react-native/test/lib/utils.test.ts`
 
@@ -429,6 +506,10 @@ describe('cn', () => {
 
   it('treats font size and text colour as different groups', () => {
     expect(cn('text-sm', 'text-white')).toBe('text-sm text-white');
+  });
+
+  it('treats font size and a theme colour name as different groups', () => {
+    expect(cn('text-sm', 'text-foreground')).toBe('text-sm text-foreground');
   });
 
   it('recognises the custom 2xs font size', () => {
@@ -466,14 +547,14 @@ export * from './lib/utils';
 - [ ] **Step 6: Run — expect PASS**
 
 Run: `pnpm --filter @aumraa/breathe-native test && pnpm --filter @aumraa/breathe-native typecheck`
-Expected: 4 passed; tsc exits 0.
+Expected: 5 passed; tsc exits 0.
 
-If Jest fails to transform a package with `SyntaxError: Cannot use import statement outside a module`, add that package's name to the `transformIgnorePatterns` alternation in `jest.config.js` and re-run.
+If Jest fails to transform a package with `SyntaxError: Cannot use import statement outside a module` (or `Unexpected token '<'` for a scoped package), add that package's name to the `transformIgnorePatterns` alternation in `jest.config.js` — for a scoped package use `[/+]` after the scope (pnpm's store spells scoped packages with `+`, not `/`) — and re-run.
 
 - [ ] **Step 7: Commit**
 
 ```bash
-git add packages/react-native pnpm-lock.yaml
+git add packages/react-native pnpm-workspace.yaml pnpm-lock.yaml
 git commit -m "feat(native): scaffold @aumraa/breathe-native with jest-expo and cn()"
 ```
 
@@ -484,6 +565,7 @@ git commit -m "feat(native): scaffold @aumraa/breathe-native with jest-expo and 
 **Files:**
 - Create: `packages/react-native/styles/lemniscate.css`
 - Test: `packages/react-native/test/styles.test.ts`
+- Test: `packages/react-native/test/class-rules.test.ts` — regex guard over `src/` for R3/R4/R19, so later atom tasks (6–27) can't silently reintroduce `rem`, bare `rounded`, or an unregistered palette family.
 
 Values come from the repo's `src/index.css` (HSL converted to the hex the browser renders) and `tailwind.config.ts`; scales Tailwind v3 would have supplied are written out in px.
 
@@ -514,9 +596,13 @@ export function vars(text: string): Record<string, string> {
   );
 }
 
-const light = vars(block(css, ':root'));
-const dark = vars(block(css, '@media (prefers-color-scheme: dark)'));
-const theme = vars(block(css, '@theme inline'));
+// Comments can contain marker-like text (e.g. this file's own header); strip them before
+// locating blocks so `block()` always finds the real rule, not a mention inside a comment.
+const uncommented = css.replace(/\/\*[\s\S]*?\*\//g, '');
+
+const light = vars(block(uncommented, ':root'));
+const dark = vars(block(uncommented, '@media (prefers-color-scheme: dark)'));
+const theme = vars(block(uncommented, '@theme inline'));
 
 // Leminiscate repo src/index.css :root (commit ecf73f7), HSL → rendered hex
 const LIGHT: Record<string, string> = {
@@ -585,6 +671,39 @@ describe('lemniscate.css', () => {
     expect(css).toContain('@source "../src";');
   });
 
+  // react-native-css 3.0.7 drops static line-heights and multiplies var()/calc() ones by the element
+  // font size, so text sizes carry unitless ratios and leading-N divides its px by the font size.
+  it.each([
+    ['xs', 16, 12], ['sm', 20, 14], ['base', 24, 16], ['lg', 28, 18], ['xl', 28, 20], ['2xl', 32, 24],
+    ['3xl', 36, 30], ['4xl', 40, 36], ['5xl', 48, 48], ['6xl', 60, 60], ['7xl', 72, 72], ['8xl', 96, 96],
+    ['9xl', 128, 128],
+  ] as const)('text-%s line-height is the unitless ratio %spx / %spx', (size, lineHeight, fontSize) => {
+    expect(theme[`text-${size}`]).toBe(`${fontSize}px`);
+    const ratio = theme[`text-${size}--line-height`];
+    expect(ratio).toMatch(/^\d+(\.\d+)?$/);
+    expect(Number(ratio) * fontSize).toBeCloseTo(lineHeight, 5);
+  });
+
+  it.each([3, 4, 5, 6, 7, 8, 9, 10])('leading-%s is 4px × N divided by the element font size', (n) => {
+    const px = n * 4;
+    expect(uncommented).toContain(
+      `.leading-${n} { --tw-leading: calc(${px} / var(--__rn-css-em)); line-height: calc(${px} / var(--__rn-css-em)); }`,
+    );
+  });
+
+  it('does not use @utility leading-* (nativewind/theme would win the cascade)', () => {
+    expect(uncommented).not.toContain('@utility leading-*');
+  });
+
+  it('every --text-*--line-height in @theme inline is unitless (react-native-css multiplies it by font size)', () => {
+    const lineHeightVars = Object.entries(theme).filter(([name]) => /^text-.*--line-height$/.test(name));
+    expect(lineHeightVars.length).toBeGreaterThan(0);
+    lineHeightVars.forEach(([, value]) => {
+      expect(value).not.toMatch(/px|rem|em/);
+      expect(value).toMatch(/^\d+(\.\d+)?$/);
+    });
+  });
+
   it.each(Object.entries(LIGHT))('light --%s = %s', (name, value) => {
     expect(light[name]).toBe(value);
   });
@@ -612,7 +731,6 @@ describe('lemniscate.css', () => {
     expect(theme['radius-lg']).toBe('12px');
     expect(theme['radius-xl']).toBe('12px');
     expect(theme['text-sm']).toBe('14px');
-    expect(theme['text-sm--line-height']).toBe('20px');
     expect(theme['text-2xs']).toBe('10px');
     expect(theme['shadow-sm']).toBe('0 1px 2px 0 rgb(0 0 0 / 0.05)');
     expect(theme['font-sans']).toBe('Inter');
@@ -824,29 +942,38 @@ Expected: FAIL — `ENOENT … styles/lemniscate.css`.
   --color-blue-50: #eff6ff; --color-blue-100: #dbeafe; --color-blue-200: #bfdbfe; --color-blue-300: #93c5fd; --color-blue-400: #60a5fa; --color-blue-500: #3b82f6; --color-blue-600: #2563eb; --color-blue-700: #1d4ed8; --color-blue-800: #1e40af; --color-blue-900: #1e3a8a; --color-blue-950: #172554;
   --color-purple-50: #faf5ff; --color-purple-100: #f3e8ff; --color-purple-200: #e9d5ff; --color-purple-300: #d8b4fe; --color-purple-400: #c084fc; --color-purple-500: #a855f7; --color-purple-600: #9333ea; --color-purple-700: #7e22ce; --color-purple-800: #6b21a8; --color-purple-900: #581c87; --color-purple-950: #3b0764;
 
-  /* Typography: Inter weights are registered by the app's expo-font plugin */
+  /* Typography: Inter weights are registered by the app's expo-font plugin.
+     --text-*--line-height values below are unitless font-size ratios, not px: react-native-css
+     3.0.7 drops a static line-height and multiplies a var()/calc() one by the element's font size
+     via its internal --__rn-css-em, so a ratio is what lands back on the intended px. */
   --font-sans: Inter;
   --text-2xs: 10px;
   --text-xs: 12px;
-  --text-xs--line-height: 16px;
+  --text-xs--line-height: 1.3333333; /* 16px */
   --text-sm: 14px;
-  --text-sm--line-height: 20px;
+  --text-sm--line-height: 1.4285714; /* 20px */
   --text-base: 16px;
-  --text-base--line-height: 24px;
+  --text-base--line-height: 1.5; /* 24px */
   --text-lg: 18px;
-  --text-lg--line-height: 28px;
+  --text-lg--line-height: 1.5555556; /* 28px */
   --text-xl: 20px;
-  --text-xl--line-height: 28px;
+  --text-xl--line-height: 1.4; /* 28px */
   --text-2xl: 24px;
-  --text-2xl--line-height: 32px;
+  --text-2xl--line-height: 1.3333333; /* 32px */
   --text-3xl: 30px;
-  --text-3xl--line-height: 36px;
+  --text-3xl--line-height: 1.2; /* 36px */
   --text-4xl: 36px;
-  --text-4xl--line-height: 40px;
+  --text-4xl--line-height: 1.1111111; /* 40px */
   --text-5xl: 48px;
-  --text-5xl--line-height: 48px;
+  --text-5xl--line-height: 1; /* 48px */
   --text-6xl: 60px;
-  --text-6xl--line-height: 60px;
+  --text-6xl--line-height: 1; /* 60px */
+  --text-7xl: 72px;
+  --text-7xl--line-height: 1; /* 72px */
+  --text-8xl: 96px;
+  --text-8xl--line-height: 1; /* 96px */
+  --text-9xl: 128px;
+  --text-9xl--line-height: 1; /* 128px */
 
   /* Spacing: Tailwind v3 4px step */
   --spacing: 4px;
@@ -889,17 +1016,175 @@ Expected: FAIL — `ENOENT … styles/lemniscate.css`.
   --container-6xl: 1152px;
   --container-7xl: 1280px;
 }
+
+/* leading-N (Tailwind v3 absolute 4px × N). Same react-native-css 3.0.7 behaviour as the
+   --text-*--line-height ratios above: static px is dropped, so these divide the target px by
+   --__rn-css-em, which the runtime multiplies by the font size and lands back on the intended px.
+   That means leading-N only comes out right when a text-* size is set on the element itself or an
+   ancestor. nativewind/theme's @utility leading-* still emits a font-relative value after ours,
+   so these are plain rules, which land after the utilities layer. */
+.leading-3 { --tw-leading: calc(12 / var(--__rn-css-em)); line-height: calc(12 / var(--__rn-css-em)); }
+.leading-4 { --tw-leading: calc(16 / var(--__rn-css-em)); line-height: calc(16 / var(--__rn-css-em)); }
+.leading-5 { --tw-leading: calc(20 / var(--__rn-css-em)); line-height: calc(20 / var(--__rn-css-em)); }
+.leading-6 { --tw-leading: calc(24 / var(--__rn-css-em)); line-height: calc(24 / var(--__rn-css-em)); }
+.leading-7 { --tw-leading: calc(28 / var(--__rn-css-em)); line-height: calc(28 / var(--__rn-css-em)); }
+.leading-8 { --tw-leading: calc(32 / var(--__rn-css-em)); line-height: calc(32 / var(--__rn-css-em)); }
+.leading-9 { --tw-leading: calc(36 / var(--__rn-css-em)); line-height: calc(36 / var(--__rn-css-em)); }
+.leading-10 { --tw-leading: calc(40 / var(--__rn-css-em)); line-height: calc(40 / var(--__rn-css-em)); }
 ```
+
+**Line heights on device: root cause (2026-09-12 emulator spike).** react-native-css 3.0.7 drops every static `line-height`. In `node_modules/react-native-css/src`:
+- `compiler/declarations.ts:2193-2203` (`parseLineHeightDeclaration`) wraps the value as `[{}, "lineHeight", [value], 1]`.
+- `parseLineHeight` (`:2205-2219`) turns a unitless `1.25` into `em(1.25)` and `20px` into the number `20` (via `parseLength`, `:1367-1378`).
+- At runtime, `native/styles/line-height.ts:4-8` returns nothing, because that wrapped argument resolves to an array, not a number (`native/styles/resolve.ts:90`, `:158-163`).
+- Only `var()`/`calc()` line-heights survive, and `line-height.ts:10-20` multiplies them by the element font size (`--__rn-css-em`, set alongside `fontSize` at `compiler/declarations.ts:2251`).
+
+With px line heights the device measured `text-sm` = 280 (20 × 14). `text-base leading-5` measured 23: that is nativewind/theme's `.leading-5 { line-height: calc(var(--spacing) / 1rem * 5) }`, with rem inlined as 14, so 1.4286 × 16. The old `@utility leading-*` px override was static, so it was dropped. Hence:
+- `--text-*--line-height` are **ratios** (px line height ÷ px font size), which Tailwind emits as `line-height: var(--tw-leading, <ratio>)`; the runtime multiplies back to exactly the v3 px.
+- `.leading-3`…`.leading-10` are plain rules, `calc(4N / var(--__rn-css-em))` for both `line-height` and `--tw-leading`. Plain rules land after the utilities layer, so they beat nativewind/theme's `@utility leading-*`; the runtime multiplies back to exactly 4N px.
+- The named leadings (`leading-none`, `leading-tight`, …) keep web em semantics through `--tw-leading`, which the `text-*` fallback reads.
+
+Compiled and resolved with react-native-css's own `resolveValue`, before → after:
+- `text-sm` 280 → 20
+- `text-base` 384 → 24
+- `text-4xl` 1440 → 40
+- `text-base leading-5` 22.86 → 20
+- `text-2xl leading-6` 41.14 → 24
+- `text-sm leading-none` = 14 and `text-sm leading-tight` = 17.5
+
+On device (Task 5, S1b) both probes read 20.
+
 
 - [ ] **Step 4: Run — expect PASS**
 
 Run: `pnpm --filter @aumraa/breathe-native test test/styles.test.ts`
-Expected: all cases pass (≈120 `it.each` rows).
+Expected: all cases pass (≈142 `it`/`it.each` rows).
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 5: Write the class-rule guard** — `packages/react-native/test/class-rules.test.ts`
+
+Recursively scans every `.ts`/`.tsx` file under `src/` so Tasks 6–27 can't reintroduce `rem`, bare `rounded`, or a palette family the theme doesn't define. Passes trivially today (src only has `index.ts`/`lib/utils.ts`); a self-check proves the regexes against sample strings independent of what src/ currently contains.
+
+```ts
+import { readdirSync, readFileSync } from 'fs';
+import path from 'path';
+
+const SRC_DIR = path.join(__dirname, '../src');
+
+// R3: rem inside arbitrary values (min-w-[8rem], text-[0.8rem]) — NativeWind v5 inlines rem as 14px.
+const REM = /\d(\.\d+)?rem\b/;
+// R4: bare `rounded` — Tailwind v4 compiles it to 0.25rem = 3.5px on native, not the repo's 12px.
+// `rounded-lg`, `rounded-[3px]` and `rounded-full` must NOT match (all followed by `-`).
+const BARE_ROUNDED = /(?<![\w-])rounded(?![\w-[])/;
+// R19: only families the theme defines (slate, gray, red, orange, amber, green, emerald, cyan,
+// blue, purple) may be used; every other Tailwind default-palette family compiles to OKLCH.
+const FORBIDDEN_PALETTE_FAMILY =
+  /-(yellow|lime|teal|sky|indigo|violet|fuchsia|pink|rose|zinc|stone)-\d/;
+// `neutral-white-25` / `neutral-black-975` (the repo's foundation scale) must NOT match — only a
+// *bare* `neutral-<digit>` family (Tailwind's default, unregistered in the theme) is forbidden.
+const FORBIDDEN_NEUTRAL_FAMILY = /-neutral-\d/;
+// R21: react-native-css 3.0.7 drops static line-heights and multiplies var()/calc() ones by the
+// element font size — an arbitrary length leading (`leading-[20px]`) silently breaks; unitless
+// `leading-[1.25]` is fine.
+const ARBITRARY_LEADING = /leading-\[[^\]]*\d(px|rem|em)\]/;
+// R21: a font-size utility with a slash line-height (`text-sm/6`, `text-[11px]/4`) gets no
+// line-height at all under react-native-css 3.0.7. Colour opacity like `text-white/80` must not
+// match — only a recognised size token or arbitrary-length size before the slash counts.
+const TEXT_SLASH_LEADING = /(?<![\w-])text-(2xs|xs|sm|base|lg|xl|[2-9]xl|\[[^\]]+\])\/[\w.[\]]+/;
+
+interface Violation {
+  file: string;
+  match: string;
+}
+
+function walk(dir: string): string[] {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) return walk(full);
+    if (/\.tsx?$/.test(entry.name)) return [full];
+    return [];
+  });
+}
+
+const SRC_FILES = walk(SRC_DIR);
+
+/** Scans every src file for `pattern`, returning one violation per match (file + matched text). */
+function scan(pattern: RegExp): Violation[] {
+  const global = new RegExp(pattern.source, 'g');
+  const violations: Violation[] = [];
+  for (const file of SRC_FILES) {
+    const content = readFileSync(file, 'utf8');
+    for (const match of content.matchAll(global)) {
+      violations.push({ file: path.relative(SRC_DIR, file), match: match[0] });
+    }
+  }
+  return violations;
+}
+
+describe('class-rules (guards packages/react-native/src against forbidden class patterns)', () => {
+  it('never uses rem in a class string (R3)', () => {
+    expect(scan(REM)).toEqual([]);
+  });
+
+  it('never uses bare `rounded` (R4 — v4 compiles it to 0.25rem = 3.5px on native)', () => {
+    expect(scan(BARE_ROUNDED)).toEqual([]);
+  });
+
+  it('never uses a Tailwind palette family the theme does not define (R19)', () => {
+    expect([...scan(FORBIDDEN_PALETTE_FAMILY), ...scan(FORBIDDEN_NEUTRAL_FAMILY)]).toEqual([]);
+  });
+
+  it('never uses an arbitrary-length leading (R21 — react-native-css 3.0.7 drops/mis-scales it)', () => {
+    expect(scan(ARBITRARY_LEADING)).toEqual([]);
+  });
+
+  it('never uses a text size with a slash line-height (R21 — gets no line-height at all)', () => {
+    expect(scan(TEXT_SLASH_LEADING)).toEqual([]);
+  });
+
+  // Proves the regexes themselves are correct, independent of what src/ currently contains.
+  it('regex self-check: matches the intended cases, rejects the exempted ones', () => {
+    expect(REM.test('min-w-[8rem]')).toBe(true);
+    expect(REM.test('text-[0.8rem]')).toBe(true);
+    expect(REM.test('min-w-[128px]')).toBe(false);
+    expect(REM.test('text-[12.8px]')).toBe(false);
+
+    expect(BARE_ROUNDED.test('rounded')).toBe(true);
+    expect(BARE_ROUNDED.test("'rounded'")).toBe(true);
+    expect(BARE_ROUNDED.test('rounded-lg')).toBe(false);
+    expect(BARE_ROUNDED.test('rounded-[3px]')).toBe(false);
+    expect(BARE_ROUNDED.test('rounded-full')).toBe(false);
+
+    expect(FORBIDDEN_PALETTE_FAMILY.test('bg-rose-500')).toBe(true);
+    expect(FORBIDDEN_PALETTE_FAMILY.test('text-sky-400')).toBe(true);
+    expect(FORBIDDEN_PALETTE_FAMILY.test('bg-neutral-white-25')).toBe(false);
+    expect(FORBIDDEN_PALETTE_FAMILY.test('bg-slate-500')).toBe(false);
+
+    expect(FORBIDDEN_NEUTRAL_FAMILY.test('bg-neutral-500')).toBe(true);
+    expect(FORBIDDEN_NEUTRAL_FAMILY.test('bg-neutral-white-25')).toBe(false);
+    expect(FORBIDDEN_NEUTRAL_FAMILY.test('bg-neutral-black-975')).toBe(false);
+
+    expect(ARBITRARY_LEADING.test('leading-[20px]')).toBe(true);
+    expect(ARBITRARY_LEADING.test('leading-[1.5rem]')).toBe(true);
+    expect(ARBITRARY_LEADING.test('leading-[1.25]')).toBe(false);
+    expect(ARBITRARY_LEADING.test('leading-5')).toBe(false);
+
+    expect(TEXT_SLASH_LEADING.test('text-sm/6')).toBe(true);
+    expect(TEXT_SLASH_LEADING.test('text-[11px]/4')).toBe(true);
+    expect(TEXT_SLASH_LEADING.test('text-white/80')).toBe(false);
+    expect(TEXT_SLASH_LEADING.test('text-xs')).toBe(false);
+  });
+});
+```
+
+- [ ] **Step 6: Run — expect PASS**
+
+Run: `pnpm --filter @aumraa/breathe-native test test/class-rules.test.ts`
+Expected: all 4 cases pass.
+
+- [ ] **Step 7: Commit**
 
 ```bash
-git add packages/react-native/styles packages/react-native/test/styles.test.ts
+git add packages/react-native/styles packages/react-native/test/styles.test.ts packages/react-native/test/class-rules.test.ts
 git commit -m "feat(native): Leminiscate theme stylesheet with px scale and repo tokens"
 ```
 
@@ -925,9 +1210,12 @@ import { block, vars } from '../styles.test';
 const css = readFileSync(path.join(__dirname, '../../styles/lemniscate.css'), 'utf8');
 const kebab = (key: string) => key.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
 
+// Strip comments first, same as styles.test.ts, so a comment can never shift the parsed blocks.
+const uncommented = css.replace(/\/\*[\s\S]*?\*\//g, '');
+
 describe('THEME mirrors lemniscate.css', () => {
-  const light = vars(block(css, ':root'));
-  const dark = vars(block(css, '@media (prefers-color-scheme: dark)'));
+  const light = vars(block(uncommented, ':root'));
+  const dark = vars(block(uncommented, '@media (prefers-color-scheme: dark)'));
 
   it.each(Object.entries(THEME.light))('light %s', (key, value) => {
     expect(value).toBe(light[kebab(key)]);
@@ -1013,11 +1301,13 @@ pnpm create expo-app@4.0.0 native-catalog --template blank-typescript@sdk-56 --n
 cd ..
 ```
 
+Then delete the template's `AGENTS.md`, `CLAUDE.md`, `.claude/` and `LICENSE` (Expo's MIT notice), and append `!/assets/*.png` to `apps/native-catalog/.gitignore` — the repo root ignores `*.png`, and `app.json` needs the template icons. The template `.gitignore` already covers `/android`, `/ios` and `.expo/`.
+
 - [ ] **Step 2: Dependencies** — in `apps/native-catalog/package.json`, set `"name": "native-catalog"`, `"private": true`, and merge into `dependencies`:
 
 ```json
     "@aumraa/breathe-native": "workspace:*",
-    "@expo-google-fonts/inter": "^0.4.2",
+    "@expo-google-fonts/inter": "0.4.2",
     "@react-native-community/slider": "5.2.0",
     "@rn-primitives/portal": "1.5.3",
     "expo-font": "~56.0.7",
@@ -1039,19 +1329,36 @@ and into `devDependencies`:
     "tailwindcss": "4.3.3"
 ```
 
-Keep the template's `expo`, `react`, `react-native` versions (they must read `~56.0.21`, `19.2.3`, `0.85.3`; fix them if not). Run `pnpm install` at the project root.
+Keep the template's `expo`, `react`, `react-native` versions (they must read `~56.0.21`, `19.2.3`, `0.85.3`; fix them if not). Delete the template's `web` script (`react-dom`/`react-native-web` aren't installed). `@expo-google-fonts/inter` is pinned exactly because `app.json` hard-codes its file paths. Run `pnpm install` at the project root.
 
 - [ ] **Step 3: NativeWind wiring**
 
 `apps/native-catalog/metro.config.js`
 ```js
+const path = require('path');
 const { getDefaultConfig } = require('expo/metro-config');
 const { withNativewind } = require('nativewind/metro');
 
 const config = getDefaultConfig(__dirname);
+const nativewindConfig = withNativewind(config);
+const nativewindResolve = nativewindConfig.resolver.resolveRequest;
 
-module.exports = withNativewind(config);
+// react-native-worklets calls require.resolveWeak('react-native'). NativeWind redirects 'react-native'
+// to react-native-css's CJS components copy, which nothing else bundles, so `expo export` fails with
+// "Chunk containing module not found". Worklets never renders className components, so its
+// 'react-native' imports skip the redirect. Remove once react-native-css handles resolveWeak.
+const WORKLETS = `${path.sep}react-native-worklets${path.sep}`;
+nativewindConfig.resolver.resolveRequest = (context, moduleName, platform) =>
+  moduleName === 'react-native' && context.originModulePath.includes(WORKLETS)
+    ? (config.resolver.resolveRequest ?? context.resolveRequest)(context, moduleName, platform)
+    : nativewindResolve(context, moduleName, platform);
+
+module.exports = nativewindConfig;
 ```
+
+The exemption is keyed on the importing module's path, not on `context.dependency`: Metro documents that field as diagnostic-only, and `asyncType` is not part of its resolution cache key.
+
+*Superseded by Task 28:* the exemption now lives in the package as `withBreatheNative` (`packages/react-native/metro.js`), and the catalog's `metro.config.js` is three lines calling it. The block above is what Task 5 shipped.
 
 `apps/native-catalog/postcss.config.mjs`
 ```js
@@ -1071,12 +1378,13 @@ export default {
 @import "@aumraa/breathe-native/styles/lemniscate.css";
 ```
 
-`apps/native-catalog/nativewind-env.d.ts`
+`apps/native-catalog/nativewind-env.d.ts` (`expo/types` declares `*.css`; without it TS 6's `noUncheckedSideEffectImports` rejects `import './global.css'`, and Expo's generated `expo-env.d.ts` is gitignored)
 ```ts
 /// <reference types="react-native-css/types" />
+/// <reference types="expo/types" />
 ```
 
-- [ ] **Step 4: Fonts and dark mode** — in `apps/native-catalog/app.json`, set `"userInterfaceStyle": "automatic"` (the template ships `"light"`, which blocks dark mode) and add to `expo.plugins`:
+- [ ] **Step 4: Fonts and dark mode** — in `apps/native-catalog/app.json`, set `"userInterfaceStyle": "automatic"` (the template ships `"light"`, which blocks dark mode), delete the template's `web` block (web is not a target) along with the then-unreferenced `assets/favicon.png` and `assets/splash-icon.png`, and add to `expo.plugins`:
 
 ```json
       [
@@ -1087,25 +1395,28 @@ export default {
               {
                 "fontFamily": "Inter",
                 "fontDefinitions": [
-                  { "path": "./node_modules/@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf", "weight": 400 },
-                  { "path": "./node_modules/@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf", "weight": 500 },
-                  { "path": "./node_modules/@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf", "weight": 600 },
-                  { "path": "./node_modules/@expo-google-fonts/inter/700Bold/Inter_700Bold.ttf", "weight": 700 }
+                  { "path": "@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf", "weight": 400 },
+                  { "path": "@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf", "weight": 500 },
+                  { "path": "@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf", "weight": 600 },
+                  { "path": "@expo-google-fonts/inter/700Bold/Inter_700Bold.ttf", "weight": 700 }
                 ]
               }
             ]
           },
           "ios": {
             "fonts": [
-              "./node_modules/@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf",
-              "./node_modules/@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf",
-              "./node_modules/@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf",
-              "./node_modules/@expo-google-fonts/inter/700Bold/Inter_700Bold.ttf"
+              "@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf",
+              "@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf",
+              "@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf",
+              "@expo-google-fonts/inter/700Bold/Inter_700Bold.ttf"
             ]
           }
         }
       ]
 ```
+
+The paths are bare package specifiers. expo-font's plugin tries `path.resolve(projectRoot, p)` first, then falls back to `require.resolve(p)` from the project root (`expo-font/plugin/build/utils.js`, `resolveFontPaths`), so they work with pnpm's default isolated layout and with `nodeLinker: hoisted` (the Windows recipe in Step 6). With hoisting, `@expo-google-fonts/inter` sits in the root `node_modules`, and `./node_modules/...` fails prebuild with `Cannot find module './node_modules/@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf'`.
+
 
 The same block goes into the Leminiscate app's `app.json` (Task 28 README).
 
@@ -1159,12 +1470,24 @@ const WEIGHTS = [
 
 export function FoundationsSection() {
   const [probe, setProbe] = useState(0);
+  const [smHeight, setSmHeight] = useState(0);
+  const [leadingHeight, setLeadingHeight] = useState(0);
   return (
     <Section title="Foundations">
       <View className="flex-row items-center gap-3">
-        <View className="h-11 w-11 rounded-lg bg-primary shadow-sm" onLayout={(e) => setProbe(e.nativeEvent.layout.height)} />
+        <View className="h-11 w-11 rounded-lg bg-primary shadow-sm" onLayout={(e) => setProbe(Math.round(e.nativeEvent.layout.height))} />
         <Text className="font-sans text-sm text-foreground">h-11 measured: {probe}px (expect 44)</Text>
       </View>
+      <Text
+        className="font-sans text-sm text-foreground"
+        onLayout={(e) => setSmHeight(Math.round(e.nativeEvent.layout.height))}>
+        text-sm measured: {smHeight}px (expect 20)
+      </Text>
+      <Text
+        className="font-sans text-base leading-5 text-foreground"
+        onLayout={(e) => setLeadingHeight(Math.round(e.nativeEvent.layout.height))}>
+        text-base leading-5 measured: {leadingHeight}px (expect 20)
+      </Text>
       <View className="flex-row flex-wrap gap-2">
         {SWATCHES.map(([cls, name]) => (
           <View key={name} className="items-center gap-1">
@@ -1199,7 +1522,7 @@ export const sections: { key: string; Component: ComponentType }[] = [
 import './global.css';
 import { PortalHost } from '@rn-primitives/portal';
 import { StatusBar } from 'expo-status-bar';
-import { Appearance, Pressable, ScrollView, Text, useColorScheme } from 'react-native';
+import { Appearance, Pressable, ScrollView, Text, useColorScheme, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { sections } from './sections';
 
@@ -1207,24 +1530,32 @@ export default function App() {
   const scheme = useColorScheme();
   return (
     <SafeAreaProvider>
-      <SafeAreaView className="flex-1 bg-background">
-        <StatusBar style={scheme === 'dark' ? 'light' : 'dark'} />
-        <Pressable
-          className="m-4 self-start rounded-md border border-border px-3 py-2"
-          onPress={() => Appearance.setColorScheme(scheme === 'dark' ? 'light' : 'dark')}>
-          <Text className="font-sans text-sm text-foreground">Toggle {scheme === 'dark' ? 'light' : 'dark'}</Text>
-        </Pressable>
-        <ScrollView>
-          {sections.map(({ key, Component }) => (
-            <Component key={key} />
-          ))}
-        </ScrollView>
-        <PortalHost />
+      {/* SafeAreaView is not NativeWind-wrapped, so className is ignored on it: the View carries the styles */}
+      <SafeAreaView style={{ flex: 1 }}>
+        <View className="flex-1 bg-background">
+          <StatusBar style="auto" />
+          <Pressable
+            className="m-4 self-start rounded-md border border-border px-3 py-2"
+            onPress={() => Appearance.setColorScheme(scheme === 'dark' ? 'light' : 'dark')}>
+            <Text className="font-sans text-sm text-foreground">Toggle {scheme === 'dark' ? 'light' : 'dark'}</Text>
+          </Pressable>
+          <ScrollView>
+            {sections.map(({ key, Component }) => (
+              <Component key={key} />
+            ))}
+          </ScrollView>
+        </View>
       </SafeAreaView>
+      <PortalHost />
     </SafeAreaProvider>
   );
 }
 ```
+
+`SafeAreaView` (react-native-safe-area-context) is not NativeWind-wrapped, so a `className` on it is ignored. The spike measured Android's window colour instead of `bg-background` (`#fafafa`, and `#303030` in night mode). So it takes `style={{ flex: 1 }}`, and the inner `<View className="flex-1 bg-background">` carries the theme. Without `flex: 1`, the ScrollView also overflows the screen by the header's height.
+
+
+`PortalHost` sits outside `SafeAreaView`: rn-primitives positions portal content absolutely from window coordinates, so safe-area padding would offset it.
 
 - [ ] **Step 6: Run on devices (development build — Expo Go does not apply font plugins)**
 
@@ -1234,23 +1565,74 @@ pnpm expo run:android
 pnpm expo run:ios        # macOS only
 ```
 
+**Windows build recipe (verified 2026-09-12; the Leminiscate mobile app on Windows needs the same).** Building from the repo as-is fails three ways on Windows:
+- **The repo path has spaces.** AGP's CMake prefab step fails with `[CXX1428] … Cannot run program ""D:\Aumraa\APOS pitch\…\prefab_command.bat""`, and `:app:createBundleReleaseJsAndAssets` fails with `'D:\Aumraa\APOS' is not recognized`.
+- **pnpm's linked `node_modules`** send ninja into `manifest 'build.ninja' still dirty after 100 tries`.
+- **A 4-ABI parallel native build runs a 16 GB machine out of memory**: `LLVM ERROR: out of memory` in clang, and `0xC0000005` in the Hermes step.
+
+What works:
+
+1. **Path without spaces.** Build from a worktree at a path without spaces: `git worktree add D:\bs <branch>` (or `git worktree add --detach D:\bs HEAD`).
+2. **Hoisted linker, local only.** In that worktree only, add `nodeLinker: hoisted` as the first line of `pnpm-workspace.yaml` (local, never committed), then run `corepack pnpm install`. Run Jest from a normal (isolated) install instead: hoisting nests a second React under `@testing-library/react-native`, and the Text/Icon/Spinner suites fail with `Invalid hook call`.
+3. **JDK 21.** Set `JAVA_HOME` to Temurin 21 and `ANDROID_HOME` to `%LOCALAPPDATA%\Android\Sdk`. The first build installs NDK 27.1.12297006 and CMake 3.22.1 automatically.
+4. **Prebuild.** `cd apps/native-catalog`, then `corepack pnpm expo prebuild --platform android --no-install`.
+5. **Capped release build.** Shut the emulator down while this compiles (it needs the memory), then in `android/` run `./gradlew app:assembleRelease -x lint -x test --configure-on-demand --build-cache --max-workers=2 -PreactNativeArchitectures=x86_64 --init-script <path>/cap-native-jobs.gradle`. `x86_64` is the emulator ABI; use `arm64-v8a` for a phone. The init script caps ninja at 3 concurrent compiles per native module:
+```groovy
+// ponytail: caps concurrent clang per native module (ninja job pool) so a low-memory
+// Windows box doesn't hit "LLVM ERROR: out of memory". Raise compile=N if RAM allows.
+allprojects {
+  plugins.withId('com.android.library') {
+    android.defaultConfig.externalNativeBuild.cmake.arguments(
+      '-DCMAKE_JOB_POOLS=compile=3;link=1',
+      '-DCMAKE_JOB_POOL_COMPILE=compile',
+      '-DCMAKE_JOB_POOL_LINK=link')
+  }
+  plugins.withId('com.android.application') {
+    android.defaultConfig.externalNativeBuild.cmake.arguments(
+      '-DCMAKE_JOB_POOLS=compile=3;link=1',
+      '-DCMAKE_JOB_POOL_COMPILE=compile',
+      '-DCMAKE_JOB_POOL_LINK=link')
+  }
+}
+```
+6. **Install and clean up.** Boot the emulator, then `adb install -r android/app/build/outputs/apk/release/app-release.apk`. The APK is signed with the debug keystore and embeds the bundle, so it needs no Metro. Afterwards, `git checkout -- pnpm-workspace.yaml apps/native-catalog/package.json apps/native-catalog/app.json`, because prebuild rewrites the scripts and reformats `app.json`.
+
+The incremental build takes about 7 minutes; the first takes about 14.
+
 - [ ] **Step 7: Spike checklist** — record each result in the table below before starting Task 6.
 
 | # | Check | Pass criterion | If it fails |
 |---|---|---|---|
 | S1 | Size probe | Reads **44** | A rem value leaked: search `nativewind/theme` output for the utility; add its v3 px value to `@theme inline`. |
+| S1b | Leading probe | `text-sm` measures **20** and `text-base leading-5` measures **20** | A multiple of the font size (e.g. 280 = 20 × 14), or 23 for `leading-5`, means a static or px line height reached react-native-css (§0.3 fact 11). Keep `--text-*--line-height` as unitless ratios, and keep the `.leading-N` `calc(4N / var(--__rn-css-em))` rules as plain rules after `nativewind/theme` (Task 3 note). |
 | S2 | Swatches | Match the web app's colours (compare against a web screenshot) | If semantic colours are missing but scales render, `@theme inline` var references are not resolving: replace `@theme inline` for semantic colours with the NativeWind-documented pattern (declare each `--color-*` hex in a `@theme` block **and** in `:root`, dark overrides in the media query). |
 | S3 | `red-50 (v3)` swatch | `#fef2f2` with `#fecaca` border | Palette override not applied: confirm `lemniscate.css` is imported **after** `tailwindcss/theme.css`. |
 | S4 | Inter weights | 400/500/600/700 visibly differ on **Android** | Run `pnpm expo prebuild --clean` then `run:android` again (config plugins only apply at prebuild). |
-| S5 | Dark toggle | Background and text flip | Check `userInterfaceStyle: "automatic"`. |
+| S5 | Dark toggle | Background and text flip | Check `userInterfaceStyle: "automatic"`, and that the background class is on a NativeWind-wrapped component (not `SafeAreaView`, see Step 5). |
 
 | # | Android | iOS | Notes |
 |---|---|---|---|
-| S1 | ☐ | ☐ | |
-| S2 | ☐ | ☐ | |
-| S3 | ☐ | ☐ | |
-| S4 | ☐ | ☐ | |
-| S5 | ☐ | ☐ | |
+| S1 | ☑ PASS | ☐ Pending — needs macOS | 2026-09-12, emulator `Medium_Phone_API_36.1` (API 36, 1080×2400 at 420 dpi, 2.625 px/dp), release build: the probe reads 44, and the square spans 115 px = 44 dp. |
+| S1b | ☑ PASS | ☐ Pending — needs macOS | 2026-09-12: `text-sm` 20, `text-base leading-5` 20. Before the Task 3 line-height fix these read 280 and 23. |
+| S2 | ☑ PASS | ☐ Pending — needs macOS | 2026-09-12: swatch centres sampled exactly: `#ffffff` `#f2f2f3` `#191b1f` `#1b60c0` `#1c60c1` `#40aad4` `#16a249` `#f59f0a` `#dc2828` `#d6d6d7` `#191b1f`. |
+| S3 | ☑ PASS | ☐ Pending — needs macOS | 2026-09-12: fill `#fef2f2`, 2 px border `#fecaca`. |
+| S4 | ☑ PASS | ☐ Pending — needs macOS | 2026-09-12: the `I` stem of each row is 3 / 4 / 4 (darker edges) / 6 px for 400 / 500 / 600 / 700, and the four weights are visibly distinct. Prebuild writes `res/font/xml_inter.xml` with all four weights. |
+| S5 | ☑ PASS | ☐ Pending — needs macOS | 2026-09-12: the in-app toggle and system night mode (`adb shell cmd uimode night yes`, then relaunch) both flip background `#ffffff` → `#121821`, text `#191b1f` → `#f8fafc`, and primary `#1b60c0` → `#3cb6d7`. This needs the `App.tsx` View wrapper (Step 5); `expo-system-ui` is not needed. |
+| S12 | ☐ PENDING | ☐ PENDING | Select item pressed text colour (`group-active:text-accent-foreground`, Task 25 Step 7): nobody has run this device check yet. Class left unchanged in the review pass (2026-09-13). If it fails on device, apply the Task 25 Step 7 fallback (remove `group-active:text-accent-foreground`; the background flash still gives feedback) and record the change here and in §0.5. |
+
+**IconSection (Tasks 7–9), Android, 2026-09-12:**
+- **Size and colour:** `<Icon as={Bell} className="size-6 text-primary" />` draws in `#1b60c0` with a 53 × 59 px glyph. That is lucide's bell (about 20 × 22.5 of its 24 viewBox units) at 24 dp; a 16 dp icon would draw about 35 × 39. The 16 dp `Plus` measures 28 px, as expected.
+- **Spinners:** both rotate, since two frames 0.3 s apart differ. With the emulator's animator duration scale at 0 they freeze, because Reanimated honours it.
+- **Gradient:** the bar runs from `#3cb6d7` top-left (sampled `#3bb4d7`) to `#2262ec` bottom-right (sampled `#2364eb`), along the 135° diagonal.
+- **Label:** the white text is centred; its bbox centre is x 539 / y 2215, against a bar centre of 540 / 2211.
+
+iOS: pending, needs macOS.
+
+**Automated verification (2026-09-11, Windows, no device or emulator attached):**
+- `expo export --platform android` succeeds: 1100 modules, 2.8 MB Hermes bundle (re-verified with the origin-keyed worklets exemption). This proves the metro config, the PostCSS/Tailwind 4.3.3 compile, the `@import` of `@aumraa/breathe-native/styles/lemniscate.css` through the pnpm workspace symlink, and the TS/JSX transforms.
+- Compiled style table in a `--no-bytecode` export: `h-11` → `height: 44`; `text-sm` → `fontSize: 14` + `lineHeight: var(--tw-leading, 20)`; `leading-5` → `lineHeight: 20`, emitted after `nativewind/theme`'s font-relative calc (the device decides S1b); `bg-primary-500` → `#1c60c1`; `bg-red-50` → `#fef2f2`; `border-red-200` → `#fecaca`; `font-sans` → `fontFamily: "Inter"`; semantic colours resolve through vars whose dark values are keyed on `prefers-color-scheme` (e.g. background `#121821`). The device later showed both line heights were wrong (280 and 23; see the Task 3 note). After the fix they compile to `var(--tw-leading, 1.4286)` and `calc(20 / var(--__rn-css-em))`.
+- `tsc --noEmit` in the catalog is clean.
+- `expo prebuild --clean --platform android --no-install`: the expo-font plugin resolves all four Inter TTFs through pnpm and writes `res/font/xml_inter.xml` (weights 400/500/600/700) plus `ReactFontManager.addCustomFont(…, "Inter", …)`. The native dir was deleted afterwards. Prebuild warns `android: userInterfaceStyle: Install expo-system-ui in your project to enable this feature`; the warning fires whenever the key is set and does not apply to `"automatic"` — the generated theme is DayNight and MainActivity handles `uiMode`. `expo-system-ui` is only needed to force `"light"`/`"dark"` or to set a root `backgroundColor`. If S5 fails, investigate react-native-css `prefers-color-scheme` handling instead.
 
 - [ ] **Step 8: Commit**
 
@@ -1265,7 +1647,7 @@ git commit -m "feat(native): Expo catalog app with foundations spike"
 
 ### Task 6: Text
 
-Web has no Text component (text inherits from `body`: Inter, 16px/24px, `text-foreground`). RN text does not inherit, so every string renders through `Text`, which applies those body defaults and merges the parent's `TextClassContext` (R10).
+Web has no Text component (text inherits from `body`: Inter, 16px/24px, `text-foreground`). RN text does not inherit, so every string renders through `Text`, which applies those body defaults and merges the parent's `TextClassContext` (R10). Nested Texts inherit their parent's styles (like web spans); only the outermost Text applies the body defaults. Also exported: `wrapTextChildren`, which wraps bare string/number children in a `Text` — including mixed children like `<Badge><Icon/>{label}</Badge>` — for parents (Badge, Button) that accept both text and elements; a View cannot host a bare string directly, or RN throws "Text strings must be rendered within a `<Text>` component" (Task 12 review).
 
 **Files:**
 - Create: `packages/react-native/src/atoms/text.tsx`
@@ -1276,8 +1658,10 @@ Web has no Text component (text inherits from `body`: Inter, 16px/24px, `text-fo
 - [ ] **Step 1: Write the failing test** — `packages/react-native/test/atoms/text.test.tsx`
 
 ```tsx
+import * as React from 'react';
+import { View, type Text as RNText } from 'react-native';
 import { render, screen } from '@testing-library/react-native';
-import { Text, TextClassContext } from '../../src/atoms/text';
+import { Text, TextClassContext, wrapTextChildren } from '../../src/atoms/text';
 
 describe('Text', () => {
   it('applies the web body defaults', async () => {
@@ -1300,8 +1684,54 @@ describe('Text', () => {
         <Text className="text-primary">Own</Text>
       </TextClassContext.Provider>,
     );
-    expect(screen.getByText('Own').props.className).toContain('text-primary');
-    expect(screen.getByText('Own').props.className).not.toContain('text-white');
+    expect(screen.getByText('Own').props.className).toBe('font-sans text-base text-primary');
+  });
+
+  it.each([
+    [
+      'font-medium text-[11px] text-neutral-black-975',
+      undefined,
+      'font-sans font-medium text-[11px] text-neutral-black-975',
+    ],
+    ['text-primary-500 text-sm font-medium', 'font-normal', 'font-sans text-primary-500 text-sm font-normal'],
+  ])('context %s + className %s', async (ctx, cls, expected) => {
+    await render(
+      <TextClassContext.Provider value={ctx}>
+        <Text className={cls}>X</Text>
+      </TextClassContext.Provider>,
+    );
+    expect(screen.getByText('X').props.className).toBe(expected);
+  });
+
+  it('lets a nested Text inherit its parent instead of re-applying body defaults', async () => {
+    await render(
+      <Text className="text-sm text-primary">
+        Hello{' '}
+        <Text className="font-bold" testID="inner">
+          world
+        </Text>
+      </Text>,
+    );
+    expect(screen.getByTestId('inner').props.className).toBe('font-bold');
+  });
+
+  it('accepts a ref', async () => {
+    const ref = React.createRef<RNText>();
+    await render(<Text ref={ref}>R</Text>);
+    expect(ref.current).toBeTruthy();
+  });
+});
+
+describe('wrapTextChildren', () => {
+  it('wraps an all-text children array in a single Text', async () => {
+    await render(<>{wrapTextChildren(['a', 1])}</>);
+    expect(screen.getByText('a1')).toBeOnTheScreen();
+  });
+
+  it('wraps only the text runs when children are mixed with an element', async () => {
+    await render(<>{wrapTextChildren([<View key="v" testID="v" />, 'x'])}</>);
+    expect(screen.getByTestId('v')).toBeOnTheScreen();
+    expect(screen.getByText('x')).toBeOnTheScreen();
   });
 });
 ```
@@ -1321,14 +1751,33 @@ import { cn } from '../lib/utils';
 /** Text classes a parent (Button, Badge, Toggle…) pushes down to its Text children. */
 const TextClassContext = React.createContext<string | undefined>(undefined);
 
-type TextProps = React.ComponentProps<typeof RNText>;
+/** Internal: a root Text marks its subtree so nested Texts inherit (like web spans) instead of re-applying body defaults. */
+const InsideTextContext = React.createContext(false);
+
+type TextProps = React.ComponentProps<typeof RNText> & React.RefAttributes<RNText>;
 
 function Text({ className, ...props }: TextProps) {
   const textClass = React.useContext(TextClassContext);
-  return <RNText className={cn('font-sans text-base text-foreground', textClass, className)} {...props} />;
+  // ponytail: a View inside a Text (e.g. an inline Badge) still counts as nested; reset the context there if that ever ships
+  if (React.useContext(InsideTextContext)) return <RNText className={className} {...props} />;
+  return (
+    <InsideTextContext.Provider value>
+      <RNText className={cn('font-sans text-base text-foreground', textClass, className)} {...props} />
+    </InsideTextContext.Provider>
+  );
 }
 
-export { Text, TextClassContext };
+const isTextChild = (c: React.ReactNode): c is string | number => typeof c === 'string' || typeof c === 'number';
+
+/** Wraps bare strings/numbers so they can sit inside a View: all-text children become one <Text>; mixed children get each text run wrapped. */
+function wrapTextChildren(children: React.ReactNode, textProps?: TextProps): React.ReactNode {
+  const parts = React.Children.toArray(children);
+  if (parts.length === 0) return children;
+  if (parts.every(isTextChild)) return <Text {...textProps}>{children}</Text>;
+  return parts.map((c, i) => (isTextChild(c) ? <Text key={i} {...textProps}>{c}</Text> : c));
+}
+
+export { Text, TextClassContext, wrapTextChildren };
 export type { TextProps };
 ```
 
@@ -1340,7 +1789,7 @@ export * from './atoms/text';
 - [ ] **Step 4: Run — expect PASS**
 
 Run: `pnpm --filter @aumraa/breathe-native test test/atoms/text.test.tsx`
-Expected: 3 passed.
+Expected: 9 passed.
 
 - [ ] **Step 5: Catalog section** — `apps/native-catalog/sections/TextSection.tsx`
 
@@ -1374,6 +1823,8 @@ git commit -m "feat(native): Text atom with TextClassContext"
 
 Wraps any lucide icon so it takes `className` (colour via `text-*`, size via `size-*`) and inherits the parent's text colour and icon size (R9).
 
+Size precedence: a className size (`size-6`, `h-4 w-6`) > the `size` prop > the parent's IconSizeContext.
+
 **Files:**
 - Create: `packages/react-native/src/atoms/icon.tsx`
 - Modify: `packages/react-native/src/index.ts`
@@ -1384,6 +1835,7 @@ Wraps any lucide icon so it takes `className` (colour via `text-*`, size via `si
 ```tsx
 import { render, screen } from '@testing-library/react-native';
 import { Check } from 'lucide-react-native';
+import { styled } from 'nativewind';
 import { Icon, IconSizeContext } from '../../src/atoms/icon';
 import { TextClassContext } from '../../src/atoms/text';
 
@@ -1405,7 +1857,7 @@ describe('Icon', () => {
     );
     const icon = screen.getByTestId('icon-Check');
     expect(icon.props.size).toBe(20);
-    expect(icon.props.className).toContain('text-white');
+    expect(icon.props.className).toBe('text-sm text-white');
   });
 
   it('prefers an explicit size', async () => {
@@ -1415,6 +1867,12 @@ describe('Icon', () => {
       </IconSizeContext.Provider>,
     );
     expect(screen.getByTestId('icon-Check').props.size).toBe(12);
+  });
+
+  it('maps className size classes to lucide width/height so they beat the size prop', () => {
+    expect(styled).toHaveBeenCalledWith(expect.anything(), {
+      className: { target: 'style', nativeStyleMapping: { height: 'height', width: 'width' } },
+    });
   });
 });
 ```
@@ -1429,6 +1887,7 @@ Expected: FAIL — module not found.
 ```tsx
 import type { LucideProps } from 'lucide-react-native';
 import { styled } from 'nativewind';
+import type { StyledConfiguration } from 'react-native-css';
 import * as React from 'react';
 import { cn } from '../lib/utils';
 import { TextClassContext } from './text';
@@ -1444,13 +1903,12 @@ function IconImpl({ as: Component, ...props }: IconProps) {
   return <Component {...props} />;
 }
 
-// `size-4` / `h-4 w-4` classes feed lucide's numeric `size` prop.
-const StyledIcon = styled(IconImpl, {
-  className: {
-    target: 'style',
-    nativeStyleToProp: { height: 'size', width: 'size' },
-  },
-});
+// className size classes (size-6, h-4 w-6) map to lucide's width/height props, which lucide prefers over `size`.
+// Precedence: className size > explicit `size` prop > IconSizeContext (web: CSS beats the svg width attribute).
+const mapping: StyledConfiguration<typeof IconImpl, 'className'> = {
+  className: { target: 'style', nativeStyleMapping: { height: 'height', width: 'width' } },
+};
+const StyledIcon = styled(IconImpl, mapping);
 
 function Icon({ as, className, size, ...props }: IconProps) {
   const textClass = React.useContext(TextClassContext);
@@ -1479,7 +1937,7 @@ export * from './atoms/icon';
 - [ ] **Step 4: Run — expect PASS**
 
 Run: `pnpm --filter @aumraa/breathe-native test test/atoms/icon.test.tsx && pnpm --filter @aumraa/breathe-native typecheck`
-Expected: 3 passed; tsc 0. If tsc rejects the `styled(...)` options object, check the `styled` signature in `node_modules/nativewind/dist/typescript/**/styled.d.ts` and match its option key names. The runtime shape (`className: { target, nativeStyleToProp }`) is the documented v5 API.
+Expected: 4 passed; tsc 0. react-native-css 3.0.7's runtime reads `nativeStyleMapping` (the older `nativeStyleToProp` key is a deprecated type only and is ignored at runtime), and mapping to lucide's `width`/`height` lets className sizes beat the always-passed `size`.
 
 - [ ] **Step 5: Commit**
 
@@ -1503,6 +1961,7 @@ Reproduces the web `.bg-gradient-brand` utility exactly (D6), using RN's CSS gra
 
 ```tsx
 import { render, screen } from '@testing-library/react-native';
+import { StyleSheet } from 'react-native';
 import { BRAND_GRADIENT, Gradient } from '../../src/atoms/gradient';
 
 describe('Gradient', () => {
@@ -1515,7 +1974,15 @@ describe('Gradient', () => {
     const g = screen.getByTestId('g');
     expect(g.props.className).toBe('absolute inset-0');
     expect(g.props.pointerEvents).toBe('none');
-    expect(g.props.style).toEqual([{ experimental_backgroundImage: BRAND_GRADIENT }, undefined]);
+    expect(StyleSheet.flatten(g.props.style)).toEqual({ experimental_backgroundImage: BRAND_GRADIENT });
+  });
+
+  it('merges a custom style with the gradient style', async () => {
+    await render(<Gradient testID="g" style={{ opacity: 0.5 }} />);
+    expect(StyleSheet.flatten(screen.getByTestId('g').props.style)).toEqual({
+      experimental_backgroundImage: BRAND_GRADIENT,
+      opacity: 0.5,
+    });
   });
 
   it('accepts a custom gradient', async () => {
@@ -1526,6 +1993,7 @@ describe('Gradient', () => {
   });
 });
 ```
+(Deviation, found in Task 8 review: `g.props.style` is brittle — it asserts the exact `[style, undefined]` tuple shape RN happens to produce for an unstyled element, which breaks the moment a caller passes their own `style`. Replaced with `StyleSheet.flatten(g.props.style)` and added a test that passes `style={{ opacity: 0.5 }}` and asserts the flattened style contains both the gradient layer and the caller's style.)
 
 - [ ] **Step 2: Run — expect FAIL**
 
@@ -1546,7 +2014,8 @@ type GradientProps = React.ComponentProps<typeof View> & { gradient?: string };
 
 /**
  * Static gradient layer, by default absolutely filling its parent (give the parent `overflow-hidden`
- * and a radius). Never make this an Animated view (reanimated#8297). Animate a parent instead.
+ * and a radius). Never make this an Animated view (reanimated#8297), and don't give it `animate-*` or
+ * `transition-*` classes (react-native-css would wrap it in a Reanimated view). Animate a parent instead.
  */
 function Gradient({ gradient = BRAND_GRADIENT, className, style, ...props }: GradientProps) {
   return (
@@ -1571,7 +2040,7 @@ export * from './atoms/gradient';
 - [ ] **Step 4: Run — expect PASS**
 
 Run: `pnpm --filter @aumraa/breathe-native test test/atoms/gradient.test.tsx`
-Expected: 3 passed.
+Expected: 4 passed.
 
 - [ ] **Step 5: Commit**
 
@@ -1594,8 +2063,10 @@ Web loading state = lucide `Loader2` + `animate-spin` (1s linear infinite rotati
 - [ ] **Step 1: Write the failing test** — `packages/react-native/test/atoms/spinner.test.tsx`
 
 ```tsx
-import { render, screen } from '@testing-library/react-native';
+import { act, render, screen } from '@testing-library/react-native';
 import { Spinner } from '../../src/atoms/spinner';
+
+afterEach(() => jest.useRealTimers());
 
 describe('Spinner', () => {
   it('renders Loader2 inside a progressbar with a busy state', async () => {
@@ -1611,8 +2082,30 @@ describe('Spinner', () => {
     expect(icon.props.className).toContain('text-white');
     expect(icon.props.size).toBe(20);
   });
+
+  it('spins one turn per second', async () => {
+    jest.useFakeTimers();
+    await render(<Spinner />);
+    const v = screen.getByRole('progressbar');
+    expect(v).toHaveAnimatedStyle({ transform: [{ rotate: '0deg' }] });
+    await act(async () => {
+      jest.advanceTimersByTime(500);
+    });
+    expect(v).toHaveAnimatedStyle({ transform: [{ rotate: '180deg' }] });
+    await act(async () => {
+      jest.advanceTimersByTime(600);
+    });
+    expect(v).toHaveAnimatedStyle({ transform: [{ rotate: '36deg' }] });
+  });
+
+  it('passes accessible and testID through to the progressbar view', async () => {
+    await render(<Spinner accessible={false} testID="spinner" />);
+    const v = screen.getByTestId('spinner');
+    expect(v.props.accessible).toBe(false);
+  });
 });
 ```
+(`toHaveAnimatedStyle` comes from reanimated's `setUpTests()`, already called in `jest.setup.ts`; no extra type-reference import was needed — `pnpm --filter @aumraa/breathe-native typecheck` resolved it without changes.)
 
 - [ ] **Step 2: Run — expect FAIL**
 
@@ -1622,10 +2115,13 @@ Expected: FAIL — module not found.
 - [ ] **Step 3: Implement** — `packages/react-native/src/atoms/spinner.tsx`
 
 ```tsx
-import { Loader2 } from 'lucide-react-native';
+// Deep import: Expo's Metro has no tree shaking, so `{ Loader2 } from 'lucide-react-native'` bundles every icon.
+import Loader2 from 'lucide-react-native/icons/loader-circle';
 import * as React from 'react';
+import { type ViewProps } from 'react-native';
 import Animated, {
   Easing,
+  ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
@@ -1633,20 +2129,30 @@ import Animated, {
 } from 'react-native-reanimated';
 import { Icon } from './icon';
 
-type SpinnerProps = { className?: string; size?: number };
+type SpinnerProps = ViewProps & { className?: string; size?: number };
 
-/** Web: <Loader2 className="animate-spin" />, one full turn per second, linear, forever. */
-function Spinner({ className, size }: SpinnerProps) {
+/**
+ * Web: <Loader2 className="animate-spin" />, one full turn per second, linear, forever.
+ * `className` goes to the inner Icon — don't pass `animate-*` or `transition-*` classes here
+ * (react-native-css would wrap the SVG in its own Animated component).
+ */
+function Spinner({ className, size, style, ...props }: SpinnerProps) {
   const rotation = useSharedValue(0);
 
   React.useEffect(() => {
-    rotation.value = withRepeat(withTiming(360, { duration: 1000, easing: Easing.linear }), -1, false);
+    rotation.value = withRepeat(
+      withTiming(360, { duration: 1000, easing: Easing.linear }),
+      -1,
+      false,
+      undefined,
+      ReduceMotion.Never, // spinners are essential motion (web animate-spin ignores reduce-motion too)
+    );
   }, [rotation]);
 
   const spin = useAnimatedStyle(() => ({ transform: [{ rotate: `${rotation.value}deg` }] }));
 
   return (
-    <Animated.View role="progressbar" accessibilityState={{ busy: true }} style={spin}>
+    <Animated.View role="progressbar" accessible accessibilityState={{ busy: true }} {...props} style={[spin, style]}>
       <Icon as={Loader2} className={className} size={size} />
     </Animated.View>
   );
@@ -1655,6 +2161,11 @@ function Spinner({ className, size }: SpinnerProps) {
 export { Spinner };
 export type { SpinnerProps };
 ```
+(Deviation, found while implementing Task 9: `role="progressbar"` alone did not satisfy `getByRole('progressbar')` in RNTL 14 — `queryAllByRole` first filters candidates through `isAccessibilityElement()` (`@testing-library/react-native/dist/helpers/accessibility.js`), which for a plain `View` requires an explicit `accessible` prop (or a host Text/TextInput/Switch); `role`/`accessibilityRole` alone don't imply it. Fix: add `accessible` alongside `role="progressbar"`. `accessibilityRole="progressbar"` was tried too (per this plan's suggested fix) but was not itself sufficient without `accessible`, and turned out to be unnecessary once `accessible` was added (`getRole()` already reads `role` when present), so it was left out to keep the diff minimal. `role`/`accessibilityState` typechecked on `Animated.View` with no changes needed.)
+
+(Deviation, found in Task 9 review: the default `ReduceMotion.System` makes `withRepeat` stop after one cycle when the OS "Reduce Motion" setting is on, freezing the spinner — spinners are essential motion, not decorative, so `ReduceMotion.Never` is passed as the 5th `withRepeat` argument. Also, `SpinnerProps` did not extend `ViewProps`, so callers (e.g. Button, Task 10) couldn't pass `accessible={false}` — needed so TalkBack doesn't announce a loading button twice — or `testID`/`style`/`accessibilityLabel`. Now `SpinnerProps = ViewProps & { className?: string; size?: number }`, with `...props` spread after the `accessible`/`role` defaults so a caller's `accessible` overrides, and `style` merged as `[spin, style]` so a caller's `style` composes with the animated transform instead of replacing it.)
+
+(Deviation, found in Task 28 review: the index import `{ Loader2 } from 'lucide-react-native'` pulled all 1,834 lucide icons into every consuming app, because Expo's Metro has no tree shaking. The catalog export was 3100 modules / 5.1 MB. Spinner now deep-imports `lucide-react-native/icons/loader-circle` (LoaderCircle; `loader-2` is its alias), and `jest.setup.ts` has a mock line for that path. See R22.)
 
 Append to `packages/react-native/src/index.ts`:
 ```ts
@@ -1664,13 +2175,15 @@ export * from './atoms/spinner';
 - [ ] **Step 4: Run — expect PASS**
 
 Run: `pnpm --filter @aumraa/breathe-native test test/atoms/spinner.test.tsx`
-Expected: 2 passed.
+Expected: 4 passed.
 
 - [ ] **Step 5: Catalog section** — `apps/native-catalog/sections/IconSection.tsx` (covers Icon, Gradient, Spinner)
 
 ```tsx
 import { Gradient, Icon, Spinner, Text } from '@aumraa/breathe-native';
-import { Bell, Check, Plus } from 'lucide-react-native';
+import Bell from 'lucide-react-native/icons/bell';
+import Check from 'lucide-react-native/icons/check';
+import Plus from 'lucide-react-native/icons/plus';
 import { View } from 'react-native';
 import { Section } from '../components/Section';
 
@@ -1710,7 +2223,9 @@ git commit -m "feat(native): Spinner atom and icon/gradient catalog"
 
 Reference: repo `src/design-system/ui/button.tsx` (13 variants × 9 sizes, `loading`, `loadingText`, `leftIcon`, `rightIcon`). Structure from rnr `button.tsx`: the Pressable owns bg/border/`active:`, and text classes go down through `TextClassContext`.
 
-Native changes (see §0.4/§0.5): `hover:*` dropped (R5); `bg-[var(--x)]` → named colours (R2); `disabled:*` → `disabled` cva variant (R8); `[&_svg]:size-*` → `IconSizeContext` (R9); gradient press `brightness(0.94)` → 6% black overlay; no `asChild` (R20); string children are wrapped in `Text` automatically (so `<Button>Save</Button>` works like web).
+Native changes (see §0.4/§0.5): `hover:*` dropped (R5); `bg-[var(--x)]` → named colours (R2); `disabled:*` → `disabled` cva variant (R8); `[&_svg]:size-*` → `IconSizeContext` (R9); gradient press `brightness(0.94)` → 6% black overlay; no `asChild` (R20); the label goes through `wrapTextChildren` (Task 6) so bare and mixed string/number children are wrapped in `Text` automatically (`<Button>Save</Button>` and `<Button>{count} items</Button>` both work like web — Task 12 review).
+
+Note: gradient is painted on the Pressable (not a child layer) so it renders under the transparent border (Task 8 review). Exported `buttonVariants` is `cn()`-merged so the disabled fill replaces the variant fill (the parity test asserts `not.toContain('bg-primary-500')`).
 
 **Files:**
 - Create: `packages/react-native/src/atoms/button.tsx`
@@ -1723,8 +2238,11 @@ Native changes (see §0.4/§0.5): `hover:*` dropped (R5); `bg-[var(--x)]` → na
 ```tsx
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import { Plus } from 'lucide-react-native';
+import { StyleSheet } from 'react-native';
 import { Button, buttonTextVariants, buttonVariants } from '../../src/atoms/button';
+import { BRAND_GRADIENT } from '../../src/atoms/gradient';
 import { Icon } from '../../src/atoms/icon';
+import { Text } from '../../src/atoms/text';
 
 describe('buttonVariants (parity with web button.tsx)', () => {
   it.each([
@@ -1784,6 +2302,19 @@ describe('Button', () => {
     expect(screen.getByText('Save').props.className).toContain('font-medium');
   });
 
+  it('pushes label classes to the outer Text only; nested Texts inherit', async () => {
+    await render(
+      <Button>
+        <Text testID="outer">
+          Save <Text testID="inner" className="font-bold">now</Text>
+        </Text>
+      </Button>,
+    );
+    expect(screen.getByTestId('outer').props.className).toContain('text-white');
+    expect(screen.getByTestId('outer').props.className).toContain('font-medium');
+    expect(screen.getByTestId('inner').props.className).toBe('font-bold');
+  });
+
   it('does not fire when disabled and reports the state', async () => {
     const onPress = jest.fn();
     await render(<Button disabled onPress={onPress}>Save</Button>);
@@ -1826,14 +2357,91 @@ describe('Button', () => {
     expect(screen.getByTestId('icon-Plus').props.size).toBe(20);
   });
 
-  it('paints the brand gradient for the gradient variant', async () => {
+  it('paints the brand gradient on the Pressable for the gradient variant', async () => {
     await render(<Button variant="gradient">Go</Button>);
-    expect(screen.getByTestId('button-gradient')).toBeOnTheScreen();
+    expect(StyleSheet.flatten(screen.getByRole('button').props.style)).toMatchObject({
+      experimental_backgroundImage: BRAND_GRADIENT,
+    });
   });
 
-  it('hides the gradient when disabled', async () => {
+  it('drops the gradient when disabled', async () => {
     await render(<Button variant="gradient" disabled>Go</Button>);
-    expect(screen.queryByTestId('button-gradient')).toBeNull();
+    expect(StyleSheet.flatten(screen.getByRole('button').props.style)?.experimental_backgroundImage).toBeUndefined();
+  });
+
+  it('turns the link label primary-700 and underlined while pressed', async () => {
+    await render(
+      <Button variant="link" testOnly_pressed>
+        Go
+      </Button>,
+    );
+    expect(screen.getByText('Go').props.className).toContain('text-primary-700');
+    expect(screen.getByText('Go').props.className).toContain('underline');
+  });
+
+  it('shows the gradient pressed overlay only while pressed', async () => {
+    await render(
+      <Button variant="gradient" testOnly_pressed>
+        Go
+      </Button>,
+    );
+    expect(screen.getByTestId('button-pressed-overlay')).toBeOnTheScreen();
+
+    await render(<Button variant="gradient">Go</Button>);
+    expect(screen.queryByTestId('button-pressed-overlay')).toBeNull();
+  });
+
+  it('keeps the neutral disabled border on outline and drops the variant border', async () => {
+    await render(
+      <Button variant="outline" disabled>
+        X
+      </Button>,
+    );
+    const cls = screen.getByRole('button').props.className;
+    expect(cls).toContain('border-neutral-white-200');
+    expect(cls).not.toContain('border-primary-500');
+  });
+
+  it('sizes icon-xs icons at 14', async () => {
+    await render(<Button size="icon-xs" leftIcon={<Icon as={Plus} />} accessibilityLabel="Add" />);
+    expect(screen.getByTestId('icon-Plus').props.size).toBe(14);
+  });
+
+  it('lets a caller override size/variant classes (e.g. the Calendar day button)', async () => {
+    await render(
+      <Button variant="ghost" className="h-9 w-9 p-0 bg-primary active:bg-primary">
+        5
+      </Button>,
+    );
+    const cls = screen.getByRole('button').props.className;
+    expect(cls).toContain('h-9');
+    expect(cls).toContain('w-9');
+    expect(cls).toContain('p-0');
+    expect(cls).toContain('bg-primary');
+    expect(cls).not.toContain('h-11');
+    expect(cls).not.toContain('px-4');
+    expect(cls).not.toContain('bg-transparent');
+    expect(cls).not.toContain('active:bg-primary-50');
+  });
+
+  it('warns once for an icon-only button without an accessible name, and not when one is given', async () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    await render(<Button leftIcon={<Icon as={Plus} />} />);
+    expect(warn).toHaveBeenCalledTimes(1);
+    warn.mockClear();
+    await render(<Button leftIcon={<Icon as={Plus} />} accessibilityLabel="Add" />);
+    expect(warn).not.toHaveBeenCalled();
+    warn.mockRestore();
+  });
+
+  it('caps the label to a single line', async () => {
+    await render(<Button>Save</Button>);
+    expect(screen.getByText('Save').props.numberOfLines).toBe(1);
+  });
+
+  it('wraps mixed number/string children without throwing', async () => {
+    await render(<Button>{2} items</Button>);
+    expect(screen.getByText('2 items').props.numberOfLines).toBe(1);
   });
 });
 ```
@@ -1848,25 +2456,25 @@ Expected: FAIL — module not found.
 ```tsx
 import { cva, type VariantProps } from 'class-variance-authority';
 import * as React from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, View, type StyleProp, type ViewStyle } from 'react-native';
 import { cn } from '../lib/utils';
-import { Gradient } from './gradient';
+import { BRAND_GRADIENT } from './gradient';
 import { IconSizeContext } from './icon';
 import { Spinner } from './spinner';
-import { Text, TextClassContext } from './text';
+import { TextClassContext, wrapTextChildren } from './text';
 
 // Container: bg, border, radius, height, press state. Web hover:* dropped (touch).
-const buttonVariants = cva('shrink-0 flex-row items-center justify-center overflow-hidden active:translate-y-px', {
+const containerVariants = cva('shrink-0 flex-row items-center justify-center active:translate-y-px', {
   variants: {
     variant: {
       default: 'border border-transparent bg-primary-500 shadow-sm active:bg-primary-700',
-      gradient: 'border border-transparent shadow-sm',
+      gradient: 'border border-transparent shadow-sm overflow-hidden',
       destructive: 'border border-transparent bg-negative-500 shadow-sm active:bg-negative-700',
       outline: 'border border-primary-500 bg-neutral-white-25 active:bg-primary-50',
       brandOutline: 'border-[0.7px] border-neutral-white-300 bg-transparent active:bg-neutral-white-75',
       secondary: 'border border-transparent bg-neutral-white-50 active:bg-neutral-white-100',
       ghost: 'border border-transparent bg-transparent active:bg-primary-50',
-      link: 'border border-transparent bg-transparent px-0',
+      link: 'border border-transparent bg-transparent px-0', // web keeps the size's px-4 after twMerge too; parity
       success: 'border border-transparent bg-positive-500 shadow-sm active:bg-positive-700',
       warning: 'border border-transparent bg-alert-500 shadow-sm active:bg-alert-700',
       danger: 'border border-transparent bg-negative-500 shadow-sm active:bg-negative-700',
@@ -1893,6 +2501,10 @@ const buttonVariants = cva('shrink-0 flex-row items-center justify-center overfl
   ],
   defaultVariants: { variant: 'default', size: 'default', disabled: false },
 });
+
+// Merged, so the disabled fill/shadow win over the variant's (web merges inside Button via cn; native
+// consumers may apply buttonVariants() to e.g. a Link, so the exported function must already be merged).
+const buttonVariants = (props?: Parameters<typeof containerVariants>[0]) => cn(containerVariants(props));
 
 // Label: web puts these on <button>; RN needs them on Text (R10).
 const buttonTextVariants = cva('font-medium', {
@@ -1930,15 +2542,20 @@ const buttonTextVariants = cva('font-medium', {
   defaultVariants: { variant: 'default', size: 'default', pressed: false, disabled: false },
 });
 
+const GRADIENT_STYLE = { experimental_backgroundImage: BRAND_GRADIENT };
+
 // Web [&_svg]:size-* per size
 const ICON_SIZE: Record<NonNullable<ButtonSize>, number> = {
   default: 16, xs: 14, sm: 16, lg: 16, xl: 20, xxl: 20, icon: 16, 'icon-sm': 16, 'icon-xs': 14,
 };
 
+// Bigger touch target than the visual box for the small/icon-only sizes (web has no equivalent; touch-only).
+const HIT_SLOP: Partial<Record<NonNullable<ButtonSize>, number>> = { xs: 8, 'icon-xs': 8, sm: 4, 'icon-sm': 4 };
+
 type ButtonVariant = VariantProps<typeof buttonVariants>['variant'];
 type ButtonSize = VariantProps<typeof buttonVariants>['size'];
 
-type ButtonProps = Omit<React.ComponentProps<typeof Pressable>, 'children' | 'disabled'> & {
+type ButtonProps = Omit<React.ComponentProps<typeof Pressable>, 'children' | 'disabled' | 'style'> & {
   variant?: ButtonVariant;
   size?: ButtonSize;
   disabled?: boolean;
@@ -1947,6 +2564,7 @@ type ButtonProps = Omit<React.ComponentProps<typeof Pressable>, 'children' | 'di
   rightIcon?: React.ReactNode;
   loading?: boolean;
   loadingText?: string;
+  style?: StyleProp<ViewStyle>;
 };
 
 function Button({
@@ -1960,33 +2578,53 @@ function Button({
   loading = false,
   loadingText,
   accessibilityState,
+  accessibilityLabel,
+  style,
   ...props
 }: ButtonProps) {
+  // Not destructured above so it still lands in `...props` and reaches the Pressable.
+  const ariaLabel = (props as { 'aria-label'?: string })['aria-label'];
   const isDisabled = disabled || loading;
   const isIconOnly = !children && !!(leftIcon || rightIcon || loading);
   const resolvedSize: NonNullable<ButtonSize> = isIconOnly && (size == null || size === 'default') ? 'icon' : size ?? 'default';
   const label = loading && loadingText ? loadingText : children;
-  const content = typeof label === 'string' || typeof label === 'number' ? <Text>{label}</Text> : label;
+  const content = wrapTextChildren(label, { numberOfLines: 1 });
+  const isGradient = variant === 'gradient' && !isDisabled;
+
+  if (__DEV__ && isIconOnly && !accessibilityLabel && !ariaLabel) {
+    console.warn('Button: icon-only buttons need an accessibilityLabel');
+  }
 
   return (
     <Pressable
       role="button"
       disabled={isDisabled}
       accessibilityState={{ ...accessibilityState, disabled: isDisabled, busy: loading }}
+      accessibilityLabel={accessibilityLabel}
       className={cn(
         buttonVariants({ variant, size: resolvedSize, disabled: isDisabled }),
         variant === 'link' && !isIconOnly && 'h-auto',
         className,
       )}
+      // Gradient painted on the Pressable itself so it renders under the transparent border like CSS
+      // (a child layer would sit inside the border and Android clips it to the padding box). Never give
+      // this Pressable transition-*/animate-* classes: Reanimated can't animate the gradient (reanimated#8297).
+      style={isGradient ? [GRADIENT_STYLE, style] : style}
+      hitSlop={HIT_SLOP[resolvedSize]}
       {...props}>
       {({ pressed }) => (
         <IconSizeContext.Provider value={ICON_SIZE[resolvedSize]}>
           <TextClassContext.Provider value={buttonTextVariants({ variant, size: resolvedSize, pressed, disabled: isDisabled })}>
-            {variant === 'gradient' && !isDisabled && <Gradient testID="button-gradient" />}
-            {variant === 'gradient' && pressed && !isDisabled && (
-              <View pointerEvents="none" className="absolute inset-0" style={{ backgroundColor: 'rgba(0,0,0,0.06)' }} />
+            {isGradient && pressed && (
+              <View
+                testID="button-pressed-overlay"
+                pointerEvents="none"
+                className="absolute inset-0"
+                style={{ backgroundColor: 'rgba(0,0,0,0.06)' }}
+              />
             )}
-            {loading ? <Spinner /> : leftIcon}
+            {/* accessible={false}: the Pressable already reports busy via its own accessibilityState */}
+            {loading ? <Spinner accessible={false} /> : leftIcon}
             {content}
             {!loading && rightIcon}
           </TextClassContext.Provider>
@@ -2008,13 +2646,15 @@ export * from './atoms/button';
 - [ ] **Step 4: Run — expect PASS**
 
 Run: `pnpm --filter @aumraa/breathe-native test test/atoms/button.test.tsx && pnpm --filter @aumraa/breathe-native typecheck`
-Expected: all Button tests pass; tsc 0.
+Expected: all 39 Button tests pass (22 parity + 17 behaviour); tsc 0.
 
 - [ ] **Step 5: Catalog section** — `apps/native-catalog/sections/ButtonSection.tsx`
 
 ```tsx
 import { Button, Icon } from '@aumraa/breathe-native';
-import { ArrowRight, Plus, Trash2 } from 'lucide-react-native';
+import ArrowRight from 'lucide-react-native/icons/arrow-right';
+import Plus from 'lucide-react-native/icons/plus';
+import Trash from 'lucide-react-native/icons/trash';
 import { View } from 'react-native';
 import { Section } from '../components/Section';
 
@@ -2045,7 +2685,7 @@ export function ButtonSection() {
         <Button loading>Save</Button>
         <Button loading loadingText="Saving…" variant="gradient">Save</Button>
         <Button size="icon" leftIcon={<Icon as={Plus} />} accessibilityLabel="Add" />
-        <Button size="icon-sm" variant="ghost" leftIcon={<Icon as={Trash2} />} accessibilityLabel="Delete" />
+        <Button size="icon-sm" variant="ghost" leftIcon={<Icon as={Trash} />} accessibilityLabel="Delete" />
         <Button size="icon-xs" variant="neutral" leftIcon={<Icon as={Plus} />} accessibilityLabel="Add" />
       </View>
     </Section>
@@ -2075,7 +2715,7 @@ git commit -m "feat(native): Button atom with all 13 variants and 9 sizes from L
 
 ### Task 11: Label
 
-Reference: repo `ui/label.tsx`: `text-sm font-medium leading-none peer-disabled:opacity-70`. Structure: rnr `label.tsx` (`@rn-primitives/label`). `htmlFor` becomes `onPress` focusing the input (§0.5).
+Reference: repo `ui/label.tsx`: `text-sm font-medium leading-none peer-disabled:opacity-70`. Structure: rnr `label.tsx` (`@rn-primitives/label`). `htmlFor` becomes `onPress` focusing the input (§0.5). Without `onPress`/`onLongPress` the Label is a plain Text: no focus stop, no responder. The text renders through the `Text` atom so nested Texts inherit.
 
 **Files:**
 - Create: `packages/react-native/src/atoms/label.tsx`
@@ -2088,12 +2728,13 @@ Reference: repo `ui/label.tsx`: `text-sm font-medium leading-none peer-disabled:
 ```tsx
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import { Label } from '../../src/atoms/label';
+import { Text } from '../../src/atoms/text';
 
 describe('Label', () => {
   it('uses the web label typography', async () => {
     await render(<Label>Email</Label>);
     expect(screen.getByText('Email').props.className).toBe(
-      'font-sans text-sm font-medium leading-none text-foreground',
+      'font-sans text-foreground text-sm font-medium leading-none',
     );
   });
 
@@ -2110,6 +2751,39 @@ describe('Label', () => {
     await fireEvent.press(screen.getByText('Email'));
     expect(onPress).not.toHaveBeenCalled();
   });
+
+  it('forwards nativeID to the text', async () => {
+    await render(<Label nativeID="x">Email</Label>);
+    expect(screen.getByText('Email').props.nativeID).toBe('x');
+  });
+
+  it('applies opacity-70 when disabled', async () => {
+    await render(<Label disabled>Email</Label>);
+    expect(screen.getByText('Email').props.className).toContain('opacity-70');
+  });
+
+  it('is not a focus stop or responder without a handler', async () => {
+    await render(<Label>Email</Label>);
+    // Walk every ancestor: a plain Label must not be wrapped in a Pressable, so nothing above the
+    // text should claim the responder or force focusability. fireEvent.press on a parent would pass
+    // even with the bug (RNTL walks up to the nearest onPress), so this checks host node props instead.
+    let node = screen.getByText('Email').parent;
+    while (node) {
+      expect(node.props.focusable).not.toBe(true);
+      expect(node.props.onClick).toBeUndefined();
+      expect(node.props.onResponderGrant).toBeUndefined();
+      node = node.parent;
+    }
+  });
+
+  it('lets a nested Text inherit the label typography context', async () => {
+    await render(
+      <Label>
+        Name <Text testID="star" className="text-danger">*</Text>
+      </Label>,
+    );
+    expect(screen.getByTestId('star').props.className).toBe('text-danger');
+  });
 });
 ```
 
@@ -2124,22 +2798,24 @@ Expected: FAIL — module not found.
 import * as LabelPrimitive from '@rn-primitives/label';
 import * as React from 'react';
 import { cn } from '../lib/utils';
+import { Text } from './text';
 
-type LabelProps = React.ComponentProps<typeof LabelPrimitive.Text>;
+type LabelProps = Omit<React.ComponentProps<typeof LabelPrimitive.Text>, 'htmlFor'>;
 
-function Label({ className, onPress, onLongPress, onPressIn, onPressOut, disabled, ...props }: LabelProps) {
+function Label({ className, onPress, onLongPress, onPressIn, onPressOut, disabled, accessible, accessibilityHint, ...props }: LabelProps) {
+  const text = <Text className={cn('text-sm font-medium leading-none', disabled && 'opacity-70', className)} {...props} />;
+  // Plain caption: no focus stop and no responder, so a parent row still gets the tap.
+  if (!onPress && !onLongPress) return text;
   return (
     <LabelPrimitive.Root
-      className={cn('flex-row items-center', disabled && 'opacity-70')}
       onPress={onPress}
       onLongPress={onLongPress}
       onPressIn={onPressIn}
       onPressOut={onPressOut}
-      disabled={disabled}>
-      <LabelPrimitive.Text
-        className={cn('font-sans text-sm font-medium leading-none text-foreground', className)}
-        {...props}
-      />
+      disabled={disabled}
+      accessible={accessible}
+      accessibilityHint={accessibilityHint}>
+      {text}
     </LabelPrimitive.Root>
   );
 }
@@ -2156,7 +2832,7 @@ export * from './atoms/label';
 - [ ] **Step 4: Run — expect PASS**
 
 Run: `pnpm --filter @aumraa/breathe-native test test/atoms/label.test.tsx`
-Expected: 3 passed.
+Expected: 7 passed.
 
 - [ ] **Step 5: Catalog** — `apps/native-catalog/sections/LabelSection.tsx`
 
@@ -2199,7 +2875,11 @@ Reference: repo `ui/badge.tsx`, 12 variants including the role badges (`super-ad
 
 ```tsx
 import { render, screen } from '@testing-library/react-native';
+import { Check } from 'lucide-react-native';
+import { StyleSheet } from 'react-native';
 import { Badge, badgeTextVariants, badgeVariants } from '../../src/atoms/badge';
+import { BRAND_GRADIENT } from '../../src/atoms/gradient';
+import { Icon } from '../../src/atoms/icon';
 
 describe('badge variants (parity with web badge.tsx)', () => {
   it.each([
@@ -2216,8 +2896,10 @@ describe('badge variants (parity with web badge.tsx)', () => {
     ['admin', 'bg-info-light', 'text-info-dark'],
     ['viewer', 'bg-secondary', 'text-foreground-secondary'],
   ] as const)('%s', (variant, container, text) => {
-    expect(badgeVariants({ variant })).toContain(container);
-    expect(badgeTextVariants({ variant })).toContain(text);
+    // split+toContain-on-array: avoids a false match where one class name is a substring of another
+    // (e.g. 'bg-secondary' inside a hypothetical 'bg-secondary-500').
+    expect(badgeVariants({ variant }).split(' ')).toContain(container);
+    expect(badgeTextVariants({ variant }).split(' ')).toContain(text);
   });
 
   it('has the web pill geometry and type', () => {
@@ -2232,11 +2914,68 @@ describe('Badge', () => {
     expect(screen.getByText('Paid').props.className).toContain('text-success-dark');
   });
 
-  it('paints the gradient layer only for the gradient variant', async () => {
-    const { rerender } = await render(<Badge variant="gradient">Pro</Badge>);
-    expect(screen.getByTestId('badge-gradient')).toBeOnTheScreen();
-    await rerender(<Badge>Pro</Badge>);
-    expect(screen.queryByTestId('badge-gradient')).toBeNull();
+  it('wraps mixed number/string children without throwing', async () => {
+    await render(<Badge>{3} pending</Badge>);
+    expect(screen.getByText('3 pending')).toBeOnTheScreen();
+  });
+
+  it('wraps only the text run when children mix an icon and a string', async () => {
+    await render(
+      <Badge variant="success">
+        <Icon as={Check} />
+        Paid
+      </Badge>,
+    );
+    expect(screen.getByTestId('icon-Check')).toBeOnTheScreen();
+    expect(screen.getByText('Paid').props.className).toContain('text-success-dark');
+  });
+
+  it('lets a consumer restyle the text via textClassName', async () => {
+    await render(<Badge textClassName="text-2xs">X</Badge>);
+    const cls = screen.getByText('X').props.className.split(' ');
+    expect(cls).toContain('text-2xs');
+    expect(cls).not.toContain('text-xs');
+  });
+
+  it('merges a caller className, dropping the conflicting default padding', async () => {
+    await render(
+      <Badge testID="badge" className="px-3">
+        X
+      </Badge>,
+    );
+    const cls = screen.getByTestId('badge').props.className.split(' ');
+    expect(cls).toContain('px-3');
+    expect(cls).not.toContain('px-2.5');
+  });
+
+  // Deviation from plan (Task 8 review): gradient is painted on the Badge View itself (a
+  // background image), not a `<Gradient/>` child — see badge.tsx for why.
+  it('paints the gradient on the View for the gradient variant', async () => {
+    await render(
+      <Badge testID="badge" variant="gradient">
+        Pro
+      </Badge>,
+    );
+    expect(StyleSheet.flatten(screen.getByTestId('badge').props.style)).toMatchObject({
+      experimental_backgroundImage: BRAND_GRADIENT,
+    });
+  });
+
+  it('does not paint the gradient for the default variant', async () => {
+    await render(<Badge testID="badge">Pro</Badge>);
+    expect(StyleSheet.flatten(screen.getByTestId('badge').props.style)?.experimental_backgroundImage).toBeUndefined();
+  });
+
+  it('keeps a consumer style alongside the gradient', async () => {
+    await render(
+      <Badge testID="badge" variant="gradient" style={{ opacity: 0.5 }}>
+        Pro
+      </Badge>,
+    );
+    expect(StyleSheet.flatten(screen.getByTestId('badge').props.style)).toMatchObject({
+      experimental_backgroundImage: BRAND_GRADIENT,
+      opacity: 0.5,
+    });
   });
 });
 ```
@@ -2251,12 +2990,12 @@ Expected: FAIL — module not found.
 ```tsx
 import { cva, type VariantProps } from 'class-variance-authority';
 import * as React from 'react';
-import { View } from 'react-native';
+import { View, type StyleProp, type ViewStyle } from 'react-native';
 import { cn } from '../lib/utils';
-import { Gradient } from './gradient';
-import { Text, TextClassContext } from './text';
+import { BRAND_GRADIENT } from './gradient';
+import { TextClassContext, wrapTextChildren } from './text';
 
-const badgeVariants = cva('flex-row items-center self-start overflow-hidden rounded-full border px-2.5 py-0.5', {
+const badgeVariants = cva('flex-row items-center self-start rounded-full border px-2.5 py-0.5', {
   variants: {
     variant: {
       default: 'border-transparent bg-primary',
@@ -2296,14 +3035,26 @@ const badgeTextVariants = cva('text-xs font-semibold', {
   defaultVariants: { variant: 'default' },
 });
 
-type BadgeProps = React.ComponentProps<typeof View> & VariantProps<typeof badgeVariants>;
+type BadgeProps = Omit<React.ComponentProps<typeof View>, 'style'> &
+  VariantProps<typeof badgeVariants> & { style?: StyleProp<ViewStyle>; textClassName?: string };
 
-function Badge({ className, variant, children, ...props }: BadgeProps) {
-  const content = typeof children === 'string' || typeof children === 'number' ? <Text>{children}</Text> : children;
+/**
+ * self-start keeps the badge inline-sized in RN's stretching column layout (web `inline-flex`); in a
+ * row next to taller content, add `self-center`.
+ */
+function Badge({ className, variant, children, style, textClassName, ...props }: BadgeProps) {
+  const content = wrapTextChildren(children);
+  // Gradient painted on the View (not a child layer) so it renders under the border; see Task 8 review.
+  // Badge has `border` in its base classes; an absolutely positioned child sits inside the parent's
+  // border and Android clips children to the padding box — painting the View's own background image
+  // renders under its border, as in CSS (see button.tsx for the same pattern).
+  const isGradient = variant === 'gradient';
   return (
-    <TextClassContext.Provider value={badgeTextVariants({ variant })}>
-      <View className={cn(badgeVariants({ variant }), className)} {...props}>
-        {variant === 'gradient' && <Gradient testID="badge-gradient" />}
+    <TextClassContext.Provider value={cn(badgeTextVariants({ variant }), textClassName)}>
+      <View
+        className={cn(badgeVariants({ variant }), className)}
+        style={isGradient ? [{ experimental_backgroundImage: BRAND_GRADIENT }, style] : style}
+        {...props}>
         {content}
       </View>
     </TextClassContext.Provider>
@@ -2373,14 +3124,24 @@ import { render, screen } from '@testing-library/react-native';
 import { Separator } from '../../src/atoms/separator';
 
 describe('Separator', () => {
+  // `decorative` defaults to true, so the primitive sets `aria-hidden`, which RNTL's
+  // queries exclude by default (helpers/accessibility.ts `isHiddenFromAccessibility`).
+  // `{ hidden: true }` opts back in to querying it.
   it('is a 1px horizontal border-coloured line by default', async () => {
     await render(<Separator testID="s" />);
-    expect(screen.getByTestId('s').props.className).toBe('shrink-0 bg-border h-[1px] w-full');
+    const el = screen.getByTestId('s', { hidden: true });
+    expect(el.props.className).toBe('shrink-0 bg-border h-[1px] w-full');
+    expect(el.props['aria-hidden']).toBe(true);
   });
 
   it('supports vertical orientation', async () => {
     await render(<Separator testID="s" orientation="vertical" />);
-    expect(screen.getByTestId('s').props.className).toBe('shrink-0 bg-border h-full w-[1px]');
+    expect(screen.getByTestId('s', { hidden: true }).props.className).toBe('shrink-0 bg-border h-full w-[1px]');
+  });
+
+  it('is not hidden and has role="separator" when decorative is false', async () => {
+    await render(<Separator testID="s" decorative={false} />);
+    expect(screen.getByTestId('s').props.role).toBe('separator');
   });
 });
 ```
@@ -2421,7 +3182,7 @@ export * from './atoms/separator';
 
 - [ ] **Step 4: Run — expect PASS**, then **Step 5: Commit**
 
-Run: `pnpm --filter @aumraa/breathe-native test test/atoms/separator.test.tsx` → 2 passed.
+Run: `pnpm --filter @aumraa/breathe-native test test/atoms/separator.test.tsx` → 3 passed.
 
 ```bash
 git add packages/react-native
@@ -2444,19 +3205,51 @@ Reference: repo `ui/skeleton.tsx`: `animate-pulse rounded-md bg-muted`. Tailwind
 - [ ] **Step 1: Write the failing test** — `packages/react-native/test/atoms/skeleton.test.tsx`
 
 ```tsx
-import { render, screen } from '@testing-library/react-native';
+import { act, render, screen } from '@testing-library/react-native';
 import { Skeleton } from '../../src/atoms/skeleton';
+
+afterEach(() => jest.useRealTimers());
 
 describe('Skeleton', () => {
   it('uses the web muted block and merges sizing classes', async () => {
     await render(<Skeleton testID="sk" className="h-4 w-24" />);
-    expect(screen.getByTestId('sk').props.className).toBe('rounded-md bg-muted h-4 w-24');
+    expect(screen.getByTestId('sk', { hidden: true }).props.className).toBe('rounded-md bg-muted h-4 w-24');
   });
 
   it('is hidden from screen readers', async () => {
     await render(<Skeleton testID="sk" />);
-    expect(screen.getByTestId('sk').props.accessibilityElementsHidden).toBe(true);
-    expect(screen.getByTestId('sk').props.importantForAccessibility).toBe('no-hide-descendants');
+    expect(screen.getByTestId('sk', { hidden: true }).props.accessibilityElementsHidden).toBe(true);
+    expect(screen.getByTestId('sk', { hidden: true }).props.importantForAccessibility).toBe('no-hide-descendants');
+  });
+
+  it('pulses opacity 1 -> 0.75 -> 0.5 -> 1 over 2s', async () => {
+    jest.useFakeTimers();
+    await render(<Skeleton testID="sk" />);
+    const el = screen.getByTestId('sk', { hidden: true });
+    expect(el).toHaveAnimatedStyle({ opacity: 1 });
+    await act(async () => {
+      jest.advanceTimersByTime(500);
+    });
+    expect(el).toHaveAnimatedStyle({ opacity: 0.75 });
+    await act(async () => {
+      jest.advanceTimersByTime(500);
+    });
+    expect(el).toHaveAnimatedStyle({ opacity: 0.5 });
+    await act(async () => {
+      jest.advanceTimersByTime(1000);
+    });
+    expect(el).toHaveAnimatedStyle({ opacity: 1 });
+  });
+
+  it('merges consumer style with the pulse animation', async () => {
+    jest.useFakeTimers();
+    await render(<Skeleton testID="sk" style={{ marginTop: 4 }} />);
+    const el = screen.getByTestId('sk', { hidden: true });
+    await act(async () => {
+      jest.advanceTimersByTime(1000);
+    });
+    expect(el).toHaveAnimatedStyle({ opacity: 0.5 });
+    expect(el).toHaveStyle({ marginTop: 4 });
   });
 });
 ```
@@ -2473,6 +3266,7 @@ import * as React from 'react';
 import { View } from 'react-native';
 import Animated, {
   Easing,
+  ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
@@ -2486,11 +3280,17 @@ const PULSE = { duration: 1000, easing: Easing.bezier(0.4, 0, 0.6, 1) };
 type SkeletonProps = React.ComponentProps<typeof View>;
 
 /** Web: animate-pulse, opacity 1 → 0.5 → 1 every 2s. */
-function Skeleton({ className, ...props }: SkeletonProps) {
+function Skeleton({ className, style, ...props }: SkeletonProps) {
   const opacity = useSharedValue(1);
 
   React.useEffect(() => {
-    opacity.value = withRepeat(withSequence(withTiming(0.5, PULSE), withTiming(1, PULSE)), -1);
+    opacity.value = withRepeat(
+      withSequence(withTiming(0.5, PULSE), withTiming(1, PULSE)),
+      -1,
+      false,
+      undefined,
+      ReduceMotion.System, // decorative motion: honour Reduce Motion; the sequence ends at 1 so it freezes as a solid block
+    );
   }, [opacity]);
 
   const pulse = useAnimatedStyle(() => ({ opacity: opacity.value }));
@@ -2500,8 +3300,8 @@ function Skeleton({ className, ...props }: SkeletonProps) {
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants"
       className={cn('rounded-md bg-muted', className)}
-      style={pulse}
       {...props}
+      style={[pulse, style]}
     />
   );
 }
@@ -2517,9 +3317,9 @@ export * from './atoms/skeleton';
 
 - [ ] **Step 4: Run — expect PASS**
 
-Run: `pnpm --filter @aumraa/breathe-native test test/atoms/skeleton.test.tsx` → 2 passed.
+Run: `pnpm --filter @aumraa/breathe-native test test/atoms/skeleton.test.tsx` → 4 passed.
 
-- [ ] **Step 5: Device check S10** — in the catalog (Task 16), the skeleton shows a muted rounded block that pulses. If it pulses but the colour or radius is missing, NativeWind isn't styling `Animated.View`: wrap it as `<Animated.View style={pulse}><View className={cn('rounded-md bg-muted', className)} {...props} /></Animated.View>`.
+- [ ] **Step 5: Device check S10** — in the catalog (Task 16), the skeleton shows a muted rounded block that pulses. `className` on reanimated's `Animated.View` is expected to be styled: NativeWind's Metro resolver redirects reanimated's `import { View } from 'react-native'` to react-native-css's `View`, and `className` passes through `filterNonAnimatedProps`. If the colour or radius is still missing, fall back to wrapping it — `<Animated.View style={pulse}><View className={cn('rounded-md bg-muted', className)} {...props} /></Animated.View>` — keeping the outer view's `style={[pulse, style]}`.
 
 - [ ] **Step 6: Commit**
 
@@ -2542,13 +3342,16 @@ Reference: repo `ui/progress.tsx`. Track `relative h-2 w-full overflow-hidden ro
 - [ ] **Step 1: Write the failing test** — `packages/react-native/test/atoms/progress.test.tsx`
 
 ```tsx
-import { render, screen } from '@testing-library/react-native';
+import { act, fireEvent, render, screen } from '@testing-library/react-native';
 import { clampProgress, Progress } from '../../src/atoms/progress';
+
+afterEach(() => jest.useRealTimers());
 
 describe('clampProgress', () => {
   it.each([
     [undefined, 0],
     [null, 0],
+    [NaN, 0],
     [-5, 0],
     [42, 42],
     [140, 100],
@@ -2571,6 +3374,25 @@ describe('Progress', () => {
     expect(screen.getByTestId('p').props.className).toContain('h-1');
     expect(screen.getByTestId('p').props.className).not.toContain('h-2');
   });
+
+  it('slides to the measured width and hides the indicator until measured', async () => {
+    jest.useFakeTimers();
+    const { rerender } = await render(<Progress testID="p" value={30} />);
+    const indicator = screen.getByTestId('progress-indicator');
+    expect(indicator).toHaveAnimatedStyle({ opacity: 0 });
+
+    await fireEvent(screen.getByTestId('p'), 'layout', { nativeEvent: { layout: { width: 200 } } });
+    await act(async () => {
+      jest.advanceTimersByTime(600);
+    });
+    expect(indicator).toHaveAnimatedStyle({ transform: [{ translateX: -140 }], opacity: 1 });
+
+    await rerender(<Progress testID="p" value={80} />);
+    await act(async () => {
+      jest.advanceTimersByTime(550);
+    });
+    expect(indicator).toHaveAnimatedStyle({ transform: [{ translateX: -40 }], opacity: 1 });
+  });
 });
 ```
 
@@ -2584,18 +3406,31 @@ Expected: FAIL — module not found.
 ```tsx
 import * as ProgressPrimitive from '@rn-primitives/progress';
 import * as React from 'react';
-import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, {
+  Easing,
+  ReduceMotion,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import { cn } from '../lib/utils';
 import { Gradient } from './gradient';
 
 // Tailwind ease-out = cubic-bezier(0, 0, 0.2, 1); web duration-500
-const TIMING = { duration: 500, easing: Easing.bezier(0, 0, 0.2, 1) };
+const TIMING = {
+  duration: 500,
+  easing: Easing.bezier(0, 0, 0.2, 1),
+  reduceMotion: ReduceMotion.System, // jumps to target under Reduce Motion (state still conveyed)
+};
 
 function clampProgress(value: number | null | undefined): number {
-  return Math.min(100, Math.max(0, value ?? 0));
+  const n = Number.isFinite(value) ? (value as number) : 0;
+  return Math.min(100, Math.max(0, n));
 }
 
-type ProgressProps = React.ComponentProps<typeof ProgressPrimitive.Root> & { indicatorClassName?: string };
+type ProgressProps = Omit<React.ComponentProps<typeof ProgressPrimitive.Root>, 'max'> & {
+  indicatorClassName?: string;
+};
 
 function Progress({ className, value, indicatorClassName, onLayout, ...props }: ProgressProps) {
   const trackWidth = useSharedValue(0);
@@ -2605,14 +3440,16 @@ function Progress({ className, value, indicatorClassName, onLayout, ...props }: 
     progress.value = withTiming(clampProgress(value), TIMING);
   }, [progress, value]);
 
-  // Web: transform: translateX(-(100 - value)%) on a full-width indicator
+  // Web: transform: translateX(-(100 - value)%) on a full-width indicator.
+  // Hidden until the track is measured so mount doesn't flash a full bar at width 0.
   const slide = useAnimatedStyle(() => ({
+    opacity: trackWidth.value ? 1 : 0,
     transform: [{ translateX: -((100 - progress.value) / 100) * trackWidth.value }],
   }));
 
   return (
     <ProgressPrimitive.Root
-      value={value}
+      value={clampProgress(value)}
       className={cn('relative h-2 w-full overflow-hidden rounded-full bg-secondary', className)}
       onLayout={(e) => {
         trackWidth.value = e.nativeEvent.layout.width;
@@ -2620,7 +3457,10 @@ function Progress({ className, value, indicatorClassName, onLayout, ...props }: 
       }}
       {...props}>
       <ProgressPrimitive.Indicator asChild>
-        <Animated.View className={cn('h-full w-full', indicatorClassName)} style={slide}>
+        <Animated.View
+          testID="progress-indicator"
+          className={cn('h-full w-full', indicatorClassName)}
+          style={slide}>
           {/* static inner layer: gradients must not sit on an animated view (reanimated#8297) */}
           <Gradient testID="progress-gradient" />
         </Animated.View>
@@ -2640,7 +3480,7 @@ export * from './atoms/progress';
 
 - [ ] **Step 4: Run — expect PASS**
 
-Run: `pnpm --filter @aumraa/breathe-native test test/atoms/progress.test.tsx && pnpm --filter @aumraa/breathe-native typecheck` → all pass.
+Run: `pnpm --filter @aumraa/breathe-native test test/atoms/progress.test.tsx && pnpm --filter @aumraa/breathe-native typecheck` → 9 passed.
 
 - [ ] **Step 5: Commit**
 
@@ -2648,6 +3488,8 @@ Run: `pnpm --filter @aumraa/breathe-native test test/atoms/progress.test.tsx && 
 git add packages/react-native
 git commit -m "feat(native): Progress atom with sliding brand gradient"
 ```
+
+`max` is accepted by `@rn-primitives/progress` but ignored by this bar (matches the web, which also ignores `max` — see §0.5).
 
 ---
 
@@ -2664,14 +3506,15 @@ Reference: repo `ui/avatar.tsx`. Root `relative flex h-10 w-10 shrink-0 overflow
 - [ ] **Step 1: Write the failing test** — `packages/react-native/test/atoms/avatar.test.tsx`
 
 ```tsx
-import { render, screen } from '@testing-library/react-native';
+import { act, fireEvent, render, screen } from '@testing-library/react-native';
 import { Avatar, AvatarFallback, AvatarImage } from '../../src/atoms/avatar';
 
 describe('Avatar', () => {
-  it('shows the fallback initials while the image has not loaded', async () => {
+  // Jest never fires onLoad/onError, so the initial-render test omits AvatarImage; the error path
+  // is covered below.
+  it('shows the fallback initials when there is no image', async () => {
     await render(
       <Avatar alt="Ravi Kumar" testID="av">
-        <AvatarImage source={{ uri: 'https://example.com/a.png' }} />
         <AvatarFallback>RK</AvatarFallback>
       </Avatar>,
     );
@@ -2679,6 +3522,19 @@ describe('Avatar', () => {
     expect(screen.getByTestId('av').props.className).toBe(
       'relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full',
     );
+  });
+
+  it('falls back to initials when the image errors', async () => {
+    await render(
+      <Avatar alt="Ravi Kumar">
+        <AvatarImage testID="img" source={{ uri: 'https://example.com/a.png' }} />
+        <AvatarFallback>RK</AvatarFallback>
+      </Avatar>,
+    );
+    expect(screen.queryByText('RK')).toBeNull();
+    expect(screen.getByTestId('img').props.alt).toBe('Ravi Kumar');
+    await act(async () => { fireEvent(screen.getByTestId('img'), 'error', { nativeEvent: {} }); });
+    expect(screen.getByText('RK')).toBeOnTheScreen();
   });
 });
 ```
@@ -2694,7 +3550,7 @@ Expected: FAIL — module not found.
 import * as AvatarPrimitive from '@rn-primitives/avatar';
 import * as React from 'react';
 import { cn } from '../lib/utils';
-import { Text } from './text';
+import { wrapTextChildren } from './text';
 
 function Avatar({ className, ...props }: React.ComponentProps<typeof AvatarPrimitive.Root>) {
   return (
@@ -2710,18 +3566,20 @@ function AvatarImage({ className, ...props }: React.ComponentProps<typeof Avatar
 }
 
 function AvatarFallback({ className, children, ...props }: React.ComponentProps<typeof AvatarPrimitive.Fallback>) {
-  const content = typeof children === 'string' ? <Text>{children}</Text> : children;
   return (
     <AvatarPrimitive.Fallback
       className={cn('flex h-full w-full items-center justify-center rounded-full bg-muted', className)}
       {...props}>
-      {content}
+      {wrapTextChildren(children)}
     </AvatarPrimitive.Fallback>
   );
 }
 
 export { Avatar, AvatarFallback, AvatarImage };
 ```
+
+Uses `wrapTextChildren` from `./text` (not a bare `typeof children === 'string'` check) so mixed children
+(e.g. an icon next to initials) also get their text runs wrapped in the `Text` atom.
 
 Append to `packages/react-native/src/index.ts`:
 ```ts
@@ -2730,7 +3588,7 @@ export * from './atoms/avatar';
 
 - [ ] **Step 4: Run — expect PASS**
 
-Run: `pnpm --filter @aumraa/breathe-native test test/atoms/avatar.test.tsx` → 1 passed.
+Run: `pnpm --filter @aumraa/breathe-native test test/atoms/avatar.test.tsx` → 2 passed.
 
 - [ ] **Step 5: Catalog** — `apps/native-catalog/sections/DisplaySection.tsx` (Separator, Skeleton, Progress, Avatar)
 
@@ -2805,10 +3663,11 @@ Native: the web `type` prop is kept and mapped to keyboard/autofill props (the r
 
 ```tsx
 import { fireEvent, render, screen } from '@testing-library/react-native';
-import { StyleSheet } from 'react-native';
+import * as React from 'react';
+import { StyleSheet, TextInput } from 'react-native';
 import { Input } from '../../../src/atoms/form-elements/input';
 
-const flat = (el: { props: { style: unknown } }) => StyleSheet.flatten(el.props.style as never) ?? {};
+const flat = (el: { props: Record<string, any> }) => StyleSheet.flatten(el.props.style) ?? {};
 
 describe('Input', () => {
   it('uses the web input box, muted placeholder and body text', async () => {
@@ -2821,10 +3680,10 @@ describe('Input', () => {
 
   it.each([
     ['email', { keyboardType: 'email-address', autoCapitalize: 'none', autoComplete: 'email' }],
-    ['password', { secureTextEntry: true, autoCapitalize: 'none' }],
+    ['password', { secureTextEntry: true, autoCapitalize: 'none', autoComplete: 'password', autoCorrect: false }],
     ['number', { keyboardType: 'decimal-pad' }],
     ['tel', { keyboardType: 'phone-pad', autoComplete: 'tel' }],
-    ['url', { keyboardType: 'url' }],
+    ['url', { keyboardType: 'url', autoComplete: 'url' }],
   ] as const)('maps type="%s" to native input props', async (type, expected) => {
     await render(<Input type={type} placeholder="x" />);
     expect(screen.getByPlaceholderText('x').props).toMatchObject(expected);
@@ -2833,6 +3692,12 @@ describe('Input', () => {
   it('lets explicit props win over the type mapping', async () => {
     await render(<Input type="number" keyboardType="number-pad" placeholder="x" />);
     expect(screen.getByPlaceholderText('x').props.keyboardType).toBe('number-pad');
+  });
+
+  it('forwards ref to the TextInput', async () => {
+    const ref = React.createRef<TextInput>();
+    await render(<Input ref={ref} placeholder="x" />);
+    expect(ref.current).toBeTruthy();
   });
 
   it('is read-only and dimmed when disabled', async () => {
@@ -2872,6 +3737,8 @@ describe('Input', () => {
 });
 ```
 
+Deviation from the original draft above: `flat()`'s parameter is typed `{ props: Record<string, any> }`, not `{ props: { style: unknown } }` (and the body drops the `as never` cast). `ReactTestInstance.props` (the return type of `screen.getByPlaceholderText(...)`) is `Record<string, any>`; TS does not treat an index-signature type as satisfying a target type that requires a named `style` property (`Property 'style' is missing in type 'Record<string, any>'`), so the original signature fails `tsc --noEmit` at every call site. Behaviour and assertions are unchanged.
+
 - [ ] **Step 2: Run — expect FAIL**
 
 Run: `pnpm --filter @aumraa/breathe-native test test/atoms/form-elements/input.test.tsx`
@@ -2881,7 +3748,7 @@ Expected: FAIL — module not found.
 
 ```ts
 import * as React from 'react';
-import type { TextInput, ViewStyle } from 'react-native';
+import type { TextInput, TextStyle } from 'react-native';
 import { useThemeColors } from './theme';
 
 type InputProps = React.ComponentProps<typeof TextInput>;
@@ -2900,13 +3767,15 @@ export function useFocusRing(onFocus?: InputProps['onFocus'], onBlur?: InputProp
     onBlur?.(e);
   };
 
-  const ringStyle: ViewStyle | undefined = focused
+  const ringStyle: TextStyle | undefined = focused
     ? { outlineWidth: 2, outlineOffset: 2, outlineStyle: 'solid', outlineColor: ring }
     : undefined;
 
-  return { onFocus: handleFocus, onBlur: handleBlur, ringStyle };
+  return { onFocus: handleFocus, onBlur: handleBlur, ringStyle, focused };
 }
 ```
+
+Deviation from the original draft above: `ringStyle` is typed `TextStyle`, not `ViewStyle` (originally imported from `'react-native'`). `useFocusRing` is only ever consumed by text inputs (Input, Textarea), and `apps/native-catalog` (which depends on `expo`) pulls in `expo/types/react-native-web.d.ts`, which widens `ViewStyle.userSelect` to plain `string`; merging that widened `ViewStyle` into a `TextInput`'s `StyleProp<TextStyle>` array then fails `tsc --noEmit` under the catalog's tsconfig (though not under the package's own) because `TextStyle.userSelect` keeps RN's literal union. `packages/react-native/src/lib/use-focus-ring.ts` does not depend on `expo`, so this only surfaces where a consumer app that does depend on `expo` typechecks against it.
 
 - [ ] **Step 4: Implement Input** — `packages/react-native/src/atoms/form-elements/input.tsx`
 
@@ -2919,7 +3788,10 @@ import { cn } from '../../lib/utils';
 
 type TextInputProps = React.ComponentProps<typeof TextInput>;
 
-/** Web <input type> → native keyboard/autofill props. "date" is intentionally absent (use Calendar). */
+/**
+ * Web <input type> → native keyboard/autofill props. "date" is intentionally absent (use Calendar).
+ * `number` → `decimal-pad` has no minus key; pass `keyboardType="numbers-and-punctuation"` (iOS) for signed values.
+ */
 const TYPE_PROPS = {
   text: {},
   email: { keyboardType: 'email-address', autoCapitalize: 'none', autoComplete: 'email', autoCorrect: false },
@@ -2927,12 +3799,12 @@ const TYPE_PROPS = {
   number: { keyboardType: 'decimal-pad' },
   tel: { keyboardType: 'phone-pad', autoComplete: 'tel' },
   search: { returnKeyType: 'search' },
-  url: { keyboardType: 'url', autoCapitalize: 'none', autoCorrect: false },
+  url: { keyboardType: 'url', autoCapitalize: 'none', autoComplete: 'url', autoCorrect: false },
 } satisfies Record<string, Partial<TextInputProps>>;
 
 type InputType = keyof typeof TYPE_PROPS;
 
-type InputProps = TextInputProps & { type?: InputType; disabled?: boolean };
+type InputProps = TextInputProps & React.RefAttributes<TextInput> & { type?: InputType; disabled?: boolean };
 
 function Input({ className, type = 'text', disabled, editable, onFocus, onBlur, style, ...props }: InputProps) {
   const colors = useThemeColors();
@@ -2961,6 +3833,8 @@ export { Input };
 export type { InputProps, InputType };
 ```
 
+Deviation from the original draft above: `InputProps` intersects `React.RefAttributes<TextInput>` (same pattern as `TextProps` in `src/atoms/text.tsx`). `React.ComponentProps<typeof TextInput>` does not include `ref` (RN's `TextInput` is a class component, and JSX only auto-injects `ref` for class components directly, not for a plain function component built from their extracted prop type), so without this the catalog's `<Input ref={emailRef} .../>` (Step 6) fails `tsc` with "Property 'ref' does not exist". `ref` still flows through the existing `...props` spread onto `<TextInput>` unchanged — no other line differs.
+
 Append to `packages/react-native/src/index.ts`:
 ```ts
 export * from './atoms/form-elements/input';
@@ -2974,7 +3848,7 @@ Expected: all pass; tsc 0.
 - [ ] **Step 6: Catalog** — `apps/native-catalog/sections/InputSection.tsx`
 
 ```tsx
-import { Input, Label, Textarea } from '@aumraa/breathe-native';
+import { Input, Label } from '@aumraa/breathe-native';
 import { useRef } from 'react';
 import { TextInput, View } from 'react-native';
 import { Section } from '../components/Section';
@@ -2982,7 +3856,7 @@ import { Section } from '../components/Section';
 export function InputSection() {
   const emailRef = useRef<TextInput>(null);
   return (
-    <Section title="Input · Textarea">
+    <Section title="Input">
       <View className="gap-2">
         <Label onPress={() => emailRef.current?.focus()}>Email</Label>
         <Input ref={emailRef} type="email" placeholder="you@society.in" />
@@ -2991,14 +3865,12 @@ export function InputSection() {
       <Input type="tel" placeholder="Phone" />
       <Input type="password" placeholder="Password" />
       <Input disabled placeholder="Disabled" />
-      <Textarea placeholder="Notes for the committee" />
-      <Textarea disabled placeholder="Disabled notes" />
     </Section>
   );
 }
 ```
 
-This file imports `Textarea` from Task 18, so register `{ key: 'input', Component: InputSection }` only after Task 18 lands.
+Task 18 adds `Textarea` to this same file (import + two `<Textarea>` lines) and renames the section title to "Input · Textarea" — it does not create a new file. Register it now: add `import { InputSection } from './InputSection';` and `{ key: 'input', Component: InputSection }` to `apps/native-catalog/sections/index.ts`.
 
 - [ ] **Step 7: Commit**
 
@@ -3015,7 +3887,7 @@ Reference: repo `ui/textarea.tsx`: `flex min-h-[80px] w-full rounded-md border b
 
 **Files:**
 - Create: `packages/react-native/src/atoms/form-elements/textarea.tsx`
-- Modify: `packages/react-native/src/index.ts`, `apps/native-catalog/sections/index.ts`
+- Modify: `packages/react-native/src/index.ts`, `apps/native-catalog/sections/InputSection.tsx`
 - Test: `packages/react-native/test/atoms/form-elements/textarea.test.tsx`
 
 - [ ] **Step 1: Write the failing test** — `packages/react-native/test/atoms/form-elements/textarea.test.tsx`
@@ -3104,7 +3976,7 @@ export * from './atoms/form-elements/textarea';
 
 Run: `pnpm --filter @aumraa/breathe-native test test/atoms/form-elements/textarea.test.tsx` → 3 passed.
 
-- [ ] **Step 5: Register the Input catalog section** — add `import { InputSection } from './InputSection';` and `{ key: 'input', Component: InputSection }` to `apps/native-catalog/sections/index.ts`. On device, check S11: focusing an input draws a 2px ring colour outline 2px outside the border, matching the web. If there's no outline, confirm the New Architecture is on (the SDK 56 default).
+- [ ] **Step 5: Add Textarea to the Input catalog section** — `InputSection.tsx` and its `{ key: 'input', Component: InputSection }` registration already exist (Task 17). Add `Textarea` to the named import from `@aumraa/breathe-native`, change the `<Section title="Input">` to `<Section title="Input · Textarea">`, and add `<Textarea placeholder="Notes for the committee" />` and `<Textarea disabled placeholder="Disabled notes" />` after the existing `<Input disabled placeholder="Disabled" />` line. On device, check S11: focusing an input draws a 2px ring colour outline 2px outside the border, matching the web. If there's no outline, confirm the New Architecture is on (the SDK 56 default).
 
 - [ ] **Step 6: Commit**
 
@@ -4670,56 +5542,110 @@ git commit -m "feat(native): Calendar atom as a date-fns month grid matching the
 
 ### Task 28: Exports audit, README, pack check
 
+**Executed 2026-09-12 at the scope of Tasks 1–17** (the atoms that existed). When Tasks 18–27 land, each appends its names to `EXPECTED` in `test/index.test.ts` (the test asserts the exact export set, so a missing or an extra name fails it), adds its atom to the README "Status" list, and — for Slider and Select — adds the `jest.mock` lines for `@react-native-community/slider` and `react-native-screens` at the top of the test. The README's install list then gains `@react-native-community/slider`.
+
+Additions beyond the original draft, all from what Tasks 5–17 taught: `useFocusRing` is exported from `index.ts` (it was missing); the worklets Metro exemption from the catalog's `metro.config.js` (Task 5) moved into the package as `withBreatheNative` (`metro.js`, exported as `@aumraa/breathe-native/metro`) so every consumer gets it, and the catalog now uses it; the README covers the lightningcss pin per package manager, the consumer Jest `transformIgnorePatterns`, the dark-mode `Appearance` caveat, and the Windows build recipe pointer. Task 17 carry-overs shipped here: `url` gained `autoComplete: 'url'`, `useFocusRing` also returns `focused`, and the Input test asserts the password autofill props and a forwarded ref.
+
+Review fixes, 2026-09-13:
+
+- Spinner deep-imports its icon (see the Task 9 note and R22), and the catalog sections deep-import theirs.
+- `metro.js` captures the parent resolver before calling `withNativewind`.
+- `@react-native-community/slider` is marked optional in `peerDependenciesMeta` until Task 24.
+- The README gained the Icons note, the consumer Jest setup lines, and the non-hoisted Jest caveat.
+- The exports test keeps only the exact-set check.
+
 **Files:**
 - Test: `packages/react-native/test/index.test.ts`
-- Create: `packages/react-native/README.md`
-- Modify: `README.md` (root products table)
+- Create: `packages/react-native/README.md`, `packages/react-native/metro.js`
+- Modify: `packages/react-native/package.json` (`exports["./metro"]`, `files`), `packages/react-native/src/index.ts`, `apps/native-catalog/metro.config.js`, `README.md` (root products table)
 
-- [ ] **Step 1: Write the exports test** — `packages/react-native/test/index.test.ts`
+- [x] **Step 1: Write the exports test** — `packages/react-native/test/index.test.ts`
 
 ```ts
 import * as pkg from '../src';
 
-jest.mock('react-native-screens', () => ({ FullWindowOverlay: ({ children }: { children: unknown }) => children }));
-jest.mock('@react-native-community/slider', () => ({ __esModule: true, default: () => null }));
-
+// Tasks 18–27 add: Textarea, Checkbox, RadioGroup(+Item), Switch, Toggle(+variants), ToggleGroup(+Item),
+// Slider, Select*, InputOTP*, Calendar. (Slider and Select will need jest.mock for
+// @react-native-community/slider and react-native-screens here.)
 const EXPECTED = [
-  'cn', 'THEME', 'useThemeColors',
-  'Text', 'TextClassContext', 'Icon', 'IconSizeContext', 'Gradient', 'BRAND_GRADIENT', 'Spinner',
+  'cn', 'THEME', 'useThemeColors', 'useFocusRing',
+  'Text', 'TextClassContext', 'wrapTextChildren', 'Icon', 'IconSizeContext', 'Gradient', 'BRAND_GRADIENT', 'Spinner',
   'Button', 'buttonVariants', 'buttonTextVariants',
   'Label', 'Badge', 'badgeVariants', 'badgeTextVariants', 'Separator', 'Skeleton',
   'Progress', 'clampProgress', 'Avatar', 'AvatarImage', 'AvatarFallback',
-  'Input', 'Textarea', 'Checkbox', 'RadioGroup', 'RadioGroupItem', 'Switch',
-  'Toggle', 'toggleVariants', 'toggleTextClass', 'ToggleGroup', 'ToggleGroupItem', 'Slider',
-  'Select', 'SelectTrigger', 'SelectValue', 'SelectContent', 'SelectGroup', 'SelectItem', 'SelectLabel', 'SelectSeparator',
-  'InputOTP', 'InputOTPGroup', 'InputOTPSlot', 'InputOTPSeparator',
-  'Calendar',
+  'Input',
 ];
 
 describe('@aumraa/breathe-native public API', () => {
-  it.each(EXPECTED)('exports %s', (name) => {
-    expect((pkg as Record<string, unknown>)[name]).toBeDefined();
+  it('exports exactly the expected names', () => {
+    expect(Object.keys(pkg).sort()).toEqual([...EXPECTED].sort());
   });
 });
 ```
 
-- [ ] **Step 2: Run the whole suite**
+- [x] **Step 2: Run the whole suite**
 
 Run: `pnpm --filter @aumraa/breathe-native test && pnpm --filter @aumraa/breathe-native typecheck`
 Expected: every suite passes; tsc 0. A missing export means an `index.ts` append was skipped in its task; add it.
+Result 2026-09-12: 17 suites, 452 tests, tsc 0. `useFocusRing` was the one missing export. After the review fix dropped the 27 per-name presence rows: 17 suites, 425 tests.
 
-- [ ] **Step 3: Consumer README** — `packages/react-native/README.md`
+- [x] **Step 3: Metro helper** — `packages/react-native/metro.js` (plain CommonJS; `nativewind` is already a peer)
+
+```js
+const path = require('path');
+const { withNativewind } = require('nativewind/metro');
+
+/**
+ * withNativewind plus the worklets fix every consumer needs:
+ *   module.exports = withBreatheNative(getDefaultConfig(__dirname));
+ *
+ * react-native-worklets calls require.resolveWeak('react-native'). NativeWind redirects 'react-native'
+ * to react-native-css's CJS components copy, which nothing else bundles, so `expo export` fails with
+ * "Chunk containing module not found". Worklets never renders className components, so its
+ * 'react-native' imports skip the redirect. Remove once react-native-css handles resolveWeak.
+ */
+function withBreatheNative(config) {
+  // Captured before withNativewind runs, so the exemption can't recurse into NativeWind's
+  // resolver if a future version mutates config.resolver in place.
+  const parentResolve = config.resolver.resolveRequest;
+  const nativewindConfig = withNativewind(config);
+  const nativewindResolve = nativewindConfig.resolver.resolveRequest;
+
+  const WORKLETS = `${path.sep}react-native-worklets${path.sep}`;
+  nativewindConfig.resolver.resolveRequest = (context, moduleName, platform) =>
+    moduleName === 'react-native' && context.originModulePath.includes(WORKLETS)
+      ? (parentResolve ?? context.resolveRequest)(context, moduleName, platform)
+      : nativewindResolve(context, moduleName, platform);
+
+  return nativewindConfig;
+}
+
+module.exports = { withBreatheNative };
+```
+
+`package.json`: add `"./metro": "./metro.js"` to `exports` and `metro.js` to `files`, and mark `@react-native-community/slider` optional in `peerDependenciesMeta` (until Task 24). Then `apps/native-catalog/metro.config.js` becomes:
+
+```js
+const { getDefaultConfig } = require('expo/metro-config');
+const { withBreatheNative } = require('@aumraa/breathe-native/metro');
+
+module.exports = withBreatheNative(getDefaultConfig(__dirname));
+```
+
+Verified: `expo export --platform android` from the catalog succeeds with the package export resolved through the workspace symlink (3100 modules, 5.1 MB Hermes bundle, identical hash to the inline config). The count grew from Task 5's 1100 because Spinner and the catalog sections (Tasks 9–10) imported named icons from the lucide index, which bundles all 1,834 icons. After the review fix, deep-importing Spinner's icon alone, with the catalog unchanged, still gave 3100 / 5.1 MB, because the catalog's own index imports pull in the full set. With the catalog sections deep-imported too, the export is 1271 modules / 3.2 MB.
+
+- [x] **Step 4: Consumer README** — `packages/react-native/README.md`
 
 ````md
 # @aumraa/breathe-native
 
-Breathe design system for React Native (Expo SDK 56, NativeWind v5). Ships Leminiscate's theme and all atoms.
+Breathe design system for React Native (Expo SDK 56, NativeWind v5). Ships Leminiscate's theme and atoms. The package is TypeScript source (no build step); your app's Metro and `tsc` compile it.
 
 ## Install
 
 `.npmrc` in the app:
 
-```
+```ini
 @aumraa:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
@@ -4727,46 +5653,166 @@ Breathe design system for React Native (Expo SDK 56, NativeWind v5). Ships Lemin
 ```bash
 pnpm add @aumraa/breathe-native
 npx expo install nativewind@5.0.0-preview.4 react-native-css@3.0.7 react-native-reanimated react-native-worklets \
-  react-native-svg react-native-screens react-native-safe-area-context @react-native-community/slider \
-  @rn-primitives/portal lucide-react-native expo-font @expo-google-fonts/inter
+  react-native-svg react-native-screens react-native-safe-area-context \
+  @rn-primitives/portal lucide-react-native expo-font @expo-google-fonts/inter@0.4.2
 pnpm add -D tailwindcss@4.3.3 @tailwindcss/postcss@4.3.3 postcss
 ```
 
-Pin `lightningcss` to `1.30.1` (`pnpm.overrides` or `overrides` in package.json).
+`react-native-css` is pinned `~3.0.7`: the theme's line-height fix relies on its internal `--__rn-css-em` variable. `@react-native-community/slider` is coming with the Slider atom (Task 24); until then it is an optional peer.
+
+Pin `lightningcss` to `1.30.1` (the version react-native-css 3.0.x / NativeWind v5 preview is tested with):
+
+- pnpm: `overrides:` block in `pnpm-workspace.yaml` — `lightningcss: 1.30.1`
+- npm: `"overrides": { "lightningcss": "1.30.1" }` in `package.json`
+- yarn: `"resolutions": { "lightningcss": "1.30.1" }` in `package.json`
 
 ## Configure
 
-- `metro.config.js`: `module.exports = withNativewind(getDefaultConfig(__dirname));` (from `nativewind/metro`)
-- `postcss.config.mjs`: `export default { plugins: { '@tailwindcss/postcss': {} } };`
-- `global.css`:
-  ```css
-  @import "tailwindcss/theme.css" layer(theme);
-  @import "tailwindcss/preflight.css" layer(base);
-  @import "tailwindcss/utilities.css";
-  @import "nativewind/theme";
-  @import "@aumraa/breathe-native/styles/lemniscate.css";
-  ```
-- `nativewind-env.d.ts`: `/// <reference types="react-native-css/types" />`
-- `app.json`: `"userInterfaceStyle": "automatic"` and the `expo-font` Inter block from Breathe's `apps/native-catalog/app.json`. Fonts need a development build (`expo run:*`), not Expo Go.
-- Root layout: `import './global.css'` and render `<PortalHost />` (from `@rn-primitives/portal`) as the last child.
+**`metro.config.js`**
+
+```js
+const { getDefaultConfig } = require('expo/metro-config');
+const { withBreatheNative } = require('@aumraa/breathe-native/metro');
+
+module.exports = withBreatheNative(getDefaultConfig(__dirname));
+```
+
+`withBreatheNative` is `withNativewind` plus one fix: react-native-worklets calls `require.resolveWeak('react-native')`, which NativeWind redirects to a react-native-css copy nothing bundles, so `expo export` fails with "Chunk containing module not found"; the helper lets worklets resolve the real `react-native`.
+
+**`postcss.config.mjs`**
+
+```js
+export default { plugins: { '@tailwindcss/postcss': {} } };
+```
+
+**`global.css`**
+
+```css
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css";
+@import "nativewind/theme";
+@import "@aumraa/breathe-native/styles/lemniscate.css";
+```
+
+**`nativewind-env.d.ts`**
+
+```ts
+/// <reference types="react-native-css/types" />
+/// <reference types="expo/types" />
+```
+
+**`app.json`** — `"userInterfaceStyle": "automatic"` (dark mode) and the Inter font block. Paths are bare package specifiers, so they resolve under both pnpm's isolated layout and `nodeLinker: hoisted`:
+
+```json
+{
+  "expo": {
+    "userInterfaceStyle": "automatic",
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "android": {
+            "fonts": [
+              {
+                "fontFamily": "Inter",
+                "fontDefinitions": [
+                  { "path": "@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf", "weight": 400 },
+                  { "path": "@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf", "weight": 500 },
+                  { "path": "@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf", "weight": 600 },
+                  { "path": "@expo-google-fonts/inter/700Bold/Inter_700Bold.ttf", "weight": 700 }
+                ]
+              }
+            ]
+          },
+          "ios": {
+            "fonts": [
+              "@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf",
+              "@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf",
+              "@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf",
+              "@expo-google-fonts/inter/700Bold/Inter_700Bold.ttf"
+            ]
+          }
+        }
+      ]
+    ]
+  }
+}
+```
+
+Config plugins apply at prebuild, so fonts need a **development build** (`expo run:android` / `expo run:ios`), not Expo Go.
+
+**Root layout** — `import './global.css'` first, render `<PortalHost />` (from `@rn-primitives/portal`) as the last child, and put the theme classes on a NativeWind-styled `View` (`SafeAreaView` from react-native-safe-area-context ignores `className`):
+
+```tsx
+import './global.css';
+import { PortalHost } from '@rn-primitives/portal';
+import { View } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+
+export default function App() {
+  return (
+    <SafeAreaProvider>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View className="flex-1 bg-background">{/* screens */}</View>
+      </SafeAreaView>
+      <PortalHost />
+    </SafeAreaProvider>
+  );
+}
+```
 
 ## Use
 
 ```tsx
 import { Button, Icon, Input, Label } from '@aumraa/breathe-native';
-import { Plus } from 'lucide-react-native';
+import Plus from 'lucide-react-native/icons/plus';
 
 <Label>Flat number</Label>
 <Input placeholder="A-101" />
 <Button variant="gradient" leftIcon={<Icon as={Plus} />}>Add resident</Button>
 ```
 
-Class names are the Leminiscate web class names; sizes are identical to web.
-Porting rules and the few intentional differences from web: `docs/superpowers/plans/2026-09-11-breathe-native-leminiscate-atoms.md` §0.4–0.5 in the Breathe repo.
-Dark mode follows the system; switch with `Appearance.setColorScheme('dark' | 'light')`.
+Class names are the Leminiscate web class names and render at identical sizes (the theme is in px, so `rem` differences between web and NativeWind don't apply). Porting rules and the few intentional differences from web: `docs/superpowers/plans/2026-09-11-breathe-native-leminiscate-atoms.md` §0.4–0.5 in the Breathe repo.
+
+**Icons:** import each icon from its own file, `import Plus from 'lucide-react-native/icons/plus'` (kebab-case file names, default export). A named import from the index (`import { Plus } from 'lucide-react-native'`) bundles every lucide icon, because Expo's default Metro has no tree shaking.
+
+**Dark mode** follows the system. Switch in-app with `Appearance.setColorScheme('dark' | 'light')`. Don't use react-native-css's `colorScheme.set`: it bypasses `Appearance`, so `useThemeColors()` (placeholder colours, focus ring) would stay on the old scheme.
+
+## Consumer Jest
+
+The package ships TS source, so your Jest must transform it. Add it (and the untranspiled peers) to `transformIgnorePatterns` in `jest.config.js`. pnpm's store spells scoped packages with `+`, hence `[/+]`:
+
+```js
+transformIgnorePatterns: [
+  'node_modules/(?!(?:\\.pnpm/)?((jest-)?react-native|@react-native(-community)?|expo(nent)?|@expo(nent)?[/+]|@aumraa[/+]|@rn-primitives[/+]|lucide-react-native|nativewind|react-native-css))',
+  '/node_modules/react-native-reanimated/plugin/',
+  '/node_modules/@react-native/babel-preset/',
+],
+```
+
+Rendering the atoms also needs these three lines in a `setupFilesAfterEnv` file (Breathe's own `packages/react-native/jest.setup.ts` is the reference). NativeWind's import rewrite only runs in Metro, so `styled` can be a pass-through; add any other `nativewind` export you import:
+
+```ts
+jest.mock('react-native-worklets', () => require('react-native-worklets/src/mock'));
+require('react-native-reanimated').setUpTests();
+jest.mock('nativewind', () => ({ styled: (Component: unknown) => Component }));
+```
+
+Likewise your `tsc` typechecks the package under your own tsconfig; `expo/tsconfig.base` with `strict: true` is what it's tested against.
+
+## Windows Android builds
+
+Building from a path with spaces, through pnpm's linked `node_modules`, or with all four ABIs in parallel fails on Windows. What works: a worktree at a path without spaces, a local-only `nodeLinker: hoisted` in `pnpm-workspace.yaml`, JDK 21, and a single-ABI gradle build with capped native jobs. The full recipe is in the plan, Task 5 ("Windows build recipe"). Run Jest from a normal (non-hoisted) install; hoisting causes "Invalid hook call" in tests.
+
+## Status
+
+**Available:** `cn`, `THEME`, `useThemeColors`, `useFocusRing`, `Text` (+`TextClassContext`, `wrapTextChildren`), `Icon` (+`IconSizeContext`), `Gradient` (+`BRAND_GRADIENT`), `Spinner`, `Button` (+`buttonVariants`, `buttonTextVariants`), `Label`, `Badge` (+`badgeVariants`, `badgeTextVariants`), `Separator`, `Skeleton`, `Progress` (+`clampProgress`), `Avatar` (+`AvatarImage`, `AvatarFallback`), `Input`.
+
+**Coming (plan Tasks 18–27):** Textarea, Checkbox, RadioGroup, Switch, Toggle, ToggleGroup, Slider, Select, InputOTP, Calendar.
 ````
 
-- [ ] **Step 4: Pack check** — confirm the tarball contains only what consumers need.
+- [x] **Step 5: Pack check** — confirm the tarball contains only what consumers need.
 
 ```bash
 cd packages/react-native
@@ -4776,9 +5822,9 @@ rm aumraa-breathe-native-0.1.0.tgz
 cd ../..
 ```
 
-Expected: only `package/package.json`, `package/README.md`, `package/styles/lemniscate.css` and `package/src/**`. No `test/`, `jest.*`, `babel.config.js` or `tsconfig.json`.
+Expected: only `package/package.json`, `package/README.md`, `package/metro.js`, `package/styles/lemniscate.css` and `package/src/**`. No `test/`, `jest.*`, `babel.config.js` or `tsconfig.json`. Result 2026-09-12: exactly that (20 entries).
 
-- [ ] **Step 5: Root README products table** — in `README.md` replace
+- [x] **Step 6: Root README products table** — in `README.md` replace
 
 ```
 | Lemniscate | `lmns` | ✓ | — | — | — | — | — | Active |
@@ -4788,15 +5834,16 @@ with
 | Lemniscate | `lmns` | ✓ | ✓ | — | — | — | — | Active |
 ```
 
-- [ ] **Step 6: Commit and open the PR**
+- [x] **Step 7: Commit** (the PR is opened once Tasks 18–27 are in)
 
 ```bash
-git add packages/react-native README.md
-git commit -m "feat(native): public API audit, consumer README, Lemniscate RN in products table"
-git push -u origin feat/breathe-native
+git add packages/react-native apps/native-catalog/metro.config.js README.md docs/superpowers/plans/2026-09-11-breathe-native-leminiscate-atoms.md
+git commit -m "feat(native): public API audit, withBreatheNative metro helper, consumer README, pack check"
 ```
 
 Publishing (`pnpm --filter @aumraa/breathe-native publish --no-git-checks` with a GitHub token that has `write:packages`) is done by the package owner after merge to `main`.
+
+**Re-run 2026-09-13 (Tasks 18–27):** re-audited at full scope now that Textarea, Checkbox, RadioGroup, Switch, Toggle, ToggleGroup, Slider, Select, InputOTP and Calendar are in. `test/index.test.ts` EXPECTED and every atom's exports (`*Variants`, `*Props`) already matched — no gaps. R22 icon audit: clean (only a type-only `LucideProps` import; every value import is already deep). Class rules: clean on all ten new atoms (no `rem`, bare `rounded`, `hover:`, stray `focus:`, `placeholder:`, `space-x/y-`, or `[&_svg]`). Found and fixed three things: (1) Checkbox's `hitSlop={24}` was scalar on all sides — changed to `{ top: 4, bottom: 4, left: 12, right: 12 }` so two checkboxes stacked under `gap-2` don't get overlapping hit areas; no test asserted the old value. (2) The catalog's Checkbox demo had no `aria-labelledby`/`nativeID` pairing (RadioGroup and Switch right below it in the same file did) — added it. (3) `expo export --platform android` came back at 1739 modules / 3.8MB, a jump of +468 over the 1271/3.2MB baseline — traced to `calendar.tsx` and `CalendarSection.tsx` importing `{ format, addMonths, ... }` from the `date-fns` barrel, which (like the lucide-react-native index, R22) re-exports date-fns's ~200 functions from one file that Metro can't tree-shake. Converted both to named deep imports (`import { format } from 'date-fns/format'`, etc.); re-export is 1481 modules / 3.5MB — the remaining +210 over baseline is the new atoms' own rn-primitives (checkbox, radio-group, switch, toggle, toggle-group, select) plus `@react-native-community/slider` and `react-native-screens`, all expected. README's install list, peer/dependency declarations (`react-native-screens` was already a plain peer, not optional — correct, since `select.tsx` imports it unconditionally), Consumer Jest section (now lists the slider, react-native-screens and all six deep-icon mocks), and Status list were already current from the in-flight review commits; no other changes needed. Full verification: 239/239 native tests, tsc 0 (package and root), 183/183 web vitest, pack check clean (31 entries, no test/jest/babel/tsconfig leakage).
 
 ---
 
@@ -4813,3 +5860,9 @@ Publishing (`pnpm --filter @aumraa/breathe-native publish --no-git-checks` with 
 3. **NativeWind v5 stable** (currently `5.0.0-preview.4`): bump the version, then re-run spike checks S1–S14.
 4. **Expo SDK 57:** upgrade the catalog and peer ranges together.
 5. **Confirm D5 (custom Calendar) and D6 (gradient as rendered today)** with the product owner. Changing D6 is a one-line change to `BRAND_GRADIENT`.
+6. **On any react-native-css or nativewind version bump**, re-run the line-height compile probe (`scratchpad\t3\lh-probe.cjs`) and the S1b device check — the peer is pinned to `~3.0.7` (Task 2) specifically because the fix relies on the internal `--__rn-css-em` name, which a later 3.x could rename.
+7. **Comment on upstream issue react-native-css#254** with a repro: static `line-height: 20px` is dropped, and `line-height: var(--x)` with `--x: 20px` becomes 280 on 14px text. Root cause: units are stripped before runtime. Proposed fix: emit length line-heights as px at compile time and em-multiply only unitless values.
+8. **Progress: try percentage translate** (`` translateX: `${-(100-p)}%` ``, RN 0.85 typed) on device; if it works, drop `onLayout`/`trackWidth`.
+9. **Avatar 16b:** on device the primitive hides the fallback during image loading (blank circle until `onLoad`); web/Radix shows initials until loaded. Decide whether to own a `loaded` flag and keep initials visible while loading (~15 lines, diverges from rnr).
+10. **Phase 4 — Leminiscate token unification (web + native from one JSON):** see `2026-09-13-lemniscate-token-unification.md`.
+11. **PENDING — device checks for Tasks 18–27's atoms** (not run this pass; simulator/emulator or physical device needed): S12 Select — pressed-state text colour on the trigger; Switch — thumb travel distance/easing across the track; Slider — OS thumb tint on Android (Fact 8, no custom thumb); Select — portal rendering on iOS through `FullWindowOverlay` (`react-native-screens`); InputOTP — keyboard type and autofill/one-time-code behavior; Calendar — full month-grid rendering and month-nav interaction on device.

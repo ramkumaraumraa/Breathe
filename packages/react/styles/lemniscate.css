@@ -1,33 +1,155 @@
 /* Lemniscate theme — Community finance SaaS (light, blue primary).
    Import once in your app's global CSS. Includes Aumraa primitives,
-   Lemniscate brand tokens, and the semantic variable mapping components read. */
+   Lemniscate brand tokens, and the semantic variable mapping components read.
+   Semantic names map 1:1 to --lmns-* from tokens/src/lemniscate.json; guarded by
+   src/test/lemniscate-tokens.test.ts. Regenerate the mapping lines when tokens are added. */
 @import './tokens/aumraa.css';
 @import './tokens/lemniscate.css';
 
 :root {
   --primary: var(--lmns-color-primary);
+  --primary-light: var(--lmns-color-primary-light);
+  --primary-dark: var(--lmns-color-primary-dark);
   --primary-foreground: var(--lmns-color-primary-foreground);
-  --secondary: var(--lmns-color-background-secondary);
-  --secondary-foreground: var(--lmns-color-foreground);
-  --accent: var(--lmns-color-tertiary);
-  --accent-foreground: var(--lmns-color-tertiary-foreground);
+  --secondary: var(--lmns-color-secondary);
+  --secondary-foreground: var(--lmns-color-secondary-foreground);
+  --tertiary: var(--lmns-color-tertiary);
+  --tertiary-foreground: var(--lmns-color-tertiary-foreground);
+  --accent: var(--lmns-color-accent);
+  --accent-foreground: var(--lmns-color-accent-foreground);
+  --positive: var(--lmns-color-positive);
+  --positive-foreground: var(--lmns-color-positive-foreground);
+  --negative: var(--lmns-color-negative);
+  --negative-foreground: var(--lmns-color-negative-foreground);
   --background: var(--lmns-color-background);
+  --background-secondary: var(--lmns-color-background-secondary);
+  --background-tertiary: var(--lmns-color-background-tertiary);
   --foreground: var(--lmns-color-foreground);
-  --muted: var(--lmns-color-background-tertiary);
-  --muted-foreground: var(--lmns-color-foreground-secondary);
+  --foreground-secondary: var(--lmns-color-foreground-secondary);
+  --foreground-tertiary: var(--lmns-color-foreground-tertiary);
   --border: var(--lmns-color-border);
-  --ring: var(--lmns-color-primary);
+  --border-hover: var(--lmns-color-border-hover);
+  --success: var(--lmns-color-success);
+  --warning: var(--lmns-color-warning);
+  --danger: var(--lmns-color-danger);
+  --info: var(--lmns-color-info);
+  --gradient-start: var(--lmns-color-gradient-start);
+  --gradient-end: var(--lmns-color-gradient-end);
+  --card: var(--lmns-color-card);
+  --card-foreground: var(--lmns-color-card-foreground);
+  --popover: var(--lmns-color-popover);
+  --popover-foreground: var(--lmns-color-popover-foreground);
+  --muted: var(--lmns-color-muted);
+  --muted-foreground: var(--lmns-color-muted-foreground);
+  --destructive: var(--lmns-color-destructive);
+  --destructive-foreground: var(--lmns-color-destructive-foreground);
+  --input: var(--lmns-color-input);
+  --ring: var(--lmns-color-ring);
+  --success-light: var(--lmns-color-success-light);
+  --success-dark: var(--lmns-color-success-dark);
+  --warning-light: var(--lmns-color-warning-light);
+  --warning-dark: var(--lmns-color-warning-dark);
+  --danger-light: var(--lmns-color-danger-light);
+  --danger-dark: var(--lmns-color-danger-dark);
+  --info-light: var(--lmns-color-info-light);
+  --info-dark: var(--lmns-color-info-dark);
+  --sidebar-background: var(--lmns-color-sidebar-background);
+  --sidebar: var(--lmns-color-sidebar-background);
+  --sidebar-foreground: var(--lmns-color-sidebar-foreground);
+  --sidebar-primary: var(--lmns-color-sidebar-primary);
+  --sidebar-primary-foreground: var(--lmns-color-sidebar-primary-foreground);
+  --sidebar-accent: var(--lmns-color-sidebar-accent);
+  --sidebar-accent-foreground: var(--lmns-color-sidebar-accent-foreground);
+  --sidebar-border: var(--lmns-color-sidebar-border);
+  --sidebar-ring: var(--lmns-color-sidebar-ring);
+  --color-primary-25: var(--lmns-palette-primary-25);
+  --color-primary-50: var(--lmns-palette-primary-50);
+  --color-primary-500: var(--lmns-palette-primary-500);
+  --color-primary-600: var(--lmns-palette-primary-600);
+  --color-primary-700: var(--lmns-palette-primary-700);
+  --color-primary-975: var(--lmns-palette-primary-975);
+  --color-secondary-25: var(--lmns-palette-secondary-25);
+  --color-secondary-50: var(--lmns-palette-secondary-50);
+  --color-secondary-500: var(--lmns-palette-secondary-500);
+  --color-secondary-600: var(--lmns-palette-secondary-600);
+  --color-secondary-700: var(--lmns-palette-secondary-700);
+  --color-secondary-975: var(--lmns-palette-secondary-975);
+  --color-positive-25: var(--lmns-palette-positive-25);
+  --color-positive-50: var(--lmns-palette-positive-50);
+  --color-positive-500: var(--lmns-palette-positive-500);
+  --color-positive-600: var(--lmns-palette-positive-600);
+  --color-positive-700: var(--lmns-palette-positive-700);
+  --color-positive-975: var(--lmns-palette-positive-975);
+  --color-alert-25: var(--lmns-palette-alert-25);
+  --color-alert-50: var(--lmns-palette-alert-50);
+  --color-alert-500: var(--lmns-palette-alert-500);
+  --color-alert-600: var(--lmns-palette-alert-600);
+  --color-alert-700: var(--lmns-palette-alert-700);
+  --color-alert-975: var(--lmns-palette-alert-975);
+  --color-negative-25: var(--lmns-palette-negative-25);
+  --color-negative-50: var(--lmns-palette-negative-50);
+  --color-negative-500: var(--lmns-palette-negative-500);
+  --color-negative-600: var(--lmns-palette-negative-600);
+  --color-negative-700: var(--lmns-palette-negative-700);
+  --color-negative-975: var(--lmns-palette-negative-975);
+  --color-neutral-white-25: var(--lmns-palette-neutral-white-25);
+  --color-neutral-white-50: var(--lmns-palette-neutral-white-50);
+  --color-neutral-white-75: var(--lmns-palette-neutral-white-75);
+  --color-neutral-white-100: var(--lmns-palette-neutral-white-100);
+  --color-neutral-white-200: var(--lmns-palette-neutral-white-200);
+  --color-neutral-white-300: var(--lmns-palette-neutral-white-300);
+  --color-neutral-white-400: var(--lmns-palette-neutral-white-400);
+  --color-neutral-white-500: var(--lmns-palette-neutral-white-500);
+  --color-neutral-black-25: var(--lmns-palette-neutral-black-25);
+  --color-neutral-black-500: var(--lmns-palette-neutral-black-500);
+  --color-neutral-black-700: var(--lmns-palette-neutral-black-700);
+  --color-neutral-black-900: var(--lmns-palette-neutral-black-900);
+  --color-neutral-black-975: var(--lmns-palette-neutral-black-975);
   --radius: var(--lmns-radius-default);
-  --destructive: var(--lmns-color-negative);
-  --destructive-foreground: var(--lmns-color-negative-foreground);
-  --card: var(--lmns-color-background);
-  --card-foreground: var(--lmns-color-foreground);
-  --popover: var(--lmns-color-background);
-  --popover-foreground: var(--lmns-color-foreground);
-  --input: var(--lmns-color-border);
   --input-background: var(--lmns-color-background);
   --switch-background: var(--lmns-color-background-tertiary);
   --gradient-brand-start: var(--lmns-color-gradient-start);
   --gradient-brand-end: var(--lmns-color-gradient-end);
-  --gradient-brand: linear-gradient(135deg, var(--gradient-brand-start) 0%, var(--gradient-brand-end) 100%);
+  --gradient-brand: linear-gradient(135deg, var(--lmns-color-gradient-start) 0%, var(--lmns-color-gradient-end) 100%);
+  --breathe-radius-xl: var(--lmns-radius-lg);
+  --breathe-shadow-brand: var(--lmns-shadow-brand);
+}
+
+/* Dark palette (D13): app-repo .dark values, held in tokens as lmns.dark.color.* */
+.dark {
+  --background: var(--lmns-dark-color-background);
+  --background-secondary: var(--lmns-dark-color-background-secondary);
+  --background-tertiary: var(--lmns-dark-color-background-tertiary);
+  --foreground: var(--lmns-dark-color-foreground);
+  --foreground-secondary: var(--lmns-dark-color-foreground-secondary);
+  --foreground-tertiary: var(--lmns-dark-color-foreground-tertiary);
+  --card: var(--lmns-dark-color-card);
+  --card-foreground: var(--lmns-dark-color-card-foreground);
+  --popover: var(--lmns-dark-color-popover);
+  --popover-foreground: var(--lmns-dark-color-popover-foreground);
+  --primary: var(--lmns-dark-color-primary);
+  --primary-foreground: var(--lmns-dark-color-primary-foreground);
+  --secondary: var(--lmns-dark-color-secondary);
+  --secondary-foreground: var(--lmns-dark-color-secondary-foreground);
+  --muted: var(--lmns-dark-color-muted);
+  --muted-foreground: var(--lmns-dark-color-muted-foreground);
+  --accent: var(--lmns-dark-color-accent);
+  --accent-foreground: var(--lmns-dark-color-accent-foreground);
+  --border: var(--lmns-dark-color-border);
+  --input: var(--lmns-dark-color-input);
+  --ring: var(--lmns-dark-color-ring);
+  --sidebar-background: var(--lmns-dark-color-sidebar-background);
+  --sidebar: var(--lmns-dark-color-sidebar-background);
+  --sidebar-foreground: var(--lmns-dark-color-sidebar-foreground);
+  --sidebar-primary: var(--lmns-dark-color-sidebar-primary);
+  --sidebar-primary-foreground: var(--lmns-dark-color-sidebar-primary-foreground);
+  --sidebar-accent: var(--lmns-dark-color-sidebar-accent);
+  --sidebar-accent-foreground: var(--lmns-dark-color-sidebar-accent-foreground);
+  --sidebar-border: var(--lmns-dark-color-sidebar-border);
+}
+
+/* D14: brand utilities consumers get with the theme */
+@layer utilities {
+  .bg-gradient-brand { background: var(--gradient-brand); }
+  .shadow-brand { box-shadow: var(--lmns-shadow-brand); }
 }

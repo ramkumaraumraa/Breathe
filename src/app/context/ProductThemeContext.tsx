@@ -1,4 +1,15 @@
 import { createContext, useContext, useState, ReactNode } from 'react'
+import { useTheme } from './ThemeContext'
+import lemniscateCss from '../../../packages/react/styles/lemniscate.css?raw'
+
+/** Custom properties in the first `<selector> {…}` block of a stylesheet (comments stripped). */
+function cssVars(css: string, selector: string): Record<string, string> {
+  const s = css.replace(/\/\*[\s\S]*?\*\//g, '')
+  const start = s.indexOf(`${selector} {`)
+  if (start < 0) return {}
+  const body = s.slice(s.indexOf('{', start) + 1, s.indexOf('}', start))
+  return Object.fromEntries([...body.matchAll(/(--[\w-]+):\s*([^;]+);/g)].map((m) => [m[1], m[2].trim()]))
+}
 
 // ─── Product IDs ────────────────────────────────────────────────────────────
 export type ProductId =
@@ -20,31 +31,16 @@ export const productMeta: Record<ProductId, {
   prefix: string
   description: string
   vars: Record<string, string>
+  /** Overrides applied on top of `vars` when the docs site is in dark mode. */
+  darkVars?: Record<string, string>
 }> = {
   lemniscate: {
     label: 'Lemniscate',
     prefix: 'lmns',
     description: 'Community finance SaaS — light, blue primary',
-    vars: {
-      '--primary':                  'var(--lmns-color-primary)',
-      '--primary-foreground':       'var(--lmns-color-primary-foreground)',
-      '--secondary':                'var(--lmns-color-background-secondary)',
-      '--secondary-foreground':     'var(--lmns-color-foreground)',
-      '--accent':                   'var(--lmns-color-tertiary)',
-      '--accent-foreground':        'var(--lmns-color-tertiary-foreground)',
-      '--background':               'var(--lmns-color-background)',
-      '--foreground':               'var(--lmns-color-foreground)',
-      '--muted':                    'var(--lmns-color-background-tertiary)',
-      '--muted-foreground':         'var(--lmns-color-foreground-secondary)',
-      '--border':                   'var(--lmns-color-border)',
-      '--ring':                     'var(--lmns-color-primary)',
-      '--radius':                   'var(--lmns-radius-default)',
-      '--destructive':              'var(--lmns-color-negative)',
-      '--destructive-foreground':   'var(--lmns-color-negative-foreground)',
-      '--gradient-brand-start':      'var(--lmns-color-gradient-start)',
-      '--gradient-brand-end':        'var(--lmns-color-gradient-end)',
-      '--gradient-brand':            'linear-gradient(135deg, var(--gradient-brand-start) 0%, var(--gradient-brand-end) 100%)',
-    },
+    // Parsed from the package stylesheet so the preview never drifts from what consumers get.
+    vars: cssVars(lemniscateCss, ':root'),
+    darkVars: cssVars(lemniscateCss, '.dark'),
   },
   aumraa: {
     label: 'Aumraa',
@@ -238,7 +234,10 @@ const ProductThemeContext = createContext<ProductThemeContextValue>({
 })
 
 export function ProductThemeProvider({ children }: { children: ReactNode }) {
-  const [activeProduct, setActiveProduct] = useState<ProductId>('aumraa')
+  const [activeProduct, setActiveProduct] = useState<ProductId>(() => {
+    const p = new URLSearchParams(window.location.search).get('product')
+    return p && p in productMeta ? (p as ProductId) : 'aumraa'
+  })
   return (
     <ProductThemeContext.Provider value={{ activeProduct, setActiveProduct }}>
       {children}
@@ -263,7 +262,9 @@ export function ProductPreviewWrapper({
   className?: string
 }) {
   const { activeProduct } = useProductTheme()
-  const vars = productMeta[activeProduct].vars
+  const { isDark } = useTheme()
+  const meta = productMeta[activeProduct]
+  const vars = isDark && meta.darkVars ? { ...meta.vars, ...meta.darkVars } : meta.vars
 
   return (
     <div

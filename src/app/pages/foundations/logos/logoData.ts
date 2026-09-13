@@ -297,8 +297,83 @@ export const brands: BrandLogoConfig[] = [
     label: 'Maligai Manager',
     tagline: 'Grocery & inventory management',
     platform: 'Mobile',
-    status: 'pending',
-    accentColor: '#D97706',
+    status: 'confirmed',
+    accentColor: '#183C38',
+    variants: [
+      {
+        id: 'standard',
+        name: 'Standard',
+        usageNote: 'Default use — light surfaces, documents, web',
+        previewBg: '#FFFFFF',
+        files: {
+          svg: '/assets/logos/maligai-manager/Horizontal.svg',
+        },
+      },
+      {
+        id: 'reversed',
+        name: 'Reversed',
+        usageNote: 'Dark backgrounds, hero sections, splash screens',
+        previewBg: '#132F2C',
+        previewBgDark: '#0B1B19',
+        files: {
+          svg: '/assets/logos/maligai-manager/Horizontal_Filled.svg',
+        },
+      },
+      {
+        id: 'mono-black',
+        name: 'Mono — Black',
+        usageNote: 'Single-colour print, B&W contexts, emboss/deboss',
+        previewBg: '#FFFFFF',
+        files: {
+          svg: '/assets/logos/maligai-manager/Horizontal_Neutral_Black.svg',
+        },
+      },
+      {
+        id: 'mono-white',
+        name: 'Mono — White',
+        usageNote: 'Single-colour on dark, merchandise, cut vinyl',
+        previewBg: '#132F2C',
+        files: {
+          svg: '/assets/logos/maligai-manager/Horizontal_Neutral_White.svg',
+        },
+      },
+      {
+        id: 'horizontal',
+        name: 'Horizontal lockup',
+        usageNote: 'Wide/landscape layouts — nav bars, headers, email footers',
+        previewBg: '#FFFFFF',
+        files: {
+          svg: '/assets/logos/maligai-manager/Horizontal.svg',
+        },
+      },
+      {
+        id: 'stacked',
+        name: 'Stacked / Vertical',
+        usageNote: 'Square/portrait layouts — app stores, social profiles, print collateral',
+        previewBg: '#FFFFFF',
+        files: {
+          svg: '/assets/logos/maligai-manager/Vertical.svg',
+        },
+      },
+      {
+        id: 'icon',
+        name: 'Icon / Mark only',
+        usageNote: 'Favicons, app icons, small-scale usage, watermarks',
+        previewBg: '#FFFFFF',
+        files: {
+          svg: '/assets/logos/maligai-manager/Symbol.svg',
+        },
+      },
+      {
+        id: 'alpha',
+        name: 'Alpha / Transparent',
+        usageNote: 'Overlays, video, any background where the surface colour is unknown',
+        previewBg: 'checkerboard',
+        files: {
+          svg: '/assets/logos/maligai-manager/Horizontal.svg',
+        },
+      },
+    ],
   },
   {
     id: 'ullagellam',

@@ -1,4 +1,5 @@
 import StyleDictionary from 'style-dictionary';
+import nativewindTheme from './formats/nativewind.js';
 
 StyleDictionary.registerTransform({
   name: 'breathe/size/px',
@@ -36,6 +37,8 @@ StyleDictionary.registerTransformGroup({
   transforms: ['attribute/cti', 'name/camel', 'color/UIColorSwift', 'content/swift/literal', 'asset/swift/literal', 'breathe/size/number'],
 });
 
+StyleDictionary.registerFormat(nativewindTheme);
+
 const products = [
   {
     name: 'aumraa',
@@ -50,7 +53,7 @@ const products = [
   {
     name: 'lemniscate',
     prefix: 'lmns',
-    platforms: ['web'],
+    platforms: ['web', 'nativewind'],
   },
   {
     name: 'maligai',
@@ -105,6 +108,20 @@ for (const product of products) {
             token.path[0] === 'shadow' ||
             token.path[0] === 'icon' ||
             token.path[0] === 'duration',
+        },
+      ],
+    };
+  }
+
+  if (product.platforms.includes('nativewind')) {
+    config.platforms.nativewind = {
+      transformGroup: 'breathe/web', // px dimensions, css colours — same values as the web output
+      buildPath: 'packages/react-native/styles/',
+      files: [
+        {
+          destination: `${product.name}.css`,
+          format: 'breathe/nativewind-theme',
+          filter: (token) => token.path[0] === product.prefix,
         },
       ],
     };

@@ -12,6 +12,7 @@ export function WhatsAppControlsPage() {
       sections={[
         {
           title: 'WhatsApp Reminder Trigger',
+          products: ['kaayo'],
           description: 'Opens pre-populated messaging dialog for parents and students.',
           preview: (
             <KayoBrutalistWhatsAppControls

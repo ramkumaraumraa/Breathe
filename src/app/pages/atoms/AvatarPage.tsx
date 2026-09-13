@@ -11,7 +11,7 @@ export function AvatarPage() {
   return (
     <ComponentPageLayout
       title="Avatar"
-      description="Visual representation of a user or entity. Shows an image with a fallback to initials or a generic icon, with specialized student avatar sub-components."
+      description="Visual representation of a user or entity. Shows an image with a fallback to initials or a generic icon."
       level="Atom"
       status="Stable"
       implemented={['lemniscate', 'aumraa', 'kaayo']}
@@ -71,6 +71,7 @@ export function AvatarPage() {
         },
         {
           title: 'Student Avatar (Kaayo Sub-Component)',
+          products: ['kaayo'],
           description: 'Specialized student profile avatar with automatic initials calculation, press actions, and preset sizes (32, 48, 96, 240).',
           preview: (
             <div className="flex flex-wrap items-center gap-6">

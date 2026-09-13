@@ -15,6 +15,7 @@ export function DeleteGuardSheetPage() {
       sections={[
         {
           title: 'Protected Delete Flow',
+          products: ['kaayo'],
           description: 'Prevents accidental deletion of student records or batch ledgers.',
           preview: (
             <div>

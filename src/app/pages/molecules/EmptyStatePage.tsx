@@ -13,6 +13,7 @@ export function EmptyStatePage() {
       sections={[
         {
           title: 'No Students Found',
+          products: ['kaayo'],
           description: 'Standard empty state displayed when a search or filter yields no results.',
           preview: (
             <div className="w-full max-w-md">

@@ -33,7 +33,7 @@
 | T5 | Web theme slots (no-op for other products) | ☐ |
 | T6 | Leminiscate Button web ↔ native (per D7) | ☐ |
 | T7 | TabBar text colours | ☐ |
-| T8 | Dialog mobile fit (only if D10 approved) | ☐ |
+| T8 | Dialog mobile fit (D10 approved) | ☐ |
 | T9 | CI freshness guard + docs | ☐ |
 | T10 | Visual verification | ☐ |
 
@@ -59,12 +59,12 @@
 | # | Decision |
 |---|---|
 | D7 | Web Button parity approach — see T6 (owner decides). |
-| D8 | Web `--gradient-brand` = the repo's rendered `.bg-gradient-brand` (135°, `#3cb6d7` → `#2262ec`), same as native (D6). `--gradient-start`/`--gradient-end` keep the repo var values (`#40aad4`/`#1b60c0`). |
-| D9 | Semantic colours are the repo's HSL rendered to hex (`#1b60c0`); scales are the repo's hex (`#1c60c1`). Both stay. |
+| D8 | `--gradient-brand` on both platforms = 135°, `lmns.color.gradientStart` → `gradientEnd` (Breathe: blue-500 → sky-500). Native `BRAND_GRADIENT` is locked to those tokens by test. Supersedes D6's app-repo hex. |
+| D9 | Resolved by D13: all Leminiscate values are Breathe's `global.json` scales; the app repo's HSL-rendered hex is not used (except the dark palette, which Breathe lacks). |
 | D10 | Dialog mobile-fit classes: default leave shared Dialog unchanged (would change every product below 544px). T8 only if the owner approves. |
 | D11 | Web Tailwind v4 vs repo v3 shadow differences: out of scope; follow-up "web v3-parity theme". |
 | D12 | `global.json` is not edited (SD emits comments into all 6 web CSS files). |
-| D13 | Breathe-only legacy `lmns.*` tokens (`primaryLight/Dark`, `tertiary*`, `positive*`, `negative*`, `borderHover`, `radius.lg=16`, `shadow.modal/dropdown`): owner decides remove (+ bump `@aumraa/breathe-react` to 0.2.0) or keep. |
+| D13 | **Breathe's colours win** (owner, 2026-09-13). `lemniscate.json` keeps its refs into `global.json` and all existing `lmns.*` tokens; it is extended with the semantic/dark/palette tokens native needs. The app repo's light values are not adopted; the app will later update to match Breathe. |
 | D14 | `.bg-gradient-brand`/`.shadow-brand` added to `packages/react/styles/lemniscate.css` only; adding them to `breathe.css` (all products) is a separate owner decision. |
 
 - [ ] **Step 6:** Add R23 and R24 (text above) to main plan §0.4.
@@ -144,9 +144,11 @@ function cssVars(css: string, selector: string): Record<string, string> {
 
 ### Task T4: One JSON → web tokens + native stylesheet (single commit, R23)
 
-**Files:** Modify `tokens/src/lemniscate.json`, `tokens/sd.config.js`; create `tokens/formats/nativewind.js`, `tokens/formats/nativewind.template.css`; regenerate `tokens/dist/web/lemniscate.css` and `packages/react-native/styles/lemniscate.css`; modify `packages/react/styles/lemniscate.css`, `packages/react-native/test/styles.test.ts`, `packages/react-native/test/lib/theme.test.ts`, `packages/react-native/README.md`, `src/app/pages/foundations/DesignTokensPage.tsx` (Lemniscate rows), `src/test/product-theme.test.tsx`; create `src/test/lemniscate-tokens.test.ts`.
+**Decision D13 (2026-09-13): Breathe's colours win.** `tokens/src/lemniscate.json` keeps its references into `global.json` (blue/sky/orange/neutral/ink/status). It is *extended*, not rewritten: it gains the semantic tokens the native theme needs (card, popover, muted, destructive, input, ring, sidebar-*, status light/dark), a dark palette (Breathe has none for Leminiscate → the app repo's `.dark` hex, literal), and `lmns.palette` — the app's foundation-scale *names* (`primary-500`, `neutral-white-25` …) aliased to Breathe's global scales, so the repo's Button class names keep working on both platforms while every value is Breathe's. Web `packages/react/styles/lemniscate.css` maps names 1:1 (no more hand-picked cross-mapping such as `--secondary: background-secondary`). Native `packages/react-native/styles/lemniscate.css` is generated from the same JSON. **The native app's colours change** (secondary → sky, accent → orange, foreground → ink-500, radius → 10px) — expected.
 
-**What goes where.** JSON = the repo's product values (`index.css` `:root`/`.dark`, foundation scales, `tailwind.config.ts` overrides: radius, `fontFamily.sans`, `screens`, custom shadows). Template = platform boilerplate (v3 defaults in px: palette families, text scale + ratio line-heights, `--spacing: 4px`, radius 2xl/3xl, v3 shadows, containers, `@source`, the `.leading-N` rules). The native THEME mirror (`src/lib/theme.ts`) stays hand-written; its test locks it to the generated CSS.
+**Files:** Modify `tokens/src/lemniscate.json`, `tokens/sd.config.js`; create `tokens/formats/nativewind.js`, `tokens/formats/nativewind.template.css`; regenerate `tokens/dist/web/lemniscate.css` and `packages/react-native/styles/lemniscate.css`; modify `packages/react/styles/lemniscate.css`, `packages/react-native/src/lib/theme.ts`, `packages/react-native/src/atoms/gradient.tsx`, `packages/react-native/test/styles.test.ts`, `packages/react-native/test/lib/theme.test.ts`, `packages/react-native/test/atoms/gradient.test.tsx`, `packages/react-native/README.md`, `src/test/product-theme.test.tsx`; create `src/test/lemniscate-tokens.test.ts`.
+
+**What goes where.** JSON = product values (all refs into `global.json` except the dark block and `shadow.brand`). Template = platform boilerplate (v3 px scale: palette families, text scale + ratio line-heights, `--spacing: 4px`, radius 2xl/3xl, v3 shadows, containers, breakpoints, `--font-sans: Inter` — RN needs one family name, not the global font stack —, `@source`, `.leading-N` rules). The native THEME mirror (`src/lib/theme.ts`) and `BRAND_GRADIENT` stay hand-written; their tests lock them to the generated CSS.
 
 - [ ] **Step 1: Failing parity test** `src/test/lemniscate-tokens.test.ts`:
 ```ts
@@ -171,8 +173,8 @@ const wLight = vars(block(web, ':root')), wDark = vars(block(web, '.dark'))
 const pick = (p: string) => Object.entries(dist).filter(([k]) => k.startsWith(p)).map(([k, v]) => [k.slice(p.length), v, k] as const)
 
 describe('Leminiscate: web and native carry the same token values', () => {
-  it('has the repo token counts', () => {
-    expect(pick('lmns-color-')).toHaveLength(47)
+  it('has the expected token counts', () => {
+    expect(pick('lmns-color-')).toHaveLength(54)
     expect(pick('lmns-dark-color-')).toHaveLength(28)
     expect(pick('lmns-palette-')).toHaveLength(43)
   })
@@ -183,28 +185,29 @@ describe('Leminiscate: web and native carry the same token values', () => {
     expect(Object.keys(nLight).sort()).toEqual(pick('lmns-color-').map(([n]) => n).sort())
     expect(Object.keys(nDark).sort()).toEqual(pick('lmns-dark-color-').map(([n]) => n).sort())
   })
-  it('radius and gradient match', () => {
+  it('radius, shadow and gradient come from the tokens', () => {
+    expect(nTheme['radius-sm']).toBe(dist['lmns-radius-sm'])
+    expect(nTheme['radius-md']).toBe(dist['lmns-radius-md'])
     expect(nTheme['radius-lg']).toBe(dist['lmns-radius-default'])
-    expect(dist['lmns-radius-default']).toBe('12px')
+    expect(nTheme['radius-xl']).toBe(dist['lmns-radius-lg'])
+    expect(nTheme['shadow-card']).toBe(dist['lmns-shadow-card'])
+    expect(nTheme['shadow-brand']).toBe(dist['lmns-shadow-brand'])
     expect(wLight['radius']).toBe('var(--lmns-radius-default)')
+    expect(wLight['gradient-brand']).toBe('linear-gradient(135deg, var(--lmns-color-gradient-start) 0%, var(--lmns-color-gradient-end) 100%)')
   })
 })
 ```
   Run → FAIL on the counts.
 
-- [ ] **Step 2: Rewrite `tokens/src/lemniscate.json`.** Lowercase literal hex (no refs). Keep `spacing`, `icon`, `font.sizeBase/weightBody/weightHeading` unchanged. Every token `{ "value": …, "type": … }`.
-  - **`lmns.color`** — 47, type `color`, in this order: background `#ffffff`, backgroundSecondary `#f2f2f3`, backgroundTertiary `#e2e4e4`, foreground `#191b1f`, foregroundSecondary `#424448`, foregroundTertiary `#5f6063`, card `#ffffff`, cardForeground `#1f2937`, popover `#ffffff`, popoverForeground `#1f2937`, primary `#1b60c0`, primaryForeground `#ffffff`, secondary `#f2f2f3`, secondaryForeground `#191b1f`, muted `#f2f2f3`, mutedForeground `#424448`, accent `#40aad4`, accentForeground `#ffffff`, destructive `#dc2828`, destructiveForeground `#ffffff`, success `#16a249`, successLight `#e1f5e8`, successDark `#18773c`, warning `#f59f0a`, warningLight `#fdf3e3`, warningDark `#b07911`, danger `#dc2828`, dangerLight `#fae5e5`, dangerDark `#9f2323`, info `#40aad4`, infoLight `#ebf7f9`, infoDark `#347d98`, border `#d6d6d7`, input `#d6d6d7`, ring `#1b60c0`, sidebarBackground `#ffffff`, sidebarForeground `#1f2937`, sidebarPrimary `#1b60c0`, sidebarPrimaryForeground `#ffffff`, sidebarAccent `#f2f2f3`, sidebarAccentForeground `#191b1f`, sidebarBorder `#d6d6d7`, sidebarRing `#1b60c0`, gradientStart `#40aad4`, gradientEnd `#1b60c0`, gradientBrandStart `#3cb6d7`, gradientBrandEnd `#2262ec`.
-  - **`lmns.dark.color`** — 28: background `#121821`, backgroundSecondary `#171d26`, backgroundTertiary `#1c222c`, foreground `#f8fafc`, foregroundSecondary `#98a4b3`, foregroundTertiary `#738296`, card `#171d26`, cardForeground `#f8fafc`, popover `#171d26`, popoverForeground `#f8fafc`, primary `#3cb6d7`, primaryForeground `#121821`, secondary `#242c38`, secondaryForeground `#f8fafc`, muted `#242c38`, mutedForeground `#98a4b3`, accent `#2262ec`, accentForeground `#ffffff`, border `#2c3644`, input `#2c3644`, ring `#3cb6d7`, sidebarBackground `#121821`, sidebarForeground `#f8fafc`, sidebarPrimary `#3cb6d7`, sidebarPrimaryForeground `#121821`, sidebarAccent `#242c38`, sidebarAccentForeground `#f8fafc`, sidebarBorder `#2c3644`.
-  - **`lmns.palette`** — 43, values exactly as `SCALES` in `packages/react-native/test/styles.test.ts`: `primary`/`secondary`/`positive`/`alert`/`negative` each with `25, 50, 500, 600, 700, 975`; `neutralWhite` with `25, 50, 75, 100, 200, 300, 400, 500`; `neutralBlack` with `25, 500, 700, 900, 975`.
-  - **`lmns.font.family.sans`** — `"Inter"`, type `fontFamily`.
-  - **`lmns.radius`** — dimension, in order: sm `8`, md `10`, default `12`, xl `12`, pill `9999`.
-  - **`lmns.shadow`** — card `"0 1px 3px rgba(0, 0, 0, 0.1)"`, brand `"0 2px 8px rgba(43, 123, 197, 0.2)"`.
-  - **`lmns.breakpoint`** — dimension: xs `480`, sm `640`, md `768`, lg `1024`, xl `1280`, 2xl `1400`.
-  - **Legacy keys (D13):** if the owner approved removal, delete `primaryLight`, `primaryDark`, `tertiary(+Foreground)`, `positive(+Foreground)`, `negative(+Foreground)`, `borderHover`, `radius.lg=16`, `shadow.modal`, `shadow.dropdown` and update their in-repo consumers (grep `--lmns-color-tertiary` etc.). If the owner chose keep, keep them with their current values but they are not mapped anywhere new, and adjust the test counts (+legacy) accordingly.
+- [ ] **Step 2: Extend `tokens/src/lemniscate.json`.** Keep every existing key and value. Add (all `type: color` unless noted; refs in braces):
+  - **`lmns.color`** additions (26): `card` `{lmns.color.background}`, `cardForeground` `{lmns.color.foreground}`, `popover` `{lmns.color.background}`, `popoverForeground` `{lmns.color.foreground}`, `muted` `{lmns.color.backgroundTertiary}`, `mutedForeground` `{lmns.color.foregroundSecondary}`, `destructive` `{lmns.color.negative}`, `destructiveForeground` `{lmns.color.negativeForeground}`, `input` `{lmns.color.border}`, `ring` `{lmns.color.primary}`, `successLight` `{color.status.successLight}`, `successDark` `{color.status.successDark}`, `warningLight`/`warningDark`/`dangerLight`/`dangerDark`/`infoLight`/`infoDark` likewise, `sidebarBackground` `{lmns.color.background}`, `sidebarForeground` `{lmns.color.foreground}`, `sidebarPrimary` `{lmns.color.primary}`, `sidebarPrimaryForeground` `{lmns.color.primaryForeground}`, `sidebarAccent` `{lmns.color.backgroundSecondary}`, `sidebarAccentForeground` `{lmns.color.foreground}`, `sidebarBorder` `{lmns.color.border}`, `sidebarRing` `{lmns.color.primary}`. Total 54. (These mirror today's `packages/react/styles/lemniscate.css` mapping, minus its `secondary`/`accent` cross-mapping — D13.)
+  - **`lmns.dark.color`** (28, literal lowercase hex, comment "Breathe has no Leminiscate dark palette; from the app repo src/index.css .dark (ecf73f7)"): background `#121821`, backgroundSecondary `#171d26`, backgroundTertiary `#1c222c`, foreground `#f8fafc`, foregroundSecondary `#98a4b3`, foregroundTertiary `#738296`, card `#171d26`, cardForeground `#f8fafc`, popover `#171d26`, popoverForeground `#f8fafc`, primary `#3cb6d7`, primaryForeground `#121821`, secondary `#242c38`, secondaryForeground `#f8fafc`, muted `#242c38`, mutedForeground `#98a4b3`, accent `#2262ec`, accentForeground `#ffffff`, border `#2c3644`, input `#2c3644`, ring `#3cb6d7`, sidebarBackground `#121821`, sidebarForeground `#f8fafc`, sidebarPrimary `#3cb6d7`, sidebarPrimaryForeground `#121821`, sidebarAccent `#242c38`, sidebarAccentForeground `#f8fafc`, sidebarBorder `#2c3644`.
+  - **`lmns.palette`** (43) — app scale names → Breathe scales, same step number: `primary.{25,50,500,600,700,975}` → `{color.blue.N}`; `secondary.{…}` → `{color.sky.N}`; `positive.{…}` → `{color.feedback.positive.N}`; `alert.{…}` → `{color.feedback.warning.N}`; `negative.{…}` → `{color.feedback.negative.N}`; `neutralWhite.{25,50,75,100,200,300,400,500}` → `{color.neutral.N}`; `neutralBlack.{25,500,700,900,975}` → `{color.ink.N}`. Comment on the group: "App repo foundation-scale names (used by the repo Button as `bg-[var(--color-primary-500)]`) aliased to Breathe's global scales — D13."
+  - **`lmns.radius`**: add `md` `{radius.md}` (keep default/sm/lg/pill as they are).
+  - **`lmns.shadow`**: add `brand` `"0 2px 8px rgba(28, 96, 193, 0.2)"` type shadow (primary blue at 20%; the app's used its own blue).
+  - Nothing removed. `pnpm tokens` must still resolve every ref (SD errors on a bad ref).
 
-  **Before → after** (existing keys): primary `{color.blue.500}` #1c60c1 → `#1b60c0`; secondary sky #40aad4 → `#f2f2f3` (surface, as repo); secondaryForeground #2e3033 → `#191b1f`; accent orange #ed651c → `#40aad4`; background/Secondary/Tertiary #ffffff/#f9fafb/#f3f4f6 → #ffffff/`#f2f2f3`/`#e2e4e4`; foreground/Secondary/Tertiary #2e3033/#57595b/#6c6d70 → `#191b1f`/`#424448`/`#5f6063`; border #e5e7eb → `#d6d6d7`; success/warning/danger/info #16a34a/#f59e0b/#dc2626/#40aad4 → `#16a249`/`#f59f0a`/`#dc2828`/`#40aad4`; gradientStart→End blue→sky → `#40aad4`→`#1b60c0`; radius default/sm/lg 10/8/16 → `12`/8/(md 10, xl 12); shadow.card global sm → repo `0 1px 3px rgba(0, 0, 0, 0.1)`.
-
-- [ ] **Step 3: Template.** `git show HEAD:packages/react-native/styles/lemniscate.css > tokens/formats/nativewind.template.css`, then replace (by content, verify line numbers): the header with *"GENERATED by `pnpm tokens` from tokens/src/lemniscate.json (tokens/formats/nativewind.js). Do not edit."* (keep import instructions, repo commit reference, px note); the `:root` body → `{{light}}`; the dark media `:root` body → `{{dark}}`; the semantic `--color-*: var(--*)` lines → `{{semantic}}`; the foundation scale lines → `{{palette}}`; `--font-sans: Inter;` → `  --font-sans: {{fontSans}};`; radius sm–xl lines → `{{radius}}` (comment: *"Radius: sm–xl from tokens (repo --radius 12px); 2xl/3xl are v3 defaults"*); custom shadows `--shadow-card/--shadow-brand` → `{{shadow}}`; breakpoints → `{{breakpoint}}`. Everything else verbatim (v3 palette families, text scale, spacing, v3 shadows, containers, `@source`, `.leading-N` rules).
+- [ ] **Step 3: Template.** `git show HEAD:packages/react-native/styles/lemniscate.css > tokens/formats/nativewind.template.css`, then replace by content: the header with *"GENERATED by `pnpm tokens` from tokens/src/lemniscate.json (tokens/formats/nativewind.js). Do not edit."* (keep the import instructions and px note; drop the app-repo commit reference); the `:root` body → `{{light}}`; the dark media `:root` body → `{{dark}}`; the semantic `--color-*: var(--*)` lines → `{{semantic}}`; the foundation scale lines → `{{palette}}`; radius sm–xl lines → `{{radius}}` (comment: *"Radius from tokens; 2xl/3xl are v3 defaults"*); `--shadow-card`/`--shadow-brand` → `{{shadow}}`. Keep verbatim: `--font-sans: Inter;`, breakpoints, v3 palette families, text scale, spacing, v3 shadows, containers, `@source`, `.leading-N` rules.
 - [ ] **Step 4: Format** `tokens/formats/nativewind.js`:
 ```js
 import { readFileSync } from 'node:fs';
@@ -215,12 +218,12 @@ import { readFileSync } from 'node:fs';
 const template = readFileSync(new URL('./nativewind.template.css', import.meta.url), 'utf8');
 const kebab = (s) => s.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
 const lines = (list, indent) => list.map(([n, v]) => `${indent}--${n}: ${v};`).join('\n');
+const RADIUS = { sm: 'sm', md: 'md', default: 'lg', lg: 'xl' }; // token key → Tailwind radius step
 
 export default {
   name: 'breathe/nativewind-theme',
   format: ({ dictionary }) => {
-    const o = { light: [], dark: [], semantic: [], palette: [], radius: [], shadow: [], breakpoint: [] };
-    let fontSans;
+    const o = { light: [], dark: [], semantic: [], palette: [], radius: [], shadow: [] };
     for (const { path, value } of dictionary.allTokens) {
       const [, group, ...rest] = path;
       const name = rest.map(kebab).join('-');
@@ -229,26 +232,21 @@ export default {
         o.semantic.push([`color-${name === 'sidebar-background' ? 'sidebar' : name}`, `var(--${name})`]);
       } else if (group === 'dark') o.dark.push([rest.slice(1).map(kebab).join('-'), value]);
       else if (group === 'palette') o.palette.push([`color-${name}`, value]);
-      else if (group === 'radius' && rest[0] !== 'pill') o.radius.push([`radius-${rest[0] === 'default' ? 'lg' : rest[0]}`, value]);
-      else if (group === 'shadow') o.shadow.push([`shadow-${name}`, value]);
-      else if (group === 'breakpoint') o.breakpoint.push([`breakpoint-${name}`, value]);
-      else if (group === 'font' && name === 'family-sans') fontSans = value;
+      else if (group === 'radius' && RADIUS[rest[0]]) o.radius.push([`radius-${RADIUS[rest[0]]}`, value]);
+      else if (group === 'shadow' && (rest[0] === 'card' || rest[0] === 'brand')) o.shadow.push([`shadow-${name}`, value]);
     }
     const css = template
       .replace('{{light}}', () => lines(o.light, '  '))
       .replace('{{dark}}', () => lines(o.dark, '    '))
       .replace('{{semantic}}', () => lines(o.semantic, '  '))
       .replace('{{palette}}', () => lines(o.palette, '  '))
-      .replace('{{fontSans}}', () => fontSans)
       .replace('{{radius}}', () => lines(o.radius, '  '))
-      .replace('{{shadow}}', () => lines(o.shadow, '  '))
-      .replace('{{breakpoint}}', () => lines(o.breakpoint, '  '));
-    if (/\{\{\w+\}\}|undefined/.test(css)) throw new Error('nativewind-theme: unfilled template slot');
+      .replace('{{shadow}}', () => lines(o.shadow, '  '));
+    if (/\{\{\w+\}\}/.test(css)) throw new Error('nativewind-theme: unfilled template slot');
     return css;
   },
 };
 ```
-  If legacy keys are kept (D13 = keep), make the format skip them (they must not appear in the native file).
 - [ ] **Step 5: Wire** into `tokens/sd.config.js`: `import nativewindTheme from './formats/nativewind.js';` + `StyleDictionary.registerFormat(nativewindTheme);`; lemniscate platforms `['web', 'nativewind']`; add:
 ```js
   if (product.platforms.includes('nativewind')) {
@@ -261,13 +259,19 @@ export default {
   }
 ```
 - [ ] **Step 6: Generate; prove other products didn't move.** `corepack pnpm tokens && git diff --exit-code --stat -- tokens/dist ':(exclude)tokens/dist/web/lemniscate.css'` → no output (CRLF-only noise: confirm with `--ignore-cr-at-eol`).
-- [ ] **Step 7: Prove the generated native file equals the verified hand-written one.** Save `git show HEAD:packages/react-native/styles/lemniscate.css` to `$TEMP/lmns-native-before.css`, then parse `:root`, dark media, `@theme inline` vars, the `.leading-N` rules and `@source` from both files (node script) and print every differing var. Expected: exactly four new vars (`gradient-brand-start/end` in `:root` and their `--color-*` in `@theme inline`), `.leading` rules identical, `@source` present. Anything else is a bug — fix JSON or template, not the output.
-- [ ] **Step 8: Rewrite `packages/react/styles/lemniscate.css`.** Keep the two `@import` lines. `:root` maps every `lmns-color-*` to its repo name (`--background: var(--lmns-color-background);` …) and every `lmns-palette-*` to `--color-<name>`; `.dark` maps every `lmns-dark-color-*`. Print the lines with a node one-liner over `tokens/dist/web/lemniscate.css`. Also inside `:root`: `--sidebar: var(--lmns-color-sidebar-background);`, `--radius: var(--lmns-radius-default);`, `--input-background: var(--lmns-color-background);`, `--switch-background: var(--lmns-color-background-tertiary);`, `--gradient-brand: linear-gradient(135deg, var(--gradient-brand-start) 0%, var(--gradient-brand-end) 100%);`, `--breathe-radius-xl: var(--lmns-radius-xl);`, `--breathe-shadow-brand: var(--lmns-shadow-brand);`. Inside `.dark`: `--sidebar: var(--lmns-dark-color-sidebar-background);`. Append (D14): `@layer utilities { .bg-gradient-brand { background: var(--gradient-brand); } .shadow-brand { box-shadow: var(--lmns-shadow-brand); } }`. Header: values come from `tokens/src/lemniscate.json`; guarded by `src/test/lemniscate-tokens.test.ts`.
-- [ ] **Step 9: Native tests.** `styles.test.ts` `LIGHT` += `'gradient-brand-start': '#3cb6d7', 'gradient-brand-end': '#2262ec'`. `test/lib/theme.test.ts`: import `BRAND_GRADIENT` from `../../src/atoms/gradient` and assert it equals `` `linear-gradient(135deg, ${light['gradient-brand-start']} 0%, ${light['gradient-brand-end']} 100%)` `` (inside the describe where `light` is in scope).
+- [ ] **Step 7: Check the generated native file's structure.** Diff against `git show HEAD:packages/react-native/styles/lemniscate.css`: `@theme inline` still has every `--text-*`, `--spacing`, `--radius-2xl/3xl`, v3 shadows, containers, breakpoints, `--font-sans: Inter`; the `.leading-N` rules and `@source` are unchanged; `:root` has 54 vars, the dark block 28, `--color-*` semantic lines 54, palette lines 43. No `{{`, no `undefined`. Colour values are expected to differ from HEAD (D13).
+- [ ] **Step 8: Rewrite `packages/react/styles/lemniscate.css`.** Keep the two `@import` lines. `:root` maps every `lmns-color-*` 1:1 (`--background: var(--lmns-color-background);` … 54 lines; `--sidebar-background` also gets `--sidebar: var(--lmns-color-sidebar-background);`) and every `lmns-palette-*` to `--color-<name>` (43 lines); `.dark` maps every `lmns-dark-color-*` (28 lines + `--sidebar`). Generate the lines with a node one-liner over `tokens/dist/web/lemniscate.css`. Also in `:root`: `--radius: var(--lmns-radius-default);`, `--input-background: var(--lmns-color-background);`, `--switch-background: var(--lmns-color-background-tertiary);`, `--gradient-brand-start: var(--lmns-color-gradient-start);`, `--gradient-brand-end: var(--lmns-color-gradient-end);`, `--gradient-brand: linear-gradient(135deg, var(--lmns-color-gradient-start) 0%, var(--lmns-color-gradient-end) 100%);`, `--breathe-radius-xl: var(--lmns-radius-lg);`, `--breathe-shadow-brand: var(--lmns-shadow-brand);`. Append (D14): `@layer utilities { .bg-gradient-brand { background: var(--gradient-brand); } .shadow-brand { box-shadow: var(--lmns-shadow-brand); } }`. Header: "Semantic names map 1:1 to `--lmns-*` from `tokens/src/lemniscate.json`; guarded by `src/test/lemniscate-tokens.test.ts`". Note the behaviour change vs HEAD: `--secondary` was `background-secondary`, `--accent` was `tertiary` — now the tokens' own `secondary` (sky) and `accent` (orange) (D13).
+- [ ] **Step 9: Native code + tests.**
+  - `src/atoms/gradient.tsx`: `BRAND_GRADIENT = 'linear-gradient(135deg, #1c60c1 0%, #40aad4 100%)'` (gradient-start → gradient-end; copy the exact strings `pnpm tokens` emitted).
+  - `src/lib/theme.ts` THEME: light `background`, `primary`, `secondary`, `mutedForeground`, `ring` = the generated `:root` values; dark = the generated dark values. Its existing test reads the CSS and will tell you the exact strings.
+  - `test/styles.test.ts`: delete the `LIGHT`, `DARK`, `SCALES` tables and their three `it.each` blocks (they were a second copy of the truth; `src/test/lemniscate-tokens.test.ts` now proves native == tokens). Keep rem/line-height/leading/@source/semantic-ref tests; in "reproduces the repo Tailwind v3 scale" set radius expectations to `radius-sm` 8px, `radius-md` 8px, `radius-lg` 10px, `radius-xl` 16px.
+  - `test/lib/theme.test.ts`: add `expect(BRAND_GRADIENT).toBe(\`linear-gradient(135deg, ${light['gradient-start']} 0%, ${light['gradient-end']} 100%)\`)` (import from `../../src/atoms/gradient`).
+  - `test/atoms/gradient.test.tsx`: update the literal to the new gradient string.
+  - Other atom tests that assert hex colours (grep `#1b60c0|#f2f2f3|#424448|#3cb6d7` in `packages/react-native/test`) → read from THEME or the CSS instead of literals.
 - [ ] **Step 10:** Dark-mode test in `src/test/product-theme.test.tsx`: dark theme + `?product=lemniscate` → wrapper `--background` = `var(--lmns-dark-color-background)`.
-- [ ] **Step 11:** `DesignTokensPage.tsx` Lemniscate rows → Primary #1B60C0 · Secondary (surface) #F2F2F3 · Accent #40AAD4 · Destructive #DC2828 · Background #FFFFFF / #F2F2F3 / #E2E4E4 · Foreground #191B1F / #424448 / #5F6063 · Border #D6D6D7 · Gradient brand #3CB6D7 → #2262EC; radius default 12, md 10, sm 8, xl 12, pill 9999. Native README: note `styles/lemniscate.css` is generated.
+- [ ] **Step 11:** `DesignTokensPage.tsx`: confirm the Lemniscate rows show Breathe's values (primary #1C60C1, secondary #40AAD4, tertiary #ED651C, radius 10) — fix any that don't. Native README: `styles/lemniscate.css` is generated; colours are Breathe's (D13).
 - [ ] **Step 12:** All suites + both typechecks + build pass.
-- [ ] **Step 13:** Commit (web + native together): `feat(tokens): lemniscate.json = repo values (light+dark, scales, radius 12) and generates web + native themes`.
+- [ ] **Step 13:** Commit (web + native together): `feat(tokens): lemniscate.json feeds web and native themes (D13 Breathe colours; dark palette; scale aliases)`.
 
 ---
 

@@ -262,7 +262,7 @@
   }
 
   .shadow-brand {
-    box-shadow: 0 2px 8px color-mix(in srgb, var(--gradient-brand-start) 28%, transparent);
+    box-shadow: var(--breathe-shadow-brand, 0 2px 8px color-mix(in srgb, var(--gradient-brand-start) 28%, transparent));
   }
 
   .shadow-brand-hover {

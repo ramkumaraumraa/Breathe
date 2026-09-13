@@ -33,6 +33,9 @@
     "react-native-screens": ">=4.26.0",
     "react-native-svg": ">=15.15.4"
   },
+  "peerDependenciesMeta": {
+    "@react-native-community/slider": { "optional": true }
+  },
   "dependencies": {
     "@rn-primitives/avatar": "1.5.2",
     "@rn-primitives/checkbox": "1.5.2",

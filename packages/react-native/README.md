@@ -19,9 +19,9 @@ npx expo install nativewind@5.0.0-preview.4 react-native-css@3.0.7 react-native-
 pnpm add -D tailwindcss@4.3.3 @tailwindcss/postcss@4.3.3 postcss
 ```
 
-`react-native-css` is pinned `~3.0.7`: the theme's line-height fix relies on its internal `--__rn-css-em` variable. `@react-native-community/slider` is coming with the Slider atom (Task 24).
+`react-native-css` is pinned `~3.0.7`: the theme's line-height fix relies on its internal `--__rn-css-em` variable. `@react-native-community/slider` is coming with the Slider atom (Task 24); until then it is an optional peer.
 
-Pin `lightningcss` to `1.30.1` (the version NativeWind v5 preview is built against):
+Pin `lightningcss` to `1.30.1` (the version react-native-css 3.0.x / NativeWind v5 preview is tested with):
 
 - pnpm: `overrides:` block in `pnpm-workspace.yaml` — `lightningcss: 1.30.1`
 - npm: `"overrides": { "lightningcss": "1.30.1" }` in `package.json`
@@ -127,7 +127,7 @@ export default function App() {
 
 ```tsx
 import { Button, Icon, Input, Label } from '@aumraa/breathe-native';
-import { Plus } from 'lucide-react-native';
+import Plus from 'lucide-react-native/icons/plus';
 
 <Label>Flat number</Label>
 <Input placeholder="A-101" />
@@ -135,6 +135,8 @@ import { Plus } from 'lucide-react-native';
 ```
 
 Class names are the Leminiscate web class names and render at identical sizes (the theme is in px, so `rem` differences between web and NativeWind don't apply). Porting rules and the few intentional differences from web: `docs/superpowers/plans/2026-09-11-breathe-native-leminiscate-atoms.md` §0.4–0.5 in the Breathe repo.
+
+**Icons:** import each icon from its own file, `import Plus from 'lucide-react-native/icons/plus'` (kebab-case file names, default export). A named import from the index (`import { Plus } from 'lucide-react-native'`) bundles every lucide icon, because Expo's default Metro has no tree shaking.
 
 **Dark mode** follows the system. Switch in-app with `Appearance.setColorScheme('dark' | 'light')`. Don't use react-native-css's `colorScheme.set`: it bypasses `Appearance`, so `useThemeColors()` (placeholder colours, focus ring) would stay on the old scheme.
 
@@ -150,11 +152,19 @@ transformIgnorePatterns: [
 ],
 ```
 
+Rendering the atoms also needs these three lines in a `setupFilesAfterEnv` file (Breathe's own `packages/react-native/jest.setup.ts` is the reference). NativeWind's import rewrite only runs in Metro, so `styled` can be a pass-through; add any other `nativewind` export you import:
+
+```ts
+jest.mock('react-native-worklets', () => require('react-native-worklets/src/mock'));
+require('react-native-reanimated').setUpTests();
+jest.mock('nativewind', () => ({ styled: (Component: unknown) => Component }));
+```
+
 Likewise your `tsc` typechecks the package under your own tsconfig; `expo/tsconfig.base` with `strict: true` is what it's tested against.
 
 ## Windows Android builds
 
-Building from a path with spaces, through pnpm's linked `node_modules`, or with all four ABIs in parallel fails on Windows. What works: a worktree at a path without spaces, a local-only `nodeLinker: hoisted` in `pnpm-workspace.yaml`, JDK 21, and a single-ABI gradle build with capped native jobs. The full recipe is in the plan, Task 5 ("Windows build recipe").
+Building from a path with spaces, through pnpm's linked `node_modules`, or with all four ABIs in parallel fails on Windows. What works: a worktree at a path without spaces, a local-only `nodeLinker: hoisted` in `pnpm-workspace.yaml`, JDK 21, and a single-ABI gradle build with capped native jobs. The full recipe is in the plan, Task 5 ("Windows build recipe"). Run Jest from a normal (non-hoisted) install; hoisting causes "Invalid hook call" in tests.
 
 ## Status
 

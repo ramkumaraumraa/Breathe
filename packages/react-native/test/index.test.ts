@@ -13,11 +13,7 @@ const EXPECTED = [
 ];
 
 describe('@aumraa/breathe-native public API', () => {
-  it.each(EXPECTED)('exports %s', (name) => {
-    expect((pkg as Record<string, unknown>)[name]).toBeDefined();
-  });
-
-  it('exports nothing unlisted', () => {
+  it('exports exactly the expected names', () => {
     expect(Object.keys(pkg).sort()).toEqual([...EXPECTED].sort());
   });
 });

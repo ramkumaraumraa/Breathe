@@ -84,6 +84,7 @@
 | R19 | Default Tailwind palette (`bg-red-50`) | Only families defined in the theme with v3 hex (slate, gray, red, orange, amber, green, emerald, cyan, blue, purple). Add a family's v3 hex before using it. |
 | R20 | `asChild` on Button for links | RN idiom is the reverse: `<Link href="…" asChild><Button/></Link>`. Button has no `asChild`. |
 | R21 | Static `line-height` (`leading-[20px]`, `[line-height:…]`, a px or unitless `line-height` in the stylesheet) | **Allowed:** `leading-{none,tight,snug,normal,relaxed,loose}`, `leading-3`..`leading-10`, and unitless `leading-[1.25]`. **Forbidden:** arbitrary length leadings (`leading-[20px]`, `leading-[1.5rem]`, `leading-[1em]`) and a font size with a slash line-height (`text-sm/6`, `text-[11px]/4`) — react-native-css 3.0.7 drops the first outright and gives the second no line-height at all. Every allowed form (including the named leadings, which act only through `--tw-leading`) needs a `text-*` size set on the same element or an ancestor (the Text atom always has one) — that's what `--__rn-css-em` resolves to. `test/class-rules.test.ts` enforces both forbidden patterns by scanning every file under `src/`. §0.3 fact 11. |
+| R22 | `import { X } from 'lucide-react-native'` in a component | In `src/`, deep-import `import X from 'lucide-react-native/icons/<kebab-name>'` and add a matching `jest.mock` line to `jest.setup.ts`: Expo's Metro doesn't tree-shake, so one index import bundles all ~1,800 icons into every consuming app. Tests keep index imports (the index is mocked). The code blocks in Tasks 18–27 predate this rule; convert their icon imports when implementing. Check that the `.mjs` exists: some names are type-only aliases (`trash-2` → use `trash`). |
 
 ### 0.5 Accepted parity differences (the only places native ≠ web)
 
@@ -167,7 +168,7 @@ The folder split `atoms/` vs `atoms/form-elements/` mirrors `packages/react/src`
 | 25 | Select | L | ☐ |
 | 26 | InputOTP | M | ☐ |
 | 27 | Calendar | L | ☐ |
-| 28 | Exports, README, pack | S | ☑ (scoped: atoms 1–17) |
+| 28 | Exports, README, pack | S | ☑ (scoped: Tasks 1–17) |
 
 **Testing convention (all tasks):** Tests live in `packages/react-native/test/`, mirror `src/` paths, and assert (a) the variant functions return the repo's classes (parity), (b) behaviour (press, disabled, value changes). In Jest, NativeWind's import rewrite does not run, so `className` is a plain prop on host components — assert it with `el.props.className`. All RNTL calls are awaited. Atoms hidden from accessibility (`aria-hidden`, `accessibilityElementsHidden`, `importantForAccessibility="no-hide-descendants"`) are excluded from RNTL queries by default; query them with `{ hidden: true }`.
 
@@ -301,10 +302,11 @@ git commit -m "chore(native): add apps workspace, lightningcss pin, Node 22 CI"
   "react-native": "src/index.ts",
   "exports": {
     ".": { "types": "./src/index.ts", "default": "./src/index.ts" },
+    "./metro": "./metro.js",
     "./styles/*": "./styles/*",
     "./package.json": "./package.json"
   },
-  "files": ["src", "styles", "README.md"],
+  "files": ["src", "styles", "metro.js", "README.md"],
   "sideEffects": ["**/*.css"],
   "scripts": {
     "test": "jest",
@@ -324,6 +326,9 @@ git commit -m "chore(native): add apps workspace, lightningcss pin, Node 22 CI"
     "react-native-reanimated": ">=4.3.1",
     "react-native-screens": ">=4.26.0",
     "react-native-svg": ">=15.15.4"
+  },
+  "peerDependenciesMeta": {
+    "@react-native-community/slider": { "optional": true }
   },
   "dependencies": {
     "@rn-primitives/avatar": "1.5.2",
@@ -449,6 +454,13 @@ jest.mock('lucide-react-native', () => {
     },
   );
 });
+
+// Deep-imported icons (`lucide-react-native/icons/<kebab-name>`) bypass the index mock above,
+// so each one needs its own line here, reusing the index mock's `icon-<Name>` component.
+jest.mock('lucide-react-native/icons/loader-circle', () => ({
+  __esModule: true,
+  default: jest.requireMock('lucide-react-native').Loader2,
+}));
 ```
 (Deviation, found in code review: the original Proxy `get` created a brand-new component function on every read — `Check !== Check` across two reads — and had no guard for symbol keys or `then`, so probing the mocked module for thenability (`await import(...)`-style interop) would call into the icon-factory branch. Now each component is cached on `target` the first time it's read, and symbol keys / `then` fall through to the plain `target[name]` lookup instead.)
 
@@ -2091,7 +2103,8 @@ Expected: FAIL — module not found.
 - [ ] **Step 3: Implement** — `packages/react-native/src/atoms/spinner.tsx`
 
 ```tsx
-import { Loader2 } from 'lucide-react-native';
+// Deep import: Expo's Metro has no tree shaking, so `{ Loader2 } from 'lucide-react-native'` bundles every icon.
+import Loader2 from 'lucide-react-native/icons/loader-circle';
 import * as React from 'react';
 import { type ViewProps } from 'react-native';
 import Animated, {
@@ -2140,6 +2153,8 @@ export type { SpinnerProps };
 
 (Deviation, found in Task 9 review: the default `ReduceMotion.System` makes `withRepeat` stop after one cycle when the OS "Reduce Motion" setting is on, freezing the spinner — spinners are essential motion, not decorative, so `ReduceMotion.Never` is passed as the 5th `withRepeat` argument. Also, `SpinnerProps` did not extend `ViewProps`, so callers (e.g. Button, Task 10) couldn't pass `accessible={false}` — needed so TalkBack doesn't announce a loading button twice — or `testID`/`style`/`accessibilityLabel`. Now `SpinnerProps = ViewProps & { className?: string; size?: number }`, with `...props` spread after the `accessible`/`role` defaults so a caller's `accessible` overrides, and `style` merged as `[spin, style]` so a caller's `style` composes with the animated transform instead of replacing it.)
 
+(Deviation, found in Task 28 review: the index import `{ Loader2 } from 'lucide-react-native'` pulled all 1,834 lucide icons into every consuming app, because Expo's Metro has no tree shaking. The catalog export was 3100 modules / 5.1 MB. Spinner now deep-imports `lucide-react-native/icons/loader-circle` (LoaderCircle; `loader-2` is its alias), and `jest.setup.ts` has a mock line for that path. See R22.)
+
 Append to `packages/react-native/src/index.ts`:
 ```ts
 export * from './atoms/spinner';
@@ -2154,7 +2169,9 @@ Expected: 4 passed.
 
 ```tsx
 import { Gradient, Icon, Spinner, Text } from '@aumraa/breathe-native';
-import { Bell, Check, Plus } from 'lucide-react-native';
+import Bell from 'lucide-react-native/icons/bell';
+import Check from 'lucide-react-native/icons/check';
+import Plus from 'lucide-react-native/icons/plus';
 import { View } from 'react-native';
 import { Section } from '../components/Section';
 
@@ -2623,7 +2640,9 @@ Expected: all 39 Button tests pass (22 parity + 17 behaviour); tsc 0.
 
 ```tsx
 import { Button, Icon } from '@aumraa/breathe-native';
-import { ArrowRight, Plus, Trash2 } from 'lucide-react-native';
+import ArrowRight from 'lucide-react-native/icons/arrow-right';
+import Plus from 'lucide-react-native/icons/plus';
+import Trash from 'lucide-react-native/icons/trash';
 import { View } from 'react-native';
 import { Section } from '../components/Section';
 
@@ -2654,7 +2673,7 @@ export function ButtonSection() {
         <Button loading>Save</Button>
         <Button loading loadingText="Saving…" variant="gradient">Save</Button>
         <Button size="icon" leftIcon={<Icon as={Plus} />} accessibilityLabel="Add" />
-        <Button size="icon-sm" variant="ghost" leftIcon={<Icon as={Trash2} />} accessibilityLabel="Delete" />
+        <Button size="icon-sm" variant="ghost" leftIcon={<Icon as={Trash} />} accessibilityLabel="Delete" />
         <Button size="icon-xs" variant="neutral" leftIcon={<Icon as={Plus} />} accessibilityLabel="Add" />
       </View>
     </Section>
@@ -5511,9 +5530,17 @@ git commit -m "feat(native): Calendar atom as a date-fns month grid matching the
 
 ### Task 28: Exports audit, README, pack check
 
-**Executed 2026-09-12 at the scope of Tasks 1–17** (the atoms that existed). When Tasks 18–27 land, each appends its names to `EXPECTED` in `test/index.test.ts` (the test also asserts nothing *unlisted* is exported), adds its atom to the README "Status" list, and — for Slider and Select — adds the `jest.mock` lines for `@react-native-community/slider` and `react-native-screens` at the top of the test. The README's install list then gains `@react-native-community/slider`.
+**Executed 2026-09-12 at the scope of Tasks 1–17** (the atoms that existed). When Tasks 18–27 land, each appends its names to `EXPECTED` in `test/index.test.ts` (the test asserts the exact export set, so a missing or an extra name fails it), adds its atom to the README "Status" list, and — for Slider and Select — adds the `jest.mock` lines for `@react-native-community/slider` and `react-native-screens` at the top of the test. The README's install list then gains `@react-native-community/slider`.
 
 Additions beyond the original draft, all from what Tasks 5–17 taught: `useFocusRing` is exported from `index.ts` (it was missing); the worklets Metro exemption from the catalog's `metro.config.js` (Task 5) moved into the package as `withBreatheNative` (`metro.js`, exported as `@aumraa/breathe-native/metro`) so every consumer gets it, and the catalog now uses it; the README covers the lightningcss pin per package manager, the consumer Jest `transformIgnorePatterns`, the dark-mode `Appearance` caveat, and the Windows build recipe pointer. Task 17 carry-overs shipped here: `url` gained `autoComplete: 'url'`, `useFocusRing` also returns `focused`, and the Input test asserts the password autofill props and a forwarded ref.
+
+Review fixes, 2026-09-13:
+
+- Spinner deep-imports its icon (see the Task 9 note and R22), and the catalog sections deep-import theirs.
+- `metro.js` captures the parent resolver before calling `withNativewind`.
+- `@react-native-community/slider` is marked optional in `peerDependenciesMeta` until Task 24.
+- The README gained the Icons note, the consumer Jest setup lines, and the non-hoisted Jest caveat.
+- The exports test keeps only the exact-set check.
 
 **Files:**
 - Test: `packages/react-native/test/index.test.ts`
@@ -5538,11 +5565,7 @@ const EXPECTED = [
 ];
 
 describe('@aumraa/breathe-native public API', () => {
-  it.each(EXPECTED)('exports %s', (name) => {
-    expect((pkg as Record<string, unknown>)[name]).toBeDefined();
-  });
-
-  it('exports nothing unlisted', () => {
+  it('exports exactly the expected names', () => {
     expect(Object.keys(pkg).sort()).toEqual([...EXPECTED].sort());
   });
 });
@@ -5552,7 +5575,7 @@ describe('@aumraa/breathe-native public API', () => {
 
 Run: `pnpm --filter @aumraa/breathe-native test && pnpm --filter @aumraa/breathe-native typecheck`
 Expected: every suite passes; tsc 0. A missing export means an `index.ts` append was skipped in its task; add it.
-Result 2026-09-12: 17 suites, 452 tests, tsc 0. `useFocusRing` was the one missing export.
+Result 2026-09-12: 17 suites, 452 tests, tsc 0. `useFocusRing` was the one missing export. After the review fix dropped the 27 per-name presence rows: 17 suites, 425 tests.
 
 - [x] **Step 3: Metro helper** — `packages/react-native/metro.js` (plain CommonJS; `nativewind` is already a peer)
 
@@ -5570,13 +5593,16 @@ const { withNativewind } = require('nativewind/metro');
  * 'react-native' imports skip the redirect. Remove once react-native-css handles resolveWeak.
  */
 function withBreatheNative(config) {
+  // Captured before withNativewind runs, so the exemption can't recurse into NativeWind's
+  // resolver if a future version mutates config.resolver in place.
+  const parentResolve = config.resolver.resolveRequest;
   const nativewindConfig = withNativewind(config);
   const nativewindResolve = nativewindConfig.resolver.resolveRequest;
 
   const WORKLETS = `${path.sep}react-native-worklets${path.sep}`;
   nativewindConfig.resolver.resolveRequest = (context, moduleName, platform) =>
     moduleName === 'react-native' && context.originModulePath.includes(WORKLETS)
-      ? (config.resolver.resolveRequest ?? context.resolveRequest)(context, moduleName, platform)
+      ? (parentResolve ?? context.resolveRequest)(context, moduleName, platform)
       : nativewindResolve(context, moduleName, platform);
 
   return nativewindConfig;
@@ -5585,7 +5611,7 @@ function withBreatheNative(config) {
 module.exports = { withBreatheNative };
 ```
 
-`package.json`: add `"./metro": "./metro.js"` to `exports` and `metro.js` to `files`. Then `apps/native-catalog/metro.config.js` becomes:
+`package.json`: add `"./metro": "./metro.js"` to `exports` and `metro.js` to `files`, and mark `@react-native-community/slider` optional in `peerDependenciesMeta` (until Task 24). Then `apps/native-catalog/metro.config.js` becomes:
 
 ```js
 const { getDefaultConfig } = require('expo/metro-config');
@@ -5594,7 +5620,7 @@ const { withBreatheNative } = require('@aumraa/breathe-native/metro');
 module.exports = withBreatheNative(getDefaultConfig(__dirname));
 ```
 
-Verified: `expo export --platform android` from the catalog succeeds with the package export resolved through the workspace symlink (3100 modules, 5.1 MB Hermes bundle — identical hash to the inline config; the count grew from Task 5's 1100 when lucide-react-native's icon set arrived in Task 7).
+Verified: `expo export --platform android` from the catalog succeeds with the package export resolved through the workspace symlink (3100 modules, 5.1 MB Hermes bundle, identical hash to the inline config). The count grew from Task 5's 1100 because Spinner and the catalog sections (Tasks 9–10) imported named icons from the lucide index, which bundles all 1,834 icons. After the review fix, deep-importing Spinner's icon alone, with the catalog unchanged, still gave 3100 / 5.1 MB, because the catalog's own index imports pull in the full set. With the catalog sections deep-imported too, the export is 1271 modules / 3.2 MB.
 
 - [x] **Step 4: Consumer README** — `packages/react-native/README.md`
 
@@ -5620,9 +5646,9 @@ npx expo install nativewind@5.0.0-preview.4 react-native-css@3.0.7 react-native-
 pnpm add -D tailwindcss@4.3.3 @tailwindcss/postcss@4.3.3 postcss
 ```
 
-`react-native-css` is pinned `~3.0.7`: the theme's line-height fix relies on its internal `--__rn-css-em` variable. `@react-native-community/slider` is coming with the Slider atom (Task 24).
+`react-native-css` is pinned `~3.0.7`: the theme's line-height fix relies on its internal `--__rn-css-em` variable. `@react-native-community/slider` is coming with the Slider atom (Task 24); until then it is an optional peer.
 
-Pin `lightningcss` to `1.30.1` (the version NativeWind v5 preview is built against):
+Pin `lightningcss` to `1.30.1` (the version react-native-css 3.0.x / NativeWind v5 preview is tested with):
 
 - pnpm: `overrides:` block in `pnpm-workspace.yaml` — `lightningcss: 1.30.1`
 - npm: `"overrides": { "lightningcss": "1.30.1" }` in `package.json`
@@ -5728,7 +5754,7 @@ export default function App() {
 
 ```tsx
 import { Button, Icon, Input, Label } from '@aumraa/breathe-native';
-import { Plus } from 'lucide-react-native';
+import Plus from 'lucide-react-native/icons/plus';
 
 <Label>Flat number</Label>
 <Input placeholder="A-101" />
@@ -5736,6 +5762,8 @@ import { Plus } from 'lucide-react-native';
 ```
 
 Class names are the Leminiscate web class names and render at identical sizes (the theme is in px, so `rem` differences between web and NativeWind don't apply). Porting rules and the few intentional differences from web: `docs/superpowers/plans/2026-09-11-breathe-native-leminiscate-atoms.md` §0.4–0.5 in the Breathe repo.
+
+**Icons:** import each icon from its own file, `import Plus from 'lucide-react-native/icons/plus'` (kebab-case file names, default export). A named import from the index (`import { Plus } from 'lucide-react-native'`) bundles every lucide icon, because Expo's default Metro has no tree shaking.
 
 **Dark mode** follows the system. Switch in-app with `Appearance.setColorScheme('dark' | 'light')`. Don't use react-native-css's `colorScheme.set`: it bypasses `Appearance`, so `useThemeColors()` (placeholder colours, focus ring) would stay on the old scheme.
 
@@ -5751,11 +5779,19 @@ transformIgnorePatterns: [
 ],
 ```
 
+Rendering the atoms also needs these three lines in a `setupFilesAfterEnv` file (Breathe's own `packages/react-native/jest.setup.ts` is the reference). NativeWind's import rewrite only runs in Metro, so `styled` can be a pass-through; add any other `nativewind` export you import:
+
+```ts
+jest.mock('react-native-worklets', () => require('react-native-worklets/src/mock'));
+require('react-native-reanimated').setUpTests();
+jest.mock('nativewind', () => ({ styled: (Component: unknown) => Component }));
+```
+
 Likewise your `tsc` typechecks the package under your own tsconfig; `expo/tsconfig.base` with `strict: true` is what it's tested against.
 
 ## Windows Android builds
 
-Building from a path with spaces, through pnpm's linked `node_modules`, or with all four ABIs in parallel fails on Windows. What works: a worktree at a path without spaces, a local-only `nodeLinker: hoisted` in `pnpm-workspace.yaml`, JDK 21, and a single-ABI gradle build with capped native jobs. The full recipe is in the plan, Task 5 ("Windows build recipe").
+Building from a path with spaces, through pnpm's linked `node_modules`, or with all four ABIs in parallel fails on Windows. What works: a worktree at a path without spaces, a local-only `nodeLinker: hoisted` in `pnpm-workspace.yaml`, JDK 21, and a single-ABI gradle build with capped native jobs. The full recipe is in the plan, Task 5 ("Windows build recipe"). Run Jest from a normal (non-hoisted) install; hoisting causes "Invalid hook call" in tests.
 
 ## Status
 

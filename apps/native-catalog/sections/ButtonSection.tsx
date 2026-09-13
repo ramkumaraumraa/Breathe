@@ -1,5 +1,7 @@
 import { Button, Icon } from '@aumraa/breathe-native';
-import { ArrowRight, Plus, Trash2 } from 'lucide-react-native';
+import ArrowRight from 'lucide-react-native/icons/arrow-right';
+import Plus from 'lucide-react-native/icons/plus';
+import Trash from 'lucide-react-native/icons/trash';
 import { View } from 'react-native';
 import { Section } from '../components/Section';
 
@@ -30,7 +32,7 @@ export function ButtonSection() {
         <Button loading>Save</Button>
         <Button loading loadingText="Saving…" variant="gradient">Save</Button>
         <Button size="icon" leftIcon={<Icon as={Plus} />} accessibilityLabel="Add" />
-        <Button size="icon-sm" variant="ghost" leftIcon={<Icon as={Trash2} />} accessibilityLabel="Delete" />
+        <Button size="icon-sm" variant="ghost" leftIcon={<Icon as={Trash} />} accessibilityLabel="Delete" />
         <Button size="icon-xs" variant="neutral" leftIcon={<Icon as={Plus} />} accessibilityLabel="Add" />
       </View>
     </Section>

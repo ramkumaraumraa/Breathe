@@ -1,5 +1,7 @@
 import { Gradient, Icon, Spinner, Text } from '@aumraa/breathe-native';
-import { Bell, Check, Plus } from 'lucide-react-native';
+import Bell from 'lucide-react-native/icons/bell';
+import Check from 'lucide-react-native/icons/check';
+import Plus from 'lucide-react-native/icons/plus';
 import { View } from 'react-native';
 import { Section } from '../components/Section';
 

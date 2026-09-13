@@ -1,4 +1,5 @@
-import { Loader2 } from 'lucide-react-native';
+// Deep import: Expo's Metro has no tree shaking, so `{ Loader2 } from 'lucide-react-native'` bundles every icon.
+import Loader2 from 'lucide-react-native/icons/loader-circle';
 import * as React from 'react';
 import { type ViewProps } from 'react-native';
 import Animated, {

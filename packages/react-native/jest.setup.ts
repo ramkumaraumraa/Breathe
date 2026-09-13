@@ -24,3 +24,10 @@ jest.mock('lucide-react-native', () => {
     },
   );
 });
+
+// Deep-imported icons (`lucide-react-native/icons/<kebab-name>`) bypass the index mock above,
+// so each one needs its own line here, reusing the index mock's `icon-<Name>` component.
+jest.mock('lucide-react-native/icons/loader-circle', () => ({
+  __esModule: true,
+  default: jest.requireMock('lucide-react-native').Loader2,
+}));

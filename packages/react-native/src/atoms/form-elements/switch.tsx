@@ -32,7 +32,7 @@ function Switch({ className, ...props }: SwitchProps) {
 
   return (
     <SwitchPrimitives.Root
-      hitSlop={12}
+      hitSlop={{ top: 4, bottom: 4, left: 12, right: 12 }}
       className={cn(
         'h-6 w-11 shrink-0 flex-row items-center rounded-full border-2 border-transparent',
         props.checked ? 'bg-primary' : 'bg-input',

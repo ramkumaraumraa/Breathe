@@ -116,6 +116,7 @@
 | Skeleton | Holds still (solid block) under OS Reduce Motion; web animate-pulse ignores it | Decorative motion; Spinner (essential) keeps spinning |
 | Progress | `max` not supported; value is 0–100 (web ignores max for the bar too) | rn-primitives accepts `max`, but the bar's translate math is hardcoded to a 0–100 scale, matching the repo. |
 | Input | Focus ring: the 2px offset gap is transparent (web paints it `background` via `ring-offset-background`) | RN `outlineOffset` leaves the gap unpainted; identical on `bg-background`, visible only over another colour. |
+| Switch | Track colour snaps; only the thumb slides | Class flip, not a shared value; a fade would need interpolateColor over THEME |
 
 ### 0.6 File structure (created by this plan)
 

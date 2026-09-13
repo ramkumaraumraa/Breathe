@@ -30,17 +30,17 @@ export function InputSection() {
       </View>
       <RadioGroup value={plan} onValueChange={setPlan}>
         <View className="flex-row items-center gap-2">
-          <RadioGroupItem value="monthly" />
-          <Label onPress={() => setPlan('monthly')}>Monthly</Label>
+          <RadioGroupItem value="monthly" aria-labelledby="plan-monthly" />
+          <Label nativeID="plan-monthly" onPress={() => setPlan('monthly')}>Monthly</Label>
         </View>
         <View className="flex-row items-center gap-2">
-          <RadioGroupItem value="yearly" />
-          <Label onPress={() => setPlan('yearly')}>Yearly</Label>
+          <RadioGroupItem value="yearly" aria-labelledby="plan-yearly" />
+          <Label nativeID="plan-yearly" onPress={() => setPlan('yearly')}>Yearly</Label>
         </View>
       </RadioGroup>
       <View className="flex-row items-center gap-2">
-        <Switch checked={notify} onCheckedChange={setNotify} />
-        <Label onPress={() => setNotify((v) => !v)}>Payment reminders</Label>
+        <Switch checked={notify} onCheckedChange={setNotify} aria-labelledby="notify-switch" />
+        <Label nativeID="notify-switch" onPress={() => setNotify((v) => !v)}>Payment reminders</Label>
       </View>
       <View className="flex-row items-center gap-2">
         <Switch checked disabled onCheckedChange={() => {}} />

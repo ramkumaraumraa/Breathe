@@ -3,7 +3,7 @@ import type { VariantProps } from 'class-variance-authority';
 import * as React from 'react';
 import { type StyleProp, type ViewStyle } from 'react-native';
 import { cn } from '../../lib/utils';
-import { Text, TextClassContext } from '../text';
+import { TextClassContext, wrapTextChildren } from '../text';
 import { toggleTextClass, toggleVariants } from './toggle';
 
 type ToggleVariantProps = VariantProps<typeof toggleVariants>;
@@ -17,8 +17,8 @@ type DistributiveOmit<T, K extends keyof any> = T extends unknown ? Omit<T, K> :
 // Root is View-based: no function-form style, no web-only key handlers to strip.
 type ToggleGroupProps = DistributiveOmit<React.ComponentProps<typeof ToggleGroupPrimitive.Root>, 'asChild'> & ToggleVariantProps;
 // Item is Pressable-based; function-form style is dropped by react-native-css when className is set (fact 12); web-only keys stripped like Toggle does.
-type ToggleGroupItemProps = Omit<React.ComponentProps<typeof ToggleGroupPrimitive.Item>, 'style' | 'asChild' | 'onKeyDown' | 'onKeyUp'> &
-  ToggleVariantProps & { style?: StyleProp<ViewStyle> };
+type ToggleGroupItemProps = Omit<React.ComponentProps<typeof ToggleGroupPrimitive.Item>, 'style' | 'children' | 'asChild' | 'onKeyDown' | 'onKeyUp'> &
+  ToggleVariantProps & { style?: StyleProp<ViewStyle>; children?: React.ReactNode };
 
 function ToggleGroup({ className, variant, size, children, ...props }: ToggleGroupProps) {
   return (
@@ -35,7 +35,7 @@ function ToggleGroupItem({ className, children, variant, size, ...props }: Toggl
   const { value, disabled: groupDisabled } = ToggleGroupPrimitive.useRootContext();
   const selected = ToggleGroupPrimitive.utils.getIsSelected(value, props.value);
   const disabled = groupDisabled || props.disabled;
-  const content = typeof children === 'string' ? <Text>{children}</Text> : children;
+  const content = wrapTextChildren(children);
 
   return (
     <TextClassContext.Provider value={toggleTextClass(selected)}>

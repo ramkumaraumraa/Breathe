@@ -46,4 +46,26 @@ describe('ToggleGroup', () => {
     expect(screen.getByTestId('year').props.className).toContain('opacity-50');
     expect(screen.getByTestId('month').props.className).toContain('opacity-50');
   });
+  it("multiple: press adds to the selection and every selected item is highlighted", async () => {
+    const onValueChange = jest.fn();
+    await render(
+      <ToggleGroup type="multiple" value={["bold"]} onValueChange={onValueChange}>
+        <ToggleGroupItem testID="bold" value="bold" aria-label="Bold">B</ToggleGroupItem>
+        <ToggleGroupItem testID="italic" value="italic" aria-label="Italic">I</ToggleGroupItem>
+      </ToggleGroup>,
+    );
+    await fireEvent.press(screen.getByTestId("italic"));
+    expect(onValueChange).toHaveBeenCalledWith(["bold", "italic"]);
+    expect(screen.getByTestId("bold").props.className.split(" ")).toContain("bg-accent");
+    expect(screen.getByTestId("italic").props.className.split(" ")).not.toContain("bg-accent");
+  });
+
+  it("wraps mixed children so raw strings never reach the Pressable", async () => {
+    await render(
+      <ToggleGroup type="single" value="a" onValueChange={jest.fn()}>
+        <ToggleGroupItem testID="a" value="a">{1}{" item"}</ToggleGroupItem>
+      </ToggleGroup>,
+    );
+    expect(screen.getByText("1 item")).toBeTruthy();
+  });
 });

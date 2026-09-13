@@ -3,7 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import * as React from 'react';
 import { type StyleProp, type ViewStyle } from 'react-native';
 import { cn } from '../../lib/utils';
-import { Text, TextClassContext } from '../text';
+import { TextClassContext, wrapTextChildren } from '../text';
 
 const toggleVariants = cva('flex-row items-center justify-center gap-2 rounded-md active:bg-muted', {
   variants: {
@@ -25,11 +25,11 @@ function toggleTextClass(on: boolean) {
 }
 
 // Function-form style is dropped by react-native-css when className is set (fact 12); web-only keys stripped like Checkbox/Switch do.
-type ToggleProps = Omit<React.ComponentProps<typeof TogglePrimitive.Root>, 'style' | 'asChild' | 'onKeyDown' | 'onKeyUp'> &
-  VariantProps<typeof toggleVariants> & { style?: StyleProp<ViewStyle> };
+type ToggleProps = Omit<React.ComponentProps<typeof TogglePrimitive.Root>, 'style' | 'children' | 'asChild' | 'onKeyDown' | 'onKeyUp'> &
+  VariantProps<typeof toggleVariants> & { style?: StyleProp<ViewStyle>; children?: React.ReactNode };
 
 function Toggle({ className, variant, size, children, ...props }: ToggleProps) {
-  const content = typeof children === 'string' ? <Text>{children}</Text> : children;
+  const content = wrapTextChildren(children);
   return (
     <TextClassContext.Provider value={toggleTextClass(!!props.pressed)}>
       <TogglePrimitive.Root

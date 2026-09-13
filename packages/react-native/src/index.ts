@@ -14,3 +14,4 @@ export * from './atoms/progress';
 export * from './atoms/avatar';
 export * from './atoms/form-elements/input';
 export * from './atoms/form-elements/textarea';
+export * from './atoms/form-elements/checkbox';

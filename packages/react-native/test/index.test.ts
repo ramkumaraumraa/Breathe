@@ -11,6 +11,7 @@ const EXPECTED = [
   'Progress', 'clampProgress', 'Avatar', 'AvatarImage', 'AvatarFallback',
   'Input',
   'Textarea',
+  'Checkbox',
 ];
 
 describe('@aumraa/breathe-native public API', () => {

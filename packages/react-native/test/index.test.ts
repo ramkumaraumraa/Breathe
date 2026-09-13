@@ -14,6 +14,7 @@ const EXPECTED = [
   'Checkbox',
   'RadioGroup', 'RadioGroupItem',
   'Switch',
+  'Toggle', 'toggleTextClass', 'toggleVariants',
 ];
 
 describe('@aumraa/breathe-native public API', () => {

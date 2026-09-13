@@ -7,197 +7,22 @@
 @source "../src";
 
 :root {
-  --primary: #1c60c1;
-  --primary-light: #adc6e9;
-  --primary-dark: #1b4a8d;
-  --primary-foreground: #ffffff;
-  --secondary: #40aad4;
-  --secondary-foreground: #2e3033;
-  --tertiary: #ed651c;
-  --tertiary-foreground: #ffffff;
-  --accent: #ed651c;
-  --accent-foreground: #ffffff;
-  --positive: #16a34a;
-  --positive-foreground: #ffffff;
-  --negative: #dc2626;
-  --negative-foreground: #ffffff;
-  --background: #ffffff;
-  --background-secondary: #f9fafb;
-  --background-tertiary: #f3f4f6;
-  --foreground: #2e3033;
-  --foreground-secondary: #57595b;
-  --foreground-tertiary: #6c6d70;
-  --border: #e5e7eb;
-  --border-hover: #9ca3af;
-  --success: #16a34a;
-  --warning: #f59e0b;
-  --danger: #dc2626;
-  --info: #40aad4;
-  --gradient-start: #1c60c1;
-  --gradient-end: #40aad4;
-  --card: #ffffff;
-  --card-foreground: #2e3033;
-  --popover: #ffffff;
-  --popover-foreground: #2e3033;
-  --muted: #f3f4f6;
-  --muted-foreground: #57595b;
-  --destructive: #dc2626;
-  --destructive-foreground: #ffffff;
-  --input: #e5e7eb;
-  --ring: #1c60c1;
-  --success-light: #d0eddb;
-  --success-dark: #17773c;
-  --warning-light: #fdecce;
-  --warning-dark: #af7411;
-  --danger-light: #f8d4d4;
-  --danger-dark: #9e2224;
-  --info-light: #d9eef6;
-  --info-dark: #347c9a;
-  --sidebar-background: #ffffff;
-  --sidebar-foreground: #2e3033;
-  --sidebar-primary: #1c60c1;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f9fafb;
-  --sidebar-accent-foreground: #2e3033;
-  --sidebar-border: #e5e7eb;
-  --sidebar-ring: #1c60c1;
+{{light}}
 }
 
 /* Web toggles a .dark class; native follows Appearance (system or Appearance.setColorScheme). */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #121821;
-    --background-secondary: #171d26;
-    --background-tertiary: #1c222c;
-    --foreground: #f8fafc;
-    --foreground-secondary: #98a4b3;
-    --foreground-tertiary: #738296;
-    --card: #171d26;
-    --card-foreground: #f8fafc;
-    --popover: #171d26;
-    --popover-foreground: #f8fafc;
-    --primary: #3cb6d7;
-    --primary-foreground: #121821;
-    --secondary: #242c38;
-    --secondary-foreground: #f8fafc;
-    --muted: #242c38;
-    --muted-foreground: #98a4b3;
-    --accent: #2262ec;
-    --accent-foreground: #ffffff;
-    --border: #2c3644;
-    --input: #2c3644;
-    --ring: #3cb6d7;
-    --sidebar-background: #121821;
-    --sidebar-foreground: #f8fafc;
-    --sidebar-primary: #3cb6d7;
-    --sidebar-primary-foreground: #121821;
-    --sidebar-accent: #242c38;
-    --sidebar-accent-foreground: #f8fafc;
-    --sidebar-border: #2c3644;
+{{dark}}
   }
 }
 
 @theme inline {
   /* Semantic colours (tailwind.config.ts extend.colors) */
-  --color-primary: var(--primary);
-  --color-primary-light: var(--primary-light);
-  --color-primary-dark: var(--primary-dark);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-tertiary: var(--tertiary);
-  --color-tertiary-foreground: var(--tertiary-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-positive: var(--positive);
-  --color-positive-foreground: var(--positive-foreground);
-  --color-negative: var(--negative);
-  --color-negative-foreground: var(--negative-foreground);
-  --color-background: var(--background);
-  --color-background-secondary: var(--background-secondary);
-  --color-background-tertiary: var(--background-tertiary);
-  --color-foreground: var(--foreground);
-  --color-foreground-secondary: var(--foreground-secondary);
-  --color-foreground-tertiary: var(--foreground-tertiary);
-  --color-border: var(--border);
-  --color-border-hover: var(--border-hover);
-  --color-success: var(--success);
-  --color-warning: var(--warning);
-  --color-danger: var(--danger);
-  --color-info: var(--info);
-  --color-gradient-start: var(--gradient-start);
-  --color-gradient-end: var(--gradient-end);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-success-light: var(--success-light);
-  --color-success-dark: var(--success-dark);
-  --color-warning-light: var(--warning-light);
-  --color-warning-dark: var(--warning-dark);
-  --color-danger-light: var(--danger-light);
-  --color-danger-dark: var(--danger-dark);
-  --color-info-light: var(--info-light);
-  --color-info-dark: var(--info-dark);
-  --color-sidebar: var(--sidebar-background);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+{{semantic}}
 
   /* Foundation scales (repo index.css), same names as the repo CSS variables */
-  --color-primary-25: #e8effe;
-  --color-primary-50: #d2dff3;
-  --color-primary-500: #1c60c1;
-  --color-primary-600: #1c55a7;
-  --color-primary-700: #1b4a8d;
-  --color-primary-975: #081018;
-  --color-secondary-25: #ebf7fb;
-  --color-secondary-50: #d9eef6;
-  --color-secondary-500: #40aad4;
-  --color-secondary-600: #3a93b7;
-  --color-secondary-700: #347c9a;
-  --color-secondary-975: #08131a;
-  --color-positive-25: #e8f8ee;
-  --color-positive-50: #d0eddb;
-  --color-positive-500: #16a34a;
-  --color-positive-600: #168d43;
-  --color-positive-700: #17773c;
-  --color-positive-975: #060e09;
-  --color-alert-25: #fffbf0;
-  --color-alert-50: #fdecce;
-  --color-alert-500: #f59e0b;
-  --color-alert-600: #d2890e;
-  --color-alert-700: #af7411;
-  --color-alert-975: #130d04;
-  --color-negative-25: #feecec;
-  --color-negative-50: #f8d4d4;
-  --color-negative-500: #dc2626;
-  --color-negative-600: #bd2425;
-  --color-negative-700: #9e2224;
-  --color-negative-975: #100406;
-  --color-neutral-white-25: #f8fafc;
-  --color-neutral-white-50: #f9fafb;
-  --color-neutral-white-75: #e2e8f0;
-  --color-neutral-white-100: #f3f4f6;
-  --color-neutral-white-200: #e5e7eb;
-  --color-neutral-white-300: #d1d5db;
-  --color-neutral-white-400: #9ca3af;
-  --color-neutral-white-500: #6b7280;
-  --color-neutral-black-25: #808284;
-  --color-neutral-black-500: #2e3033;
-  --color-neutral-black-700: #1f2122;
-  --color-neutral-black-900: #131519;
-  --color-neutral-black-975: #050507;
+{{palette}}
 
   /* Tailwind v3 default palette (hex) for the families the repo uses. Tailwind v4 ships OKLCH. */
   --color-slate-50: #f8fafc; --color-slate-100: #f1f5f9; --color-slate-200: #e2e8f0; --color-slate-300: #cbd5e1; --color-slate-400: #94a3b8; --color-slate-500: #64748b; --color-slate-600: #475569; --color-slate-700: #334155; --color-slate-800: #1e293b; --color-slate-900: #0f172a; --color-slate-950: #020617;
@@ -248,10 +73,7 @@
   --spacing: 4px;
 
   /* Radius from tokens; 2xl/3xl are v3 defaults */
-  --radius-lg: 10px;
-  --radius-sm: 8px;
-  --radius-md: 8px;
-  --radius-xl: 16px;
+{{radius}}
   --radius-2xl: 16px;
   --radius-3xl: 24px;
 
@@ -261,8 +83,7 @@
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
-  --shadow-card: 0 1px 3px rgba(0,0,0,0.10), 0 1px 2px rgba(0,0,0,0.06);
-  --shadow-brand: 0 2px 8px rgba(28, 96, 193, 0.2);
+{{shadow}}
 
   /* Breakpoints (repo tailwind.config.ts screens) */
   --breakpoint-xs: 480px;

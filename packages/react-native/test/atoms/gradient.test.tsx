@@ -4,7 +4,7 @@ import { BRAND_GRADIENT, Gradient } from '../../src/atoms/gradient';
 
 describe('Gradient', () => {
   it('matches the web .bg-gradient-brand utility', () => {
-    expect(BRAND_GRADIENT).toBe('linear-gradient(135deg, #3cb6d7 0%, #2262ec 100%)');
+    expect(BRAND_GRADIENT).toBe('linear-gradient(135deg, #1c60c1 0%, #40aad4 100%)');
   });
 
   it('fills its parent by default and ignores touches', async () => {

@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react-native';
 import * as React from 'react';
 import { StyleSheet, TextInput } from 'react-native';
 import { Input } from '../../../src/atoms/form-elements/input';
+import { THEME } from '../../../src/lib/theme';
 
 const flat = (el: { props: Record<string, any> }) => StyleSheet.flatten(el.props.style) ?? {};
 
@@ -11,7 +12,7 @@ describe('Input', () => {
     const input = screen.getByPlaceholderText('Flat no.');
     expect(input.props.className).toContain('h-10 w-full rounded-md border border-input bg-background px-3 py-2');
     expect(input.props.className).toContain('text-foreground');
-    expect(input.props.placeholderTextColor).toBe('#424448');
+    expect(input.props.placeholderTextColor).toBe(THEME.light.mutedForeground);
   });
 
   it.each([
@@ -55,7 +56,7 @@ describe('Input', () => {
       outlineWidth: 2,
       outlineOffset: 2,
       outlineStyle: 'solid',
-      outlineColor: '#1b60c0',
+      outlineColor: THEME.light.ring,
     });
     expect(onFocus).toHaveBeenCalledTimes(1);
 

@@ -2,8 +2,8 @@ import * as React from 'react';
 import { View } from 'react-native';
 import { cn } from '../lib/utils';
 
-/** Web: .bg-gradient-brand in Leminiscate src/index.css, hsl(193 66% 54%) to hsl(221 84% 53%) at 135deg. */
-const BRAND_GRADIENT = 'linear-gradient(135deg, #3cb6d7 0%, #2262ec 100%)';
+/** Web: --gradient-brand in packages/react/styles/lemniscate.css; --gradient-start/--gradient-end from styles/lemniscate.css (tokens). */
+const BRAND_GRADIENT = 'linear-gradient(135deg, #1c60c1 0%, #40aad4 100%)';
 
 type GradientProps = React.ComponentProps<typeof View> & { gradient?: string };
 

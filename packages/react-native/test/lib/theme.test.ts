@@ -1,6 +1,7 @@
 import { readFileSync } from 'fs';
 import path from 'path';
 import { THEME } from '../../src/lib/theme';
+import { BRAND_GRADIENT } from '../../src/atoms/gradient';
 import { block, vars } from '../styles.test';
 
 const css = readFileSync(path.join(__dirname, '../../styles/lemniscate.css'), 'utf8');
@@ -19,5 +20,9 @@ describe('THEME mirrors lemniscate.css', () => {
 
   it.each(Object.entries(THEME.dark))('dark %s', (key, value) => {
     expect(value).toBe(dark[kebab(key)]);
+  });
+
+  it('BRAND_GRADIENT runs gradient-start to gradient-end', () => {
+    expect(BRAND_GRADIENT).toBe(`linear-gradient(135deg, ${light['gradient-start']} 0%, ${light['gradient-end']} 100%)`);
   });
 });

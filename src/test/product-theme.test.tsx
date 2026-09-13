@@ -32,4 +32,13 @@ describe('Leminiscate preview theme', () => {
     window.history.replaceState(null, '', '/')
     document.documentElement.classList.remove('dark')
   })
+  it('applies the token dark palette in dark mode', () => {
+    localStorage.removeItem('breathe-theme')
+    window.history.replaceState(null, '', '/?product=lemniscate&theme=dark')
+    const { container } = wrap(<span />)
+    expect((container.firstChild as HTMLElement).style.getPropertyValue('--background')).toBe('var(--lmns-dark-color-background)')
+    window.history.replaceState(null, '', '/')
+    document.documentElement.classList.remove('dark')
+    localStorage.removeItem('breathe-theme')
+  })
 })

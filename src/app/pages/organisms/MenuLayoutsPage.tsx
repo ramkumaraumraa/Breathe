@@ -716,7 +716,7 @@ export function MenuLayoutsPage() {
   return (
     <ComponentPageLayout
       title="Menu Layouts"
-      description="Interactive high-fidelity layout switcher for the main menus in the Kaayo app. Click tabs on the Bottom Navigation inside the Android mobile simulator to evaluate the look and feel."
+      description="Interactive high-fidelity layout switcher for an app's main menus. Click tabs on the Bottom Navigation inside the Android mobile simulator to evaluate the look and feel."
       level="Organism"
       status="Stable"
       implemented={['kaayo']}

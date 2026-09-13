@@ -140,11 +140,11 @@ export function BreadcrumbPage() {
               <BreadcrumbList>
                 <BreadcrumbItem><BreadcrumbLink href="#">Home</BreadcrumbLink></BreadcrumbItem>
                 <BreadcrumbSeparator />
-                <BreadcrumbItem><BreadcrumbLink href="#">Products</BreadcrumbLink></BreadcrumbItem>
+                <BreadcrumbItem><BreadcrumbLink href="#">Components</BreadcrumbLink></BreadcrumbItem>
                 <BreadcrumbSeparator />
-                <BreadcrumbItem><BreadcrumbLink href="#">Kaayo</BreadcrumbLink></BreadcrumbItem>
+                <BreadcrumbItem><BreadcrumbLink href="#">Atoms</BreadcrumbLink></BreadcrumbItem>
                 <BreadcrumbSeparator />
-                <BreadcrumbItem><BreadcrumbCurrentPage>Atoms</BreadcrumbCurrentPage></BreadcrumbItem>
+                <BreadcrumbItem><BreadcrumbCurrentPage>Button</BreadcrumbCurrentPage></BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           ),

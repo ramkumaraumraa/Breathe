@@ -230,9 +230,7 @@ export function SidebarPage() {
             <div className="rounded-lg border border-border bg-muted/30 p-6 text-center space-y-2">
               <p className="text-sm font-medium">Live example</p>
               <p className="text-xs text-muted-foreground max-w-xs mx-auto">
-                The left navigation of this documentation site is the Sidebar component using
-                Lemniscate tokens. Switch the product pill above to Kaayo to see the Brutalist
-                SideNav variants.
+                The left navigation of this documentation site is built with the Sidebar component.
               </p>
             </div>
           ),
@@ -287,7 +285,8 @@ import { Sidebar, SidebarContent, SidebarGroup,
         {
           title: 'Active: mid-section item',
           description: 'Accent bar visible on Attendance — demonstrating active state on a non-first item.',
-          preview: isKaayo ? (
+          products: ['kaayo'],
+          preview: (
             <PreviewShell>
               <KayoBrutalistSideNav
                 sections={makeSection1()}
@@ -307,10 +306,6 @@ import { Sidebar, SidebarContent, SidebarGroup,
                 }
               />
             </PreviewShell>
-          ) : (
-            <div className="rounded-lg border border-border bg-muted/30 p-4 text-center">
-              <p className="text-xs text-muted-foreground">Switch to Kaayo to preview</p>
-            </div>
           ),
           code: {
             react: `<KayoBrutalistSideNav
@@ -325,7 +320,8 @@ import { Sidebar, SidebarContent, SidebarGroup,
         {
           title: 'With badges',
           description: 'Payments has badge:3, Alerts has badge:12 (displayed as 9+).',
-          preview: isKaayo ? (
+          products: ['kaayo'],
+          preview: (
             <PreviewShell>
               <KayoBrutalistSideNav
                 sections={makeSection3()}
@@ -345,10 +341,6 @@ import { Sidebar, SidebarContent, SidebarGroup,
                 }
               />
             </PreviewShell>
-          ) : (
-            <div className="rounded-lg border border-border bg-muted/30 p-4 text-center">
-              <p className="text-xs text-muted-foreground">Switch to Kaayo to preview</p>
-            </div>
           ),
           code: {
             react: `{ key:'payments', label:'Payments', icon:<CreditCard size={18}/>, badge:3 },
@@ -360,7 +352,8 @@ import { Sidebar, SidebarContent, SidebarGroup,
         {
           title: 'Collapsed (icon-only)',
           description: 'collapsed={true} — 56 px wide, icons only. Hover title tooltip visible.',
-          preview: isKaayo ? (
+          products: ['kaayo'],
+          preview: (
             <PreviewShell>
               <KayoBrutalistSideNav
                 sections={makeSection1()}
@@ -369,10 +362,6 @@ import { Sidebar, SidebarContent, SidebarGroup,
                 collapsed={true}
               />
             </PreviewShell>
-          ) : (
-            <div className="rounded-lg border border-border bg-muted/30 p-4 text-center">
-              <p className="text-xs text-muted-foreground">Switch to Kaayo to preview</p>
-            </div>
           ),
           code: {
             react: `<KayoBrutalistSideNav
@@ -387,7 +376,8 @@ import { Sidebar, SidebarContent, SidebarGroup,
         {
           title: 'Collapse toggle',
           description: 'Interactive — click the ‹ / › button on the sidebar edge to collapse or expand.',
-          preview: isKaayo ? (
+          products: ['kaayo'],
+          preview: (
             <PreviewShell>
               <KayoBrutalistSideNav
                 sections={makeSection1()}
@@ -409,10 +399,6 @@ import { Sidebar, SidebarContent, SidebarGroup,
                 }
               />
             </PreviewShell>
-          ) : (
-            <div className="rounded-lg border border-border bg-muted/30 p-4 text-center">
-              <p className="text-xs text-muted-foreground">Switch to Kaayo to preview</p>
-            </div>
           ),
           code: {
             react: `const [collapsed, setCollapsed] = useState(false)
@@ -431,7 +417,8 @@ import { Sidebar, SidebarContent, SidebarGroup,
         {
           title: 'Collapsible sections',
           description: 'Both sections have collapsible:true — click a section header to open or close it.',
-          preview: isKaayo ? (
+          products: ['kaayo'],
+          preview: (
             <PreviewShell>
               <KayoBrutalistSideNav
                 sections={makeSection6()}
@@ -451,10 +438,6 @@ import { Sidebar, SidebarContent, SidebarGroup,
                 }
               />
             </PreviewShell>
-          ) : (
-            <div className="rounded-lg border border-border bg-muted/30 p-4 text-center">
-              <p className="text-xs text-muted-foreground">Switch to Kaayo to preview</p>
-            </div>
           ),
           code: {
             react: `{
@@ -474,7 +457,8 @@ import { Sidebar, SidebarContent, SidebarGroup,
         {
           title: 'One section closed',
           description: 'Section 2 starts closed via defaultOpen:false. Click System to reveal items.',
-          preview: isKaayo ? (
+          products: ['kaayo'],
+          preview: (
             <PreviewShell>
               <KayoBrutalistSideNav
                 sections={makeSection7()}
@@ -494,10 +478,6 @@ import { Sidebar, SidebarContent, SidebarGroup,
                 }
               />
             </PreviewShell>
-          ) : (
-            <div className="rounded-lg border border-border bg-muted/30 p-4 text-center">
-              <p className="text-xs text-muted-foreground">Switch to Kaayo to preview</p>
-            </div>
           ),
           code: {
             react: `{
@@ -513,7 +493,8 @@ import { Sidebar, SidebarContent, SidebarGroup,
         {
           title: 'No section labels',
           description: 'All items live in a single unlabelled section — label is undefined.',
-          preview: isKaayo ? (
+          products: ['kaayo'],
+          preview: (
             <PreviewShell>
               <KayoBrutalistSideNav
                 sections={makeSection8()}
@@ -521,10 +502,6 @@ import { Sidebar, SidebarContent, SidebarGroup,
                 onPress={setActiveKey}
               />
             </PreviewShell>
-          ) : (
-            <div className="rounded-lg border border-border bg-muted/30 p-4 text-center">
-              <p className="text-xs text-muted-foreground">Switch to Kaayo to preview</p>
-            </div>
           ),
           code: {
             react: `<KayoBrutalistSideNav
@@ -543,7 +520,8 @@ import { Sidebar, SidebarContent, SidebarGroup,
         {
           title: 'With disabled items',
           description: 'Students and Settings are disabled — muted, not-allowed cursor, click is suppressed.',
-          preview: isKaayo ? (
+          products: ['kaayo'],
+          preview: (
             <PreviewShell>
               <KayoBrutalistSideNav
                 sections={makeSection9()}
@@ -563,10 +541,6 @@ import { Sidebar, SidebarContent, SidebarGroup,
                 }
               />
             </PreviewShell>
-          ) : (
-            <div className="rounded-lg border border-border bg-muted/30 p-4 text-center">
-              <p className="text-xs text-muted-foreground">Switch to Kaayo to preview</p>
-            </div>
           ),
           code: {
             react: `{ key:'students', label:'Students', icon:<Users size={18}/>, disabled:true },
@@ -578,7 +552,8 @@ import { Sidebar, SidebarContent, SidebarGroup,
         {
           title: 'No header / footer',
           description: 'Bare nav — no header or footer props passed. Content starts at the top edge.',
-          preview: isKaayo ? (
+          products: ['kaayo'],
+          preview: (
             <PreviewShell>
               <KayoBrutalistSideNav
                 sections={makeSection1()}
@@ -586,10 +561,6 @@ import { Sidebar, SidebarContent, SidebarGroup,
                 onPress={setActiveKey}
               />
             </PreviewShell>
-          ) : (
-            <div className="rounded-lg border border-border bg-muted/30 p-4 text-center">
-              <p className="text-xs text-muted-foreground">Switch to Kaayo to preview</p>
-            </div>
           ),
           code: {
             react: `<KayoBrutalistSideNav
@@ -605,7 +576,8 @@ import { Sidebar, SidebarContent, SidebarGroup,
         {
           title: 'Custom header (logo)',
           description: 'header prop renders a branded wordmark.',
-          preview: isKaayo ? (
+          products: ['kaayo'],
+          preview: (
             <PreviewShell>
               <KayoBrutalistSideNav
                 sections={makeSection1()}
@@ -626,10 +598,6 @@ import { Sidebar, SidebarContent, SidebarGroup,
                 }
               />
             </PreviewShell>
-          ) : (
-            <div className="rounded-lg border border-border bg-muted/30 p-4 text-center">
-              <p className="text-xs text-muted-foreground">Switch to Kaayo to preview</p>
-            </div>
           ),
           code: {
             react: `header={
@@ -650,7 +618,8 @@ import { Sidebar, SidebarContent, SidebarGroup,
         {
           title: 'Custom footer (user chip)',
           description: 'footer renders an avatar circle with name and role badge.',
-          preview: isKaayo ? (
+          products: ['kaayo'],
+          preview: (
             <PreviewShell>
               <KayoBrutalistSideNav
                 sections={makeSection1()}
@@ -716,10 +685,6 @@ import { Sidebar, SidebarContent, SidebarGroup,
                 }
               />
             </PreviewShell>
-          ) : (
-            <div className="rounded-lg border border-border bg-muted/30 p-4 text-center">
-              <p className="text-xs text-muted-foreground">Switch to Kaayo to preview</p>
-            </div>
           ),
           code: {
             react: `footer={

@@ -130,6 +130,7 @@ OutlinedTextField(value = "Read-only value", onValueChange = {}, readOnly = true
         },
         {
           title: 'Helper & Error Text',
+          products: ['kaayo'],
           description: 'Contextual guidance below the field. Error text also turns the border crimson-red.',
           preview: (
             <div className="space-y-4 max-w-xs">
@@ -169,6 +170,7 @@ OutlinedTextField(value = "Read-only value", onValueChange = {}, readOnly = true
         },
         {
           title: 'Password',
+          products: ['kaayo'],
           description: 'Secure text entry with Eye / EyeOff visibility toggle.',
           preview: (
             <div className="max-w-xs">

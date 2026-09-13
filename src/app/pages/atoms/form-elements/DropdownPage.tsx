@@ -170,6 +170,7 @@ fun DropdownDemo() {
         },
         {
           title: 'Multi-select',
+          products: ['kaayo'],
           description: 'Select multiple values from the list. Shows checkboxes per item and a Done button to confirm.',
           preview: (
             <div className="w-64">

@@ -370,6 +370,7 @@ import { TimePicker } from '@kaayo/components/atoms/TimePicker'
         },
         {
           title: 'Date Field (Kaayo Sub-Component)',
+          products: ['kaayo'],
           description: 'Specialized form trigger for date selection modals and pickers.',
           preview: (
             <div className="w-full max-w-sm">
@@ -399,6 +400,7 @@ import { TimePicker } from '@kaayo/components/atoms/TimePicker'
         },
         {
           title: 'Date Navigation (Kaayo Sub-Component)',
+          products: ['kaayo'],
           description: 'Stepper controls for moving between days or months in attendance and ledger logs.',
           preview: (
             <div className="w-full max-w-sm flex items-center justify-center p-4 bg-slate-50 rounded-lg">

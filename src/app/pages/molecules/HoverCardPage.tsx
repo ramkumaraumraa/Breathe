@@ -125,13 +125,13 @@ import { KayoBrutalistAvatar } from '@breathe/kaayo'
           ) : (
             <HoverCard>
               <HoverCardTrigger asChild>
-                <Button variant="link" className="p-0 h-auto text-sm">kaayo.app/society/rules</Button>
+                <Button variant="link" className="p-0 h-auto text-sm">example.com/docs/guidelines</Button>
               </HoverCardTrigger>
               <HoverCardContent className="w-80">
                 <div className="space-y-2">
-                  <p className="text-sm font-medium">Society Rules &amp; Regulations — Kaayo</p>
-                  <p className="text-xs text-muted-foreground">Complete rulebook including noise policy, parking allocation, and visitor guidelines.</p>
-                  <span className="rounded-full border px-2 py-0.5 text-xs">kaayo.app</span>
+                  <p className="text-sm font-medium">Guidelines — Design System</p>
+                  <p className="text-xs text-muted-foreground">Usage guidance, accessibility notes, and examples for every component.</p>
+                  <span className="rounded-full border px-2 py-0.5 text-xs">example.com</span>
                 </div>
               </HoverCardContent>
             </HoverCard>

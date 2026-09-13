@@ -92,7 +92,7 @@ export function TooltipPage() {
         },
         {
           title: 'On Button',
-          description: 'Tooltip wrapping a primary KayoBrutalistButton — "Saves all pending changes" on hover.',
+          description: 'Tooltip wrapping a primary button — "Saves all pending changes" on hover.',
           preview: isKaayo ? (
             <KayoBrutalistTooltip content="Saves all pending changes" side="top">
               <KayoBrutalistButton label="Save changes" />

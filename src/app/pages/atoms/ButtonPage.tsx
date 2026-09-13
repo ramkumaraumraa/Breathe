@@ -317,7 +317,9 @@ import { typography } from '@kaayo/lib/typography'
         },
         {
           title: 'With icons',
-          description: 'Left icon, right icon, or icon-only. Note: Kaayo Button requires a label — pure icon-only is not supported; use an icon wrapped in Pressable directly.',
+          description: isKaayo
+            ? 'Left icon or right icon. Note: Kaayo Button requires a label — pure icon-only is not supported; use an icon wrapped in Pressable directly.'
+            : 'Left icon, right icon, or icon-only.',
           preview: isKaayo ? (
             <div className="flex flex-wrap items-center gap-4">
               <KayoBrutalistButton variant="primary" label="Download" iconLeft={<Download size={16} color="#fff" strokeWidth={2.5} />} />
@@ -435,6 +437,7 @@ import { theme } from '@kaayo/lib/theme'
         },
         {
           title: 'Press / Touch',
+          products: ['kaayo'],
           description: 'Neo-Brutalist signature: the button physically falls into the page on press. Shadow drops and the element translates 2 × 2 px in the direction of the shadow offset.',
           preview: (
             <div className="flex flex-col gap-3">
@@ -495,6 +498,7 @@ const styles = StyleSheet.create({
         },
         {
           title: 'Full Width',
+          products: ['kaayo'],
           description: 'Stretches to fill its container. Use for primary actions in mobile forms and bottom CTAs.',
           preview: (
             <div className="flex flex-col gap-3 w-full max-w-sm">
@@ -522,6 +526,7 @@ const styles = StyleSheet.create({
         },
         {
           title: 'Screen Footer Button (Kaayo Sub-Component)',
+          products: ['kaayo'],
           description: 'Sticky bottom container for mobile forms and workflow CTAs with safe area inset padding.',
           preview: (
             <div className="w-full max-w-md border-2 border-slate-200 rounded-lg overflow-hidden relative min-h-[160px] bg-slate-50 flex flex-col justify-end">

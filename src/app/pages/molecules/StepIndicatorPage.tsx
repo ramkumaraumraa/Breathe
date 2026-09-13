@@ -21,6 +21,7 @@ export function StepIndicatorPage() {
       sections={[
         {
           title: '3-Step Onboarding Form',
+          products: ['kaayo'],
           description: 'Tracks user progression through complex form flows.',
           preview: (
             <div className="w-full max-w-xl flex flex-col gap-6">

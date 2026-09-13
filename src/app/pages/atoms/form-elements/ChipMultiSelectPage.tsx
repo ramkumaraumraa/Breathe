@@ -22,6 +22,7 @@ export function ChipMultiSelectPage() {
       sections={[
         {
           title: 'Batch Filter Pills',
+          products: ['kaayo'],
           description: 'Toggle tags to select multiple filters.',
           preview: (
             <div className="w-full max-w-lg">

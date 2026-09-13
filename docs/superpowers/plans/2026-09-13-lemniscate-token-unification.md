@@ -30,9 +30,9 @@
 | T2 | Docs chrome stops reading Lemniscate tokens | ☑ |
 | T3 | Leminiscate tab renders the package stylesheet (light+dark), deep links | ☑ |
 | T4 | One JSON → web tokens + native stylesheet | ☑ |
-| T5 | Web theme slots (no-op for other products) | ☐ |
-| T6 | Leminiscate Button web ↔ native (per D7) | ☐ |
-| T7 | TabBar text colours | ☐ |
+| T5 | Web theme slots (no-op for other products) | ☑ |
+| T6 | Leminiscate Button web ↔ native (per D7) | ☑ |
+| T7 | TabBar text colours | ☑ |
 | T8 | Dialog mobile fit (D10 approved) | ☐ |
 | T9 | CI freshness guard + docs | ☐ |
 | T10 | Visual verification | ☐ |

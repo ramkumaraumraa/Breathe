@@ -2,6 +2,7 @@ import type { ComponentType } from 'react';
 import { BadgeSection } from './BadgeSection';
 import { ButtonSection } from './ButtonSection';
 import { DisplaySection } from './DisplaySection';
+import { LoaderSection } from './LoaderSection';
 import { FoundationsSection } from './FoundationsSection';
 import { IconSection } from './IconSection';
 import { InputSection } from './InputSection';
@@ -21,6 +22,7 @@ export const sections: { key: string; Component: ComponentType }[] = [
   { key: 'input', Component: InputSection },
   { key: 'badge', Component: BadgeSection },
   { key: 'display', Component: DisplaySection },
+  { key: 'loader', Component: LoaderSection },
   { key: 'slider', Component: SliderSection },
   { key: 'select', Component: SelectSection },
   { key: 'otp', Component: OtpSection },

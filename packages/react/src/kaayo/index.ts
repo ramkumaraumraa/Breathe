@@ -29,6 +29,7 @@ export * from './KayoBrutalistHeader';
 export * from './KayoBrutalistHoverCard';
 export * from './KayoBrutalistInput';
 export * from './KayoBrutalistKaayoLogo';
+export * from './KayoBrutalistLoader';
 export * from './KayoBrutalistNavigationMenu';
 export * from './KayoBrutalistOTPInput';
 export * from './KayoBrutalistPagination';

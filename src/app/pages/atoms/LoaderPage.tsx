@@ -2,20 +2,30 @@ import { ComponentPageLayout } from '@/app/components/shared/ComponentPageLayout
 import { useProductTheme, type ProductId } from '@/app/context/ProductThemeContext'
 import { Loader } from '@/app/components/atoms/loader'
 import { Loader as LemniscateLoader } from '@aumraa/breathe-react/lemniscate'
+import { Loader as KaayoLoader } from '@aumraa/breathe-react/kaayo'
 
 const ALL_PRODUCTS: ProductId[] = ['aumraa', 'technocracy', 'lemniscate', 'maligai', 'kaayo', 'ilakh', 'ulagellam', 'yakaizen']
 
 export function LoaderPage() {
   const { activeProduct } = useProductTheme()
   const isLemniscate = activeProduct === 'lemniscate'
-  // Leminiscate tab renders its brand loader; every other product gets the default ring. Same props on both.
-  const L = (isLemniscate ? LemniscateLoader : Loader) as typeof Loader
-  const from = isLemniscate ? '@aumraa/breathe-react/lemniscate' : '@aumraa/breathe-react'
+  const isKaayo = activeProduct === 'kaayo'
+
+  // Leminiscate and Kaayo render brand loaders; other products get the default ring.
+  const L = (isLemniscate ? LemniscateLoader : isKaayo ? KaayoLoader : Loader) as typeof Loader
+  const from = isLemniscate
+    ? '@aumraa/breathe-react/lemniscate'
+    : isKaayo
+    ? '@aumraa/breathe-react/kaayo'
+    : '@aumraa/breathe-react'
+
+  // @aumraa/breathe-native ships Leminiscate only, so the React Native tab is Leminiscate-only.
+  const native = (snippet: string) => (isLemniscate ? `import { Loader } from '@aumraa/breathe-native'\n\n${snippet}` : undefined)
 
   return (
     <ComponentPageLayout
       title="Loader"
-      description="Loading indicator for full pages and sections, such as route changes and session checks. Every product uses the default ring; Leminiscate uses its brand symbol, with a dash tracing the infinity loop."
+      description="Loading indicator for full pages and sections, such as route changes and session checks. Products can use brand-specific animated marks (such as Kaayo's galloping stallion and Leminiscate's infinity loop) or the universal ring loader."
       level="Atom"
       status="Beta"
       implemented={ALL_PRODUCTS}
@@ -24,17 +34,22 @@ export function LoaderPage() {
           title: 'Default',
           description: isLemniscate
             ? 'A gradient dash laps the loop over a faint track while the roof gently breathes in step, both without pausing. The loop itself never scales. With prefers-reduced-motion both stop and the full symbol shows.'
+            : isKaayo
+            ? "Kaayo's iconic stallion symbol animated in rhythmic gallop cadence with dynamic pulsing, an orbital dash track, and responsive ground stride shadow."
             : 'A ring in the product primary colour, at medium size.',
           preview: <L />,
           code: {
             react: `import { Loader } from '${from}'
 
 <Loader />`,
+            reactNative: native('<Loader />'),
           },
         },
         {
           title: 'Sizes',
-          description: isLemniscate ? 'Three widths: sm (40px), md (72px), lg (120px).' : 'Three sizes: sm (16px), md (24px), lg (36px).',
+          description: isLemniscate || isKaayo
+            ? 'Three widths: sm (40px), md (72px), lg (120px).'
+            : 'Three sizes: sm (16px), md (24px), lg (36px).',
           preview: (
             <div className="flex items-end gap-8">
               <L size="sm" />
@@ -46,6 +61,9 @@ export function LoaderPage() {
             react: `<Loader size="sm" />
 <Loader size="md" />
 <Loader size="lg" />`,
+            reactNative: native(`<Loader size="sm" />
+<Loader size="md" />
+<Loader size="lg" />`),
           },
         },
         {
@@ -53,12 +71,13 @@ export function LoaderPage() {
           description: 'A short caption under the loader. It doubles as the accessible name.',
           preview: (
             <div className="flex items-end gap-10">
-              <L label="Loading dashboard…" />
-              <L label="Signing you in…" />
+              <L label={isKaayo ? "Scheduling tutor…" : "Loading dashboard…"} />
+              <L label={isKaayo ? "Preparing classroom…" : "Signing you in…"} />
             </div>
           ),
           code: {
-            react: `<Loader label="Loading dashboard…" />`,
+            react: `<Loader label="${isKaayo ? "Scheduling tutor…" : "Loading dashboard…"}" />`,
+            reactNative: native(`<Loader label="${isKaayo ? "Scheduling tutor…" : "Loading dashboard…"}" />`),
           },
         },
         {
@@ -84,6 +103,11 @@ function PageLoader() {
 <Suspense fallback={<PageLoader />}>
   <Routes>{/* … */}</Routes>
 </Suspense>`,
+            reactNative: native(`import { View } from 'react-native'
+
+<View className="flex-1 items-center justify-center bg-background">
+  <Loader size="lg" />
+</View>`),
           },
         },
         {
@@ -101,6 +125,26 @@ function PageLoader() {
             react: `import { Loader } from '@aumraa/breathe-react/lemniscate'
 
 <Loader showRoof={false} />`,
+            reactNative: `import { Loader } from '@aumraa/breathe-native'
+
+<Loader showRoof={false} />`,
+          },
+        },
+        {
+          title: 'Stallion only (no ring)',
+          products: ['kaayo'],
+          description: 'Hide the orbit track and ground shadow for compact cards, buttons, or standalone hero displays.',
+          preview: (
+            <div className="flex items-end gap-8">
+              <KaayoLoader showRing={false} showShadow={false} size="sm" />
+              <KaayoLoader showRing={false} showShadow={false} size="md" />
+              <KaayoLoader showRing={false} showShadow={false} size="lg" />
+            </div>
+          ),
+          code: {
+            react: `import { Loader } from '@aumraa/breathe-react/kaayo'
+
+<Loader showRing={false} showShadow={false} />`,
           },
         },
       ]}

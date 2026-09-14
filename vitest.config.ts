@@ -20,6 +20,8 @@ export default defineConfig({
       '@/app/components/organisms': resolve(__dirname, './packages/react/src/organisms'),
       '@/app/components/templates': resolve(__dirname, './packages/react/src/templates'),
       '@/app/components/custom/kaayo': resolve(__dirname, './packages/react/src/kaayo'),
+      '@aumraa/breathe-react/kaayo': resolve(__dirname, './packages/react/src/kaayo'),
+      '@aumraa/breathe-react/technocracy': resolve(__dirname, './packages/react/src/technocracy'),
       '@aumraa/breathe-react/lemniscate': resolve(__dirname, './packages/react/src/lemniscate'),
       '@': resolve(__dirname, './src'),
     },

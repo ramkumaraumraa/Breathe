@@ -13,7 +13,7 @@ const CSS = `
     transform: translateY(0px) rotate(0deg);
   }
   20% {
-    transform: translateY(-2px) rotate(-1.5deg);
+    transform: translateY(-2.2px) rotate(-1.5deg);
   }
   45% {
     transform: translateY(0.5px) rotate(0.5deg);
@@ -30,35 +30,16 @@ const CSS = `
   }
   50% {
     opacity: 1;
-    filter: drop-shadow(0 2px 6px rgba(186, 17, 31, 0.4));
+    filter: drop-shadow(0 2px 8px rgba(186, 17, 31, 0.45));
   }
 }
 
 @keyframes kayo-loader-shadow {
   0%, 100% {
-    transform: scaleX(1) scaleY(1);
-    opacity: 0.22;
+    opacity: 0.55;
   }
-  20% {
-    transform: scaleX(0.85) scaleY(0.75);
-    opacity: 0.12;
-  }
-  45% {
-    transform: scaleX(1.08) scaleY(1.05);
-    opacity: 0.28;
-  }
-  70% {
-    transform: scaleX(0.78) scaleY(0.7);
-    opacity: 0.1;
-  }
-}
-
-@keyframes kayo-loader-ring-dash {
-  0% {
-    stroke-dashoffset: 0;
-  }
-  100% {
-    stroke-dashoffset: -100;
+  50% {
+    opacity: 0.18;
   }
 }
 
@@ -74,14 +55,9 @@ const CSS = `
   animation: kayo-loader-shadow 1.35s ease-in-out infinite;
 }
 
-.kayo-loader-dash {
-  animation: kayo-loader-ring-dash 1.35s linear infinite;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .kayo-loader-gallop,
-  .kayo-loader-shadow,
-  .kayo-loader-dash {
+  .kayo-loader-shadow {
     animation: none !important;
   }
 }
@@ -102,24 +78,22 @@ export interface KayoBrutalistLoaderProps extends React.HTMLAttributes<HTMLSpanE
   size?: KayoLoaderSize;
   /** Caption shown under the loader; also used as the accessible name. */
   label?: string;
-  /** Show the animated orbit track around the horse. Default true. */
-  showRing?: boolean;
   /** Show the ground stride shadow beneath the horse hooves. Default true. */
   showShadow?: boolean;
-  /** Tone variant: 'brand' (crimson gradient), 'light', or 'white'. Default 'brand'. */
+  /** Tone variant: 'brand' (crimson stallion + light crimson shadow), 'light', or 'white'. Default 'brand'. */
   tone?: "brand" | "light" | "white";
 }
 
 export type LoaderProps = KayoBrutalistLoaderProps;
 
 /**
- * Kaayo brand animated loader: the iconic Kaayo stallion galloping in rhythm
- * with a dynamic orbit track and responsive ground stride shadow.
+ * Kaayo brand animated loader: the iconic Kaayo stallion galloping in horizontal rhythm
+ * with a ground stride reflection in Kaayo's lighter primary crimson (#E14144) fading and
+ * revealing in lockstep with the horse stride.
  */
 export function KayoBrutalistLoader({
   size = "md",
   label,
-  showRing = true,
   showShadow = true,
   tone = "brand",
   className,
@@ -131,8 +105,13 @@ export function KayoBrutalistLoader({
 
   const pixelSize = widths[size];
   const isLight = tone === "light" || tone === "white";
-  const baseFill = isLight ? (tone === "white" ? "#FFFFFF" : "#FBFAF8") : "#970103";
-  const shadowColor = isLight ? "#FFFFFF" : "#18181B";
+
+  // Kaayo brand color tokens:
+  // Primary: Crimson 500 #970103
+  // Primary Light (shadow): Crimson 300 #E14144
+  // Secondary (eye): Warm Peach #FDA581
+  const horseFill = isLight ? (tone === "white" ? "#FFFFFF" : "#FBFAF8") : "#970103";
+  const shadowColor = isLight ? (tone === "white" ? "#F1F5F9" : "#FAD5D6") : "var(--color-crimson-300, #E14144)";
 
   return (
     <span
@@ -153,7 +132,7 @@ export function KayoBrutalistLoader({
         aria-hidden="true"
         width={pixelSize}
         height={pixelSize}
-        viewBox="-4 -4 64 64"
+        viewBox="0 0 56 56"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         overflow="visible"
@@ -162,7 +141,7 @@ export function KayoBrutalistLoader({
           <linearGradient id={`${id}-horse-grad`} x1="4" y1="14" x2="52" y2="42" gradientUnits="userSpaceOnUse">
             {isLight ? (
               <>
-                <stop offset="0%" stopColor={baseFill} />
+                <stop offset="0%" stopColor={horseFill} />
                 <stop offset="100%" stopColor={tone === "white" ? "#E2E8F0" : "#E4E4E7"} />
               </>
             ) : (
@@ -173,57 +152,15 @@ export function KayoBrutalistLoader({
               </>
             )}
           </linearGradient>
-
-          <linearGradient id={`${id}-ring-grad`} x1="0" y1="0" x2="56" y2="56" gradientUnits="userSpaceOnUse">
-            {isLight ? (
-              <>
-                <stop offset="0%" stopColor={baseFill} stopOpacity={0.8} />
-                <stop offset="100%" stopColor={baseFill} stopOpacity={0.2} />
-              </>
-            ) : (
-              <>
-                <stop offset="0%" stopColor="#C92A2A" />
-                <stop offset="60%" stopColor="#970103" />
-                <stop offset="100%" stopColor="#780102" stopOpacity={0.2} />
-              </>
-            )}
-          </linearGradient>
         </defs>
 
-        {/* Orbit Track */}
-        {showRing && (
-          <g data-part="ring">
-            <circle
-              cx="28"
-              cy="28"
-              r="27"
-              stroke={baseFill}
-              strokeOpacity={0.15}
-              strokeWidth="2.5"
-              fill="none"
-            />
-            <circle
-              cx="28"
-              cy="28"
-              r="27"
-              stroke={`url(#${id}-ring-grad)`}
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              fill="none"
-              pathLength={100}
-              strokeDasharray="28 72"
-              className="kayo-loader-dash"
-            />
-          </g>
-        )}
-
-        {/* Ground stride shadow */}
+        {/* Ground stride shadow in Kaayo primary light crimson */}
         {showShadow && (
           <ellipse
             cx="28"
-            cy="47"
+            cy="45.5"
             rx="14"
-            ry="2.2"
+            ry="2.4"
             fill={shadowColor}
             className="kayo-loader-shadow"
             data-part="shadow"
@@ -257,10 +194,10 @@ export function KayoBrutalistLoader({
             d="M27.4271 32.9876L25.2745 34.0423L29.1329 38.0294C29.1329 38.0294 30.0471 39.7301 30.4377 40.4495L27.7309 39.9473C27.5963 39.9271 27.5926 39.9489 27.5052 39.875C27.4143 39.6402 27.4546 39.0612 27.4469 38.7678C27.5985 38.7347 27.7909 38.7148 27.9476 38.6939L27.7889 38.3087L23.4259 33.7085L27.4271 32.9876Z"
             fill={`url(#${id}-horse-grad)`}
           />
-          {/* Eye / Facial Highlight */}
+          {/* Eye / Facial Highlight in peach accent */}
           <path
             d="M42.0388 18.5388L42.9956 18.9099L43.3635 19.8746L42.4068 19.5036L42.0388 18.5388Z"
-            fill={isLight ? (tone === "white" ? "#94A3B8" : "#A1A1AA") : "#FF8787"}
+            fill={isLight ? (tone === "white" ? "#94A3B8" : "#A1A1AA") : "#FDA581"}
           />
         </g>
       </svg>
@@ -269,7 +206,7 @@ export function KayoBrutalistLoader({
           style={{
             fontSize: 12,
             fontWeight: 600,
-            color: isLight ? (tone === "white" ? "#F1F5F9" : "#E4E4E7") : "#71717A",
+            color: isLight ? (tone === "white" ? "#F1F5F9" : "#E4E4E7") : "var(--color-ink-300, #52525B)",
           }}
         >
           {label}

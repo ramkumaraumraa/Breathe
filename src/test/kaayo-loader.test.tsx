@@ -38,18 +38,11 @@ describe("Kaayo Brand Loader (Stallion)", () => {
     expect(horseGroup?.querySelectorAll("path")).toHaveLength(6);
   });
 
-  it("renders the animated orbit ring by default and hides when showRing={false}", () => {
+  it("renders ground stride shadow using primary light crimson color and hides when showShadow={false}", () => {
     const { rerender, container } = render(<KaayoLoader />);
-    expect(container.querySelector('[data-part="ring"]')).toBeInTheDocument();
-    expect(container.querySelector(".kayo-loader-dash")).toBeInTheDocument();
-
-    rerender(<KaayoLoader showRing={false} />);
-    expect(container.querySelector('[data-part="ring"]')).toBeNull();
-  });
-
-  it("renders ground stride shadow by default and hides when showShadow={false}", () => {
-    const { rerender, container } = render(<KaayoLoader />);
-    expect(container.querySelector('[data-part="shadow"]')).toBeInTheDocument();
+    const shadow = container.querySelector('[data-part="shadow"]');
+    expect(shadow).toBeInTheDocument();
+    expect(shadow).toHaveAttribute("fill", expect.stringContaining("crimson-300"));
 
     rerender(<KaayoLoader showShadow={false} />);
     expect(container.querySelector('[data-part="shadow"]')).toBeNull();
@@ -63,7 +56,7 @@ describe("Kaayo Brand Loader (Stallion)", () => {
     );
 
     rerender(<KaayoLoader tone="white" />);
-    expect(container.querySelector('[data-part="shadow"]')).toHaveAttribute("fill", "#FFFFFF");
+    expect(container.querySelector('[data-part="shadow"]')).toHaveAttribute("fill", "#F1F5F9");
   });
 
   it("generates unique gradient IDs across instances", () => {
@@ -82,6 +75,7 @@ describe("Kaayo Brand Loader (Stallion)", () => {
     const styleEl = document.getElementById("kayo-loader-styles");
     expect(styleEl).toBeInTheDocument();
     expect(styleEl?.textContent).toContain("kayo-loader-gallop");
+    expect(styleEl?.textContent).toContain("kayo-loader-shadow");
     expect(styleEl?.textContent).toContain("prefers-reduced-motion");
   });
 });

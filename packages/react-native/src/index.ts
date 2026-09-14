@@ -6,6 +6,7 @@ export * from './atoms/icon';
 export * from './atoms/gradient';
 export * from './atoms/spinner';
 export * from './atoms/loader';
+export * from './atoms/kaayo-loader';
 export * from './atoms/button';
 export * from './atoms/label';
 export * from './atoms/badge';

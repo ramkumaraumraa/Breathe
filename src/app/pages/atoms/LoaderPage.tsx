@@ -19,8 +19,12 @@ export function LoaderPage() {
     ? '@aumraa/breathe-react/kaayo'
     : '@aumraa/breathe-react'
 
-  // @aumraa/breathe-native ships Leminiscate only, so the React Native tab is Leminiscate-only.
-  const native = (snippet: string) => (isLemniscate ? `import { Loader } from '@aumraa/breathe-native'\n\n${snippet}` : undefined)
+  // @aumraa/breathe-native ships Leminiscate and Kaayo brand loaders.
+  const native = (snippet: string) => {
+    if (isLemniscate) return `import { Loader } from '@aumraa/breathe-native'\n\n${snippet}`
+    if (isKaayo) return `import { KaayoLoader } from '@aumraa/breathe-native'\n\n${snippet.replace(/<Loader/g, '<KaayoLoader')}`
+    return undefined
+  }
 
   return (
     <ComponentPageLayout
@@ -35,7 +39,7 @@ export function LoaderPage() {
           description: isLemniscate
             ? 'A gradient dash laps the loop over a faint track while the roof gently breathes in step, both without pausing. The loop itself never scales. With prefers-reduced-motion both stop and the full symbol shows.'
             : isKaayo
-            ? "Kaayo's iconic stallion symbol animated in rhythmic gallop cadence with dynamic pulsing, an orbital dash track, and responsive ground stride shadow."
+            ? "Kaayo's iconic stallion symbol galloping in horizontal rhythm with a responsive ground stride shadow in lighter primary crimson (#E14144) fading and revealing in lockstep with the horse stride."
             : 'A ring in the product primary colour, at medium size.',
           preview: <L />,
           code: {
@@ -131,20 +135,21 @@ function PageLoader() {
           },
         },
         {
-          title: 'Stallion only (no ring)',
+          title: 'Stallion only (no shadow)',
           products: ['kaayo'],
-          description: 'Hide the orbit track and ground shadow for compact cards, buttons, or standalone hero displays.',
+          description: 'Hide the ground stride shadow for compact cards, buttons, or standalone hero displays.',
           preview: (
             <div className="flex items-end gap-8">
-              <KaayoLoader showRing={false} showShadow={false} size="sm" />
-              <KaayoLoader showRing={false} showShadow={false} size="md" />
-              <KaayoLoader showRing={false} showShadow={false} size="lg" />
+              <KaayoLoader showShadow={false} size="sm" />
+              <KaayoLoader showShadow={false} size="md" />
+              <KaayoLoader showShadow={false} size="lg" />
             </div>
           ),
           code: {
             react: `import { Loader } from '@aumraa/breathe-react/kaayo'
 
-<Loader showRing={false} showShadow={false} />`,
+<Loader showShadow={false} />`,
+            reactNative: native('<Loader showShadow={false} />'),
           },
         },
       ]}

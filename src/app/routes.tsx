@@ -45,6 +45,7 @@ const SeparatorPage  = lazy_page(() => import('./pages/atoms/SeparatorPage'))
 const ProgressPage   = lazy_page(() => import('./pages/atoms/ProgressPage'))
 const SkeletonPage   = lazy_page(() => import('./pages/atoms/SkeletonPage'))
 const SpinnerPage    = lazy_page(() => import('./pages/atoms/SpinnerPage'))
+const LoaderPage     = lazy_page(() => import('./pages/atoms/LoaderPage'))
 
 // Form Elements under Atoms
 const TextInputPage     = lazy_page(() => import('./pages/atoms/form-elements/TextInputPage'))
@@ -162,6 +163,7 @@ export const router = createBrowserRouter([
       { path: 'atoms/progress',                Component: ProgressPage },
       { path: 'atoms/skeleton',                Component: SkeletonPage },
       { path: 'atoms/spinner',                 Component: SpinnerPage },
+      { path: 'atoms/loader',                  Component: LoaderPage },
       { path: 'atoms/amount-visibility-toggle', Component: AmountVisibilityTogglePage },
 
       // Form Elements under Atoms

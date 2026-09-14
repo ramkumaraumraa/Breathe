@@ -60,6 +60,7 @@ export const navigation: NavSection[] = [
         ]
       },
       { label: 'Label',       path: '/atoms/label',       description: 'Accessible form labels' },
+      { label: 'Loader',      path: '/atoms/loader',      description: 'Full-page and section loading indicator' },
       { label: 'Progress',    path: '/atoms/progress',    description: 'Completion indicators' },
       { label: 'Separator',   path: '/atoms/separator',   description: 'Visual dividers' },
       { label: 'Skeleton',    path: '/atoms/skeleton',    description: 'Loading placeholders' },

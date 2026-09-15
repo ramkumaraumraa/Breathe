@@ -11,7 +11,7 @@ import * as pkg from '../src';
 
 const EXPECTED = [
   'cn', 'THEME', 'useThemeColors', 'useFocusRing',
-  'Text', 'TextClassContext', 'wrapTextChildren', 'Icon', 'IconSizeContext', 'Gradient', 'BRAND_GRADIENT', 'Spinner', 'Loader', 'KaayoLoader', 'KayoBrutalistLoader',
+  'Text', 'TextClassContext', 'wrapTextChildren', 'Icon', 'IconSizeContext', 'Gradient', 'BRAND_GRADIENT', 'Spinner', 'Loader', 'KaayoLoader', 'KayoBrutalistLoader', 'AumraaLoader',
   'Button', 'buttonVariants', 'buttonTextVariants',
   'Label', 'Badge', 'badgeVariants', 'badgeTextVariants', 'Separator', 'Skeleton',
   'Progress', 'clampProgress', 'Avatar', 'AvatarImage', 'AvatarFallback',

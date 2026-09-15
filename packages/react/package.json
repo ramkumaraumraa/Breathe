@@ -23,6 +23,10 @@
       "types": "./dist/lemniscate/index.d.ts",
       "import": "./dist/lemniscate/index.js"
     },
+    "./aumraa": {
+      "types": "./dist/aumraa/index.d.ts",
+      "import": "./dist/aumraa/index.js"
+    },
     "./styles/*": "./styles/*"
   },
   "scripts": {

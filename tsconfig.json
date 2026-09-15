@@ -25,6 +25,7 @@
       "@aumraa/breathe-react/kaayo": ["./packages/react/src/kaayo/index.ts"],
       "@aumraa/breathe-react/technocracy": ["./packages/react/src/technocracy/index.ts"],
       "@aumraa/breathe-react/lemniscate": ["./packages/react/src/lemniscate/index.ts"],
+      "@aumraa/breathe-react/aumraa": ["./packages/react/src/aumraa/index.ts"],
       "@aumraa/breathe-react/*": ["./packages/react/src/*"],
       "@/*": ["./src/*"]
     },

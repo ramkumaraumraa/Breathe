@@ -23,6 +23,7 @@ export default defineConfig({
       '@aumraa/breathe-react/kaayo': resolve(__dirname, './packages/react/src/kaayo'),
       '@aumraa/breathe-react/technocracy': resolve(__dirname, './packages/react/src/technocracy'),
       '@aumraa/breathe-react/lemniscate': resolve(__dirname, './packages/react/src/lemniscate'),
+      '@aumraa/breathe-react/aumraa': resolve(__dirname, './packages/react/src/aumraa'),
       '@': resolve(__dirname, './src'),
     },
   },

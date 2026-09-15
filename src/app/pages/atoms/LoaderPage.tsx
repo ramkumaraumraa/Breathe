@@ -3,24 +3,29 @@ import { useProductTheme, type ProductId } from '@/app/context/ProductThemeConte
 import { Loader } from '@/app/components/atoms/loader'
 import { Loader as LemniscateLoader } from '@aumraa/breathe-react/lemniscate'
 import { Loader as KaayoLoader } from '@aumraa/breathe-react/kaayo'
+import { Loader as AumraaLoader } from '@aumraa/breathe-react/aumraa'
 
 const ALL_PRODUCTS: ProductId[] = ['aumraa', 'technocracy', 'lemniscate', 'maligai', 'kaayo', 'ilakh', 'ulagellam', 'yakaizen']
 
 export function LoaderPage() {
   const { activeProduct } = useProductTheme()
+  const isAumraa = activeProduct === 'aumraa'
   const isLemniscate = activeProduct === 'lemniscate'
   const isKaayo = activeProduct === 'kaayo'
 
-  // Leminiscate and Kaayo render brand loaders; other products get the default ring.
-  const L = (isLemniscate ? LemniscateLoader : isKaayo ? KaayoLoader : Loader) as typeof Loader
-  const from = isLemniscate
+  // Aumraa, Leminiscate and Kaayo render brand loaders; other products get the default ring.
+  const L = (isAumraa ? AumraaLoader : isLemniscate ? LemniscateLoader : isKaayo ? KaayoLoader : Loader) as typeof Loader
+  const from = isAumraa
+    ? '@aumraa/breathe-react/aumraa'
+    : isLemniscate
     ? '@aumraa/breathe-react/lemniscate'
     : isKaayo
     ? '@aumraa/breathe-react/kaayo'
     : '@aumraa/breathe-react'
 
-  // @aumraa/breathe-native ships Leminiscate and Kaayo brand loaders.
+  // @aumraa/breathe-native ships Aumraa, Leminiscate and Kaayo brand loaders.
   const native = (snippet: string) => {
+    if (isAumraa) return `import { AumraaLoader } from '@aumraa/breathe-native'\n\n${snippet.replace(/<Loader/g, '<AumraaLoader')}`
     if (isLemniscate) return `import { Loader } from '@aumraa/breathe-native'\n\n${snippet}`
     if (isKaayo) return `import { KaayoLoader } from '@aumraa/breathe-native'\n\n${snippet.replace(/<Loader/g, '<KaayoLoader')}`
     return undefined
@@ -29,14 +34,16 @@ export function LoaderPage() {
   return (
     <ComponentPageLayout
       title="Loader"
-      description="Loading indicator for full pages and sections, such as route changes and session checks. Products can use brand-specific animated marks (such as Kaayo's galloping stallion and Leminiscate's infinity loop) or the universal ring loader."
+      description="Loading indicator for full pages and sections, such as route changes and session checks. Products can use brand-specific animated marks (such as Aumraa's golden spiral, Kaayo's galloping stallion, and Leminiscate's infinity loop) or the universal ring loader."
       level="Atom"
       status="Beta"
       implemented={ALL_PRODUCTS}
       sections={[
         {
           title: 'Default',
-          description: isLemniscate
+          description: isAumraa
+            ? "Aumraa's golden spiral emblem: the spiral grows clockwise along the Fibonacci coil in its authentic green gradient. As it finishes near the leaf base, the 4 leaf shades sprout sequentially, uniting both into the complete intact mark."
+            : isLemniscate
             ? 'A gradient dash laps the loop over a faint track while the roof gently breathes in step, both without pausing. The loop itself never scales. With prefers-reduced-motion both stop and the full symbol shows.'
             : isKaayo
             ? "Kaayo's iconic stallion symbol galloping in horizontal rhythm with a responsive ground stride shadow in lighter primary crimson (#E14144) fading and revealing in lockstep with the horse stride."
@@ -51,7 +58,7 @@ export function LoaderPage() {
         },
         {
           title: 'Sizes',
-          description: isLemniscate || isKaayo
+          description: isAumraa || isLemniscate || isKaayo
             ? 'Three widths: sm (40px), md (72px), lg (120px).'
             : 'Three sizes: sm (16px), md (24px), lg (36px).',
           preview: (
@@ -75,8 +82,8 @@ export function LoaderPage() {
           description: 'A short caption under the loader. It doubles as the accessible name.',
           preview: (
             <div className="flex items-end gap-10">
-              <L label={isKaayo ? "Scheduling tutor…" : "Loading dashboard…"} />
-              <L label={isKaayo ? "Preparing classroom…" : "Signing you in…"} />
+              <L label={isAumraa ? "Generating design tokens…" : isKaayo ? "Scheduling tutor…" : "Loading dashboard…"} />
+              <L label={isAumraa ? "Syncing brand assets…" : isKaayo ? "Preparing classroom…" : "Signing you in…"} />
             </div>
           ),
           code: {

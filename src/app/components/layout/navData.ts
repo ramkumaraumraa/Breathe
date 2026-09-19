@@ -125,6 +125,14 @@ export const navigation: NavSection[] = [
   },
 ]
 
+/** Documented component pages: every leaf under Atoms, Molecules, Organisms and
+ *  Templates. Group rows like "Form Elements" are indexes, so they count their
+ *  children instead of themselves. Derived so the Get Started stats can't drift. */
+export const componentCount = navigation
+  .filter(s => ['Atoms', 'Molecules', 'Organisms', 'Templates'].includes(s.section))
+  .flatMap(s => s.items)
+  .reduce((n, item) => n + (item.items ? item.items.length : 1), 0)
+
 export const allNavItems = navigation.flatMap(s => {
   return s.items.flatMap(item => {
     if (item.items) {

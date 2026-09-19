@@ -1,13 +1,30 @@
+import type { ReactNode } from 'react';
 import { Link } from 'react-router';
-import { ArrowRight, Layers, Palette, Type, Zap, Shield, Package, Wind } from 'lucide-react';
+import { ArrowRight, Layers, Palette, Type, Zap, Shield, Package, Wind, Smartphone } from 'lucide-react';
 import { motion } from 'motion/react';
 import { CodeBlock } from '../components/shared/CodeBlock';
+import { PRODUCT_TABS, STAGE_MARKS, StageMark, type ProductStage } from '../components/shared/ProductTabs';
+import { componentCount } from '../components/layout/navData';
+import { ProductPreviewWrapper } from '../context/ProductThemeContext';
+import { Button } from '@/app/components/atoms/button';
+import { Badge } from '@/app/components/atoms/badge';
+import { Avatar, AvatarFallback } from '@/app/components/atoms/avatar';
+import { Input } from '@/app/components/atoms/form-elements/input';
+import { Switch } from '@/app/components/atoms/form-elements/switch';
+import { Card, CardContent } from '@/app/components/molecules/card';
+import { Alert, AlertTitle } from '@/app/components/molecules/alert';
+import { Tabs, TabsList, TabsTrigger } from '@/app/components/molecules/tabs';
+import aumraaTokens from '../../../tokens/dist/web/aumraa.css?raw';
+
+// Counted, not claimed. Both numbers were hand-typed before and both were wrong
+// by more than half — the component count said "20+" against 57 real pages.
+const tokensPerProduct = (aumraaTokens.match(/^\s*--[\w-]+:/gm) ?? []).length;
 
 const stats = [
-  { label: 'Components', value: '20+' },
-  { label: 'Design Tokens', value: '200+' },
+  { label: 'Components', value: `${componentCount}` },
+  { label: 'Tokens per product', value: `${Math.floor(tokensPerProduct / 10) * 10}+` },
+  { label: 'Products', value: `${PRODUCT_TABS.length}` },
   { label: 'Accessibility', value: 'WCAG AA' },
-  { label: 'Bundle size', value: '< 12kb' },
 ];
 
 const features = [
@@ -49,15 +66,88 @@ const features = [
   },
 ];
 
-const componentCards = [
-  { label: 'Button', path: '/components/button', color: 'bg-teal-500' },
-  { label: 'Input', path: '/components/input', color: 'bg-indigo-500' },
-  { label: 'Card', path: '/components/card', color: 'bg-violet-500' },
-  { label: 'Badge', path: '/components/badge', color: 'bg-amber-500' },
-  { label: 'Alert', path: '/components/alert', color: 'bg-rose-500' },
-  { label: 'Avatar', path: '/components/avatar', color: 'bg-sky-500' },
-  { label: 'Modal', path: '/components/modal', color: 'bg-emerald-500' },
-  { label: 'Tabs', path: '/components/tabs', color: 'bg-pink-500' },
+// Real components, not coloured squares — each renders through the active
+// product's tokens, so this grid is itself the claim the section makes.
+// Atomic paths, not the /components/* redirects these used to point at.
+// Dialog is an overlay with nothing to show inline, so Toggle takes its slot.
+const componentCards: { label: string; path: string; preview: ReactNode }[] = [
+  {
+    label: 'Button',
+    path: '/atoms/button',
+    preview: <Button size="sm">Button</Button>,
+  },
+  {
+    label: 'Text Input',
+    path: '/atoms/form-elements/text-input',
+    preview: <Input placeholder="Email" className="h-8 w-28 text-xs" />,
+  },
+  {
+    label: 'Card',
+    path: '/molecules/card',
+    preview: (
+      <Card className="w-28">
+        <CardContent className="p-2.5 space-y-1.5">
+          <div className="h-1.5 w-2/3 rounded-full bg-primary" />
+          <div className="h-1 w-full rounded-full bg-muted-foreground/25" />
+          <div className="h-1 w-4/5 rounded-full bg-muted-foreground/25" />
+        </CardContent>
+      </Card>
+    ),
+  },
+  {
+    label: 'Badge',
+    path: '/atoms/badge',
+    preview: <Badge>New</Badge>,
+  },
+  {
+    label: 'Alert',
+    path: '/molecules/alert',
+    preview: (
+      <Alert variant="success" className="w-32 px-2.5 py-2">
+        <AlertTitle className="m-0" style={{ fontSize: '0.6875rem' }}>Saved</AlertTitle>
+      </Alert>
+    ),
+  },
+  {
+    label: 'Avatar',
+    path: '/atoms/avatar',
+    preview: (
+      <Avatar className="h-9 w-9">
+        <AvatarFallback style={{ fontSize: '0.75rem' }}>AK</AvatarFallback>
+      </Avatar>
+    ),
+  },
+  {
+    label: 'Toggle',
+    path: '/atoms/form-elements/toggle',
+    preview: <Switch defaultChecked />,
+  },
+  {
+    label: 'Tabs',
+    path: '/molecules/tabs',
+    preview: (
+      <Tabs defaultValue="one">
+        <TabsList className="h-7">
+          <TabsTrigger value="one" className="h-5 px-2" style={{ fontSize: '0.625rem' }}>One</TabsTrigger>
+          <TabsTrigger value="two" className="h-5 px-2" style={{ fontSize: '0.625rem' }}>Two</TabsTrigger>
+        </TabsList>
+      </Tabs>
+    ),
+  },
+];
+
+// One row per stage, products grouped under it. Read off STAGE_MARKS so this key
+// and the icons on every product tab bar can never disagree.
+const stageRows = (Object.keys(STAGE_MARKS) as ProductStage[]).map((stage) => ({
+  stage,
+  ...STAGE_MARKS[stage],
+  products: PRODUCT_TABS.filter((p) => p.stage === stage),
+}));
+
+const themeSteps = [
+  { n: '1', t: 'Tokens', d: 'JSON per product, compiled by Style Dictionary to CSS, Swift, XML and TS.' },
+  { n: '2', t: 'Theme', d: 'One CSS file maps that product’s tokens onto the semantic variables.' },
+  { n: '3', t: 'Components', d: 'Read the semantic variables. Same code, every brand.' },
 ];
 
 export function HomePage() {
@@ -80,7 +170,7 @@ export function HomePage() {
               <Wind size={13} className="text-teal-600 dark:text-teal-400" />
               <span className="text-teal-700 dark:text-teal-400"
                     style={{ fontSize: '0.75rem', fontWeight: 500, fontFamily: 'var(--font-sans)' }}>
-                Breathe Design System v1.0
+                Breathe Design System v0.1
               </span>
             </div>
           </motion.div>
@@ -101,7 +191,8 @@ export function HomePage() {
             className="text-slate-500 dark:text-slate-400 mb-8 max-w-xl"
             style={{ fontFamily: 'var(--font-sans)', fontSize: '1.125rem', lineHeight: 1.75 }}
           >
-            A comprehensive design system for building beautiful, accessible, and consistent interfaces. Every component, token, and pattern — in one place.
+            One component library and one token pipeline behind every Aumraa product — on web, mobile, watch and
+            widgets. The components carry no brand of their own; the theme you import decides which product they are.
           </motion.p>
 
           <motion.div
@@ -117,7 +208,7 @@ export function HomePage() {
               <ArrowRight size={16} />
             </Link>
             <Link
-              to="/components/button"
+              to="/atoms/button"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all"
               style={{ fontFamily: 'var(--font-sans)', fontWeight: 500, fontSize: '0.9375rem' }}
             >
@@ -144,6 +235,115 @@ export function HomePage() {
               </p>
             </motion.div>
           ))}
+        </div>
+      </section>
+
+      {/* How it works — brand-blind components */}
+      <section className="px-6 lg:px-10 pb-16 border-t border-slate-200 dark:border-slate-800 pt-14">
+        <div className="max-w-3xl">
+          <p className="text-teal-600 dark:text-teal-400 mb-2 uppercase tracking-wider"
+             style={{ fontSize: '0.72rem', fontWeight: 600, fontFamily: 'var(--font-sans)', letterSpacing: '0.1em' }}>
+            How it works
+          </p>
+          <h2 className="text-slate-900 dark:text-white mb-3 m-0"
+              style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.75rem', lineHeight: 1.3 }}>
+            Components are brand-blind
+          </h2>
+          <p className="text-slate-500 dark:text-slate-400 mb-6 max-w-lg"
+             style={{ fontFamily: 'var(--font-sans)', fontSize: '0.9375rem', lineHeight: 1.7 }}>
+            No component knows which product it belongs to. Each one reads semantic variables — <code>--primary</code>,{' '}
+            <code>--background</code>, <code>--radius</code> — and the single theme file you import fills them. Swap
+            that one import and the same button becomes a different product. Files for every other product sit unread
+            in node_modules and never reach your bundle.
+          </p>
+          <div className="grid sm:grid-cols-3 gap-3 mb-6">
+            {themeSteps.map((step) => (
+              <div key={step.n} className="bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800">
+                <span className="inline-flex w-5 h-5 rounded-full items-center justify-center text-white mb-2.5"
+                      style={{ background: 'linear-gradient(135deg, #0D9488, #6366F1)', fontSize: '0.65rem', fontWeight: 700 }}>
+                  {step.n}
+                </span>
+                <h3 className="text-slate-900 dark:text-slate-100 mb-1 m-0"
+                    style={{ fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '0.9375rem' }}>
+                  {step.t}
+                </h3>
+                <p className="text-slate-500 dark:text-slate-400 m-0"
+                   style={{ fontFamily: 'var(--font-sans)', fontSize: '0.8125rem', lineHeight: 1.6 }}>
+                  {step.d}
+                </p>
+              </div>
+            ))}
+          </div>
+          <Link
+            to="/foundations/design-tokens"
+            className="inline-flex items-center gap-2 text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 transition-colors"
+            style={{ fontFamily: 'var(--font-sans)', fontSize: '0.875rem', fontWeight: 500 }}
+          >
+            See the token architecture <ArrowRight size={15} />
+          </Link>
+        </div>
+      </section>
+
+      {/* Product family + stage legend */}
+      <section className="px-6 lg:px-10 pb-16 border-t border-slate-200 dark:border-slate-800 pt-14">
+        <div className="max-w-3xl">
+          <p className="text-teal-600 dark:text-teal-400 mb-2 uppercase tracking-wider"
+             style={{ fontSize: '0.72rem', fontWeight: 600, fontFamily: 'var(--font-sans)', letterSpacing: '0.1em' }}>
+            The family
+          </p>
+          <h2 className="text-slate-900 dark:text-white mb-3 m-0"
+              style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.75rem', lineHeight: 1.3 }}>
+            {PRODUCT_TABS.length} products, one system
+          </h2>
+          <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-lg"
+             style={{ fontFamily: 'var(--font-sans)', fontSize: '0.9375rem', lineHeight: 1.7 }}>
+            Every page with a product switcher lists these in this order, each marked with how far along it is. The
+            mark is a shape first and a colour second, so it still reads under colourblindness.
+          </p>
+
+          <div className="space-y-5">
+            {stageRows.map((row, i) => (
+              <motion.div
+                key={row.stage}
+                initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                transition={{ delay: i * 0.06 }}
+              >
+                <div className="flex items-baseline gap-2 mb-2 flex-wrap">
+                  <span className="inline-flex items-center gap-1.5">
+                    <StageMark stage={row.stage} size={15} />
+                    <span className="text-slate-900 dark:text-slate-100"
+                          style={{ fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '0.875rem' }}>
+                      {row.label}
+                    </span>
+                  </span>
+                  <span className="text-slate-400 dark:text-slate-500"
+                        style={{ fontFamily: 'var(--font-sans)', fontSize: '0.8125rem' }}>
+                    — {row.meaning}
+                  </span>
+                </div>
+                <div className="grid sm:grid-cols-2 gap-2.5">
+                  {row.products.map((product) => (
+                    <div
+                      key={product.id}
+                      className="flex items-start gap-3 p-3.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800"
+                    >
+                      <span className="w-2.5 h-2.5 rounded-full shrink-0 mt-1.5" style={{ background: product.accentColor }} />
+                      <div className="min-w-0">
+                        <p className="text-slate-900 dark:text-slate-100 m-0"
+                           style={{ fontFamily: 'var(--font-sans)', fontWeight: 600, fontSize: '0.875rem' }}>
+                          {product.label}
+                        </p>
+                        <p className="text-slate-500 dark:text-slate-400 m-0 mt-0.5"
+                           style={{ fontFamily: 'var(--font-sans)', fontSize: '0.78rem', lineHeight: 1.5 }}>
+                          {product.tagline}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -196,30 +396,42 @@ export function HomePage() {
           </p>
           <h2 className="text-slate-900 dark:text-white mb-3 m-0"
               style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.75rem', lineHeight: 1.3 }}>
-            20+ production-ready components
+            {componentCount} documented components
           </h2>
           <p className="text-slate-500 dark:text-slate-400 mb-10 max-w-lg"
              style={{ fontFamily: 'var(--font-sans)', fontSize: '0.9375rem', lineHeight: 1.7 }}>
-            Explore our full component library, each with comprehensive documentation and live examples.
+            Organised as atoms, molecules, organisms and templates — each with live examples, props, and a preview in
+            every product's theme.
           </p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-            {componentCards.map((comp, i) => (
-              <motion.div key={comp.label} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
-                <Link
-                  to={comp.path}
-                  className="flex flex-col items-center gap-3 p-5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-teal-300 dark:hover:border-teal-700 hover:shadow-sm transition-all group"
-                >
-                  <div className={`w-10 h-10 rounded-xl ${comp.color} opacity-85 group-hover:opacity-100 transition-opacity`} />
-                  <span className="text-slate-700 dark:text-slate-300"
-                        style={{ fontFamily: 'var(--font-sans)', fontSize: '0.8125rem', fontWeight: 500 }}>
-                    {comp.label}
-                  </span>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
+          {/* One wrapper for the whole grid: the product's vars cascade into every
+              preview below, so switching product on any page restyles these too. */}
+          <ProductPreviewWrapper>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+              {componentCards.map((comp, i) => (
+                <motion.div key={comp.label} initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
+                  <Link
+                    to={comp.path}
+                    className="flex flex-col items-center gap-3 p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-teal-300 dark:hover:border-teal-700 hover:shadow-sm transition-all"
+                  >
+                    {/* Decorative: the Link is the only thing here that should take
+                        focus or a click, so the live component never receives either. */}
+                    <div
+                      aria-hidden
+                      className="pointer-events-none select-none w-full h-16 flex items-center justify-center overflow-hidden rounded-lg bg-background border border-border"
+                    >
+                      {comp.preview}
+                    </div>
+                    <span className="text-slate-700 dark:text-slate-300"
+                          style={{ fontFamily: 'var(--font-sans)', fontSize: '0.8125rem', fontWeight: 500 }}>
+                      {comp.label}
+                    </span>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </ProductPreviewWrapper>
           <Link
-            to="/components/button"
+            to="/atoms/button"
             className="inline-flex items-center gap-2 text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 transition-colors"
             style={{ fontFamily: 'var(--font-sans)', fontSize: '0.875rem', fontWeight: 500 }}
           >
@@ -237,13 +449,21 @@ export function HomePage() {
           </p>
           <h2 className="text-slate-900 dark:text-white mb-3 m-0"
               style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.75rem', lineHeight: 1.3 }}>
-            One package, themed per product
+            Two packages, web and native
           </h2>
           <p className="text-slate-500 dark:text-slate-400 mb-6 max-w-lg"
              style={{ fontFamily: 'var(--font-sans)', fontSize: '0.9375rem', lineHeight: 1.7 }}>
-            Install <code>@aumraa/breathe-react</code>, import your product's theme CSS, and build. Components are
-            brand-blind — the theme file you import decides whether they render as Kaayo, Lemniscate, or any other product.
+            Both are themed the same way: install, import your product's theme, build. Every other product differs by
+            one import line.
           </p>
+
+          <div className="flex items-center gap-2 mb-2.5">
+            <Package size={15} className="text-slate-500 dark:text-slate-400" />
+            <span className="text-slate-700 dark:text-slate-300"
+                  style={{ fontFamily: 'var(--font-sans)', fontSize: '0.8125rem', fontWeight: 600 }}>
+              React — web
+            </span>
+          </div>
           <CodeBlock
             code={`pnpm add @aumraa/breathe-react`}
             language="bash"
@@ -255,6 +475,30 @@ import { Button, Card } from '@aumraa/breathe-react'
 import { KayoBrutalistHeader } from '@aumraa/breathe-react/kaayo'`}
             language="tsx"
           />
+
+          <div className="flex items-center gap-2 mt-8 mb-2.5">
+            <Smartphone size={15} className="text-slate-500 dark:text-slate-400" />
+            <span className="text-slate-700 dark:text-slate-300"
+                  style={{ fontFamily: 'var(--font-sans)', fontSize: '0.8125rem', fontWeight: 600 }}>
+              React Native — Expo + NativeWind
+            </span>
+          </div>
+          <CodeBlock
+            code={`pnpm add @aumraa/breathe-native`}
+            language="bash"
+          />
+          <div className="h-3" />
+          <CodeBlock
+            code={`/* global.css */
+@import '@aumraa/breathe-native/styles/lemniscate.css';`}
+            language="css"
+          />
+          <div className="h-3" />
+          <CodeBlock
+            code={`import { Button, Text } from '@aumraa/breathe-native'`}
+            language="tsx"
+          />
+
           <Link
             to="/installation"
             className="mt-6 inline-flex items-center gap-2 text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 transition-colors"

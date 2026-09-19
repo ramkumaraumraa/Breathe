@@ -25,7 +25,7 @@ describe('ComponentPageLayout product filtering', () => {
   })
 
   it('shows both tagged and untagged sections on kaayo', () => {
-    renderOn(/Ullagellam/, [kaayoOnly, shared]) // Ullagellam group tab activates Kaayo
+    renderOn(/Kaayo/, [kaayoOnly, shared])
     expect(screen.getByText('kaayo preview')).toBeInTheDocument()
     expect(screen.getByText('shared preview')).toBeInTheDocument()
   })
@@ -53,7 +53,7 @@ describe('ComponentPageLayout Kaayo code guard', () => {
   })
 
   it('shows Kaayo code on Kaayo', () => {
-    renderOn(/Ullagellam/, [kaayoCode])
+    renderOn(/Kaayo/, [kaayoCode])
     fireEvent.click(screen.getByRole('button', { name: 'React' }))
     expect(document.body.textContent).toContain('KayoBrutalistButton')
   })

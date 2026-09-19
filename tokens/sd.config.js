@@ -61,11 +61,6 @@ const products = [
     platforms: ['web', 'reactNative', 'ios', 'android'],
   },
   {
-    name: 'ulagellam',
-    prefix: 'ulge',
-    platforms: ['reactNative', 'ios', 'android'],
-  },
-  {
     name: 'ilakh',
     prefix: 'ilkh',
     platforms: ['web', 'reactNative', 'ios', 'android'],

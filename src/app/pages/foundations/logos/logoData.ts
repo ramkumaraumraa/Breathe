@@ -24,16 +24,6 @@ export interface BrandLogoConfig {
   variants?: LogoVariant[];
 }
 
-// Canonical brand order — used across Logos, Colors, and Typography pages
-export const BRAND_ORDER = [
-  'aumraa',
-  'technocracy',
-  'leminiscate',
-  'maligai-manager',
-  'ullagellam',
-  'yakaizen',
-] as const;
-
 export const brands: BrandLogoConfig[] = [
   {
     id: 'aumraa',
@@ -127,7 +117,7 @@ export const brands: BrandLogoConfig[] = [
     accentColor: '#8B5CF6',
   },
   {
-    id: 'leminiscate',
+    id: 'lemniscate',
     label: 'Leminiscate',
     tagline: 'Real estate intelligence',
     platform: 'Web · Mobile',
@@ -293,7 +283,7 @@ export const brands: BrandLogoConfig[] = [
     ],
   },
   {
-    id: 'maligai-manager',
+    id: 'maligai',
     label: 'Maligai Manager',
     tagline: 'Grocery & inventory management',
     platform: 'Mobile',
@@ -376,9 +366,9 @@ export const brands: BrandLogoConfig[] = [
     ],
   },
   {
-    id: 'ullagellam',
-    label: 'Ullagellam',
-    tagline: 'Explore & discover around you',
+    id: 'smartlife',
+    label: 'Smart Life-Style App',
+    tagline: 'Yet to ideate',
     platform: 'Mobile',
     status: 'pending',
     accentColor: '#7C3AED',

@@ -1,7 +1,8 @@
-import { useState } from 'react';
 import { PageHeader } from '../../components/shared/PageHeader';
 import { FoundationCodeCard } from '../../components/shared/FoundationCodeCard';
 import { PageNavigation } from '../../components/shared/PageNavigation';
+import { ProductTabs } from '../../components/shared/ProductTabs';
+import { useProductTheme } from '../../context/ProductThemeContext';
 
 interface TypeScaleEntry {
   name: string;
@@ -161,9 +162,9 @@ const brands: BrandTypography[] = [
 }`,
   },
   {
-    id: 'ulagellam',
-    label: 'Ulagellam',
-    tagline: 'Discovery app — playful, spatial, inviting',
+    id: 'smartlife',
+    label: 'Smart Life-Style App',
+    tagline: 'Yet to ideate',
     displayFont: { name: 'DM Sans', token: '--font-display', use: 'Display & Headings', cssValue: "'DM Sans', sans-serif", googleFont: 'DM+Sans:wght@600;700;800' },
     bodyFont: { name: 'Inter', token: '--font-sans', use: 'Body & UI Labels', cssValue: "Inter, -apple-system, sans-serif" },
     monoFont,
@@ -171,7 +172,7 @@ const brands: BrandTypography[] = [
     characterSample: 'Aa Bb Cc 0123',
     accentColor: '#7C3AED',
     bgColor: '#F5F3FF',
-    cssSnippet: `/* Ulagellam — font tokens */
+    cssSnippet: `/* Smart Life-Style App — font tokens */
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@600;700;800&family=Inter:wght@400;500;600&display=swap');
 
 :root {
@@ -319,21 +320,10 @@ function ScaleRow({ entry, displayFont, bodyFont, isDark }: {
   );
 }
 
-const TYPO_BRAND_ORDER = ['aumraa', 'technocracy', 'lemniscate', 'maligai', 'ulagellam', 'yakaizen'];
-const sortedTypoBrands = [...brands].sort((a, b) => {
-  const ai = TYPO_BRAND_ORDER.indexOf(a.id);
-  const bi = TYPO_BRAND_ORDER.indexOf(b.id);
-  return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
-});
-const topLevelTypoBrands = sortedTypoBrands.filter(b => b.id !== 'kaayo' && b.id !== 'ilakh');
-
 export function TypographyPage() {
-  const [activeTab, setActiveTab] = useState('aumraa');
-  const [ulagellamSubTab, setUlagellamSubTab] = useState('kaayo');
+  const { activeProduct, setActiveProduct } = useProductTheme();
 
-  const brand = activeTab === 'ulagellam'
-    ? (sortedTypoBrands.find(b => b.id === ulagellamSubTab) ?? sortedTypoBrands.find(b => b.id === 'ulagellam')!)
-    : (sortedTypoBrands.find(b => b.id === activeTab) ?? sortedTypoBrands[0]);
+  const brand = brands.find(b => b.id === activeProduct) ?? brands[0];
 
   const textClass = brand.isDark ? 'text-slate-100' : 'text-slate-900 dark:text-white';
   const textSecondary = brand.isDark ? 'text-slate-400' : 'text-slate-500 dark:text-slate-400';
@@ -348,70 +338,11 @@ export function TypographyPage() {
         badgeColor="teal"
       />
 
-      {/* Brand Tabs — sticky below TopBar (h-16 = 64px) */}
-      <div className="sticky top-16 z-20 bg-slate-50 dark:bg-slate-950 -mx-6 lg:-mx-10 px-6 lg:px-10 mb-8 border-b border-slate-200 dark:border-slate-800 overflow-x-auto">
-        <div className="flex gap-0 min-w-max" role="tablist">
-          {topLevelTypoBrands.map(b => {
-            const isActive = b.id === activeTab;
-            return (
-              <button
-                key={b.id}
-                onClick={() => setActiveTab(b.id)}
-                role="tab"
-                aria-selected={isActive}
-                className={`relative px-4 py-2.5 border-b-2 transition-colors whitespace-nowrap ${
-                  isActive
-                    ? 'text-slate-900 dark:text-white'
-                    : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:border-slate-300 dark:hover:border-slate-600'
-                }`}
-                style={{
-                  borderBottomColor: isActive ? b.accentColor : undefined,
-                  fontFamily: 'var(--font-sans)',
-                  fontWeight: 600,
-                  fontSize: '0.875rem',
-                }}
-              >
-                {b.label}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Ulagellam sub-tabs */}
-      {activeTab === 'ulagellam' && (
-        <div className="mb-6 flex gap-2 flex-wrap">
-          {[
-            { id: 'kaayo',     label: '🎓 Kaayo (Tutor Ops)',   accent: '#970103' },
-            { id: 'ilakh',     label: '📈 Ilakh (Finance)',      accent: '#0369A1' },
-            { id: 'ulagellam', label: '🗺️ Ulagellam (Explorer)', accent: '#7C3AED' },
-          ].map((sub) => {
-            const isSubActive = ulagellamSubTab === sub.id;
-            return (
-              <button
-                key={sub.id}
-                onClick={() => setUlagellamSubTab(sub.id)}
-                className={`px-4 py-1.5 rounded-full text-sm font-semibold border-2 transition-colors ${
-                  isSubActive ? 'text-white' : 'bg-transparent text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700'
-                }`}
-                style={{
-                  borderColor: isSubActive ? sub.accent : undefined,
-                  backgroundColor: isSubActive ? sub.accent : undefined,
-                  fontFamily: 'var(--font-sans)',
-                }}
-              >
-                {sub.label}
-              </button>
-            );
-          })}
-        </div>
-      )}
+      <ProductTabs active={activeProduct} onChange={setActiveProduct} className="mb-8" />
 
       {/* Brand tagline */}
       <p className={`${textSecondary} mb-10 italic`} style={{ fontFamily: 'var(--font-sans)', fontSize: '0.875rem' }}>
-        {activeTab === 'ulagellam' && ulagellamSubTab !== 'ulagellam'
-          ? 'Regional & mobile suite umbrella · Multi-product sub-brands below'
-          : brand.tagline}
+        {brand.tagline}
       </p>
 
       {/* Font Families */}

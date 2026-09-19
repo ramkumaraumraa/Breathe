@@ -5,7 +5,7 @@ import { Loader as LemniscateLoader } from '@aumraa/breathe-react/lemniscate'
 import { Loader as KaayoLoader } from '@aumraa/breathe-react/kaayo'
 import { Loader as AumraaLoader } from '@aumraa/breathe-react/aumraa'
 
-const ALL_PRODUCTS: ProductId[] = ['aumraa', 'technocracy', 'lemniscate', 'maligai', 'kaayo', 'ilakh', 'ulagellam', 'yakaizen']
+const ALL_PRODUCTS: ProductId[] = ['aumraa', 'technocracy', 'lemniscate', 'maligai', 'kaayo', 'ilakh', 'yakaizen', 'smartlife']
 
 export function LoaderPage() {
   const { activeProduct } = useProductTheme()

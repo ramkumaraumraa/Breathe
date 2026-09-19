@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Check, Copy, ChevronDown, ChevronUp, Lock } from 'lucide-react';
 import { PageHeader } from '../../components/shared/PageHeader';
 import { PageNavigation } from '../../components/shared/PageNavigation';
+import { ProductTabs } from '../../components/shared/ProductTabs';
+import { useProductTheme } from '../../context/ProductThemeContext';
 
 interface ColorStop {
   stop: number;
@@ -215,7 +217,7 @@ const neutralScales: ColorScale[] = [
 // Brand palettes
 const brandPalettes: BrandPalette[] = [
   {
-    id: 'leminiscate',
+    id: 'lemniscate',
     name: 'Leminiscate',
     tagline: 'Real estate intelligence · Web · Mobile',
     accentColor: '#1C60C1',
@@ -396,7 +398,7 @@ const brandPalettes: BrandPalette[] = [
     ],
   },
   {
-    id: 'maligai-manager',
+    id: 'maligai',
     name: 'Maligai Manager',
     tagline: 'Grocery & inventory management · Mobile',
     accentColor: '#D97706',
@@ -484,9 +486,9 @@ const brandPalettes: BrandPalette[] = [
     ],
   },
   {
-    id: 'ullagellam',
-    name: 'Ullagellam',
-    tagline: 'Explore & discover around you · Mobile',
+    id: 'smartlife',
+    name: 'Smart Life-Style App',
+    tagline: 'Yet to ideate',
     accentColor: '#7C3AED',
     core: [
       {
@@ -1098,22 +1100,10 @@ function GradientChip({ gradient }: { gradient: GradientInfo }) {
   );
 }
 
-const BRAND_ORDER = ['aumraa', 'technocracy', 'leminiscate', 'maligai-manager', 'ullagellam', 'yakaizen'];
-const sortedBrands = [...brandPalettes].sort((a, b) => {
-  const ai = BRAND_ORDER.indexOf(a.id);
-  const bi = BRAND_ORDER.indexOf(b.id);
-  return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
-});
-
-const topLevelBrands = sortedBrands.filter(b => b.id !== 'kaayo' && b.id !== 'ilakh');
-
 export function ColorsPage() {
-  const [activeTab, setActiveTab] = useState('aumraa');
-  const [ulagellamSubTab, setUlagellamSubTab] = useState('kaayo');
-  
-  const activeBrand = activeTab === 'ullagellam'
-    ? (sortedBrands.find(b => b.id === ulagellamSubTab) || sortedBrands.find(b => b.id === 'ullagellam')!)
-    : (sortedBrands.find(b => b.id === activeTab) || sortedBrands[0]);
+  const { activeProduct, setActiveProduct } = useProductTheme();
+
+  const activeBrand = brandPalettes.find(b => b.id === activeProduct) ?? brandPalettes[0];
 
   return (
     <div className="max-w-7xl px-6 lg:px-10 py-10">
@@ -1125,78 +1115,12 @@ export function ColorsPage() {
         badgeColor="teal"
       />
 
-      {/* Brand Tabs — sticky below TopBar (h-16 = 64px) */}
-      <div className="sticky top-16 z-20 bg-slate-50 dark:bg-slate-950 -mx-6 lg:-mx-10 px-6 lg:px-10 mb-8 border-b border-slate-200 dark:border-slate-800 overflow-x-auto">
-        <div className="flex gap-0 min-w-max" role="tablist">
-          {topLevelBrands.map(brand => {
-            const isActive = brand.id === activeTab;
-            return (
-              <button
-                key={brand.id}
-                onClick={() => setActiveTab(brand.id)}
-                role="tab"
-                aria-selected={isActive}
-                className={`relative px-4 py-2.5 border-b-2 transition-colors whitespace-nowrap ${
-                  isActive
-                    ? 'text-slate-900 dark:text-white'
-                    : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300 hover:border-slate-300 dark:hover:border-slate-600'
-                }`}
-                style={{
-                  borderBottomColor: isActive ? brand.accentColor : undefined,
-                  fontFamily: 'var(--font-sans)',
-                  fontWeight: 600,
-                  fontSize: '0.875rem',
-                }}
-              >
-                {brand.name}
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      <ProductTabs active={activeProduct} onChange={setActiveProduct} className="mb-8" />
 
       {/* Brand Tagline */}
       <p className="text-slate-500 dark:text-slate-400 mb-6 italic" style={{ fontFamily: 'var(--font-sans)', fontSize: '0.875rem' }}>
-        {activeTab === 'ullagellam' ? 'Regional & mobile suite umbrella · Multi-product filters below' : activeBrand.tagline}
+        {activeBrand.tagline}
       </p>
-
-      {/* Ulagellam Sub-tabs Segment Selector */}
-      {activeTab === 'ullagellam' && (
-        <div className="mb-10 p-1.5 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl inline-flex flex-wrap gap-1.5 max-w-full shadow-sm">
-          {[
-            { id: 'kaayo', label: '🎓 Kaayo (Tutor Ops)', accent: '#970103', tagline: 'Tutor & class operations · Mobile · Tablet' },
-            { id: 'ilakh', label: '📈 Ilakh (Finance)', accent: '#0369A1', tagline: 'Goal tracking & personal finance · Web · Mobile' },
-            { id: 'ullagellam', label: '🗺️ Ulagellam (Explorer)', accent: '#7C3AED', tagline: 'Explore & discover around you · Mobile' }
-          ].map(sub => {
-            const isSubActive = ulagellamSubTab === sub.id;
-            return (
-              <button
-                key={sub.id}
-                onClick={() => setUlagellamSubTab(sub.id)}
-                className={`px-5 py-2.5 rounded-xl font-semibold transition-all cursor-pointer whitespace-nowrap text-sm ${
-                  isSubActive
-                    ? 'bg-white dark:bg-slate-950 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-800 shadow-sm'
-                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 border border-transparent'
-                }`}
-                style={{
-                  borderBottomColor: isSubActive ? sub.accent : undefined,
-                  borderBottomWidth: isSubActive ? '2px' : undefined
-                }}
-                title={sub.tagline}
-              >
-                {sub.label}
-              </button>
-            );
-          })}
-        </div>
-      )}
-
-      {/* Selected Product Sub-Tagline */}
-      {activeTab === 'ullagellam' && (
-        <p className="text-slate-400 dark:text-slate-500 mb-10 -mt-6 italic" style={{ fontFamily: 'var(--font-sans)', fontSize: '0.82rem' }}>
-          Active Selection: <span className="font-semibold text-slate-500 dark:text-slate-400">{activeBrand.name}</span> — {activeBrand.tagline}
-        </p>
-      )}
 
       {/* Group 1: Core */}
       <section className="mb-12">

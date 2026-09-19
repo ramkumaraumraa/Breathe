@@ -17,10 +17,10 @@ export type ProductId =
   | 'aumraa'
   | 'technocracy'
   | 'maligai'
-  | 'ulagellam'
   | 'ilakh'
   | 'kaayo'
   | 'yakaizen'
+  | 'smartlife'
 
 // ─── Product metadata + CSS variable overrides ──────────────────────────────
 // vars override shadcn generic vars (--primary, --background etc.)
@@ -117,11 +117,11 @@ export const productMeta: Record<ProductId, {
       '--gradient-brand':            'linear-gradient(135deg, var(--gradient-brand-start) 0%, var(--gradient-brand-end) 100%)',
     },
   },
-  ulagellam: {
-    label: 'Ulagellam',
-    prefix: 'ulge',
-    description: 'Mobile-only app',
-    // No token file generated yet — update when tokens/dist/web/ulagellam.css is added
+  smartlife: {
+    label: 'Smart Life-Style App',
+    prefix: 'slsa',
+    description: 'Yet to ideate',
+    // No token file generated yet — update when tokens/dist/web/smartlife.css is added
     vars: {
       '--primary':                  '#40AAD4',
       '--primary-foreground':       '#ffffff',

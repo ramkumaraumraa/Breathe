@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import { Badge } from '@/app/components/atoms/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/molecules/tabs';
 import { CodeBlock } from '../../components/shared/CodeBlock';
 import { PageHeader } from '../../components/shared/PageHeader';
 import { PageNavigation } from '../../components/shared/PageNavigation';
+import { ProductTabs } from '../../components/shared/ProductTabs';
+import { useProductTheme } from '../../context/ProductThemeContext';
 
 type TokenRow = {
   name: string;
@@ -194,39 +194,39 @@ const products: Product[] = [
     ],
   },
   {
-    id: 'ulagellam',
-    label: 'Ulagellam',
-    prefix: 'ulge',
-    description: 'Mobile-only app — React Native, iOS, Android',
+    id: 'smartlife',
+    label: 'Smart Life-Style App',
+    prefix: 'slsa',
+    description: 'Yet to ideate — React Native, iOS, Android',
     platforms: ['React Native', 'iOS Swift', 'Android XML'],
     surface: 'light',
     colors: [
-      { name: 'Primary',              token: '--ulge-color-primary',              value: '#40AAD4', role: 'Placeholder — confirm at design kickoff' },
-      { name: 'Primary Light',        token: '--ulge-color-primary-light',        value: '#6EC6E6', role: 'Hover states' },
-      { name: 'Secondary',            token: '--ulge-color-secondary',            value: '#E07722', role: 'Energy, highlights' },
-      { name: 'Tertiary',             token: '--ulge-color-tertiary',             value: '#2F6FED', role: 'Digital accent' },
-      { name: 'Positive',             token: '--ulge-color-positive',             value: '#00D06D', role: 'Success states' },
-      { name: 'Negative',             token: '--ulge-color-negative',             value: '#E11D2A', role: 'Errors' },
-      { name: 'Background',           token: '--ulge-color-background',           value: '#ffffff', role: 'Screen surface' },
-      { name: 'Background Secondary', token: '--ulge-color-background-secondary', value: '#F9FAFB', role: 'Cards' },
-      { name: 'Foreground',           token: '--ulge-color-foreground',           value: '#1F2937', role: 'Body text' },
-      { name: 'Foreground Secondary', token: '--ulge-color-foreground-secondary', value: '#6B7280', role: 'Captions' },
-      { name: 'Border',               token: '--ulge-color-border',               value: '#E5E7EB', role: 'Dividers' },
+      { name: 'Primary',              token: '--slsa-color-primary',              value: '#40AAD4', role: 'Placeholder — confirm at design kickoff' },
+      { name: 'Primary Light',        token: '--slsa-color-primary-light',        value: '#6EC6E6', role: 'Hover states' },
+      { name: 'Secondary',            token: '--slsa-color-secondary',            value: '#E07722', role: 'Energy, highlights' },
+      { name: 'Tertiary',             token: '--slsa-color-tertiary',             value: '#2F6FED', role: 'Digital accent' },
+      { name: 'Positive',             token: '--slsa-color-positive',             value: '#00D06D', role: 'Success states' },
+      { name: 'Negative',             token: '--slsa-color-negative',             value: '#E11D2A', role: 'Errors' },
+      { name: 'Background',           token: '--slsa-color-background',           value: '#ffffff', role: 'Screen surface' },
+      { name: 'Background Secondary', token: '--slsa-color-background-secondary', value: '#F9FAFB', role: 'Cards' },
+      { name: 'Foreground',           token: '--slsa-color-foreground',           value: '#1F2937', role: 'Body text' },
+      { name: 'Foreground Secondary', token: '--slsa-color-foreground-secondary', value: '#6B7280', role: 'Captions' },
+      { name: 'Border',               token: '--slsa-color-border',               value: '#E5E7EB', role: 'Dividers' },
     ],
     typography: [
-      { name: 'Base size',      token: '--ulge-font-size-base',      value: '16px' },
-      { name: 'Body weight',    token: '--ulge-font-weight-body',    value: '400' },
-      { name: 'Heading weight', token: '--ulge-font-weight-heading', value: '600' },
+      { name: 'Base size',      token: '--slsa-font-size-base',      value: '16px' },
+      { name: 'Body weight',    token: '--slsa-font-weight-body',    value: '400' },
+      { name: 'Heading weight', token: '--slsa-font-weight-heading', value: '600' },
     ],
     radius: [
-      { name: 'Default', token: '--ulge-radius-default', value: '16px' },
-      { name: 'Small',   token: '--ulge-radius-sm',      value: '8px' },
-      { name: 'Pill',    token: '--ulge-radius-pill',    value: '9999px' },
+      { name: 'Default', token: '--slsa-radius-default', value: '16px' },
+      { name: 'Small',   token: '--slsa-radius-sm',      value: '8px' },
+      { name: 'Pill',    token: '--slsa-radius-pill',    value: '9999px' },
     ],
     icons: [
-      { name: 'SM', token: '--ulge-icon-sm', value: '16px' },
-      { name: 'MD', token: '--ulge-icon-md', value: '20px (default)' },
-      { name: 'LG', token: '--ulge-icon-lg', value: '24px' },
+      { name: 'SM', token: '--slsa-icon-sm', value: '16px' },
+      { name: 'MD', token: '--slsa-icon-md', value: '20px (default)' },
+      { name: 'LG', token: '--slsa-icon-lg', value: '24px' },
     ],
   },
   {
@@ -314,7 +314,7 @@ const platformMatrix = [
   { product: 'Technocracy',     web: true,  rn: false, ios: false, android: false, watch: false, widgets: false },
   { product: 'Lemniscate',      web: true,  rn: false, ios: false, android: false, watch: false, widgets: false },
   { product: 'Maligai Manager', web: true,  rn: true,  ios: true,  android: true,  watch: false, widgets: false },
-  { product: 'Ulagellam',       web: false, rn: true,  ios: true,  android: true,  watch: false, widgets: false },
+  { product: 'Smart Life-Style App', web: false, rn: true,  ios: true,  android: true,  watch: false, widgets: false },
   { product: 'Kaayo',          web: true,  rn: true,  ios: true,  android: true,  watch: false, widgets: false },
   { product: 'Ilakh',           web: true,  rn: true,  ios: true,  android: true,  watch: false, widgets: false },
   { product: 'Yakaizen',        web: false, rn: true,  ios: true,  android: true,  watch: true,  widgets: true  },
@@ -411,87 +411,71 @@ function TokenTable({
   );
 }
 
-type UlagellamSubTab = 'kaayo' | 'ilakh' | 'ulagellam';
-
-const ULAGELLAM_SUBS: { id: UlagellamSubTab; label: string; accent: string }[] = [
-  { id: 'kaayo',     label: '🎓 Kaayo (Tutor Ops)',   accent: '#970103' },
-  { id: 'ilakh',     label: '📈 Ilakh (Finance)',      accent: '#0369A1' },
-  { id: 'ulagellam', label: '🗺️ Ulagellam (Explorer)', accent: '#7C3AED' },
-];
-
-function UlagellamTokenTabs({ products }: { products: Product[] }) {
-  const [subTab, setSubTab] = useState<UlagellamSubTab>('kaayo');
-  const product = products.find(p => p.id === subTab) ?? products.find(p => p.id === 'ulagellam')!;
-  const isPlaceholderProduct = (id: string) => ['maligai', 'ulagellam', 'ilakh', 'yakaizen', 'kaayo'].includes(id);
+function ProductTokenReference() {
+  const { activeProduct, setActiveProduct } = useProductTheme();
+  const product = products.find(p => p.id === activeProduct) ?? products[0];
 
   return (
-    <div className="mt-0 space-y-8">
-      <div className="flex gap-2 flex-wrap">
-        {ULAGELLAM_SUBS.map((sub) => {
-          const isActive = subTab === sub.id;
-          return (
-            <button
-              key={sub.id}
-              onClick={() => setSubTab(sub.id)}
-              className={`px-4 py-1.5 rounded-full text-sm font-semibold border-2 transition-colors ${
-                isActive ? 'text-white' : 'bg-transparent text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700'
-              }`}
-              style={{
-                borderColor: isActive ? sub.accent : undefined,
-                backgroundColor: isActive ? sub.accent : undefined,
-              }}
-            >
-              {sub.label}
-            </button>
-          );
-        })}
-      </div>
-
-      <div className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-950 lg:flex-row lg:items-start lg:justify-between">
-        <div>
-          <p className="m-0 text-slate-900 dark:text-slate-100" style={{ fontWeight: 700, fontSize: '1rem' }}>
-            {product.label}
-          </p>
-          <p className="m-0 mt-2 max-w-2xl text-slate-500 dark:text-slate-400" style={{ fontSize: '0.9rem', lineHeight: 1.7 }}>
-            {product.description}
-          </p>
-          {isPlaceholderProduct(product.id) && (
-            <Badge variant="outline" className="mt-3 text-amber-600 border-amber-300">
-              Pending design kickoff — token values are placeholders
+    <div>
+      <ProductTabs
+        active={activeProduct}
+        onChange={setActiveProduct}
+        className="mb-8"
+      />
+      <div className="space-y-8">
+    <div className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-950 lg:flex-row lg:items-start lg:justify-between">
+      <div>
+        <p className="m-0 text-slate-900 dark:text-slate-100" style={{ fontWeight: 700, fontSize: '1rem' }}>
+          {product.label}
+        </p>
+        <p className="m-0 mt-2 max-w-2xl text-slate-500 dark:text-slate-400" style={{ fontSize: '0.9rem', lineHeight: 1.7 }}>
+          {product.description}
+        </p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {product.platforms.map((platform) => (
+            <Badge key={platform} variant="secondary">
+              {platform}
             </Badge>
-          )}
-        </div>
-        <div className="flex flex-wrap gap-2 shrink-0">
-          {product.platforms.map(p => (
-            <Badge key={p} variant="secondary" className="text-xs">{p}</Badge>
           ))}
         </div>
       </div>
+      <div className="rounded-xl bg-slate-50 px-4 py-3 text-slate-600 dark:bg-slate-900 dark:text-slate-300" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.82rem' }}>
+        prefix: {product.prefix}--
+        <div className="mt-1 text-slate-400 dark:text-slate-500">surface: {product.surface}</div>
+      </div>
+    </div>
 
-      {product.colors.length > 0 && (
-        <div>
-          <h3 className="m-0 mb-4 text-slate-900 dark:text-white" style={{ fontWeight: 700, fontSize: '1rem' }}>Colors</h3>
-          <TokenTable rows={product.colors} showSwatch showRole />
-        </div>
-      )}
-      {product.typography.length > 0 && (
-        <div>
-          <h3 className="m-0 mb-4 text-slate-900 dark:text-white" style={{ fontWeight: 700, fontSize: '1rem' }}>Typography</h3>
-          <TokenTable rows={product.typography} />
-        </div>
-      )}
-      {product.radius.length > 0 && (
-        <div>
-          <h3 className="m-0 mb-4 text-slate-900 dark:text-white" style={{ fontWeight: 700, fontSize: '1rem' }}>Radius</h3>
-          <TokenTable rows={product.radius} />
-        </div>
-      )}
-      {product.icons.length > 0 && (
-        <div>
-          <h3 className="m-0 mb-4 text-slate-900 dark:text-white" style={{ fontWeight: 700, fontSize: '1rem' }}>Icons</h3>
-          <TokenTable rows={product.icons} />
-        </div>
-      )}
+    <div>
+      <h3 className="m-0 mb-3 text-slate-900 dark:text-white" style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '1rem' }}>
+        Colors
+      </h3>
+      <TokenTable rows={product.colors} showSwatch showRole />
+    </div>
+
+    <div className="grid gap-6 lg:grid-cols-2">
+      <div>
+        <h3 className="m-0 mb-3 text-slate-900 dark:text-white" style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '1rem' }}>
+          Typography
+        </h3>
+        <TokenTable rows={product.typography} />
+      </div>
+      <div>
+        <h3 className="m-0 mb-3 text-slate-900 dark:text-white" style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '1rem' }}>
+          Icon Sizes
+        </h3>
+        <TokenTable rows={product.icons} />
+      </div>
+    </div>
+
+    {product.radius.length > 0 && (
+      <div>
+        <h3 className="m-0 mb-3 text-slate-900 dark:text-white" style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '1rem' }}>
+          Border Radius
+        </h3>
+        <TokenTable rows={product.radius} />
+      </div>
+    )}
+      </div>
     </div>
   );
 }
@@ -577,88 +561,7 @@ export function DesignTokensPage() {
           </p>
         </div>
 
-        {(() => {
-          const isPlaceholder = (id: string) =>
-            ['maligai', 'ulagellam', 'ilakh', 'yakaizen'].includes(id);
-
-          return (
-        <Tabs defaultValue="lemniscate">
-          <TabsList className="mb-6 h-auto flex-wrap justify-start gap-2 rounded-xl bg-slate-100 p-2 dark:bg-slate-900">
-            {products.filter(p => p.id !== 'kaayo' && p.id !== 'ilakh').map((p) => (
-              <TabsTrigger key={p.id} value={p.id} className="flex items-center gap-2 rounded-lg px-4 py-2">
-                {p.label}
-                {isPlaceholder(p.id) && (
-                  <Badge variant="outline" className="text-[10px] py-0 h-4 text-muted-foreground">
-                    Pending kickoff
-                  </Badge>
-                )}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-
-          <TabsContent key="ulagellam" value="ulagellam" className="mt-0">
-            <UlagellamTokenTabs products={products} />
-          </TabsContent>
-
-          {products.filter(p => p.id !== 'ulagellam' && p.id !== 'kaayo' && p.id !== 'ilakh').map((product) => (
-            <TabsContent key={product.id} value={product.id} className="mt-0 space-y-8">
-              <div className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-950 lg:flex-row lg:items-start lg:justify-between">
-                <div>
-                  <p className="m-0 text-slate-900 dark:text-slate-100" style={{ fontWeight: 700, fontSize: '1rem' }}>
-                    {product.label}
-                  </p>
-                  <p className="m-0 mt-2 max-w-2xl text-slate-500 dark:text-slate-400" style={{ fontSize: '0.9rem', lineHeight: 1.7 }}>
-                    {product.description}
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {product.platforms.map((platform) => (
-                      <Badge key={platform} variant="secondary">
-                        {platform}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-                <div className="rounded-xl bg-slate-50 px-4 py-3 text-slate-600 dark:bg-slate-900 dark:text-slate-300" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.82rem' }}>
-                  prefix: {product.prefix}--
-                  <div className="mt-1 text-slate-400 dark:text-slate-500">surface: {product.surface}</div>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="m-0 mb-3 text-slate-900 dark:text-white" style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '1rem' }}>
-                  Colors
-                </h3>
-                <TokenTable rows={product.colors} showSwatch showRole />
-              </div>
-
-              <div className="grid gap-6 lg:grid-cols-2">
-                <div>
-                  <h3 className="m-0 mb-3 text-slate-900 dark:text-white" style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '1rem' }}>
-                    Typography
-                  </h3>
-                  <TokenTable rows={product.typography} />
-                </div>
-                <div>
-                  <h3 className="m-0 mb-3 text-slate-900 dark:text-white" style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '1rem' }}>
-                    Icon Sizes
-                  </h3>
-                  <TokenTable rows={product.icons} />
-                </div>
-              </div>
-
-              {product.radius.length > 0 && (
-                <div>
-                  <h3 className="m-0 mb-3 text-slate-900 dark:text-white" style={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '1rem' }}>
-                    Border Radius
-                  </h3>
-                  <TokenTable rows={product.radius} />
-                </div>
-              )}
-            </TabsContent>
-          ))}
-        </Tabs>
-          );
-        })()}
+        <ProductTokenReference />
       </section>
 
       <section className="mb-12">

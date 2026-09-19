@@ -1,0 +1,36 @@
+/* Maligai Manager theme — grocery & retail, mobile primary.
+   Import once in your app's global CSS. Includes the Aumraa primitives,
+   Maligai brand tokens, and the semantic variable mapping components read.
+   Mirrors the var set in kaayo.css — keep the two in step when adding a var.
+   Maligai has no card/popover/input tokens of its own, and no gradient pair:
+   surfaces fall back to background + border, the gradient runs primary → secondary. */
+@import './tokens/aumraa.css';
+@import './tokens/maligai.css';
+
+:root {
+  --primary: var(--mlgm-color-primary);
+  --primary-foreground: var(--mlgm-color-primary-foreground);
+  --secondary: var(--mlgm-color-background-secondary);
+  --secondary-foreground: var(--mlgm-color-foreground);
+  --accent: var(--mlgm-color-tertiary);
+  --accent-foreground: var(--mlgm-color-tertiary-foreground);
+  --background: var(--mlgm-color-background);
+  --foreground: var(--mlgm-color-foreground);
+  --muted: var(--mlgm-color-background-tertiary);
+  --muted-foreground: var(--mlgm-color-foreground-secondary);
+  --border: var(--mlgm-color-border);
+  --ring: var(--mlgm-color-primary);
+  --radius: var(--mlgm-radius-default);
+  --destructive: var(--mlgm-color-negative);
+  --destructive-foreground: var(--mlgm-color-negative-foreground);
+  --card: var(--mlgm-color-background);
+  --card-foreground: var(--mlgm-color-foreground);
+  --popover: var(--mlgm-color-background);
+  --popover-foreground: var(--mlgm-color-foreground);
+  --input: var(--mlgm-color-border);
+  --input-background: var(--mlgm-color-background);
+  --switch-background: var(--mlgm-color-background-secondary);
+  --gradient-brand-start: var(--mlgm-color-primary);
+  --gradient-brand-end: var(--mlgm-color-secondary);
+  --gradient-brand: linear-gradient(135deg, var(--gradient-brand-start) 0%, var(--gradient-brand-end) 100%);
+}

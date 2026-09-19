@@ -1,0 +1,35 @@
+/* Aumraa theme — studio brand (green primary, Source Sans 3).
+   Import once in your app's global CSS. Includes the Aumraa primitives,
+   brand tokens, and the semantic variable mapping components read.
+   Mirrors the var set in kaayo.css — keep the two in step when adding a var.
+   Aumraa has no card/popover/input/muted tokens of its own; those fall back to
+   the background + border pair, same as Kaayo. */
+@import './tokens/aumraa.css';
+
+:root {
+  --primary: var(--amra-color-primary);
+  --primary-foreground: var(--amra-color-primary-foreground);
+  --secondary: var(--amra-color-background-secondary);
+  --secondary-foreground: var(--amra-color-foreground);
+  --accent: var(--amra-color-secondary);
+  --accent-foreground: var(--amra-color-secondary-foreground);
+  --background: var(--amra-color-background);
+  --foreground: var(--amra-color-foreground);
+  --muted: var(--amra-color-background-secondary);
+  --muted-foreground: var(--amra-color-foreground-secondary);
+  --border: var(--amra-color-border);
+  --ring: var(--amra-color-primary);
+  --radius: var(--amra-radius-default);
+  --destructive: var(--amra-color-danger);
+  --destructive-foreground: var(--color-neutral-white);
+  --card: var(--amra-color-background);
+  --card-foreground: var(--amra-color-foreground);
+  --popover: var(--amra-color-background);
+  --popover-foreground: var(--amra-color-foreground);
+  --input: var(--amra-color-border);
+  --input-background: var(--amra-color-background);
+  --switch-background: var(--amra-color-background-secondary);
+  --gradient-brand-start: var(--amra-color-gradient-start);
+  --gradient-brand-end: var(--amra-color-gradient-end);
+  --gradient-brand: linear-gradient(135deg, var(--gradient-brand-start) 0%, var(--gradient-brand-end) 100%);
+}

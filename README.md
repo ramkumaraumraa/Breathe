@@ -4,15 +4,18 @@ Single source of truth for all visual decisions across every Aumraa Technologies
 
 ## Products
 
-| Product | Prefix | Web | RN | iOS | Android | Watch | Widgets | Status |
+Stage names match the product tabs on the docs site (`STAGE_MARKS` in `src/app/components/shared/ProductTabs.tsx`).
+
+| Product | Prefix | Web | RN | iOS | Android | Watch | Widgets | Stage |
 |---|---|---|---|---|---|---|---|---|
-| Aumraa | `amra` | ✓ | — | — | — | — | — | Active |
-| Technocracy | `thcy` | ✓ | — | — | — | — | — | Active |
-| Lemniscate | `lmns` | ✓ | ✓ | — | — | — | — | Active |
-| Maligai Manager | `mlgm` | ✓ | ✓ | ✓ | ✓ | — | — | Pending kickoff |
-| Ulagellam | `ulge` | — | ✓ | ✓ | ✓ | — | — | Pending kickoff |
-| Ilakh | `ilkh` | ✓ | ✓ | ✓ | ✓ | — | — | Pending kickoff |
-| Yakaizen | `ykai` | — | ✓ | ✓ | ✓ | ✓ | ✓ | Pending kickoff (Oct 2026) |
+| Aumraa | `amra` | ✓ | — | — | — | — | — | Base brand |
+| Technocracy | `thcy` | ✓ | — | — | — | — | — | Internal |
+| Leminiscate | `lmns` | ✓ | ✓ | — | — | — | — | Live |
+| Kaayo | `kayo` | ✓ | ✓ | ✓ | ✓ | — | — | Live |
+| Maligai Manager | `mlgm` | ✓ | ✓ | ✓ | ✓ | — | — | Next |
+| Ilakh | `ilkh` | ✓ | ✓ | ✓ | ✓ | — | — | Next |
+| Yakaizen | `ykai` | — | ✓ | ✓ | ✓ | ✓ | ✓ | Yet to start |
+| Smart Life-Style App | `slsa` | — | — | — | — | — | — | Yet to start (no tokens yet) |
 
 ## Token pipeline
 
@@ -20,7 +23,7 @@ All tokens are defined once in JSON and built by Style Dictionary
 into platform-specific outputs automatically.
 
 ```bash
-pnpm tokens        # build all token outputs for all 7 products
+pnpm tokens        # build all token outputs for all 7 products with tokens
 pnpm tokens:watch  # rebuild on change
 pnpm dev           # run documentation site
 pnpm build         # production build of docs site
@@ -37,7 +40,7 @@ tokens/
 │   ├── technocracy.json
 │   ├── lemniscate.json
 │   ├── maligai.json
-│   ├── ulagellam.json
+│   ├── kaayo.json
 │   ├── ilakh.json
 │   └── yakaizen.json
 └── dist/                 ← generated outputs — commit these, never edit

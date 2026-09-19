@@ -1,0 +1,36 @@
+/* Ilakh theme — goal tracking & personal finance, web + mobile.
+   Import once in your app's global CSS. Includes the Aumraa primitives,
+   Ilakh brand tokens, and the semantic variable mapping components read.
+   Mirrors the var set in kaayo.css — keep the two in step when adding a var.
+   Ilakh has no card/popover/input tokens of its own, and no gradient pair:
+   surfaces fall back to background + border, the gradient runs primary → secondary. */
+@import './tokens/aumraa.css';
+@import './tokens/ilakh.css';
+
+:root {
+  --primary: var(--ilkh-color-primary);
+  --primary-foreground: var(--ilkh-color-primary-foreground);
+  --secondary: var(--ilkh-color-background-secondary);
+  --secondary-foreground: var(--ilkh-color-foreground);
+  --accent: var(--ilkh-color-tertiary);
+  --accent-foreground: var(--ilkh-color-tertiary-foreground);
+  --background: var(--ilkh-color-background);
+  --foreground: var(--ilkh-color-foreground);
+  --muted: var(--ilkh-color-background-tertiary);
+  --muted-foreground: var(--ilkh-color-foreground-secondary);
+  --border: var(--ilkh-color-border);
+  --ring: var(--ilkh-color-primary);
+  --radius: var(--ilkh-radius-default);
+  --destructive: var(--ilkh-color-negative);
+  --destructive-foreground: var(--ilkh-color-negative-foreground);
+  --card: var(--ilkh-color-background);
+  --card-foreground: var(--ilkh-color-foreground);
+  --popover: var(--ilkh-color-background);
+  --popover-foreground: var(--ilkh-color-foreground);
+  --input: var(--ilkh-color-border);
+  --input-background: var(--ilkh-color-background);
+  --switch-background: var(--ilkh-color-background-secondary);
+  --gradient-brand-start: var(--ilkh-color-primary);
+  --gradient-brand-end: var(--ilkh-color-secondary);
+  --gradient-brand: linear-gradient(135deg, var(--gradient-brand-start) 0%, var(--gradient-brand-end) 100%);
+}

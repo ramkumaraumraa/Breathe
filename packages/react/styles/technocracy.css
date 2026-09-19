@@ -1,0 +1,37 @@
+/* Technocracy theme — internal admin dashboard (permanent dark surfaces).
+   Import once in your app's global CSS. Includes the Aumraa primitives,
+   Technocracy brand tokens, and the semantic variable mapping components read.
+   Mirrors the var set in kaayo.css — keep the two in step when adding a var.
+   Technocracy has no accent/negative/gradient tokens: --accent comes from
+   tertiary, --destructive from signal-red, and the brand gradient is built from
+   primary → secondary. */
+@import './tokens/aumraa.css';
+@import './tokens/technocracy.css';
+
+:root {
+  --primary: var(--thcy-color-primary);
+  --primary-foreground: var(--thcy-color-primary-foreground);
+  --secondary: var(--thcy-color-background-secondary);
+  --secondary-foreground: var(--thcy-color-foreground);
+  --accent: var(--thcy-color-tertiary);
+  --accent-foreground: var(--thcy-color-tertiary-foreground);
+  --background: var(--thcy-color-background);
+  --foreground: var(--thcy-color-foreground);
+  --muted: var(--thcy-color-background-secondary);
+  --muted-foreground: var(--thcy-color-foreground-secondary);
+  --border: var(--thcy-color-border);
+  --ring: var(--thcy-color-primary);
+  --radius: var(--thcy-radius-default);
+  --destructive: var(--thcy-color-signal-red);
+  --destructive-foreground: var(--color-neutral-white);
+  --card: var(--thcy-color-background-secondary);
+  --card-foreground: var(--thcy-color-foreground);
+  --popover: var(--thcy-color-background-secondary);
+  --popover-foreground: var(--thcy-color-foreground);
+  --input: var(--thcy-color-border);
+  --input-background: var(--thcy-color-background-secondary);
+  --switch-background: var(--thcy-color-border-strong);
+  --gradient-brand-start: var(--thcy-color-primary);
+  --gradient-brand-end: var(--thcy-color-secondary);
+  --gradient-brand: linear-gradient(135deg, var(--gradient-brand-start) 0%, var(--gradient-brand-end) 100%);
+}

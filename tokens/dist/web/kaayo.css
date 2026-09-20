@@ -124,51 +124,51 @@
   --color-indigo-925: #130e36;
   --color-indigo-950: #090621;
   --color-indigo-975: #03020e;
-  --color-crimson-25: #fdf2f3; /** Kaayo primary — Tutor Crimson */
-  --color-crimson-50: #fad5d6;
-  --color-crimson-75: #f6b8ba;
-  --color-crimson-100: #f29d9f;
-  --color-crimson-200: #ea6b6e;
-  --color-crimson-300: #e14144;
-  --color-crimson-400: #c31e21;
+  --color-crimson-25: #fbf5f5; /** Kaayo primary — Tutor Crimson */
+  --color-crimson-50: #eacccd;
+  --color-crimson-75: #e2b8b8;
+  --color-crimson-100: #daa4a4;
+  --color-crimson-200: #c97b7c;
+  --color-crimson-300: #b85254;
+  --color-crimson-400: #a82a2b;
   --color-crimson-500: #970103; /** Kaayo primary root */
-  --color-crimson-600: #740102;
-  --color-crimson-700: #570001;
-  --color-crimson-800: #3f0000;
-  --color-crimson-900: #2b0000;
-  --color-crimson-925: #200000;
-  --color-crimson-950: #160000;
-  --color-crimson-975: #0e0000;
-  --color-peach-25: #fffdfb; /** Kaayo secondary — Warm Peach */
-  --color-peach-50: #fff3ed;
-  --color-peach-75: #ffe4d8;
-  --color-peach-100: #fed3c1;
-  --color-peach-200: #fdbba1;
-  --color-peach-300: #fca78b;
-  --color-peach-400: #fd9271;
+  --color-crimson-600: #830507;
+  --color-crimson-700: #6f090c;
+  --color-crimson-800: #5b0d10;
+  --color-crimson-900: #461215;
+  --color-crimson-925: #3c1417;
+  --color-crimson-950: #321619;
+  --color-crimson-975: #28181c;
+  --color-peach-25: #fff4f0; /** Kaayo secondary — Warm Peach */
+  --color-peach-50: #ffede6;
+  --color-peach-75: #fee6dc;
+  --color-peach-100: #fedfd2;
+  --color-peach-200: #fed0bd;
+  --color-peach-300: #fec2a9;
+  --color-peach-400: #fdb395;
   --color-peach-500: #fda581; /** Kaayo secondary root */
-  --color-peach-600: #e38865;
-  --color-peach-700: #c96d4b;
-  --color-peach-800: #ae5333;
-  --color-peach-900: #943c1d;
-  --color-peach-925: #7d2a0d;
-  --color-peach-950: #641d06;
-  --color-peach-975: #471101;
-  --color-navy-25: #eff1f5; /** Kaayo tertiary — Deep Navy */
-  --color-navy-50: #dde1ec;
-  --color-navy-75: #cbd1e2;
-  --color-navy-100: #b9c0d7;
-  --color-navy-200: #96a1c0;
-  --color-navy-300: #7583a8;
-  --color-navy-400: #55668f;
+  --color-peach-600: #d98f71;
+  --color-peach-700: #b47962;
+  --color-peach-800: #906352;
+  --color-peach-900: #6b4d42;
+  --color-peach-925: #59423a;
+  --color-peach-950: #473733;
+  --color-peach-975: #342c2b;
+  --color-navy-25: #e7e8eb; /** Kaayo tertiary — Deep Navy */
+  --color-navy-50: #d7d9de;
+  --color-navy-75: #c7cad1;
+  --color-navy-100: #b7bbc4;
+  --color-navy-200: #979caa;
+  --color-navy-300: #777e90;
+  --color-navy-400: #575f76;
   --color-navy-500: #37415c; /** Kaayo tertiary root */
-  --color-navy-600: #2d354b;
-  --color-navy-700: #232a3b;
-  --color-navy-800: #1a202d;
-  --color-navy-900: #12161f;
-  --color-navy-925: #0d1016;
-  --color-navy-950: #080a0e;
-  --color-navy-975: #040507;
+  --color-navy-600: #323b52;
+  --color-navy-700: #2d3548;
+  --color-navy-800: #292f3f;
+  --color-navy-900: #242935;
+  --color-navy-925: #212630;
+  --color-navy-950: #1f232b;
+  --color-navy-975: #1d2026;
   --color-neutral-25: #ffffff; /** L*100 — pure white anchor. Page surfaces. */
   --color-neutral-50: #f8f8f8; /** L*97.6 — secondary surfaces, subtle fills */
   --color-neutral-75: #f0f1f1; /** L*95.1 — tertiary surfaces, hover fills */
@@ -291,8 +291,8 @@
   --duration-normal: 200ms;
   --duration-slow: 300ms;
   --kayo-color-primary: #970103;
-  --kayo-color-primary-light: #e14144;
-  --kayo-color-primary-dark: #570001;
+  --kayo-color-primary-light: #b85254;
+  --kayo-color-primary-dark: #6f090c;
   --kayo-color-primary-foreground: #ffffff;
   --kayo-color-secondary: #fda581;
   --kayo-color-secondary-foreground: #ffffff;
@@ -303,13 +303,15 @@
   --kayo-color-foreground: #3a3b3f;
   --kayo-color-foreground-secondary: #757678;
   --kayo-color-border: #3a3b3f;
-  --kayo-color-positive: #01971a; /** Bespoke — Kaayo runs its own green, not color.status.success */
+  --kayo-color-positive: #01971a;
   --kayo-color-positive-foreground: #ffffff;
   --kayo-color-negative: #dc2626;
   --kayo-color-negative-foreground: #ffffff;
-  --kayo-color-warning: #f5590b; /** Bespoke — Kaayo Alert, not color.status.warning */
+  --kayo-color-warning: #f5590b; /** Figma calls this Alert */
   --kayo-color-gradient-start: #970103;
   --kayo-color-gradient-end: #fda581;
+  --kayo-color-supportive: #266fdc;
+  --kayo-color-supportive-foreground: #ffffff;
   --kayo-font-size-base: 16px;
   --kayo-font-weight-body: 400;
   --kayo-font-weight-heading: 700;
@@ -326,4 +328,64 @@
   --kayo-icon-sm: 16px;
   --kayo-icon-md: 20px;
   --kayo-icon-lg: 24px;
+  --kayo-palette-positive-25: #e1f3e4; /** Kaayo-only ramp. Figma Kaayo/Colors > Positive */
+  --kayo-palette-positive-50: #ccead1;
+  --kayo-palette-positive-75: #b8e2bf;
+  --kayo-palette-positive-100: #a4daad;
+  --kayo-palette-positive-200: #7bc988;
+  --kayo-palette-positive-300: #52b863;
+  --kayo-palette-positive-400: #2aa83f;
+  --kayo-palette-positive-500: #01971a;
+  --kayo-palette-positive-600: #05831b;
+  --kayo-palette-positive-700: #096f1c;
+  --kayo-palette-positive-800: #0d5b1c;
+  --kayo-palette-positive-900: #10481d;
+  --kayo-palette-positive-925: #123e1e;
+  --kayo-palette-positive-950: #14341e;
+  --kayo-palette-positive-975: #162a1e;
+  --kayo-palette-alert-25: #feebe2; /** Kaayo-only ramp. Figma Kaayo/Colors > Alert */
+  --kayo-palette-alert-50: #fddece;
+  --kayo-palette-alert-75: #fcd1bb;
+  --kayo-palette-alert-100: #fbc3a7;
+  --kayo-palette-alert-200: #faa980;
+  --kayo-palette-alert-300: #f88e59;
+  --kayo-palette-alert-400: #f77432;
+  --kayo-palette-alert-500: #f5590b;
+  --kayo-palette-alert-600: #d24f0e;
+  --kayo-palette-alert-700: #af4511;
+  --kayo-palette-alert-800: #8b3b15;
+  --kayo-palette-alert-900: #683118;
+  --kayo-palette-alert-925: #572c19;
+  --kayo-palette-alert-950: #45271b;
+  --kayo-palette-alert-975: #33221d;
+  --kayo-palette-negative-25: #fbe5e5; /** Kaayo-only ramp. Figma Kaayo/Colors > Negative */
+  --kayo-palette-negative-50: #f8d4d4;
+  --kayo-palette-negative-75: #f5c2c2;
+  --kayo-palette-negative-100: #f2b1b1;
+  --kayo-palette-negative-200: #ed8e8e;
+  --kayo-palette-negative-300: #e76b6b;
+  --kayo-palette-negative-400: #e24949;
+  --kayo-palette-negative-500: #dc2626;
+  --kayo-palette-negative-600: #bd2425;
+  --kayo-palette-negative-700: #9e2224;
+  --kayo-palette-negative-800: #7e2123;
+  --kayo-palette-negative-900: #5f1f22;
+  --kayo-palette-negative-925: #501e21;
+  --kayo-palette-negative-950: #401d20;
+  --kayo-palette-negative-975: #301c20;
+  --kayo-palette-supportive-25: #e5eefb; /** Kaayo-only ramp. Figma Kaayo/Colors > Supportive */
+  --kayo-palette-supportive-50: #d4e2f8;
+  --kayo-palette-supportive-75: #c2d7f5;
+  --kayo-palette-supportive-100: #b1cbf2;
+  --kayo-palette-supportive-200: #8eb4ed;
+  --kayo-palette-supportive-300: #6b9de7;
+  --kayo-palette-supportive-400: #4986e2;
+  --kayo-palette-supportive-500: #266fdc;
+  --kayo-palette-supportive-600: #2461be;
+  --kayo-palette-supportive-700: #2254a0;
+  --kayo-palette-supportive-800: #204781;
+  --kayo-palette-supportive-900: #1e3963;
+  --kayo-palette-supportive-925: #1d3254;
+  --kayo-palette-supportive-950: #1c2c45;
+  --kayo-palette-supportive-975: #1b2536;
 }

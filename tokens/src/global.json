@@ -1,284 +1,1046 @@
 {
   "color": {
     "blue": {
-      "25": { "value": "#E8EFFE", "type": "color" },
-      "50": { "value": "#D2DFF3", "type": "color" },
-      "75": { "value": "#BFCFED", "type": "color" },
-      "100": { "value": "#ADC6E9", "type": "color" },
-      "200": { "value": "#89ACDF", "type": "color" },
-      "300": { "value": "#6593D5", "type": "color" },
-      "400": { "value": "#4079CB", "type": "color" },
-      "500": { "value": "#1C60C1", "type": "color", "comment": "Lemniscate primary dark blue root" },
-      "600": { "value": "#1C55A7", "type": "color" },
-      "700": { "value": "#1B4A8D", "type": "color" },
-      "800": { "value": "#1B3F73", "type": "color" },
-      "900": { "value": "#1A3459", "type": "color" },
-      "925": { "value": "#162A48", "type": "color" },
-      "950": { "value": "#111C2A", "type": "color" },
-      "975": { "value": "#081018", "type": "color" }
+      "25": {
+        "value": "#E8EFFE",
+        "type": "color"
+      },
+      "50": {
+        "value": "#D2DFF3",
+        "type": "color"
+      },
+      "75": {
+        "value": "#BFCFED",
+        "type": "color"
+      },
+      "100": {
+        "value": "#ADC6E9",
+        "type": "color"
+      },
+      "200": {
+        "value": "#89ACDF",
+        "type": "color"
+      },
+      "300": {
+        "value": "#6593D5",
+        "type": "color"
+      },
+      "400": {
+        "value": "#4079CB",
+        "type": "color"
+      },
+      "500": {
+        "value": "#1C60C1",
+        "type": "color",
+        "comment": "Lemniscate primary dark blue root"
+      },
+      "600": {
+        "value": "#1C55A7",
+        "type": "color"
+      },
+      "700": {
+        "value": "#1B4A8D",
+        "type": "color"
+      },
+      "800": {
+        "value": "#1B3F73",
+        "type": "color"
+      },
+      "900": {
+        "value": "#1A3459",
+        "type": "color"
+      },
+      "925": {
+        "value": "#162A48",
+        "type": "color"
+      },
+      "950": {
+        "value": "#111C2A",
+        "type": "color"
+      },
+      "975": {
+        "value": "#081018",
+        "type": "color"
+      }
     },
     "sky": {
-      "25": { "value": "#EBF7FB", "type": "color" },
-      "50": { "value": "#D9EEF6", "type": "color" },
-      "75": { "value": "#C6E6F2", "type": "color" },
-      "100": { "value": "#BAE0F0", "type": "color" },
-      "200": { "value": "#9CD3E9", "type": "color" },
-      "300": { "value": "#7DC5E2", "type": "color" },
-      "400": { "value": "#5FB8DB", "type": "color" },
-      "500": { "value": "#40AAD4", "type": "color", "comment": "Lemniscate secondary sky blue root" },
-      "600": { "value": "#3A93B7", "type": "color" },
-      "700": { "value": "#347C9A", "type": "color" },
-      "800": { "value": "#2D657D", "type": "color" },
-      "900": { "value": "#274E60", "type": "color" },
-      "925": { "value": "#1E3D4C", "type": "color" },
-      "950": { "value": "#152530", "type": "color" },
-      "975": { "value": "#08131A", "type": "color" }
+      "25": {
+        "value": "#EBF7FB",
+        "type": "color"
+      },
+      "50": {
+        "value": "#D9EEF6",
+        "type": "color"
+      },
+      "75": {
+        "value": "#C6E6F2",
+        "type": "color"
+      },
+      "100": {
+        "value": "#BAE0F0",
+        "type": "color"
+      },
+      "200": {
+        "value": "#9CD3E9",
+        "type": "color"
+      },
+      "300": {
+        "value": "#7DC5E2",
+        "type": "color"
+      },
+      "400": {
+        "value": "#5FB8DB",
+        "type": "color"
+      },
+      "500": {
+        "value": "#40AAD4",
+        "type": "color",
+        "comment": "Lemniscate secondary sky blue root"
+      },
+      "600": {
+        "value": "#3A93B7",
+        "type": "color"
+      },
+      "700": {
+        "value": "#347C9A",
+        "type": "color"
+      },
+      "800": {
+        "value": "#2D657D",
+        "type": "color"
+      },
+      "900": {
+        "value": "#274E60",
+        "type": "color"
+      },
+      "925": {
+        "value": "#1E3D4C",
+        "type": "color"
+      },
+      "950": {
+        "value": "#152530",
+        "type": "color"
+      },
+      "975": {
+        "value": "#08131A",
+        "type": "color"
+      }
     },
     "orange": {
-      "25": { "value": "#FEF3EB", "type": "color" },
-      "50": { "value": "#FBE6D2", "type": "color" },
-      "75": { "value": "#F9D5BB", "type": "color" },
-      "100": { "value": "#F9C8AD", "type": "color" },
-      "200": { "value": "#F6AF89", "type": "color" },
-      "300": { "value": "#F39665", "type": "color" },
-      "400": { "value": "#F07E40", "type": "color" },
-      "500": { "value": "#ED651C", "type": "color", "comment": "Lemniscate tertiary orange root" },
-      "600": { "value": "#CB591C", "type": "color" },
-      "700": { "value": "#A94D1D", "type": "color" },
-      "800": { "value": "#87411D", "type": "color" },
-      "900": { "value": "#65361E", "type": "color" },
-      "925": { "value": "#4F2C18", "type": "color" },
-      "950": { "value": "#432A1E", "type": "color" },
-      "975": { "value": "#2C1A10", "type": "color" }
+      "25": {
+        "value": "#FEF3EB",
+        "type": "color"
+      },
+      "50": {
+        "value": "#FBE6D2",
+        "type": "color"
+      },
+      "75": {
+        "value": "#F9D5BB",
+        "type": "color"
+      },
+      "100": {
+        "value": "#F9C8AD",
+        "type": "color"
+      },
+      "200": {
+        "value": "#F6AF89",
+        "type": "color"
+      },
+      "300": {
+        "value": "#F39665",
+        "type": "color"
+      },
+      "400": {
+        "value": "#F07E40",
+        "type": "color"
+      },
+      "500": {
+        "value": "#ED651C",
+        "type": "color",
+        "comment": "Lemniscate tertiary orange root"
+      },
+      "600": {
+        "value": "#CB591C",
+        "type": "color"
+      },
+      "700": {
+        "value": "#A94D1D",
+        "type": "color"
+      },
+      "800": {
+        "value": "#87411D",
+        "type": "color"
+      },
+      "900": {
+        "value": "#65361E",
+        "type": "color"
+      },
+      "925": {
+        "value": "#4F2C18",
+        "type": "color"
+      },
+      "950": {
+        "value": "#432A1E",
+        "type": "color"
+      },
+      "975": {
+        "value": "#2C1A10",
+        "type": "color"
+      }
     },
     "green": {
-      "25":     { "value": "#EDFAF1", "type": "color" },
-      "50":     { "value": "#D3F5DC", "type": "color" },
-      "75":     { "value": "#B8EFC6", "type": "color" },
-      "100":    { "value": "#9FE8B3", "type": "color" },
-      "200":    { "value": "#78D98D", "type": "color" },
-      "300":    { "value": "#55CA6C", "type": "color" },
-      "400":    { "value": "#3BB554", "type": "color" },
-      "500":    { "value": "#2F9E44", "type": "color", "comment": "Aumraa primary — forest green" },
-      "600":    { "value": "#288B3B", "type": "color" },
-      "700":    { "value": "#227832", "type": "color" },
-      "800":    { "value": "#1C6429", "type": "color" },
-      "900":    { "value": "#175121", "type": "color" },
-      "925":    { "value": "#123F1A", "type": "color" },
-      "950":    { "value": "#0C2D13", "type": "color" },
-      "975":    { "value": "#061A0B", "type": "color" },
-      "forest": { "value": "#002100", "type": "color", "comment": "Aumraa deep forest black — primary text" }
+      "25": {
+        "value": "#EDFAF1",
+        "type": "color"
+      },
+      "50": {
+        "value": "#D3F5DC",
+        "type": "color"
+      },
+      "75": {
+        "value": "#B8EFC6",
+        "type": "color"
+      },
+      "100": {
+        "value": "#9FE8B3",
+        "type": "color"
+      },
+      "200": {
+        "value": "#78D98D",
+        "type": "color"
+      },
+      "300": {
+        "value": "#55CA6C",
+        "type": "color"
+      },
+      "400": {
+        "value": "#3BB554",
+        "type": "color"
+      },
+      "500": {
+        "value": "#2F9E44",
+        "type": "color",
+        "comment": "Aumraa primary — forest green"
+      },
+      "600": {
+        "value": "#288B3B",
+        "type": "color"
+      },
+      "700": {
+        "value": "#227832",
+        "type": "color"
+      },
+      "800": {
+        "value": "#1C6429",
+        "type": "color"
+      },
+      "900": {
+        "value": "#175121",
+        "type": "color"
+      },
+      "925": {
+        "value": "#123F1A",
+        "type": "color"
+      },
+      "950": {
+        "value": "#0C2D13",
+        "type": "color"
+      },
+      "975": {
+        "value": "#061A0B",
+        "type": "color"
+      },
+      "forest": {
+        "value": "#002100",
+        "type": "color",
+        "comment": "Aumraa deep forest black — primary text"
+      }
     },
     "yellowGreen": {
-      "25": { "value": "#FAFAE6", "type": "color" },
-      "50": { "value": "#F4F4C3", "type": "color" },
-      "75": { "value": "#EEEE9F", "type": "color" },
-      "100": { "value": "#E8E87C", "type": "color" },
-      "200": { "value": "#DEDE55", "type": "color" },
-      "300": { "value": "#D6D63D", "type": "color" },
-      "400": { "value": "#CECF30", "type": "color", "comment": "Aumraa secondary — energised yellow-green" },
-      "500": { "value": "#CFCF2A", "type": "color" },
-      "600": { "value": "#B4B424", "type": "color" },
-      "700": { "value": "#98981E", "type": "color" },
-      "800": { "value": "#7D7D18", "type": "color" },
-      "900": { "value": "#636312", "type": "color" },
-      "925": { "value": "#4E4E0D", "type": "color" },
-      "950": { "value": "#383807", "type": "color" },
-      "975": { "value": "#222201", "type": "color" }
+      "25": {
+        "value": "#FAFAE6",
+        "type": "color"
+      },
+      "50": {
+        "value": "#F4F4C3",
+        "type": "color"
+      },
+      "75": {
+        "value": "#EEEE9F",
+        "type": "color"
+      },
+      "100": {
+        "value": "#E8E87C",
+        "type": "color"
+      },
+      "200": {
+        "value": "#DEDE55",
+        "type": "color"
+      },
+      "300": {
+        "value": "#D6D63D",
+        "type": "color"
+      },
+      "400": {
+        "value": "#CECF30",
+        "type": "color",
+        "comment": "Aumraa secondary — energised yellow-green"
+      },
+      "500": {
+        "value": "#CFCF2A",
+        "type": "color"
+      },
+      "600": {
+        "value": "#B4B424",
+        "type": "color"
+      },
+      "700": {
+        "value": "#98981E",
+        "type": "color"
+      },
+      "800": {
+        "value": "#7D7D18",
+        "type": "color"
+      },
+      "900": {
+        "value": "#636312",
+        "type": "color"
+      },
+      "925": {
+        "value": "#4E4E0D",
+        "type": "color"
+      },
+      "950": {
+        "value": "#383807",
+        "type": "color"
+      },
+      "975": {
+        "value": "#222201",
+        "type": "color"
+      }
     },
     "emerald": {
-      "25": { "value": "#ECFDF5", "type": "color" },
-      "50": { "value": "#D1FAE5", "type": "color" },
-      "75": { "value": "#A7F3D0", "type": "color" },
-      "100": { "value": "#6EE7B7", "type": "color" },
-      "200": { "value": "#34D399", "type": "color" },
-      "300": { "value": "#10B981", "type": "color" },
-      "400": { "value": "#059669", "type": "color", "comment": "Aumraa positive / success" },
-      "500": { "value": "#047857", "type": "color" },
-      "600": { "value": "#065F46", "type": "color" },
-      "700": { "value": "#064E3B", "type": "color" },
-      "800": { "value": "#053D2F", "type": "color" },
-      "900": { "value": "#042C22", "type": "color" },
-      "925": { "value": "#031A14", "type": "color" },
-      "950": { "value": "#010D0A", "type": "color" },
-      "975": { "value": "#000402", "type": "color" }
+      "25": {
+        "value": "#ECFDF5",
+        "type": "color"
+      },
+      "50": {
+        "value": "#D1FAE5",
+        "type": "color"
+      },
+      "75": {
+        "value": "#A7F3D0",
+        "type": "color"
+      },
+      "100": {
+        "value": "#6EE7B7",
+        "type": "color"
+      },
+      "200": {
+        "value": "#34D399",
+        "type": "color"
+      },
+      "300": {
+        "value": "#10B981",
+        "type": "color"
+      },
+      "400": {
+        "value": "#059669",
+        "type": "color",
+        "comment": "Aumraa positive / success"
+      },
+      "500": {
+        "value": "#047857",
+        "type": "color"
+      },
+      "600": {
+        "value": "#065F46",
+        "type": "color"
+      },
+      "700": {
+        "value": "#064E3B",
+        "type": "color"
+      },
+      "800": {
+        "value": "#053D2F",
+        "type": "color"
+      },
+      "900": {
+        "value": "#042C22",
+        "type": "color"
+      },
+      "925": {
+        "value": "#031A14",
+        "type": "color"
+      },
+      "950": {
+        "value": "#010D0A",
+        "type": "color"
+      },
+      "975": {
+        "value": "#000402",
+        "type": "color"
+      }
     },
     "violet": {
-      "25": { "value": "#F5F3FF", "type": "color" },
-      "50": { "value": "#EDE9FE", "type": "color" },
-      "75": { "value": "#DDD6FE", "type": "color" },
-      "100": { "value": "#C4B5FD", "type": "color", "comment": "Violet lightest — tints on light bg" },
-      "200": { "value": "#A78BFA", "type": "color" },
-      "300": { "value": "#8B5CF6", "type": "color", "comment": "Technocracy interactive primary" },
-      "400": { "value": "#7C3AED", "type": "color", "comment": "Hover/active states" },
-      "500": { "value": "#6D28D9", "type": "color" },
-      "600": { "value": "#5B21B6", "type": "color" },
-      "700": { "value": "#4C1D95", "type": "color" },
-      "800": { "value": "#3B1F7C", "type": "color", "comment": "Subtle tinted surfaces on dark bg" },
-      "900": { "value": "#2A1660", "type": "color" },
-      "925": { "value": "#1C0E47", "type": "color" },
-      "950": { "value": "#100830", "type": "color" },
-      "975": { "value": "#060318", "type": "color" }
+      "25": {
+        "value": "#F5F3FF",
+        "type": "color"
+      },
+      "50": {
+        "value": "#EDE9FE",
+        "type": "color"
+      },
+      "75": {
+        "value": "#DDD6FE",
+        "type": "color"
+      },
+      "100": {
+        "value": "#C4B5FD",
+        "type": "color",
+        "comment": "Violet lightest — tints on light bg"
+      },
+      "200": {
+        "value": "#A78BFA",
+        "type": "color"
+      },
+      "300": {
+        "value": "#8B5CF6",
+        "type": "color",
+        "comment": "Technocracy interactive primary"
+      },
+      "400": {
+        "value": "#7C3AED",
+        "type": "color",
+        "comment": "Hover/active states"
+      },
+      "500": {
+        "value": "#6D28D9",
+        "type": "color"
+      },
+      "600": {
+        "value": "#5B21B6",
+        "type": "color"
+      },
+      "700": {
+        "value": "#4C1D95",
+        "type": "color"
+      },
+      "800": {
+        "value": "#3B1F7C",
+        "type": "color",
+        "comment": "Subtle tinted surfaces on dark bg"
+      },
+      "900": {
+        "value": "#2A1660",
+        "type": "color"
+      },
+      "925": {
+        "value": "#1C0E47",
+        "type": "color"
+      },
+      "950": {
+        "value": "#100830",
+        "type": "color"
+      },
+      "975": {
+        "value": "#060318",
+        "type": "color"
+      }
     },
     "indigo": {
-      "25": { "value": "#EEF2FF", "type": "color" },
-      "50": { "value": "#E0E7FF", "type": "color" },
-      "75": { "value": "#C7D2FE", "type": "color" },
-      "100": { "value": "#A5B4FC", "type": "color" },
-      "200": { "value": "#818CF8", "type": "color" },
-      "300": { "value": "#6366F1", "type": "color", "comment": "Technocracy secondary accent" },
-      "400": { "value": "#4F46E5", "type": "color" },
-      "500": { "value": "#4338CA", "type": "color" },
-      "600": { "value": "#3730A3", "type": "color" },
-      "700": { "value": "#312E81", "type": "color" },
-      "800": { "value": "#271F6A", "type": "color" },
-      "900": { "value": "#1E1B4B", "type": "color", "comment": "Deep indigo surface tint" },
-      "925": { "value": "#130E36", "type": "color" },
-      "950": { "value": "#090621", "type": "color" },
-      "975": { "value": "#03020E", "type": "color" }
+      "25": {
+        "value": "#EEF2FF",
+        "type": "color"
+      },
+      "50": {
+        "value": "#E0E7FF",
+        "type": "color"
+      },
+      "75": {
+        "value": "#C7D2FE",
+        "type": "color"
+      },
+      "100": {
+        "value": "#A5B4FC",
+        "type": "color"
+      },
+      "200": {
+        "value": "#818CF8",
+        "type": "color"
+      },
+      "300": {
+        "value": "#6366F1",
+        "type": "color",
+        "comment": "Technocracy secondary accent"
+      },
+      "400": {
+        "value": "#4F46E5",
+        "type": "color"
+      },
+      "500": {
+        "value": "#4338CA",
+        "type": "color"
+      },
+      "600": {
+        "value": "#3730A3",
+        "type": "color"
+      },
+      "700": {
+        "value": "#312E81",
+        "type": "color"
+      },
+      "800": {
+        "value": "#271F6A",
+        "type": "color"
+      },
+      "900": {
+        "value": "#1E1B4B",
+        "type": "color",
+        "comment": "Deep indigo surface tint"
+      },
+      "925": {
+        "value": "#130E36",
+        "type": "color"
+      },
+      "950": {
+        "value": "#090621",
+        "type": "color"
+      },
+      "975": {
+        "value": "#03020E",
+        "type": "color"
+      }
     },
     "crimson": {
-      "25":  { "value": "#FDF2F3", "type": "color", "comment": "Kaayo primary — Tutor Crimson" },
-      "50":  { "value": "#FAD5D6", "type": "color" },
-      "75":  { "value": "#F6B8BA", "type": "color" },
-      "100": { "value": "#F29D9F", "type": "color" },
-      "200": { "value": "#EA6B6E", "type": "color" },
-      "300": { "value": "#E14144", "type": "color" },
-      "400": { "value": "#C31E21", "type": "color" },
-      "500": { "value": "#970103", "type": "color", "comment": "Kaayo primary root" },
-      "600": { "value": "#740102", "type": "color" },
-      "700": { "value": "#570001", "type": "color" },
-      "800": { "value": "#3F0000", "type": "color" },
-      "900": { "value": "#2B0000", "type": "color" },
-      "925": { "value": "#200000", "type": "color" },
-      "950": { "value": "#160000", "type": "color" },
-      "975": { "value": "#0E0000", "type": "color" }
+      "25": {
+        "value": "#fbf5f5",
+        "type": "color",
+        "comment": "Kaayo primary — Tutor Crimson"
+      },
+      "50": {
+        "value": "#eacccd",
+        "type": "color"
+      },
+      "75": {
+        "value": "#e2b8b8",
+        "type": "color"
+      },
+      "100": {
+        "value": "#daa4a4",
+        "type": "color"
+      },
+      "200": {
+        "value": "#c97b7c",
+        "type": "color"
+      },
+      "300": {
+        "value": "#b85254",
+        "type": "color"
+      },
+      "400": {
+        "value": "#a82a2b",
+        "type": "color"
+      },
+      "500": {
+        "value": "#970103",
+        "type": "color",
+        "comment": "Kaayo primary root"
+      },
+      "600": {
+        "value": "#830507",
+        "type": "color"
+      },
+      "700": {
+        "value": "#6f090c",
+        "type": "color"
+      },
+      "800": {
+        "value": "#5b0d10",
+        "type": "color"
+      },
+      "900": {
+        "value": "#461215",
+        "type": "color"
+      },
+      "925": {
+        "value": "#3c1417",
+        "type": "color"
+      },
+      "950": {
+        "value": "#321619",
+        "type": "color"
+      },
+      "975": {
+        "value": "#28181c",
+        "type": "color"
+      }
     },
     "peach": {
-      "25":  { "value": "#FFFDFB", "type": "color", "comment": "Kaayo secondary — Warm Peach" },
-      "50":  { "value": "#FFF3ED", "type": "color" },
-      "75":  { "value": "#FFE4D8", "type": "color" },
-      "100": { "value": "#FED3C1", "type": "color" },
-      "200": { "value": "#FDBBA1", "type": "color" },
-      "300": { "value": "#FCA78B", "type": "color" },
-      "400": { "value": "#FD9271", "type": "color" },
-      "500": { "value": "#FDA581", "type": "color", "comment": "Kaayo secondary root" },
-      "600": { "value": "#E38865", "type": "color" },
-      "700": { "value": "#C96D4B", "type": "color" },
-      "800": { "value": "#AE5333", "type": "color" },
-      "900": { "value": "#943C1D", "type": "color" },
-      "925": { "value": "#7D2A0D", "type": "color" },
-      "950": { "value": "#641D06", "type": "color" },
-      "975": { "value": "#471101", "type": "color" }
+      "25": {
+        "value": "#fff4f0",
+        "type": "color",
+        "comment": "Kaayo secondary — Warm Peach"
+      },
+      "50": {
+        "value": "#ffede6",
+        "type": "color"
+      },
+      "75": {
+        "value": "#fee6dc",
+        "type": "color"
+      },
+      "100": {
+        "value": "#fedfd2",
+        "type": "color"
+      },
+      "200": {
+        "value": "#fed0bd",
+        "type": "color"
+      },
+      "300": {
+        "value": "#fec2a9",
+        "type": "color"
+      },
+      "400": {
+        "value": "#fdb395",
+        "type": "color"
+      },
+      "500": {
+        "value": "#FDA581",
+        "type": "color",
+        "comment": "Kaayo secondary root"
+      },
+      "600": {
+        "value": "#d98f71",
+        "type": "color"
+      },
+      "700": {
+        "value": "#b47962",
+        "type": "color"
+      },
+      "800": {
+        "value": "#906352",
+        "type": "color"
+      },
+      "900": {
+        "value": "#6b4d42",
+        "type": "color"
+      },
+      "925": {
+        "value": "#59423a",
+        "type": "color"
+      },
+      "950": {
+        "value": "#473733",
+        "type": "color"
+      },
+      "975": {
+        "value": "#342c2b",
+        "type": "color"
+      }
     },
     "navy": {
-      "25":  { "value": "#EFF1F5", "type": "color", "comment": "Kaayo tertiary — Deep Navy" },
-      "50":  { "value": "#DDE1EC", "type": "color" },
-      "75":  { "value": "#CBD1E2", "type": "color" },
-      "100": { "value": "#B9C0D7", "type": "color" },
-      "200": { "value": "#96A1C0", "type": "color" },
-      "300": { "value": "#7583A8", "type": "color" },
-      "400": { "value": "#55668F", "type": "color" },
-      "500": { "value": "#37415C", "type": "color", "comment": "Kaayo tertiary root" },
-      "600": { "value": "#2D354B", "type": "color" },
-      "700": { "value": "#232A3B", "type": "color" },
-      "800": { "value": "#1A202D", "type": "color" },
-      "900": { "value": "#12161F", "type": "color" },
-      "925": { "value": "#0D1016", "type": "color" },
-      "950": { "value": "#080A0E", "type": "color" },
-      "975": { "value": "#040507", "type": "color" }
+      "25": {
+        "value": "#e7e8eb",
+        "type": "color",
+        "comment": "Kaayo tertiary — Deep Navy"
+      },
+      "50": {
+        "value": "#d7d9de",
+        "type": "color"
+      },
+      "75": {
+        "value": "#c7cad1",
+        "type": "color"
+      },
+      "100": {
+        "value": "#b7bbc4",
+        "type": "color"
+      },
+      "200": {
+        "value": "#979caa",
+        "type": "color"
+      },
+      "300": {
+        "value": "#777e90",
+        "type": "color"
+      },
+      "400": {
+        "value": "#575f76",
+        "type": "color"
+      },
+      "500": {
+        "value": "#37415C",
+        "type": "color",
+        "comment": "Kaayo tertiary root"
+      },
+      "600": {
+        "value": "#323b52",
+        "type": "color"
+      },
+      "700": {
+        "value": "#2d3548",
+        "type": "color"
+      },
+      "800": {
+        "value": "#292f3f",
+        "type": "color"
+      },
+      "900": {
+        "value": "#242935",
+        "type": "color"
+      },
+      "925": {
+        "value": "#212630",
+        "type": "color"
+      },
+      "950": {
+        "value": "#1f232b",
+        "type": "color"
+      },
+      "975": {
+        "value": "#1d2026",
+        "type": "color"
+      }
     },
     "neutral": {
-      "25":  { "value": "#FFFFFF", "type": "color", "comment": "L*100 — pure white anchor. Page surfaces." },
-      "50":  { "value": "#F8F8F8", "type": "color", "comment": "L*97.6 — secondary surfaces, subtle fills" },
-      "75":  { "value": "#F0F1F1", "type": "color", "comment": "L*95.1 — tertiary surfaces, hover fills" },
-      "100": { "value": "#E8E8E9", "type": "color", "comment": "L*92.0 — default borders, dividers" },
-      "200": { "value": "#D9DADB", "type": "color", "comment": "L*87.0 — strong borders, border hover" },
-      "300": { "value": "#C3C4C5", "type": "color", "comment": "L*79.1 — disabled fills, skeletons" },
-      "400": { "value": "#9FA0A2", "type": "color", "comment": "L*65.8 — muted text on DARK (7.29:1 on 975)" },
-      "500": { "value": "#757678", "type": "color", "comment": "L*49.6 — the grey. Muted text on LIGHT (4.55:1 on 25)" },
-      "600": { "value": "#5F6163", "type": "color", "comment": "L*41.0 — secondary text on light" },
-      "700": { "value": "#4C4E51", "type": "color", "comment": "L*33.1 — body text on light (8.35:1)" },
-      "800": { "value": "#3A3B3F", "type": "color", "comment": "L*24.9 — headings on light (11.19:1)" },
-      "900": { "value": "#2A2C30", "type": "color", "comment": "L*18.0 — primary text (13.99:1)" },
-      "925": { "value": "#202225", "type": "color", "comment": "L*13.1 — elevated dark surfaces" },
-      "950": { "value": "#17191D", "type": "color", "comment": "L*8.7 — dark surfaces, cards on dark" },
-      "975": { "value": "#0D1014", "type": "color", "comment": "L*4.6 — adapted black. Deepest background. Never #000 for type." },
-      "white": { "value": "{color.neutral.25}", "type": "color", "comment": "Alias -> 25. Kept for existing references." },
-      "black": { "value": "#000000", "type": "color", "comment": "Outside the ramp. Shadows and scrims only (rgba), never typography." }
+      "25": {
+        "value": "#FFFFFF",
+        "type": "color",
+        "comment": "L*100 — pure white anchor. Page surfaces."
+      },
+      "50": {
+        "value": "#F8F8F8",
+        "type": "color",
+        "comment": "L*97.6 — secondary surfaces, subtle fills"
+      },
+      "75": {
+        "value": "#F0F1F1",
+        "type": "color",
+        "comment": "L*95.1 — tertiary surfaces, hover fills"
+      },
+      "100": {
+        "value": "#E8E8E9",
+        "type": "color",
+        "comment": "L*92.0 — default borders, dividers"
+      },
+      "200": {
+        "value": "#D9DADB",
+        "type": "color",
+        "comment": "L*87.0 — strong borders, border hover"
+      },
+      "300": {
+        "value": "#C3C4C5",
+        "type": "color",
+        "comment": "L*79.1 — disabled fills, skeletons"
+      },
+      "400": {
+        "value": "#9FA0A2",
+        "type": "color",
+        "comment": "L*65.8 — muted text on DARK (7.29:1 on 975)"
+      },
+      "500": {
+        "value": "#757678",
+        "type": "color",
+        "comment": "L*49.6 — the grey. Muted text on LIGHT (4.55:1 on 25)"
+      },
+      "600": {
+        "value": "#5F6163",
+        "type": "color",
+        "comment": "L*41.0 — secondary text on light"
+      },
+      "700": {
+        "value": "#4C4E51",
+        "type": "color",
+        "comment": "L*33.1 — body text on light (8.35:1)"
+      },
+      "800": {
+        "value": "#3A3B3F",
+        "type": "color",
+        "comment": "L*24.9 — headings on light (11.19:1)"
+      },
+      "900": {
+        "value": "#2A2C30",
+        "type": "color",
+        "comment": "L*18.0 — primary text (13.99:1)"
+      },
+      "925": {
+        "value": "#202225",
+        "type": "color",
+        "comment": "L*13.1 — elevated dark surfaces"
+      },
+      "950": {
+        "value": "#17191D",
+        "type": "color",
+        "comment": "L*8.7 — dark surfaces, cards on dark"
+      },
+      "975": {
+        "value": "#0D1014",
+        "type": "color",
+        "comment": "L*4.6 — adapted black. Deepest background. Never #000 for type."
+      },
+      "white": {
+        "value": "{color.neutral.25}",
+        "type": "color",
+        "comment": "Alias -> 25. Kept for existing references."
+      },
+      "black": {
+        "value": "#000000",
+        "type": "color",
+        "comment": "Outside the ramp. Shadows and scrims only (rgba), never typography."
+      }
     },
     "status": {
-      "success":      { "value": "{color.feedback.positive.500}", "type": "color" },
-      "successLight": { "value": "{color.feedback.positive.50}", "type": "color" },
-      "successDark":  { "value": "{color.feedback.positive.700}", "type": "color" },
-      "warning":      { "value": "{color.feedback.warning.500}", "type": "color" },
-      "warningLight": { "value": "{color.feedback.warning.50}", "type": "color" },
-      "warningDark":  { "value": "{color.feedback.warning.700}", "type": "color" },
-      "danger":       { "value": "{color.feedback.negative.500}", "type": "color" },
-      "dangerLight":  { "value": "{color.feedback.negative.50}", "type": "color" },
-      "dangerDark":   { "value": "{color.feedback.negative.700}", "type": "color" },
-      "info":         { "value": "{color.sky.500}", "type": "color" },
-      "infoLight":    { "value": "{color.sky.50}", "type": "color" },
-      "infoDark":     { "value": "{color.sky.700}", "type": "color" }
+      "success": {
+        "value": "{color.feedback.positive.500}",
+        "type": "color"
+      },
+      "successLight": {
+        "value": "{color.feedback.positive.50}",
+        "type": "color"
+      },
+      "successDark": {
+        "value": "{color.feedback.positive.700}",
+        "type": "color"
+      },
+      "warning": {
+        "value": "{color.feedback.warning.500}",
+        "type": "color"
+      },
+      "warningLight": {
+        "value": "{color.feedback.warning.50}",
+        "type": "color"
+      },
+      "warningDark": {
+        "value": "{color.feedback.warning.700}",
+        "type": "color"
+      },
+      "danger": {
+        "value": "{color.feedback.negative.500}",
+        "type": "color"
+      },
+      "dangerLight": {
+        "value": "{color.feedback.negative.50}",
+        "type": "color"
+      },
+      "dangerDark": {
+        "value": "{color.feedback.negative.700}",
+        "type": "color"
+      },
+      "info": {
+        "value": "{color.sky.500}",
+        "type": "color"
+      },
+      "infoLight": {
+        "value": "{color.sky.50}",
+        "type": "color"
+      },
+      "infoDark": {
+        "value": "{color.sky.700}",
+        "type": "color"
+      }
     },
     "feedback": {
       "positive": {
-        "25": { "value": "#E8F8EE", "type": "color" },
-        "50": { "value": "#D0EDDB", "type": "color" },
-        "75": { "value": "#BBDFC8", "type": "color" },
-        "100": { "value": "#ABDEBE", "type": "color" },
-        "200": { "value": "#86CFA1", "type": "color" },
-        "300": { "value": "#61C084", "type": "color" },
-        "400": { "value": "#3BB267", "type": "color" },
-        "500": { "value": "#16A34A", "type": "color" },
-        "600": { "value": "#168D43", "type": "color" },
-        "700": { "value": "#17773C", "type": "color" },
-        "800": { "value": "#176235", "type": "color" },
-        "900": { "value": "#184C2E", "type": "color" },
-        "925": { "value": "#183628", "type": "color" },
-        "950": { "value": "#0F2218", "type": "color" },
-        "975": { "value": "#060E09", "type": "color" }
+        "25": {
+          "value": "#E8F8EE",
+          "type": "color"
+        },
+        "50": {
+          "value": "#D0EDDB",
+          "type": "color"
+        },
+        "75": {
+          "value": "#BBDFC8",
+          "type": "color"
+        },
+        "100": {
+          "value": "#ABDEBE",
+          "type": "color"
+        },
+        "200": {
+          "value": "#86CFA1",
+          "type": "color"
+        },
+        "300": {
+          "value": "#61C084",
+          "type": "color"
+        },
+        "400": {
+          "value": "#3BB267",
+          "type": "color"
+        },
+        "500": {
+          "value": "#16A34A",
+          "type": "color"
+        },
+        "600": {
+          "value": "#168D43",
+          "type": "color"
+        },
+        "700": {
+          "value": "#17773C",
+          "type": "color"
+        },
+        "800": {
+          "value": "#176235",
+          "type": "color"
+        },
+        "900": {
+          "value": "#184C2E",
+          "type": "color"
+        },
+        "925": {
+          "value": "#183628",
+          "type": "color"
+        },
+        "950": {
+          "value": "#0F2218",
+          "type": "color"
+        },
+        "975": {
+          "value": "#060E09",
+          "type": "color"
+        }
       },
       "warning": {
-        "25": { "value": "#FFFBF0", "type": "color" },
-        "50": { "value": "#FDECCE", "type": "color" },
-        "75": { "value": "#FCE2B5", "type": "color" },
-        "100": { "value": "#FBDCA7", "type": "color" },
-        "200": { "value": "#FACD80", "type": "color" },
-        "300": { "value": "#F8BD59", "type": "color" },
-        "400": { "value": "#F7AE32", "type": "color" },
-        "500": { "value": "#F59E0B", "type": "color" },
-        "600": { "value": "#D2890E", "type": "color" },
-        "700": { "value": "#AF7411", "type": "color" },
-        "800": { "value": "#8B5F15", "type": "color" },
-        "900": { "value": "#684A18", "type": "color" },
-        "925": { "value": "#45351B", "type": "color" },
-        "950": { "value": "#2C2110", "type": "color" },
-        "975": { "value": "#130D04", "type": "color" }
+        "25": {
+          "value": "#FFFBF0",
+          "type": "color"
+        },
+        "50": {
+          "value": "#FDECCE",
+          "type": "color"
+        },
+        "75": {
+          "value": "#FCE2B5",
+          "type": "color"
+        },
+        "100": {
+          "value": "#FBDCA7",
+          "type": "color"
+        },
+        "200": {
+          "value": "#FACD80",
+          "type": "color"
+        },
+        "300": {
+          "value": "#F8BD59",
+          "type": "color"
+        },
+        "400": {
+          "value": "#F7AE32",
+          "type": "color"
+        },
+        "500": {
+          "value": "#F59E0B",
+          "type": "color"
+        },
+        "600": {
+          "value": "#D2890E",
+          "type": "color"
+        },
+        "700": {
+          "value": "#AF7411",
+          "type": "color"
+        },
+        "800": {
+          "value": "#8B5F15",
+          "type": "color"
+        },
+        "900": {
+          "value": "#684A18",
+          "type": "color"
+        },
+        "925": {
+          "value": "#45351B",
+          "type": "color"
+        },
+        "950": {
+          "value": "#2C2110",
+          "type": "color"
+        },
+        "975": {
+          "value": "#130D04",
+          "type": "color"
+        }
       },
       "negative": {
-        "25": { "value": "#FEECEC", "type": "color" },
-        "50": { "value": "#F8D4D4", "type": "color" },
-        "75": { "value": "#F5C0C0", "type": "color" },
-        "100": { "value": "#F2B1B1", "type": "color" },
-        "200": { "value": "#ED8E8E", "type": "color" },
-        "300": { "value": "#E76B6B", "type": "color" },
-        "400": { "value": "#E24949", "type": "color" },
-        "500": { "value": "#DC2626", "type": "color" },
-        "600": { "value": "#BD2425", "type": "color" },
-        "700": { "value": "#9E2224", "type": "color" },
-        "800": { "value": "#7E2123", "type": "color" },
-        "900": { "value": "#5F1F22", "type": "color" },
-        "925": { "value": "#401D20", "type": "color" },
-        "950": { "value": "#280F11", "type": "color" },
-        "975": { "value": "#100406", "type": "color" }
+        "25": {
+          "value": "#FEECEC",
+          "type": "color"
+        },
+        "50": {
+          "value": "#F8D4D4",
+          "type": "color"
+        },
+        "75": {
+          "value": "#F5C0C0",
+          "type": "color"
+        },
+        "100": {
+          "value": "#F2B1B1",
+          "type": "color"
+        },
+        "200": {
+          "value": "#ED8E8E",
+          "type": "color"
+        },
+        "300": {
+          "value": "#E76B6B",
+          "type": "color"
+        },
+        "400": {
+          "value": "#E24949",
+          "type": "color"
+        },
+        "500": {
+          "value": "#DC2626",
+          "type": "color"
+        },
+        "600": {
+          "value": "#BD2425",
+          "type": "color"
+        },
+        "700": {
+          "value": "#9E2224",
+          "type": "color"
+        },
+        "800": {
+          "value": "#7E2123",
+          "type": "color"
+        },
+        "900": {
+          "value": "#5F1F22",
+          "type": "color"
+        },
+        "925": {
+          "value": "#401D20",
+          "type": "color"
+        },
+        "950": {
+          "value": "#280F11",
+          "type": "color"
+        },
+        "975": {
+          "value": "#100406",
+          "type": "color"
+        }
       }
     }
   },
   "font": {
     "family": {
-      "sans": { "value": "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", "type": "fontFamily" },
-      "mono": { "value": "JetBrains Mono, Fira Code, Courier New, monospace", "type": "fontFamily" },
+      "sans": {
+        "value": "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        "type": "fontFamily"
+      },
+      "mono": {
+        "value": "JetBrains Mono, Fira Code, Courier New, monospace",
+        "type": "fontFamily"
+      },
       "sourceSans": {
         "value": "'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
         "type": "fontFamily",
@@ -291,61 +1053,192 @@
       }
     },
     "size": {
-      "2xs": { "value": "10", "type": "dimension", "comment": "0.625rem" },
-      "xs": { "value": "12", "type": "dimension" },
-      "sm": { "value": "14", "type": "dimension" },
-      "base": { "value": "16", "type": "dimension" },
-      "lg": { "value": "18", "type": "dimension" },
-      "xl": { "value": "20", "type": "dimension" },
-      "2xl": { "value": "24", "type": "dimension" },
-      "3xl": { "value": "30", "type": "dimension" },
-      "4xl": { "value": "36", "type": "dimension" }
+      "2xs": {
+        "value": "10",
+        "type": "dimension",
+        "comment": "0.625rem"
+      },
+      "xs": {
+        "value": "12",
+        "type": "dimension"
+      },
+      "sm": {
+        "value": "14",
+        "type": "dimension"
+      },
+      "base": {
+        "value": "16",
+        "type": "dimension"
+      },
+      "lg": {
+        "value": "18",
+        "type": "dimension"
+      },
+      "xl": {
+        "value": "20",
+        "type": "dimension"
+      },
+      "2xl": {
+        "value": "24",
+        "type": "dimension"
+      },
+      "3xl": {
+        "value": "30",
+        "type": "dimension"
+      },
+      "4xl": {
+        "value": "36",
+        "type": "dimension"
+      }
     },
     "weight": {
-      "normal": { "value": "400", "type": "fontWeight" },
-      "medium": { "value": "500", "type": "fontWeight" },
-      "semibold": { "value": "600", "type": "fontWeight" },
-      "bold": { "value": "700", "type": "fontWeight" }
+      "normal": {
+        "value": "400",
+        "type": "fontWeight"
+      },
+      "medium": {
+        "value": "500",
+        "type": "fontWeight"
+      },
+      "semibold": {
+        "value": "600",
+        "type": "fontWeight"
+      },
+      "bold": {
+        "value": "700",
+        "type": "fontWeight"
+      }
     }
   },
   "spacing": {
-    "0": { "value": "0", "type": "dimension" },
-    "1": { "value": "4", "type": "dimension" },
-    "2": { "value": "8", "type": "dimension" },
-    "3": { "value": "12", "type": "dimension" },
-    "4": { "value": "16", "type": "dimension" },
-    "5": { "value": "20", "type": "dimension" },
-    "6": { "value": "24", "type": "dimension" },
-    "8": { "value": "32", "type": "dimension" },
-    "10": { "value": "40", "type": "dimension" },
-    "12": { "value": "48", "type": "dimension" },
-    "16": { "value": "64", "type": "dimension" }
+    "0": {
+      "value": "0",
+      "type": "dimension"
+    },
+    "1": {
+      "value": "4",
+      "type": "dimension"
+    },
+    "2": {
+      "value": "8",
+      "type": "dimension"
+    },
+    "3": {
+      "value": "12",
+      "type": "dimension"
+    },
+    "4": {
+      "value": "16",
+      "type": "dimension"
+    },
+    "5": {
+      "value": "20",
+      "type": "dimension"
+    },
+    "6": {
+      "value": "24",
+      "type": "dimension"
+    },
+    "8": {
+      "value": "32",
+      "type": "dimension"
+    },
+    "10": {
+      "value": "40",
+      "type": "dimension"
+    },
+    "12": {
+      "value": "48",
+      "type": "dimension"
+    },
+    "16": {
+      "value": "64",
+      "type": "dimension"
+    }
   },
   "radius": {
-    "none": { "value": "0", "type": "dimension" },
-    "sm": { "value": "4", "type": "dimension" },
-    "md": { "value": "8", "type": "dimension" },
-    "lg": { "value": "10", "type": "dimension", "comment": "Lemniscate default" },
-    "xl": { "value": "16", "type": "dimension" },
-    "full": { "value": "9999", "type": "dimension" }
+    "none": {
+      "value": "0",
+      "type": "dimension"
+    },
+    "sm": {
+      "value": "4",
+      "type": "dimension"
+    },
+    "md": {
+      "value": "8",
+      "type": "dimension"
+    },
+    "lg": {
+      "value": "10",
+      "type": "dimension",
+      "comment": "Lemniscate default"
+    },
+    "xl": {
+      "value": "16",
+      "type": "dimension"
+    },
+    "full": {
+      "value": "9999",
+      "type": "dimension"
+    }
   },
   "shadow": {
-    "xs": { "value": "0 1px 2px rgba(0,0,0,0.05)", "type": "shadow" },
-    "sm": { "value": "0 1px 3px rgba(0,0,0,0.10), 0 1px 2px rgba(0,0,0,0.06)", "type": "shadow" },
-    "md": { "value": "0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06)", "type": "shadow" },
-    "lg": { "value": "0 10px 15px rgba(0,0,0,0.10), 0 4px 6px rgba(0,0,0,0.05)", "type": "shadow" },
-    "xl": { "value": "0 20px 25px rgba(0,0,0,0.10), 0 10px 10px rgba(0,0,0,0.04)", "type": "shadow" }
+    "xs": {
+      "value": "0 1px 2px rgba(0,0,0,0.05)",
+      "type": "shadow"
+    },
+    "sm": {
+      "value": "0 1px 3px rgba(0,0,0,0.10), 0 1px 2px rgba(0,0,0,0.06)",
+      "type": "shadow"
+    },
+    "md": {
+      "value": "0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06)",
+      "type": "shadow"
+    },
+    "lg": {
+      "value": "0 10px 15px rgba(0,0,0,0.10), 0 4px 6px rgba(0,0,0,0.05)",
+      "type": "shadow"
+    },
+    "xl": {
+      "value": "0 20px 25px rgba(0,0,0,0.10), 0 10px 10px rgba(0,0,0,0.04)",
+      "type": "shadow"
+    }
   },
   "icon": {
-    "xs": { "value": "12", "type": "dimension" },
-    "sm": { "value": "16", "type": "dimension" },
-    "md": { "value": "20", "type": "dimension" },
-    "lg": { "value": "24", "type": "dimension" },
-    "xl": { "value": "32", "type": "dimension" }
+    "xs": {
+      "value": "12",
+      "type": "dimension"
+    },
+    "sm": {
+      "value": "16",
+      "type": "dimension"
+    },
+    "md": {
+      "value": "20",
+      "type": "dimension"
+    },
+    "lg": {
+      "value": "24",
+      "type": "dimension"
+    },
+    "xl": {
+      "value": "32",
+      "type": "dimension"
+    }
   },
   "duration": {
-    "fast": { "value": "100", "type": "duration" },
-    "normal": { "value": "200", "type": "duration" },
-    "slow": { "value": "300", "type": "duration" }
+    "fast": {
+      "value": "100",
+      "type": "duration"
+    },
+    "normal": {
+      "value": "200",
+      "type": "duration"
+    },
+    "slow": {
+      "value": "300",
+      "type": "duration"
+    }
   }
 }

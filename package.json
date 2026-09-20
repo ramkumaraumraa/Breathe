@@ -10,7 +10,9 @@
     "tokens": "node tokens/sd.config.js",
     "tokens:watch": "node --watch tokens/sd.config.js",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "logos:check": "node tools/logo-bounding-box.mjs --check public/assets/logos",
+    "logos:fix": "node tools/logo-bounding-box.mjs public/assets/logos"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",

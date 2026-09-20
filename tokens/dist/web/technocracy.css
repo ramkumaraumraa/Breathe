@@ -34,19 +34,19 @@
   --color-sky-950: #152530;
   --color-sky-975: #08131a;
   --color-orange-25: #fef3eb;
-  --color-orange-50: #fbe6d2;
-  --color-orange-75: #f9d5bb;
-  --color-orange-100: #f9c8ad;
-  --color-orange-200: #f6af89;
-  --color-orange-300: #f39665;
-  --color-orange-400: #f07e40;
-  --color-orange-500: #ed651c; /** Lemniscate tertiary orange root */
-  --color-orange-600: #cb591c;
-  --color-orange-700: #a94d1d;
-  --color-orange-800: #87411d;
-  --color-orange-900: #65361e;
-  --color-orange-925: #4f2c18;
-  --color-orange-950: #432a1e;
+  --color-orange-50: #fce7d5;
+  --color-orange-75: #fad8ba;
+  --color-orange-100: #f8cda7;
+  --color-orange-200: #f5b880;
+  --color-orange-300: #f2a45c;
+  --color-orange-400: #f0923b;
+  --color-orange-500: #ed811c; /** Lemniscate brand orange — the logo face colour #ED811C. 700 #A9601D is the logo shadow. */
+  --color-orange-600: #cb711c;
+  --color-orange-700: #a9601d;
+  --color-orange-800: #8a4f1a;
+  --color-orange-900: #6c3e17;
+  --color-orange-925: #553114;
+  --color-orange-950: #4c2c13;
   --color-orange-975: #2c1a10;
   --color-green-25: #edfaf1;
   --color-green-50: #d3f5dc;

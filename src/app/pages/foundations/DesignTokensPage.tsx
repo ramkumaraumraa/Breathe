@@ -38,7 +38,7 @@ const products: Product[] = [
       { name: 'Primary Light', token: '--lmns-color-primary-light', value: '#ADC6E9', role: 'Hover states, tints' },
       { name: 'Primary Dark', token: '--lmns-color-primary-dark', value: '#1B4A8D', role: 'Active states, borders' },
       { name: 'Secondary', token: '--lmns-color-secondary', value: '#40AAD4', role: 'Secondary accents, highlights' },
-      { name: 'Tertiary', token: '--lmns-color-tertiary', value: '#ED651C', role: 'Accent, highlights' },
+      { name: 'Tertiary', token: '--lmns-color-tertiary', value: '#ED811C', role: 'Accent, highlights' },
       { name: 'Positive', token: '--lmns-color-positive', value: '#16A34A', role: 'Success states' },
       { name: 'Negative', token: '--lmns-color-negative', value: '#DC2626', role: 'Errors, destructive' },
       { name: 'Background', token: '--lmns-color-background', value: '#FFFFFF', role: 'Page surface' },

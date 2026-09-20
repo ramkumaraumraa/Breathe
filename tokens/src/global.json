@@ -128,64 +128,64 @@
     },
     "orange": {
       "25": {
-        "value": "#FEF3EB",
+        "value": "#fef3eb",
         "type": "color"
       },
       "50": {
-        "value": "#FBE6D2",
+        "value": "#fce7d5",
         "type": "color"
       },
       "75": {
-        "value": "#F9D5BB",
+        "value": "#fad8ba",
         "type": "color"
       },
       "100": {
-        "value": "#F9C8AD",
+        "value": "#f8cda7",
         "type": "color"
       },
       "200": {
-        "value": "#F6AF89",
+        "value": "#f5b880",
         "type": "color"
       },
       "300": {
-        "value": "#F39665",
+        "value": "#f2a45c",
         "type": "color"
       },
       "400": {
-        "value": "#F07E40",
+        "value": "#f0923b",
         "type": "color"
       },
       "500": {
-        "value": "#ED651C",
+        "value": "#ed811c",
         "type": "color",
-        "comment": "Lemniscate tertiary orange root"
+        "comment": "Lemniscate brand orange — the logo face colour #ED811C. 700 #A9601D is the logo shadow."
       },
       "600": {
-        "value": "#CB591C",
+        "value": "#cb711c",
         "type": "color"
       },
       "700": {
-        "value": "#A94D1D",
+        "value": "#a9601d",
         "type": "color"
       },
       "800": {
-        "value": "#87411D",
+        "value": "#8a4f1a",
         "type": "color"
       },
       "900": {
-        "value": "#65361E",
+        "value": "#6c3e17",
         "type": "color"
       },
       "925": {
-        "value": "#4F2C18",
+        "value": "#553114",
         "type": "color"
       },
       "950": {
-        "value": "#432A1E",
+        "value": "#4c2c13",
         "type": "color"
       },
       "975": {
-        "value": "#2C1A10",
+        "value": "#2c1a10",
         "type": "color"
       }
     },

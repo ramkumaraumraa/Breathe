@@ -8,7 +8,7 @@
   <color name="ykai_color_primary_light">#ff6593d5</color>
   <color name="ykai_color_primary_dark">#ff1c60c1</color>
   <color name="ykai_color_primary_foreground">#ffffffff</color>
-  <color name="ykai_color_secondary">#ffed651c</color>
+  <color name="ykai_color_secondary">#ffed811c</color>
   <color name="ykai_color_secondary_foreground">#ffffffff</color>
   <color name="ykai_color_supportive">#ff266fdc</color><!-- Informational / supporting accent. Not a brand colour — lives in the feedback family. -->
   <color name="ykai_color_supportive_foreground">#ffffffff</color>

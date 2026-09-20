@@ -29,7 +29,7 @@ public class IlakhTokens {
     public static let ilkhColorPrimaryDark = UIColor(red: 0.110, green: 0.376, blue: 0.757, alpha: 1)
     public static let ilkhColorPrimaryForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
     public static let ilkhColorPrimaryLight = UIColor(red: 0.396, green: 0.576, blue: 0.835, alpha: 1)
-    public static let ilkhColorSecondary = UIColor(red: 0.929, green: 0.396, blue: 0.110, alpha: 1)
+    public static let ilkhColorSecondary = UIColor(red: 0.929, green: 0.506, blue: 0.110, alpha: 1)
     public static let ilkhColorSecondaryForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
     public static let ilkhColorSuccess = UIColor(red: 0.086, green: 0.639, blue: 0.290, alpha: 1)
     public static let ilkhColorSupportive = UIColor(red: 0.149, green: 0.435, blue: 0.863, alpha: 1) /** Informational / supporting accent. Not a brand colour — lives in the feedback family. */

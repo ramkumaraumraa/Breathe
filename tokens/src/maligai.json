@@ -130,6 +130,15 @@
         "value": "{color.neutral.25}",
         "type": "color"
       },
+      "supportive": {
+        "value": "{color.status.supportive}",
+        "type": "color",
+        "comment": "Informational surfaces, links and secondary guidance. Feedback family, not brand."
+      },
+      "supportiveForeground": {
+        "value": "{color.neutral.25}",
+        "type": "color"
+      },
       "gradientStart": {
         "value": "{color.pine.500}",
         "type": "color"

@@ -38,6 +38,8 @@ public class MaligaiTokens {
     public static let mlgmColorSecondary = UIColor(red: 0.733, green: 0.537, blue: 0.227, alpha: 1)
     public static let mlgmColorSecondaryForeground = UIColor(red: 0.047, green: 0.118, blue: 0.110, alpha: 1)
     public static let mlgmColorSuccess = UIColor(red: 0.086, green: 0.639, blue: 0.290, alpha: 1) /** Not in Figma; consumed by components, duplicate of positive */
+    public static let mlgmColorSupportive = UIColor(red: 0.149, green: 0.435, blue: 0.863, alpha: 1) /** Informational surfaces, links and secondary guidance. Feedback family, not brand. */
+    public static let mlgmColorSupportiveForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
     public static let mlgmColorTertiary = UIColor(red: 0.518, green: 0.369, blue: 0.255, alpha: 1)
     public static let mlgmColorTertiaryForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
     public static let mlgmColorWarning = UIColor(red: 0.961, green: 0.620, blue: 0.043, alpha: 1)

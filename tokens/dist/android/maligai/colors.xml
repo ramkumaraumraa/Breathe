@@ -35,6 +35,8 @@
   <color name="mlgm_color_danger">#ffdc2626</color><!-- Not in Figma; consumed by components, duplicate of negative -->
   <color name="mlgm_color_info">#ff40aad4</color>
   <color name="mlgm_color_info_foreground">#ffffffff</color>
+  <color name="mlgm_color_supportive">#ff266fdc</color><!-- Informational surfaces, links and secondary guidance. Feedback family, not brand. -->
+  <color name="mlgm_color_supportive_foreground">#ffffffff</color>
   <color name="mlgm_color_gradient_start">#ff183c38</color>
   <color name="mlgm_color_gradient_end">#ff132f2c</color>
 </resources>

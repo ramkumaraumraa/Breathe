@@ -82,7 +82,7 @@ end rather than driving to near-black; do not "fix" that.
 |---|---|---|
 | Lemniscate | ✅ | 105 vars aligned, 0 drift. Colors page swatch board is still hardcoded fills showing old neutrals (6 slots vs 15); Gray/Slate still bound across ~35 pages. |
 | Kaayo | ✅ | [File](https://www.figma.com/design/doxyZziGKSHcBHKH1lzEH8/Kaayo) · Figma wins (team cross-checked against the product). 120 vars = 8 ramps × 15, repo matches all 105 brand stops. `NeutralWhite`/`NeutralBlack` collapsed into one `Neutral` ramp: 8,543 nodes rebound across 36 pages, both old ramps deleted. Colors page rebuilt from the variables. |
-| Maligai Manager | ✅ | [File](https://www.figma.com/design/QyvuegdHxbt0SO36u5hX0L/Maligai-Manager) · Two-tier `Breathe / Color Primitives` (134) + `Maligai / Semantic Colors` (33). Repo was a **placeholder** and now follows it; `pine`/`gold`/`earth` verified against the logo SVGs. Neutral forced to the Breathe cool ramp, info kept on `sky`. Board fully verified: 33 vars = 33 cards, 113 bound swatches, 0 unbound, 0 orphans, 0 drift. **Remaining:** the Colors page still holds three legacy "Green" groups from an old palette (#8FAC72, #1E631B, #193C36) that contradict the brand. |
+| Maligai Manager | ✅ | [File](https://www.figma.com/design/QyvuegdHxbt0SO36u5hX0L/Maligai-Manager) · Two-tier `Breathe / Color Primitives` (134) + `Maligai / Semantic Colors` (33). Repo was a **placeholder** and now follows it; `pine`/`gold`/`earth` verified against the logo SVGs. Neutral forced to the Breathe cool ramp, info kept on `sky`. Board fully verified: 35 vars = 35 cards, 115 bound swatches, 0 unbound, 0 orphans, 0 drift. **Remaining:** the Colors page still holds three legacy "Green" groups from an old palette (#8FAC72, #1E631B, #193C36) that contradict the brand. |
 | Aumraa | ✅ | [File](https://www.figma.com/design/22esrYWg3z1D95FRpGpemU/Aumraa-Design-System) · Was the least developed — 26 vars, no Colors page, no semantic layer. Rebuilt to the Maligai shape: `Breathe / Color Primitives` (135) + `Aumraa / Semantic Colors` (22), matching `aumraa.json` 22/22. Legacy `Gray/*` (Tailwind) deleted after rebinding 180 nodes across 26 pages; `Product/*` repurposed into `color/green/*`. **Remaining:** the file still has no Colors foundations page — Maligai's `796:1439` is the template. |
 | Technocracy | ⏳ | no Figma link yet; tokens are raw hex, not references — won't diff the same way |
 
@@ -101,6 +101,12 @@ the whole family — do not give a product a private copy.
 
 
 ## Working rules
+
+- **Never run a replace across a whole shared file.** ColorsPage holds every product;
+  a global `.split(hex).join(hex)` meant for one section silently rewrote Lemniscate's
+  Secondary ramp and relabelled seven products' gradients. Slice the section first
+  (`id: '<product>'` to the next `id:`), edit the slice, splice it back — then diff
+  against the previous commit and confirm only the intended hunks moved.
 
 - **Never cap a survey grep.** Count with `| wc -l` first, then read. A `head -40` once hid
   the whole `packages/react-native/` tree and produced a wrong scope estimate.

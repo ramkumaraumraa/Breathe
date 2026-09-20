@@ -384,6 +384,8 @@
   --mlgm-color-danger: #dc2626; /** Not in Figma; consumed by components, duplicate of negative */
   --mlgm-color-info: #40aad4;
   --mlgm-color-info-foreground: #ffffff;
+  --mlgm-color-supportive: #266fdc; /** Informational surfaces, links and secondary guidance. Feedback family, not brand. */
+  --mlgm-color-supportive-foreground: #ffffff;
   --mlgm-color-gradient-start: #183c38;
   --mlgm-color-gradient-end: #132f2c;
   --mlgm-font-size-base: 16px; /** 16px for web, RN uses sp units — Style Dictionary handles conversion */

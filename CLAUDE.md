@@ -59,11 +59,18 @@ Repo is the source of truth. Per product: read Figma's variables, diff, correct 
 Remap principle when a ramp changes: **semantic** tokens map by nearest L* (preserves
 appearance); **numbered palette** slices map 1:1 by stop (fixes ordering).
 
+Kaayo is the exception to "repo is source of truth": its Figma ramps were verified
+against the shipped product, so the repo follows it. Kaayo-only ramps live in
+`kaayo.json` under `kayo.palette.*`; `crimson`/`peach`/`navy` stay in `global.json`
+(nothing else references them — moving them would touch dist, RN and tests for no gain).
+Its ramps interpolate toward a shared light tint and the logo navy #181A2F at the dark
+end rather than driving to near-black; do not "fix" that.
+
 ### Status
 | Product | Figma | State |
 |---|---|---|
 | Lemniscate | ✅ | 105 vars aligned, 0 drift. Colors page swatch board is still hardcoded fills showing old neutrals (6 slots vs 15); Gray/Slate still bound across ~35 pages. |
-| Kaayo | ⏳ | next — has a `Supportive` ramp and bespoke Positive/Alert that exist nowhere in the repo |
+| Kaayo | ✅ | [File](https://www.figma.com/design/doxyZziGKSHcBHKH1lzEH8/Kaayo) · Figma wins (team cross-checked against the product). 8 ramps × 15, repo matches all 105 stops. Neutral replaced NeutralWhite/NeutralBlack. **Remaining:** 15 `NeutralBlack/*` variables survive as deprecated aliases into `Neutral/*` — correct on canvas, but the file-wide rebind sweep is unrun, so they cannot be deleted yet. |
 | Maligai Manager | ⏳ | recently touched, expect closest to correct |
 | Aumraa | ⏳ | |
 | Technocracy | ⏳ | no Figma link yet; tokens are raw hex, not references — won't diff the same way |

@@ -11,31 +11,31 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "border border-transparent bg-[var(--color-primary-500)] text-white shadow-sm hover:bg-[var(--color-primary-600)] hover:shadow-brand active:bg-[var(--color-primary-700)] disabled:bg-[var(--color-neutral-white-100)] disabled:text-[var(--color-neutral-black-500)]",
+          "border border-transparent bg-[var(--color-primary-500)] text-white shadow-sm hover:bg-[var(--color-primary-600)] hover:shadow-brand active:bg-[var(--color-primary-700)] disabled:bg-[var(--color-neutral-100)] disabled:text-[var(--color-neutral-900)]",
         gradient:
-          "border border-transparent bg-gradient-brand text-white shadow-sm hover:brightness-[1.03] hover:shadow-brand active:brightness-[0.94] disabled:bg-none disabled:bg-[var(--color-neutral-white-100)] disabled:text-[var(--color-neutral-black-500)]",
+          "border border-transparent bg-gradient-brand text-white shadow-sm hover:brightness-[1.03] hover:shadow-brand active:brightness-[0.94] disabled:bg-none disabled:bg-[var(--color-neutral-100)] disabled:text-[var(--color-neutral-900)]",
         destructive:
-          "border border-transparent bg-[var(--color-negative-500)] text-white shadow-sm hover:bg-[var(--color-negative-600)] active:bg-[var(--color-negative-700)] disabled:bg-[var(--color-neutral-white-100)] disabled:text-[var(--color-neutral-black-500)]",
+          "border border-transparent bg-[var(--color-negative-500)] text-white shadow-sm hover:bg-[var(--color-negative-600)] active:bg-[var(--color-negative-700)] disabled:bg-[var(--color-neutral-100)] disabled:text-[var(--color-neutral-900)]",
         outline:
-          "border border-[color:var(--color-primary-500)] bg-[var(--color-neutral-white-25)] text-[var(--color-primary-500)] hover:bg-[var(--color-primary-25)] active:bg-[var(--color-primary-50)] disabled:border-[var(--color-neutral-white-200)] disabled:text-[var(--color-neutral-black-500)]",
+          "border border-[color:var(--color-primary-500)] bg-[var(--color-neutral-25)] text-[var(--color-primary-500)] hover:bg-[var(--color-primary-25)] active:bg-[var(--color-primary-50)] disabled:border-[var(--color-neutral-200)] disabled:text-[var(--color-neutral-900)]",
         brandOutline:
-          "border-[0.7px] border-[color:var(--color-neutral-white-300)] bg-transparent text-[var(--color-neutral-black-975)] hover:border-[var(--color-neutral-black-500)] hover:bg-[var(--color-neutral-white-50)] active:bg-[var(--color-neutral-white-75)] disabled:border-[var(--color-neutral-white-200)] disabled:text-[var(--color-neutral-black-500)]",
+          "border-[0.7px] border-[color:var(--color-neutral-300)] bg-transparent text-[var(--color-neutral-975)] hover:border-[var(--color-neutral-900)] hover:bg-[var(--color-neutral-50)] active:bg-[var(--color-neutral-75)] disabled:border-[var(--color-neutral-200)] disabled:text-[var(--color-neutral-900)]",
         secondary:
-          "border border-transparent bg-[var(--color-neutral-white-50)] text-[var(--color-neutral-black-975)] hover:bg-[var(--color-neutral-white-75)] active:bg-[var(--color-neutral-white-100)] disabled:bg-[var(--color-neutral-white-50)] disabled:text-[var(--color-neutral-black-500)]",
+          "border border-transparent bg-[var(--color-neutral-50)] text-[var(--color-neutral-975)] hover:bg-[var(--color-neutral-75)] active:bg-[var(--color-neutral-100)] disabled:bg-[var(--color-neutral-50)] disabled:text-[var(--color-neutral-900)]",
         ghost:
-          "border border-transparent bg-transparent text-[var(--color-primary-500)] hover:bg-[var(--color-primary-25)] active:bg-[var(--color-primary-50)] disabled:text-[var(--color-neutral-black-500)]",
+          "border border-transparent bg-transparent text-[var(--color-primary-500)] hover:bg-[var(--color-primary-25)] active:bg-[var(--color-primary-50)] disabled:text-[var(--color-neutral-900)]",
         link:
-          "border border-transparent bg-transparent px-0 text-[var(--color-primary-500)] underline-offset-4 hover:text-[var(--color-primary-600)] hover:underline active:text-[var(--color-primary-700)] disabled:text-[var(--color-neutral-black-500)]",
+          "border border-transparent bg-transparent px-0 text-[var(--color-primary-500)] underline-offset-4 hover:text-[var(--color-primary-600)] hover:underline active:text-[var(--color-primary-700)] disabled:text-[var(--color-neutral-900)]",
         success:
-          "border border-transparent bg-[var(--color-positive-500)] text-white shadow-sm hover:bg-[var(--color-positive-600)] active:bg-[var(--color-positive-700)] disabled:bg-[var(--color-neutral-white-100)] disabled:text-[var(--color-neutral-black-500)]",
+          "border border-transparent bg-[var(--color-positive-500)] text-white shadow-sm hover:bg-[var(--color-positive-600)] active:bg-[var(--color-positive-700)] disabled:bg-[var(--color-neutral-100)] disabled:text-[var(--color-neutral-900)]",
         warning:
-          "border border-transparent bg-[var(--color-alert-500)] text-white shadow-sm hover:bg-[var(--color-alert-600)] active:bg-[var(--color-alert-700)] disabled:bg-[var(--color-neutral-white-100)] disabled:text-[var(--color-neutral-black-500)]",
+          "border border-transparent bg-[var(--color-alert-500)] text-white shadow-sm hover:bg-[var(--color-alert-600)] active:bg-[var(--color-alert-700)] disabled:bg-[var(--color-neutral-100)] disabled:text-[var(--color-neutral-900)]",
         danger:
-          "border border-transparent bg-[var(--color-negative-500)] text-white shadow-sm hover:bg-[var(--color-negative-600)] active:bg-[var(--color-negative-700)] disabled:bg-[var(--color-neutral-white-100)] disabled:text-[var(--color-neutral-black-500)]",
+          "border border-transparent bg-[var(--color-negative-500)] text-white shadow-sm hover:bg-[var(--color-negative-600)] active:bg-[var(--color-negative-700)] disabled:bg-[var(--color-neutral-100)] disabled:text-[var(--color-neutral-900)]",
         info:
-          "border border-transparent bg-[var(--color-secondary-500)] text-white shadow-sm hover:bg-[var(--color-secondary-600)] active:bg-[var(--color-secondary-700)] disabled:bg-[var(--color-neutral-white-100)] disabled:text-[var(--color-neutral-black-500)]",
+          "border border-transparent bg-[var(--color-secondary-500)] text-white shadow-sm hover:bg-[var(--color-secondary-600)] active:bg-[var(--color-secondary-700)] disabled:bg-[var(--color-neutral-100)] disabled:text-[var(--color-neutral-900)]",
         neutral:
-          "border border-[color:var(--color-neutral-black-25)] bg-[var(--color-neutral-white-25)] text-[var(--color-neutral-black-975)] hover:border-[var(--color-neutral-black-500)] hover:bg-[var(--color-neutral-white-50)] active:bg-[var(--color-neutral-white-75)] disabled:border-[var(--color-neutral-white-200)] disabled:text-[var(--color-neutral-black-500)]",
+          "border border-[color:var(--color-neutral-500)] bg-[var(--color-neutral-25)] text-[var(--color-neutral-975)] hover:border-[var(--color-neutral-900)] hover:bg-[var(--color-neutral-50)] active:bg-[var(--color-neutral-75)] disabled:border-[var(--color-neutral-200)] disabled:text-[var(--color-neutral-900)]",
       },
       size: {
         default: "h-11 gap-2 rounded-lg px-4 text-sm [&_svg]:size-4",

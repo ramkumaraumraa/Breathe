@@ -206,7 +206,7 @@ export function KayoBrutalistLoader({
           style={{
             fontSize: 12,
             fontWeight: 600,
-            color: isLight ? (tone === "white" ? "#F1F5F9" : "#E4E4E7") : "var(--color-ink-300, #52525B)",
+            color: isLight ? (tone === "white" ? "#F1F5F9" : "#E4E4E7") : "var(--color-neutral-700, #4C4E51)",
           }}
         >
           {label}

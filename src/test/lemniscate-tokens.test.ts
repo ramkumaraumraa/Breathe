@@ -22,7 +22,7 @@ describe('Leminiscate: web and native carry the same token values', () => {
   it('has the expected token counts', () => {
     expect(pick('lmns-color-')).toHaveLength(54)
     expect(pick('lmns-dark-color-')).toHaveLength(28)
-    expect(pick('lmns-palette-')).toHaveLength(43)
+    expect(pick('lmns-palette-')).toHaveLength(45)
   })
   it.each(pick('lmns-color-'))('light %s', (n, v, t) => { expect(nLight[n]).toBe(v); expect(wLight[n]).toBe(`var(--${t})`) })
   it.each(pick('lmns-dark-color-'))('dark %s', (n, v, t) => { expect(nDark[n]).toBe(v); expect(wDark[n]).toBe(`var(--${t})`) })

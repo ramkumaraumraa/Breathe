@@ -32,7 +32,7 @@
                                "comment": "Deep forest black — primary text" },
       "foregroundSecondary": { "value": "{color.neutral.500}",    "type": "color" },
 
-      "border":              { "value": "{color.neutral.200}",    "type": "color" },
+      "border":              { "value": "{color.neutral.100}",    "type": "color" },
       "danger":              { "value": "{color.status.danger}",  "type": "color" },
 
       "gradientStart":       { "value": "{color.green.400}",      "type": "color" },

@@ -6,7 +6,7 @@
       "primaryDark": { "value": "{color.blue.700}", "type": "color" },
       "primaryForeground": { "value": "{color.neutral.white}", "type": "color" },
       "secondary": { "value": "{color.sky.500}", "type": "color" },
-      "secondaryForeground": { "value": "{color.ink.500}", "type": "color" },
+      "secondaryForeground": { "value": "{color.neutral.900}", "type": "color" },
       "tertiary": { "value": "{color.orange.500}", "type": "color" },
       "tertiaryForeground": { "value": "{color.neutral.white}", "type": "color" },
       "accent": { "value": "{color.orange.500}", "type": "color" },
@@ -17,11 +17,11 @@
       "negativeForeground": { "value": "{color.neutral.white}", "type": "color" },
       "background": { "value": "{color.neutral.white}", "type": "color" },
       "backgroundSecondary": { "value": "{color.neutral.50}", "type": "color" },
-      "backgroundTertiary": { "value": "{color.neutral.100}", "type": "color" },
-      "foreground": { "value": "{color.ink.500}", "type": "color" },
-      "foregroundSecondary": { "value": "{color.ink.200}", "type": "color" },
-      "foregroundTertiary": { "value": "{color.ink.100}", "type": "color" },
-      "border": { "value": "{color.neutral.200}", "type": "color" },
+      "backgroundTertiary": { "value": "{color.neutral.75}", "type": "color" },
+      "foreground": { "value": "{color.neutral.900}", "type": "color" },
+      "foregroundSecondary": { "value": "{color.neutral.600}", "type": "color" },
+      "foregroundTertiary": { "value": "{color.neutral.500}", "type": "color" },
+      "border": { "value": "{color.neutral.100}", "type": "color" },
       "borderHover": { "value": "{color.neutral.400}", "type": "color" },
       "success": { "value": "{color.status.success}", "type": "color" },
       "warning": { "value": "{color.status.warning}", "type": "color" },
@@ -129,7 +129,7 @@
         "700": { "value": "{color.feedback.negative.700}", "type": "color" },
         "975": { "value": "{color.feedback.negative.975}", "type": "color" }
       },
-      "neutralWhite": {
+      "neutral": {
         "25": { "value": "{color.neutral.25}", "type": "color" },
         "50": { "value": "{color.neutral.50}", "type": "color" },
         "75": { "value": "{color.neutral.75}", "type": "color" },
@@ -137,14 +137,14 @@
         "200": { "value": "{color.neutral.200}", "type": "color" },
         "300": { "value": "{color.neutral.300}", "type": "color" },
         "400": { "value": "{color.neutral.400}", "type": "color" },
-        "500": { "value": "{color.neutral.500}", "type": "color" }
-      },
-      "neutralBlack": {
-        "25": { "value": "{color.ink.25}", "type": "color" },
-        "500": { "value": "{color.ink.500}", "type": "color" },
-        "700": { "value": "{color.ink.700}", "type": "color" },
-        "900": { "value": "{color.ink.900}", "type": "color" },
-        "975": { "value": "{color.ink.975}", "type": "color" }
+        "500": { "value": "{color.neutral.500}", "type": "color" },
+        "600": { "value": "{color.neutral.600}", "type": "color" },
+        "700": { "value": "{color.neutral.700}", "type": "color" },
+        "800": { "value": "{color.neutral.800}", "type": "color" },
+        "900": { "value": "{color.neutral.900}", "type": "color" },
+        "925": { "value": "{color.neutral.925}", "type": "color" },
+        "950": { "value": "{color.neutral.950}", "type": "color" },
+        "975": { "value": "{color.neutral.975}", "type": "color" }
       }
     },
     "font": {

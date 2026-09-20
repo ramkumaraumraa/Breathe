@@ -415,14 +415,14 @@ import { theme } from '@kaayo/lib/theme'
 
             reactNative: `import { Button } from '@kaayo/components/atoms/Button'
 
-// Disabled — bg: neutralWhite[200] (#e5e7eb), text: text.disabled, no shadow
+// Disabled — bg: neutral[200] (#e5e7eb), text: text.disabled, no shadow
 <Button variant="primary" label="Disabled" disabled onPress={() => {}} />
 
 // Loading — ActivityIndicator replaces label, button is non-interactive
 <Button variant="primary" label="Saving…" loading onPress={() => {}} />
 
 // Both disabled and loading block onPress internally.
-// disabled: opacity via neutralWhite[200] bg + text.disabled color
+// disabled: opacity via neutral[200] bg + text.disabled color
 // loading:  ActivityIndicator color matches palette.fg for the active variant`,
 
             ios: `Button("Disabled") {}

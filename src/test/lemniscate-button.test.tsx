@@ -26,7 +26,7 @@ describe("Leminiscate Button", () => {
 
   it("supports the new semantic variants", () => {
     const className = buttonVariants({ variant: "neutral", size: "xxl" });
-    expect(className).toContain("bg-[var(--color-neutral-white-25)]");
+    expect(className).toContain("bg-[var(--color-neutral-25)]");
     expect(className).toContain("h-16");
   });
 

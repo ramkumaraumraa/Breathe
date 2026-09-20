@@ -9,7 +9,7 @@ export const THEME = {
     background: '#ffffff',
     primary: '#1c60c1',
     secondary: '#40aad4',
-    mutedForeground: '#57595b',
+    mutedForeground: '#5f6163',
     ring: '#1c60c1',
   },
   dark: {

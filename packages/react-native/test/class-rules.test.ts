@@ -12,9 +12,14 @@ const BARE_ROUNDED = /(?<![\w-])rounded(?![\w-[])/;
 // blue, purple) may be used; every other Tailwind default-palette family compiles to OKLCH.
 const FORBIDDEN_PALETTE_FAMILY =
   /-(yellow|lime|teal|sky|indigo|violet|fuchsia|pink|rose|zinc|stone)-\d/;
-// `neutral-white-25` / `neutral-black-975` (the repo's foundation scale) must NOT match — only a
-// *bare* `neutral-<digit>` family (Tailwind's default, unregistered in the theme) is forbidden.
-const FORBIDDEN_NEUTRAL_FAMILY = /-neutral-\d/;
+// `neutral` used to be forbidden here: the foundation scale was split into `neutral-white-*` /
+// `neutral-black-*`, so a bare `neutral-<digit>` could only be Tailwind's default family, which is
+// unregistered in the theme and compiles to OKLCH. The scales are now merged into one `neutral`
+// ramp that the generated theme registers (`--color-neutral-25..975` inside `@theme inline` in
+// styles/lemniscate.css), covering every Tailwind default stop 50–950. A bare `neutral-<digit>`
+// therefore resolves to the repo's own hex, exactly like `slate` / `gray`, and is no longer
+// forbidden. Guarded below by asserting the theme registers the family.
+const THEME_CSS = readFileSync(path.join(__dirname, '../styles/lemniscate.css'), 'utf8');
 // R21: react-native-css 3.0.7 drops static line-heights and multiplies var()/calc() ones by the
 // element font size — an arbitrary length leading (`leading-[20px]`) silently breaks; unitless
 // `leading-[1.25]` is fine.
@@ -63,7 +68,16 @@ describe('class-rules (guards packages/react-native/src against forbidden class 
   });
 
   it('never uses a Tailwind palette family the theme does not define (R19)', () => {
-    expect([...scan(FORBIDDEN_PALETTE_FAMILY), ...scan(FORBIDDEN_NEUTRAL_FAMILY)]).toEqual([]);
+    expect(scan(FORBIDDEN_PALETTE_FAMILY)).toEqual([]);
+  });
+
+  it('registers the whole neutral ramp in the theme, so bare `neutral-N` is not OKLCH (R19)', () => {
+    // Every Tailwind default neutral stop must be redefined by the generated theme, otherwise a
+    // bare `neutral-<digit>` falls through to v4's OKLCH default and breaks on native.
+    const missing = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950].filter(
+      (stop) => !new RegExp(`--color-neutral-${stop}:`).test(THEME_CSS),
+    );
+    expect(missing).toEqual([]);
   });
 
   it('never uses an arbitrary-length leading (R21 — react-native-css 3.0.7 drops/mis-scales it)', () => {
@@ -89,12 +103,8 @@ describe('class-rules (guards packages/react-native/src against forbidden class 
 
     expect(FORBIDDEN_PALETTE_FAMILY.test('bg-rose-500')).toBe(true);
     expect(FORBIDDEN_PALETTE_FAMILY.test('text-sky-400')).toBe(true);
-    expect(FORBIDDEN_PALETTE_FAMILY.test('bg-neutral-white-25')).toBe(false);
+    expect(FORBIDDEN_PALETTE_FAMILY.test('bg-neutral-25')).toBe(false);
     expect(FORBIDDEN_PALETTE_FAMILY.test('bg-slate-500')).toBe(false);
-
-    expect(FORBIDDEN_NEUTRAL_FAMILY.test('bg-neutral-500')).toBe(true);
-    expect(FORBIDDEN_NEUTRAL_FAMILY.test('bg-neutral-white-25')).toBe(false);
-    expect(FORBIDDEN_NEUTRAL_FAMILY.test('bg-neutral-black-975')).toBe(false);
 
     expect(ARBITRARY_LEADING.test('leading-[20px]')).toBe(true);
     expect(ARBITRARY_LEADING.test('leading-[1.5rem]')).toBe(true);

@@ -13,8 +13,8 @@ const SWATCHES = [
   ['bg-success', 'success'],
   ['bg-warning', 'warning'],
   ['bg-danger', 'danger'],
-  ['bg-neutral-white-100', 'neutral-white-100'],
-  ['bg-neutral-black-975', 'neutral-black-975'],
+  ['bg-neutral-100', 'neutral-100'],
+  ['bg-neutral-975', 'neutral-975'],
   ['bg-red-50 border border-red-200', 'red-50 (v3)'],
 ] as const;
 

@@ -29,9 +29,9 @@ describe('Text', () => {
 
   it.each([
     [
-      'font-medium text-[11px] text-neutral-black-975',
+      'font-medium text-[11px] text-neutral-975',
       undefined,
-      'font-sans font-medium text-[11px] text-neutral-black-975',
+      'font-sans font-medium text-[11px] text-neutral-975',
     ],
     ['text-primary-500 text-sm font-medium', 'font-normal', 'font-sans text-primary-500 text-sm font-normal'],
   ])('context %s + className %s', async (ctx, cls, expected) => {

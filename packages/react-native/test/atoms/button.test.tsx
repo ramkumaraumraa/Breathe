@@ -11,14 +11,14 @@ describe('buttonVariants (parity with web button.tsx)', () => {
     ['default', 'bg-primary-500', 'active:bg-primary-700'],
     ['destructive', 'bg-negative-500', 'active:bg-negative-700'],
     ['outline', 'border-primary-500', 'active:bg-primary-50'],
-    ['brandOutline', 'border-neutral-white-300', 'active:bg-neutral-white-75'],
-    ['secondary', 'bg-neutral-white-50', 'active:bg-neutral-white-100'],
+    ['brandOutline', 'border-neutral-300', 'active:bg-neutral-75'],
+    ['secondary', 'bg-neutral-50', 'active:bg-neutral-100'],
     ['ghost', 'bg-transparent', 'active:bg-primary-50'],
     ['success', 'bg-positive-500', 'active:bg-positive-700'],
     ['warning', 'bg-alert-500', 'active:bg-alert-700'],
     ['danger', 'bg-negative-500', 'active:bg-negative-700'],
     ['info', 'bg-secondary-500', 'active:bg-secondary-700'],
-    ['neutral', 'border-neutral-black-25', 'active:bg-neutral-white-75'],
+    ['neutral', 'border-neutral-500', 'active:bg-neutral-75'],
   ] as const)('%s → %s, pressed %s', (variant, rest, pressed) => {
     const cls = buttonVariants({ variant });
     expect(cls).toContain(rest);
@@ -41,15 +41,15 @@ describe('buttonVariants (parity with web button.tsx)', () => {
 
   it('uses the grey disabled fill and drops the shadow', () => {
     const cls = buttonVariants({ variant: 'default', disabled: true });
-    expect(cls).toContain('bg-neutral-white-100');
+    expect(cls).toContain('bg-neutral-100');
     expect(cls).toContain('shadow-none');
     expect(cls).not.toContain('bg-primary-500');
   });
 
-  it('keeps white text on filled variants and neutral-black-500 when disabled', () => {
+  it('keeps white text on filled variants and neutral-900 when disabled', () => {
     expect(buttonTextVariants({ variant: 'default' })).toContain('text-white');
-    expect(buttonTextVariants({ variant: 'brandOutline' })).toContain('text-neutral-black-975');
-    expect(buttonTextVariants({ variant: 'default', disabled: true })).toContain('text-neutral-black-500');
+    expect(buttonTextVariants({ variant: 'brandOutline' })).toContain('text-neutral-975');
+    expect(buttonTextVariants({ variant: 'default', disabled: true })).toContain('text-neutral-900');
     expect(buttonTextVariants({ size: 'xs' })).toContain('text-[11px]');
     expect(buttonTextVariants({ size: 'sm' })).toContain('text-xs');
   });
@@ -160,7 +160,7 @@ describe('Button', () => {
       </Button>,
     );
     const cls = screen.getByRole('button').props.className;
-    expect(cls).toContain('border-neutral-white-200');
+    expect(cls).toContain('border-neutral-200');
     expect(cls).not.toContain('border-primary-500');
   });
 

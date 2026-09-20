@@ -169,39 +169,23 @@
   --color-navy-925: #0d1016;
   --color-navy-950: #080a0e;
   --color-navy-975: #040507;
-  --color-neutral-25: #f8fafc;
-  --color-neutral-50: #f9fafb;
-  --color-neutral-75: #e2e8f0;
-  --color-neutral-100: #f3f4f6;
-  --color-neutral-200: #e5e7eb;
-  --color-neutral-300: #d1d5db;
-  --color-neutral-400: #9ca3af;
-  --color-neutral-500: #6b7280;
-  --color-neutral-600: #4b5563;
-  --color-neutral-700: #374151;
-  --color-neutral-800: #1f2937;
-  --color-neutral-900: #111827;
-  --color-neutral-925: #04060d;
-  --color-neutral-950: #0d1117; /** Near-black — Technocracy deepest background */
-  --color-neutral-975: #010203;
-  --color-neutral-1000: #080c12; /** Absolute dark — sidebar rail in dense dashboards */
-  --color-neutral-white: #ffffff;
-  --color-neutral-black: #000000;
-  --color-ink-25: #808284;
-  --color-ink-50: #737577;
-  --color-ink-75: #676869;
-  --color-ink-100: #6c6d70;
-  --color-ink-200: #57595b;
-  --color-ink-300: #494b4d;
-  --color-ink-400: #3b3d3f;
-  --color-ink-500: #2e3033;
-  --color-ink-600: #262829;
-  --color-ink-700: #1f2122;
-  --color-ink-800: #191b1f;
-  --color-ink-900: #131519;
-  --color-ink-925: #0e1013;
-  --color-ink-950: #09090b;
-  --color-ink-975: #050507;
+  --color-neutral-25: #ffffff; /** L*100 — pure white anchor. Page surfaces. */
+  --color-neutral-50: #f8f8f8; /** L*97.6 — secondary surfaces, subtle fills */
+  --color-neutral-75: #f0f1f1; /** L*95.1 — tertiary surfaces, hover fills */
+  --color-neutral-100: #e8e8e9; /** L*92.0 — default borders, dividers */
+  --color-neutral-200: #d9dadb; /** L*87.0 — strong borders, border hover */
+  --color-neutral-300: #c3c4c5; /** L*79.1 — disabled fills, skeletons */
+  --color-neutral-400: #9fa0a2; /** L*65.8 — muted text on DARK (7.29:1 on 975) */
+  --color-neutral-500: #757678; /** L*49.6 — the grey. Muted text on LIGHT (4.55:1 on 25) */
+  --color-neutral-600: #5f6163; /** L*41.0 — secondary text on light */
+  --color-neutral-700: #4c4e51; /** L*33.1 — body text on light (8.35:1) */
+  --color-neutral-800: #3a3b3f; /** L*24.9 — headings on light (11.19:1) */
+  --color-neutral-900: #2a2c30; /** L*18.0 — primary text (13.99:1) */
+  --color-neutral-925: #202225; /** L*13.1 — elevated dark surfaces */
+  --color-neutral-950: #17191d; /** L*8.7 — dark surfaces, cards on dark */
+  --color-neutral-975: #0d1014; /** L*4.6 — adapted black. Deepest background. Never #000 for type. */
+  --color-neutral-white: #ffffff; /** Alias -> 25. Kept for existing references. */
+  --color-neutral-black: #000000; /** Outside the ramp. Shadows and scrims only (rgba), never typography. */
   --color-status-success: #16a34a;
   --color-status-success-light: #d0eddb;
   --color-status-success-dark: #17773c;

@@ -169,39 +169,23 @@
   --color-navy-925: #0d1016;
   --color-navy-950: #080a0e;
   --color-navy-975: #040507;
-  --color-neutral-25: #f8fafc;
-  --color-neutral-50: #f9fafb;
-  --color-neutral-75: #e2e8f0;
-  --color-neutral-100: #f3f4f6;
-  --color-neutral-200: #e5e7eb;
-  --color-neutral-300: #d1d5db;
-  --color-neutral-400: #9ca3af;
-  --color-neutral-500: #6b7280;
-  --color-neutral-600: #4b5563;
-  --color-neutral-700: #374151;
-  --color-neutral-800: #1f2937;
-  --color-neutral-900: #111827;
-  --color-neutral-925: #04060d;
-  --color-neutral-950: #0d1117; /** Near-black — Technocracy deepest background */
-  --color-neutral-975: #010203;
-  --color-neutral-1000: #080c12; /** Absolute dark — sidebar rail in dense dashboards */
-  --color-neutral-white: #ffffff;
-  --color-neutral-black: #000000;
-  --color-ink-25: #808284;
-  --color-ink-50: #737577;
-  --color-ink-75: #676869;
-  --color-ink-100: #6c6d70;
-  --color-ink-200: #57595b;
-  --color-ink-300: #494b4d;
-  --color-ink-400: #3b3d3f;
-  --color-ink-500: #2e3033;
-  --color-ink-600: #262829;
-  --color-ink-700: #1f2122;
-  --color-ink-800: #191b1f;
-  --color-ink-900: #131519;
-  --color-ink-925: #0e1013;
-  --color-ink-950: #09090b;
-  --color-ink-975: #050507;
+  --color-neutral-25: #ffffff; /** L*100 — pure white anchor. Page surfaces. */
+  --color-neutral-50: #f8f8f8; /** L*97.6 — secondary surfaces, subtle fills */
+  --color-neutral-75: #f0f1f1; /** L*95.1 — tertiary surfaces, hover fills */
+  --color-neutral-100: #e8e8e9; /** L*92.0 — default borders, dividers */
+  --color-neutral-200: #d9dadb; /** L*87.0 — strong borders, border hover */
+  --color-neutral-300: #c3c4c5; /** L*79.1 — disabled fills, skeletons */
+  --color-neutral-400: #9fa0a2; /** L*65.8 — muted text on DARK (7.29:1 on 975) */
+  --color-neutral-500: #757678; /** L*49.6 — the grey. Muted text on LIGHT (4.55:1 on 25) */
+  --color-neutral-600: #5f6163; /** L*41.0 — secondary text on light */
+  --color-neutral-700: #4c4e51; /** L*33.1 — body text on light (8.35:1) */
+  --color-neutral-800: #3a3b3f; /** L*24.9 — headings on light (11.19:1) */
+  --color-neutral-900: #2a2c30; /** L*18.0 — primary text (13.99:1) */
+  --color-neutral-925: #202225; /** L*13.1 — elevated dark surfaces */
+  --color-neutral-950: #17191d; /** L*8.7 — dark surfaces, cards on dark */
+  --color-neutral-975: #0d1014; /** L*4.6 — adapted black. Deepest background. Never #000 for type. */
+  --color-neutral-white: #ffffff; /** Alias -> 25. Kept for existing references. */
+  --color-neutral-black: #000000; /** Outside the ramp. Shadows and scrims only (rgba), never typography. */
   --color-status-success: #16a34a;
   --color-status-success-light: #d0eddb;
   --color-status-success-dark: #17773c;
@@ -311,7 +295,7 @@
   --lmns-color-primary-dark: #1b4a8d;
   --lmns-color-primary-foreground: #ffffff;
   --lmns-color-secondary: #40aad4;
-  --lmns-color-secondary-foreground: #2e3033;
+  --lmns-color-secondary-foreground: #2a2c30;
   --lmns-color-tertiary: #ed651c;
   --lmns-color-tertiary-foreground: #ffffff;
   --lmns-color-accent: #ed651c;
@@ -321,13 +305,13 @@
   --lmns-color-negative: #dc2626;
   --lmns-color-negative-foreground: #ffffff;
   --lmns-color-background: #ffffff;
-  --lmns-color-background-secondary: #f9fafb;
-  --lmns-color-background-tertiary: #f3f4f6;
-  --lmns-color-foreground: #2e3033;
-  --lmns-color-foreground-secondary: #57595b;
-  --lmns-color-foreground-tertiary: #6c6d70;
-  --lmns-color-border: #e5e7eb;
-  --lmns-color-border-hover: #9ca3af;
+  --lmns-color-background-secondary: #f8f8f8;
+  --lmns-color-background-tertiary: #f0f1f1;
+  --lmns-color-foreground: #2a2c30;
+  --lmns-color-foreground-secondary: #5f6163;
+  --lmns-color-foreground-tertiary: #757678;
+  --lmns-color-border: #e8e8e9;
+  --lmns-color-border-hover: #9fa0a2;
   --lmns-color-success: #16a34a;
   --lmns-color-warning: #f59e0b;
   --lmns-color-danger: #dc2626;
@@ -335,14 +319,14 @@
   --lmns-color-gradient-start: #1c60c1;
   --lmns-color-gradient-end: #40aad4;
   --lmns-color-card: #ffffff;
-  --lmns-color-card-foreground: #2e3033;
+  --lmns-color-card-foreground: #2a2c30;
   --lmns-color-popover: #ffffff;
-  --lmns-color-popover-foreground: #2e3033;
-  --lmns-color-muted: #f3f4f6;
-  --lmns-color-muted-foreground: #57595b;
+  --lmns-color-popover-foreground: #2a2c30;
+  --lmns-color-muted: #f0f1f1;
+  --lmns-color-muted-foreground: #5f6163;
   --lmns-color-destructive: #dc2626;
   --lmns-color-destructive-foreground: #ffffff;
-  --lmns-color-input: #e5e7eb;
+  --lmns-color-input: #e8e8e9;
   --lmns-color-ring: #1c60c1;
   --lmns-color-success-light: #d0eddb;
   --lmns-color-success-dark: #17773c;
@@ -353,12 +337,12 @@
   --lmns-color-info-light: #d9eef6;
   --lmns-color-info-dark: #347c9a;
   --lmns-color-sidebar-background: #ffffff;
-  --lmns-color-sidebar-foreground: #2e3033;
+  --lmns-color-sidebar-foreground: #2a2c30;
   --lmns-color-sidebar-primary: #1c60c1;
   --lmns-color-sidebar-primary-foreground: #ffffff;
-  --lmns-color-sidebar-accent: #f9fafb;
-  --lmns-color-sidebar-accent-foreground: #2e3033;
-  --lmns-color-sidebar-border: #e5e7eb;
+  --lmns-color-sidebar-accent: #f8f8f8;
+  --lmns-color-sidebar-accent-foreground: #2a2c30;
+  --lmns-color-sidebar-border: #e8e8e9;
   --lmns-color-sidebar-ring: #1c60c1;
   --lmns-dark-color-background: #121821; /** Breathe has no Leminiscate dark palette; from the app repo src/index.css .dark (ecf73f7) */
   --lmns-dark-color-background-secondary: #171d26;
@@ -418,19 +402,21 @@
   --lmns-palette-negative-600: #bd2425;
   --lmns-palette-negative-700: #9e2224;
   --lmns-palette-negative-975: #100406;
-  --lmns-palette-neutral-white-25: #f8fafc;
-  --lmns-palette-neutral-white-50: #f9fafb;
-  --lmns-palette-neutral-white-75: #e2e8f0;
-  --lmns-palette-neutral-white-100: #f3f4f6;
-  --lmns-palette-neutral-white-200: #e5e7eb;
-  --lmns-palette-neutral-white-300: #d1d5db;
-  --lmns-palette-neutral-white-400: #9ca3af;
-  --lmns-palette-neutral-white-500: #6b7280;
-  --lmns-palette-neutral-black-25: #808284;
-  --lmns-palette-neutral-black-500: #2e3033;
-  --lmns-palette-neutral-black-700: #1f2122;
-  --lmns-palette-neutral-black-900: #131519;
-  --lmns-palette-neutral-black-975: #050507;
+  --lmns-palette-neutral-25: #ffffff;
+  --lmns-palette-neutral-50: #f8f8f8;
+  --lmns-palette-neutral-75: #f0f1f1;
+  --lmns-palette-neutral-100: #e8e8e9;
+  --lmns-palette-neutral-200: #d9dadb;
+  --lmns-palette-neutral-300: #c3c4c5;
+  --lmns-palette-neutral-400: #9fa0a2;
+  --lmns-palette-neutral-500: #757678;
+  --lmns-palette-neutral-600: #5f6163;
+  --lmns-palette-neutral-700: #4c4e51;
+  --lmns-palette-neutral-800: #3a3b3f;
+  --lmns-palette-neutral-900: #2a2c30;
+  --lmns-palette-neutral-925: #202225;
+  --lmns-palette-neutral-950: #17191d;
+  --lmns-palette-neutral-975: #0d1014;
   --lmns-font-size-base: 16px;
   --lmns-font-weight-body: 400;
   --lmns-font-weight-heading: 500;

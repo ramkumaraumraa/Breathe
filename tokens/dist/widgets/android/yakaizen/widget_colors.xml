@@ -19,10 +19,10 @@
   <color name="ykai_color_negative">#ffdc2626</color>
   <color name="ykai_color_negative_foreground">#ffffffff</color>
   <color name="ykai_color_background">#ffffffff</color>
-  <color name="ykai_color_background_secondary">#fff9fafb</color>
-  <color name="ykai_color_foreground">#ff111827</color>
-  <color name="ykai_color_foreground_secondary">#ff6b7280</color>
-  <color name="ykai_color_border">#ffe5e7eb</color>
+  <color name="ykai_color_background_secondary">#fff8f8f8</color>
+  <color name="ykai_color_foreground">#ff17191d</color>
+  <color name="ykai_color_foreground_secondary">#ff757678</color>
+  <color name="ykai_color_border">#ffe8e8e9</color>
   <color name="ykai_color_success">#ff16a34a</color>
   <color name="ykai_color_warning">#fff59e0b</color>
   <color name="ykai_color_danger">#ffdc2626</color>

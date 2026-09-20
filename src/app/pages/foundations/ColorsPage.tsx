@@ -135,82 +135,32 @@ const feedbackScales: ColorScale[] = [
   },
 ];
 
-// Neutral scales (shared across all brands)
+// Neutral scale (shared across all brands) — one ramp, 25 = white -> 975 = adapted black
 const neutralScales: ColorScale[] = [
   {
-    name: 'White',
-    description: 'Page backgrounds, card surfaces, input fills, skeleton loaders, disabled states. 500 = pure white anchor.',
-    root: '#D6D6D7',
+    name: "Neutral",
+    description: "One ramp for every surface, border and text value. 25 = pure white, 500 = the grey, 975 = the adapted black. Cool-tinted (B-R rises 0 -> 7) so dark UI reads as designed, not flat. Never #000 for typography — that is a separate scrim-only token.",
+    root: "#757678",
     stops: [
-      { stop: 25, hex: '#FFFFFF', textColor: '#0F172A' },
-      { stop: 50, hex: '#FAFAFA', textColor: '#0F172A' },
-      { stop: 75, hex: '#F5F5F6', textColor: '#0F172A' },
-      { stop: 100, hex: '#F1F1F2', textColor: '#0F172A' },
-      { stop: 200, hex: '#EBEBEC', textColor: '#0F172A' },
-      { stop: 300, hex: '#E3E4E4', textColor: '#0F172A' },
-      { stop: 400, hex: '#DADADA', textColor: '#0F172A' },
-      { stop: 500, hex: '#D6D6D7', textColor: '#0F172A' },
-      { stop: 600, hex: '#CFCFD0', textColor: '#0F172A' },
-      { stop: 700, hex: '#C8C8C9', textColor: '#0F172A' },
-      { stop: 800, hex: '#C1C1C2', textColor: '#0F172A' },
-      { stop: 900, hex: '#BABABC', textColor: '#0F172A' },
-      { stop: 925, hex: '#B5B6B7', textColor: '#0F172A' },
-      { stop: 950, hex: '#AEAEB0', textColor: '#0F172A' },
-      { stop: 975, hex: '#A8A8AA', textColor: '#0F172A' },
+      { stop: 25,  hex: "#FFFFFF", textColor: "#0F172A" },
+      { stop: 50,  hex: "#F8F8F8", textColor: "#0F172A" },
+      { stop: 75,  hex: "#F0F1F1", textColor: "#0F172A" },
+      { stop: 100, hex: "#E8E8E9", textColor: "#0F172A" },
+      { stop: 200, hex: "#D9DADB", textColor: "#0F172A" },
+      { stop: 300, hex: "#C3C4C5", textColor: "#0F172A" },
+      { stop: 400, hex: "#9FA0A2", textColor: "#0F172A" },
+      { stop: 500, hex: "#757678", textColor: "#fff" },
+      { stop: 600, hex: "#5F6163", textColor: "#fff" },
+      { stop: 700, hex: "#4C4E51", textColor: "#fff" },
+      { stop: 800, hex: "#3A3B3F", textColor: "#fff" },
+      { stop: 900, hex: "#2A2C30", textColor: "#fff" },
+      { stop: 925, hex: "#202225", textColor: "#fff" },
+      { stop: 950, hex: "#17191D", textColor: "#fff" },
+      { stop: 975, hex: "#0D1014", textColor: "#fff" },
     ],
-    tokenPath: 'color.neutral.white',
-    cssPrefix: '--color-neutral-white',
-    keyStops: [500, 25, 200],
-  },
-  {
-    name: 'Grey',
-    description: 'Borders, dividers, icon fills, placeholder text, muted labels. The workhorse between White and Ink.',
-    root: '#6B6B6D',
-    stops: [
-      { stop: 25, hex: '#E8E8E9', textColor: '#0F172A' },
-      { stop: 50, hex: '#DCDCDD', textColor: '#0F172A' },
-      { stop: 75, hex: '#D0D0D1', textColor: '#0F172A' },
-      { stop: 100, hex: '#C4C4C5', textColor: '#0F172A' },
-      { stop: 200, hex: '#ADADAE', textColor: '#0F172A' },
-      { stop: 300, hex: '#969698', textColor: '#0F172A' },
-      { stop: 400, hex: '#808082', textColor: '#fff' },
-      { stop: 500, hex: '#6B6B6D', textColor: '#fff' },
-      { stop: 600, hex: '#595A5C', textColor: '#fff' },
-      { stop: 700, hex: '#474849', textColor: '#fff' },
-      { stop: 800, hex: '#373839', textColor: '#fff' },
-      { stop: 900, hex: '#282829', textColor: '#fff' },
-      { stop: 925, hex: '#1C1C1D', textColor: '#fff' },
-      { stop: 950, hex: '#111112', textColor: '#fff' },
-      { stop: 975, hex: '#070708', textColor: '#fff' },
-    ],
-    tokenPath: 'color.neutral.grey',
-    cssPrefix: '--color-neutral-grey',
-    keyStops: [500, 200, 400],
-  },
-  {
-    name: 'Ink',
-    description: 'Body text, headings, dark mode surfaces. 500 = darkest text value. Never #000000 — Ink.500 is a very dark near-black.',
-    root: '#2E3033',
-    stops: [
-      { stop: 25, hex: '#808284', textColor: '#fff' },
-      { stop: 50, hex: '#737577', textColor: '#fff' },
-      { stop: 75, hex: '#676869', textColor: '#fff' },
-      { stop: 100, hex: '#6C6D70', textColor: '#fff' },
-      { stop: 200, hex: '#57595B', textColor: '#fff' },
-      { stop: 300, hex: '#494B4D', textColor: '#fff' },
-      { stop: 400, hex: '#3B3D3F', textColor: '#fff' },
-      { stop: 500, hex: '#2E3033', textColor: '#fff' },
-      { stop: 600, hex: '#262829', textColor: '#fff' },
-      { stop: 700, hex: '#1F2122', textColor: '#fff' },
-      { stop: 800, hex: '#191B1F', textColor: '#fff' },
-      { stop: 900, hex: '#131519', textColor: '#fff' },
-      { stop: 925, hex: '#0E1013', textColor: '#fff' },
-      { stop: 950, hex: '#09090B', textColor: '#fff' },
-      { stop: 975, hex: '#050507', textColor: '#fff' },
-    ],
-    tokenPath: 'color.neutral.ink',
-    cssPrefix: '--color-neutral-ink',
-    keyStops: [500, 200, 800],
+    tokenPath: "color.neutral",
+    cssPrefix: "--color-neutral",
+    keyStops: [25, 500, 975],
   },
 ];
 
@@ -302,7 +252,7 @@ const brandPalettes: BrandPalette[] = [
       { name: 'Brand Blend', token: 'gradient.brand-blend', stops: 'primary.500 → secondary.500', usage: 'Primary CTAs, hero backgrounds', gradient: 'linear-gradient(135deg, #1C60C1 0%, #40AAD4 100%)' },
       { name: 'Energy', token: 'gradient.energy', stops: 'secondary.500 → tertiary.500', usage: 'Promotional banners, feature callouts', gradient: 'linear-gradient(135deg, #40AAD4 0%, #ED651C 100%)' },
       { name: 'Arc', token: 'gradient.arc', stops: 'tertiary.500 → primary.500', usage: 'Illustrations, decorative brand moments', gradient: 'linear-gradient(135deg, #ED651C 0%, #1C60C1 100%)' },
-      { name: 'Depth', token: 'gradient.depth', stops: 'primary.500 → neutral-ink.500', usage: 'Dark hero sections, card overlays', gradient: 'linear-gradient(135deg, #1C60C1 0%, #2E3033 100%)' },
+      { name: 'Depth', token: 'gradient.depth', stops: 'primary.500 → neutral.900', usage: 'Dark hero sections, card overlays', gradient: 'linear-gradient(135deg, #1C60C1 0%, #2A2C30 100%)' },
       { name: 'Horizon', token: 'gradient.horizon', stops: 'primary.700 → secondary.500', usage: 'Map UI overlays, premium feature panels', gradient: 'linear-gradient(135deg, #1B4A8D 0%, #40AAD4 100%)' },
       { name: 'Full Spectrum', token: 'gradient.full-spectrum', stops: 'tertiary.500 → primary.500 → secondary.500', usage: 'Brand-only — splash screens, launch assets', gradient: 'linear-gradient(135deg, #ED651C 0%, #1C60C1 50%, #40AAD4 100%)' },
     ],
@@ -393,7 +343,7 @@ const brandPalettes: BrandPalette[] = [
       { name: 'Growth', token: 'gradient.growth', stops: 'primary.500 → secondary.500', usage: 'Hero sections, brand moments', gradient: 'linear-gradient(135deg, #2F9E44 0%, #CFCF2A 100%)' },
       { name: 'Momentum', token: 'gradient.momentum', stops: 'primary.500 → tertiary.500', usage: 'Feature callouts, CTAs', gradient: 'linear-gradient(135deg, #2F9E44 0%, #2F6FED 100%)' },
       { name: 'Clarity', token: 'gradient.clarity', stops: 'secondary.500 → tertiary.500', usage: 'Service cards, portfolio highlights', gradient: 'linear-gradient(135deg, #CFCF2A 0%, #2F6FED 100%)' },
-      { name: 'Deep Root', token: 'gradient.deep-root', stops: 'primary.500 → neutral-ink.500', usage: 'Dark panels, footer areas', gradient: 'linear-gradient(135deg, #2F9E44 0%, #2E3033 100%)' },
+      { name: 'Deep Root', token: 'gradient.deep-root', stops: 'primary.500 → neutral.900', usage: 'Dark panels, footer areas', gradient: 'linear-gradient(135deg, #2F9E44 0%, #2A2C30 100%)' },
       { name: 'Canopy', token: 'gradient.canopy', stops: 'primary.700 → primary.500 → secondary.500', usage: 'Premium product tiers, studio branding', gradient: 'linear-gradient(135deg, #227832 0%, #2F9E44 50%, #CFCF2A 100%)' },
     ],
   },
@@ -932,14 +882,14 @@ const semanticTokens = [
   { token: 'color.brand.default', references: 'color.core.primary.500', usage: 'Primary CTAs, links, active nav, focus rings' },
   { token: 'color.brand.subtle', references: 'color.core.primary.100', usage: 'Tinted backgrounds behind brand elements' },
   { token: 'color.brand.strong', references: 'color.core.primary.700', usage: 'Hover states on brand elements' },
-  { token: 'color.brand.on-brand', references: 'neutral.white.500', usage: 'Text/icons placed on top of brand.default' },
+  { token: 'color.brand.on-brand', references: 'color.neutral.25', usage: 'Text/icons placed on top of brand.default' },
   { token: 'color.accent.default', references: 'color.core.secondary.500', usage: 'Secondary actions, highlights, data accents' },
   { token: 'color.feedback.positive', references: 'color.feedback.positive.500', usage: 'Success messages, completed states, go actions' },
   { token: 'color.feedback.warning', references: 'color.feedback.warning.500', usage: 'Caution alerts, pending states, review needed' },
   { token: 'color.feedback.negative', references: 'color.feedback.negative.500', usage: 'Errors, destructive actions, critical alerts' },
-  { token: 'color.surface.page', references: 'color.neutral.white.500', usage: 'Main page / screen background' },
-  { token: 'color.border.default', references: 'color.neutral.grey.200', usage: 'Default borders, dividers' },
-  { token: 'color.text.primary', references: 'color.neutral.ink.500', usage: 'Body text, headings, primary labels' },
+  { token: 'color.surface.page', references: 'color.neutral.25', usage: 'Main page / screen background' },
+  { token: 'color.border.default', references: 'color.neutral.100', usage: 'Default borders, dividers' },
+  { token: 'color.text.primary', references: 'color.neutral.900', usage: 'Body text, headings, primary labels' },
 ];
 
 function ColorSwatch({ stop, isRoot, onCopy }: { stop: ColorStop; isRoot: boolean; onCopy: (hex: string) => void }) {
@@ -1109,7 +1059,7 @@ export function ColorsPage() {
     <div className="max-w-7xl px-6 lg:px-10 py-10">
       <PageHeader
         title="Colors"
-        description="Breathe's multi-brand color system with 10 scales per brand: 3 Core (brand-specific), 3 Feedback (shared), 3 Neutral (shared). Each scale has 15 stops with stop 500 as the root."
+        description="Breathe's multi-brand color system with 7 scales per brand: 3 Core (brand-specific), 3 Feedback (shared), 1 Neutral (shared). Each scale has 15 stops with stop 500 as the root."
         section="Foundations"
         badge="Multi-Brand"
         badgeColor="teal"
@@ -1154,7 +1104,7 @@ export function ColorsPage() {
           Group 3 — Neutral
         </h2>
         <p className="text-slate-500 dark:text-slate-400 mb-6 mt-1" style={{ fontFamily: 'var(--font-sans)', fontSize: '0.875rem' }}>
-          Shared across all brands. White for surfaces, Grey for UI chrome, Ink for text and dark backgrounds.
+          Shared across all brands. A single ramp from white to the adapted black — 500 is muted text on light, 400 is muted text on dark.
         </p>
         {neutralScales.map(scale => (
           <ScaleRow key={scale.name} scale={scale} locked />

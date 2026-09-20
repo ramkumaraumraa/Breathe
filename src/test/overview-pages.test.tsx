@@ -43,7 +43,9 @@ describe('Get Started', () => {
   it('states the counted component total, never a hardcoded one', () => {
     routed(<HomePage />)
     expect(screen.getByText(`${componentCount} documented components`)).toBeInTheDocument()
-    expect(screen.queryByText(/20\+/)).not.toBeInTheDocument()
+    // anchored: the old hardcoded claim was the whole string "20+". An unanchored
+    // /20\+/ also matches the "Tokens per product" stat once it rounds to e.g. "320+".
+    expect(screen.queryByText(/^20\+$/)).not.toBeInTheDocument()
   })
 
   it('agrees with the package version instead of claiming v1.0', () => {

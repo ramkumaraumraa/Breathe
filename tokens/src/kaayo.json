@@ -11,9 +11,9 @@
       "tertiaryForeground":  { "value": "{color.neutral.white}", "type": "color" },
       "background":          { "value": "{color.neutral.white}", "type": "color" },
       "backgroundSecondary": { "value": "{color.neutral.50}", "type": "color" },
-      "foreground":          { "value": "{color.ink.400}", "type": "color" },
-      "foregroundSecondary": { "value": "{color.ink.100}", "type": "color" },
-      "border":              { "value": "{color.ink.400}", "type": "color" },
+      "foreground":          { "value": "{color.neutral.800}", "type": "color" },
+      "foregroundSecondary": { "value": "{color.neutral.500}", "type": "color" },
+      "border":              { "value": "{color.neutral.800}", "type": "color" },
       "positive":            { "value": "{color.status.success}", "type": "color" },
       "positiveForeground":  { "value": "{color.neutral.white}", "type": "color" },
       "negative":            { "value": "{color.status.danger}", "type": "color" },
@@ -38,10 +38,10 @@
       "pill":    { "value": "{radius.full}", "type": "dimension" }
     },
     "shadow": {
-      "sm": { "value": "2px 2px 0 {color.ink.800}", "type": "shadow", "comment": "Neo-Brutalist hard offset — no blur" },
-      "md": { "value": "4px 4px 0 {color.ink.800}", "type": "shadow", "comment": "Neo-Brutalist hard offset — no blur" },
-      "lg": { "value": "6px 6px 0 {color.ink.800}", "type": "shadow", "comment": "Neo-Brutalist hard offset — no blur" },
-      "xl": { "value": "8px 8px 0 {color.ink.800}", "type": "shadow", "comment": "Neo-Brutalist hard offset — no blur" }
+      "sm": { "value": "2px 2px 0 {color.neutral.950}", "type": "shadow", "comment": "Neo-Brutalist hard offset — no blur" },
+      "md": { "value": "4px 4px 0 {color.neutral.950}", "type": "shadow", "comment": "Neo-Brutalist hard offset — no blur" },
+      "lg": { "value": "6px 6px 0 {color.neutral.950}", "type": "shadow", "comment": "Neo-Brutalist hard offset — no blur" },
+      "xl": { "value": "8px 8px 0 {color.neutral.950}", "type": "shadow", "comment": "Neo-Brutalist hard offset — no blur" }
     },
     "icon": {
       "sm": { "value": "{icon.sm}", "type": "dimension" },

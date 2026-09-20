@@ -306,6 +306,11 @@
   --color-earth-925: #35261a;
   --color-earth-950: #251a12;
   --color-earth-975: #150f0a;
+  --color-signal-green: #00dc82; /** Aumraa green gone dark-vibrant. Technocracy primary. Role twin of feedback.positive. */
+  --color-signal-amber: #f0a30a; /** Role twin of feedback.warning, lifted for dark surfaces. */
+  --color-signal-red: #ff4444; /** Role twin of feedback.negative, lifted for dark surfaces. */
+  --color-signal-blue: #4da6ff; /** Role twin of feedback.supportive, lifted for dark surfaces. */
+  --color-signal-muted: #8b94a7; /** Inactive / no-signal state. */
   --font-family-sans: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-family-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
   --font-family-source-sans: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /** Aumraa brand typeface */

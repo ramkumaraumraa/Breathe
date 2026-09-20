@@ -1293,6 +1293,33 @@
         "value": "#150f0a",
         "type": "color"
       }
+    },
+    "signal": {
+      "green": {
+        "value": "#00dc82",
+        "type": "color",
+        "comment": "Aumraa green gone dark-vibrant. Technocracy primary. Role twin of feedback.positive."
+      },
+      "amber": {
+        "value": "#f0a30a",
+        "type": "color",
+        "comment": "Role twin of feedback.warning, lifted for dark surfaces."
+      },
+      "red": {
+        "value": "#ff4444",
+        "type": "color",
+        "comment": "Role twin of feedback.negative, lifted for dark surfaces."
+      },
+      "blue": {
+        "value": "#4da6ff",
+        "type": "color",
+        "comment": "Role twin of feedback.supportive, lifted for dark surfaces."
+      },
+      "muted": {
+        "value": "#8b94a7",
+        "type": "color",
+        "comment": "Inactive / no-signal state."
+      }
     }
   },
   "font": {

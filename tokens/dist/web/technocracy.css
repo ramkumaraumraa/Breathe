@@ -306,6 +306,11 @@
   --color-earth-925: #35261a;
   --color-earth-950: #251a12;
   --color-earth-975: #150f0a;
+  --color-signal-green: #00dc82; /** Aumraa green gone dark-vibrant. Technocracy primary. Role twin of feedback.positive. */
+  --color-signal-amber: #f0a30a; /** Role twin of feedback.warning, lifted for dark surfaces. */
+  --color-signal-red: #ff4444; /** Role twin of feedback.negative, lifted for dark surfaces. */
+  --color-signal-blue: #4da6ff; /** Role twin of feedback.supportive, lifted for dark surfaces. */
+  --color-signal-muted: #8b94a7; /** Inactive / no-signal state. */
   --font-family-sans: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-family-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
   --font-family-source-sans: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /** Aumraa brand typeface */
@@ -353,14 +358,14 @@
   --duration-fast: 100ms;
   --duration-normal: 200ms;
   --duration-slow: 300ms;
-  --thcy-color-primary: #00dc82; /** Emerald green — active dashboard primary indicator */
-  --thcy-color-primary-light: rgba(0, 220, 130, 0.15);
-  --thcy-color-primary-dark: #00b368;
+  --thcy-color-primary: #00dc82; /** Aumraa green, dark-vibrant. Active dashboard indicator. */
+  --thcy-color-primary-light: rgba(0, 220, 130, 0.15); /** Tint of primary for active rows and fills. */
+  --thcy-color-primary-dark: #00b368; /** Pressed state of primary. */
   --thcy-color-primary-foreground: #02130d;
-  --thcy-color-brand: #e0575a; /** Crimson red — brand highlight */
+  --thcy-color-brand: #e0575a; /** SLOT — the observed product's colour, dark-adapted. Logo and brand moments only, never a data colour. Default shown is Kaayo red #970103 adapted. Each Technocracy deployment overrides this. */
   --thcy-color-secondary: rgba(255, 255, 255, 0.04); /** Glass surface secondary button */
   --thcy-color-secondary-foreground: #f2f5fa;
-  --thcy-color-tertiary: #8b94a7;
+  --thcy-color-tertiary: #8b94a7; /** Not a brand tertiary — Technocracy has none. Kept because the generated var is public API. */
   --thcy-color-tertiary-foreground: #ffffff;
   --thcy-color-background: #04060f; /** Obsidian dark — deepest dashboard surface */
   --thcy-color-background-secondary: #0b0e18; /** Panel surface background */
@@ -392,4 +397,15 @@
   --thcy-icon-sm: 16px;
   --thcy-icon-md: 20px;
   --thcy-icon-lg: 24px;
+  --thcy-palette-obsidian-base: #04060f; /** Deepest dashboard surface. */
+  --thcy-palette-obsidian-panel: #0b0e18; /** Raised panel / modal surface. */
+  --thcy-palette-obsidian-ink: #02130d; /** Foreground on signal-green fills. */
+  --thcy-palette-overlay-glass: rgba(255, 255, 255, 0.04); /** Glass card fill. */
+  --thcy-palette-overlay-surface: rgba(255, 255, 255, 0.04); /** Secondary button / input fill. */
+  --thcy-palette-overlay-border: rgba(255, 255, 255, 0.11);
+  --thcy-palette-overlay-border-strong: rgba(255, 255, 255, 0.22);
+  --thcy-palette-overlay-sidebar: rgba(4, 6, 15, 0.72); /** Glass sidebar rail over the dot grid. */
+  --thcy-palette-text-primary: #f2f5fa;
+  --thcy-palette-text-secondary: #8b94a7;
+  --thcy-palette-text-tertiary: #596174;
 }

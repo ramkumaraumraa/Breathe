@@ -1,55 +1,243 @@
 {
   "thcy": {
     "color": {
-      "primary": { "value": "#00dc82", "type": "color", "comment": "Emerald green — active dashboard primary indicator" },
-      "primaryLight": { "value": "rgba(0, 220, 130, 0.15)", "type": "color" },
-      "primaryDark": { "value": "#00b368", "type": "color" },
-      "primaryForeground": { "value": "#02130d", "type": "color" },
-      "brand": { "value": "#e0575a", "type": "color", "comment": "Crimson red — brand highlight" },
-      "secondary": { "value": "rgba(255, 255, 255, 0.04)", "type": "color", "comment": "Glass surface secondary button" },
-      "secondaryForeground": { "value": "#f2f5fa", "type": "color" },
-      "tertiary": { "value": "#8b94a7", "type": "color" },
-      "tertiaryForeground": { "value": "#ffffff", "type": "color" },
-      "background": { "value": "#04060f", "type": "color", "comment": "Obsidian dark — deepest dashboard surface" },
-      "backgroundSecondary": { "value": "#0b0e18", "type": "color", "comment": "Panel surface background" },
-      "glass": { "value": "rgba(255, 255, 255, 0.035)", "type": "color", "comment": "Glass card background" },
-      "sidebar": { "value": "rgba(4, 6, 15, 0.72)", "type": "color", "comment": "Glass dark sidebar rail" },
-      "sidebarForeground": { "value": "#8b94a7", "type": "color" },
-      "foreground": { "value": "#f2f5fa", "type": "color" },
-      "foregroundSecondary": { "value": "#8b94a7", "type": "color" },
-      "foregroundTertiary": { "value": "#596174", "type": "color" },
-      "border": { "value": "rgba(255, 255, 255, 0.11)", "type": "color" },
-      "borderStrong": { "value": "rgba(255, 255, 255, 0.22)", "type": "color" },
-      "signalGreen": { "value": "#00dc82", "type": "color" },
-      "signalAmber": { "value": "#f0a30a", "type": "color" },
-      "signalRed": { "value": "#ff4444", "type": "color" },
-      "signalBlue": { "value": "#4da6ff", "type": "color" },
-      "signalMuted": { "value": "#8b94a7", "type": "color" }
+      "primary": {
+        "value": "{color.signal.green}",
+        "type": "color",
+        "comment": "Aumraa green, dark-vibrant. Active dashboard indicator."
+      },
+      "primaryLight": {
+        "value": "rgba(0, 220, 130, 0.15)",
+        "type": "color",
+        "comment": "Tint of primary for active rows and fills."
+      },
+      "primaryDark": {
+        "value": "#00b368",
+        "type": "color",
+        "comment": "Pressed state of primary."
+      },
+      "primaryForeground": {
+        "value": "{thcy.palette.obsidian.ink}",
+        "type": "color"
+      },
+      "brand": {
+        "value": "#e0575a",
+        "type": "color",
+        "comment": "SLOT — the observed product's colour, dark-adapted. Logo and brand moments only, never a data colour. Default shown is Kaayo red #970103 adapted. Each Technocracy deployment overrides this."
+      },
+      "secondary": {
+        "value": "{thcy.palette.overlay.surface}",
+        "type": "color",
+        "comment": "Glass surface secondary button"
+      },
+      "secondaryForeground": {
+        "value": "{thcy.palette.text.primary}",
+        "type": "color"
+      },
+      "tertiary": {
+        "value": "{thcy.palette.text.secondary}",
+        "type": "color",
+        "comment": "Not a brand tertiary — Technocracy has none. Kept because the generated var is public API."
+      },
+      "tertiaryForeground": {
+        "value": "#ffffff",
+        "type": "color"
+      },
+      "background": {
+        "value": "{thcy.palette.obsidian.base}",
+        "type": "color",
+        "comment": "Obsidian dark — deepest dashboard surface"
+      },
+      "backgroundSecondary": {
+        "value": "{thcy.palette.obsidian.panel}",
+        "type": "color",
+        "comment": "Panel surface background"
+      },
+      "glass": {
+        "value": "{thcy.palette.overlay.glass}",
+        "type": "color",
+        "comment": "Glass card background"
+      },
+      "sidebar": {
+        "value": "{thcy.palette.overlay.sidebar}",
+        "type": "color",
+        "comment": "Glass dark sidebar rail"
+      },
+      "sidebarForeground": {
+        "value": "{thcy.palette.text.secondary}",
+        "type": "color"
+      },
+      "foreground": {
+        "value": "{thcy.palette.text.primary}",
+        "type": "color"
+      },
+      "foregroundSecondary": {
+        "value": "{thcy.palette.text.secondary}",
+        "type": "color"
+      },
+      "foregroundTertiary": {
+        "value": "{thcy.palette.text.tertiary}",
+        "type": "color"
+      },
+      "border": {
+        "value": "{thcy.palette.overlay.border}",
+        "type": "color"
+      },
+      "borderStrong": {
+        "value": "{thcy.palette.overlay.borderStrong}",
+        "type": "color"
+      },
+      "signalGreen": {
+        "value": "{color.signal.green}",
+        "type": "color"
+      },
+      "signalAmber": {
+        "value": "{color.signal.amber}",
+        "type": "color"
+      },
+      "signalRed": {
+        "value": "{color.signal.red}",
+        "type": "color"
+      },
+      "signalBlue": {
+        "value": "{color.signal.blue}",
+        "type": "color"
+      },
+      "signalMuted": {
+        "value": "{color.signal.muted}",
+        "type": "color"
+      }
     },
     "font": {
-      "family": { "value": "'Source Code Pro', ui-monospace, SFMono-Regular, Consolas, monospace", "type": "fontFamily", "comment": "Technocracy telemetry monospace font" },
-      "sizeBase": { "value": "{font.size.sm}", "type": "dimension", "comment": "13px/14px - dense telemetry admin" },
-      "weightBody": { "value": "{font.weight.normal}", "type": "fontWeight" },
-      "weightHeading": { "value": "{font.weight.bold}", "type": "fontWeight" }
+      "family": {
+        "value": "'Source Code Pro', ui-monospace, SFMono-Regular, Consolas, monospace",
+        "type": "fontFamily",
+        "comment": "Technocracy telemetry monospace font"
+      },
+      "sizeBase": {
+        "value": "{font.size.sm}",
+        "type": "dimension",
+        "comment": "13px/14px - dense telemetry admin"
+      },
+      "weightBody": {
+        "value": "{font.weight.normal}",
+        "type": "fontWeight"
+      },
+      "weightHeading": {
+        "value": "{font.weight.bold}",
+        "type": "fontWeight"
+      }
     },
     "spacing": {
-      "pagePadding": { "value": "{spacing.6}", "type": "dimension" },
-      "cardPadding": { "value": "{spacing.5}", "type": "dimension" },
-      "sectionGap": { "value": "{spacing.6}", "type": "dimension" }
+      "pagePadding": {
+        "value": "{spacing.6}",
+        "type": "dimension"
+      },
+      "cardPadding": {
+        "value": "{spacing.5}",
+        "type": "dimension"
+      },
+      "sectionGap": {
+        "value": "{spacing.6}",
+        "type": "dimension"
+      }
     },
     "radius": {
-      "default": { "value": "16", "type": "dimension", "comment": "16px rounded glass cards" },
-      "sm": { "value": "8", "type": "dimension" },
-      "lg": { "value": "16", "type": "dimension" }
+      "default": {
+        "value": "16",
+        "type": "dimension",
+        "comment": "16px rounded glass cards"
+      },
+      "sm": {
+        "value": "8",
+        "type": "dimension"
+      },
+      "lg": {
+        "value": "16",
+        "type": "dimension"
+      }
     },
     "shadow": {
-      "card": { "value": "inset 0 1px rgba(255,255,255,0.04)", "type": "shadow" },
-      "modal": { "value": "0 24px 80px rgba(0,0,0,0.5)", "type": "shadow" }
+      "card": {
+        "value": "inset 0 1px rgba(255,255,255,0.04)",
+        "type": "shadow"
+      },
+      "modal": {
+        "value": "0 24px 80px rgba(0,0,0,0.5)",
+        "type": "shadow"
+      }
     },
     "icon": {
-      "sm": { "value": "{icon.sm}", "type": "dimension" },
-      "md": { "value": "{icon.md}", "type": "dimension" },
-      "lg": { "value": "{icon.lg}", "type": "dimension" }
+      "sm": {
+        "value": "{icon.sm}",
+        "type": "dimension"
+      },
+      "md": {
+        "value": "{icon.md}",
+        "type": "dimension"
+      },
+      "lg": {
+        "value": "{icon.lg}",
+        "type": "dimension"
+      }
+    },
+    "palette": {
+      "obsidian": {
+        "base": {
+          "value": "#04060f",
+          "type": "color",
+          "comment": "Deepest dashboard surface."
+        },
+        "panel": {
+          "value": "#0b0e18",
+          "type": "color",
+          "comment": "Raised panel / modal surface."
+        },
+        "ink": {
+          "value": "#02130d",
+          "type": "color",
+          "comment": "Foreground on signal-green fills."
+        }
+      },
+      "overlay": {
+        "glass": {
+          "value": "rgba(255, 255, 255, 0.035)",
+          "type": "color",
+          "comment": "Glass card fill."
+        },
+        "surface": {
+          "value": "rgba(255, 255, 255, 0.04)",
+          "type": "color",
+          "comment": "Secondary button / input fill."
+        },
+        "border": {
+          "value": "rgba(255, 255, 255, 0.11)",
+          "type": "color"
+        },
+        "borderStrong": {
+          "value": "rgba(255, 255, 255, 0.22)",
+          "type": "color"
+        },
+        "sidebar": {
+          "value": "rgba(4, 6, 15, 0.72)",
+          "type": "color",
+          "comment": "Glass sidebar rail over the dot grid."
+        }
+      },
+      "text": {
+        "primary": {
+          "value": "#f2f5fa",
+          "type": "color"
+        },
+        "secondary": {
+          "value": "#8b94a7",
+          "type": "color"
+        },
+        "tertiary": {
+          "value": "#596174",
+          "type": "color"
+        }
+      }
     }
   }
 }

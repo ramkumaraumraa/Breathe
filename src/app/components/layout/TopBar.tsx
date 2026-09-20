@@ -8,7 +8,7 @@ interface TopBarProps {
 }
 
 export function TopBar({ onMenuToggle, menuOpen }: TopBarProps) {
-  const { isDark, toggleTheme } = useTheme();
+  const { isDark, toggleTheme, isForced } = useTheme();
   const { openSearch } = useSearch();
 
   return (
@@ -64,8 +64,14 @@ export function TopBar({ onMenuToggle, menuOpen }: TopBarProps) {
           {/* Theme toggle */}
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-lg text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-            aria-label="Toggle theme"
+            disabled={isForced}
+            title={isForced ? 'This product is dark-only' : undefined}
+            className={`p-2 rounded-lg transition-colors ${
+              isForced
+                ? 'text-slate-300 dark:text-slate-700 cursor-not-allowed'
+                : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
+            }`}
+            aria-label={isForced ? 'Theme locked to dark for this product' : 'Toggle theme'}
           >
             {isDark ? <Sun size={18} /> : <Moon size={18} />}
           </button>

@@ -38,6 +38,8 @@ export const productMeta: Record<ProductId, {
   vars: Record<string, string>
   /** Overrides applied on top of `vars` when the docs site is in dark mode. */
   darkVars?: Record<string, string>
+  /** Permanent-dark surface: the docs site pins to dark and disables the toggle. */
+  darkOnly?: boolean
 }> = {
   lemniscate: {
     label: 'Lemniscate',
@@ -57,9 +59,11 @@ export const productMeta: Record<ProductId, {
   technocracy: {
     label: 'Technocracy',
     prefix: 'thcy',
-    description: 'Admin dashboard — dark surfaces',
+    description: 'Admin dashboard — permanent dark, telemetry surfaces',
+    darkOnly: true,
+    // No darkVars: technocracy.css has no `.dark` block because its `:root`
+    // already is the dark set. Parsing for one only ever returned {}.
     vars: cssVars(technocracyCss, ':root'),
-    darkVars: cssVars(technocracyCss, '.dark'),
   },
   maligai: {
     label: 'Maligai Manager',

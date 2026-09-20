@@ -4,6 +4,7 @@ import { ThemeProvider } from '../../context/ThemeContext';
 import { SearchProvider } from '../../context/SearchContext';
 import { Sidebar } from './Sidebar';
 import { TopBar } from './TopBar';
+import { DarkOnlyGuard } from './DarkOnlyGuard';
 import { SearchModal } from './SearchModal';
 
 function ScrollToTop() {
@@ -19,6 +20,7 @@ export function Root() {
 
   return (
     <ThemeProvider>
+      <DarkOnlyGuard />
       <SearchProvider>
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex">
           {/* Desktop Sidebar */}

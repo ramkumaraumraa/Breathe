@@ -10,8 +10,8 @@
   <color name="vzhi_color_primary_foreground">#ffffffff</color>
   <color name="vzhi_color_secondary">#ff40aad4</color><!-- PLACEHOLDER -->
   <color name="vzhi_color_secondary_foreground">#ffffffff</color>
-  <color name="vzhi_color_tertiary">#ff40aad4</color>
-  <color name="vzhi_color_tertiary_foreground">#ffffffff</color>
+  <color name="vzhi_color_supportive">#ff266fdc</color><!-- Informational / supporting accent. Not a brand colour — lives in the feedback family. -->
+  <color name="vzhi_color_supportive_foreground">#ffffffff</color>
   <color name="vzhi_color_accent">#fff59e0b</color>
   <color name="vzhi_color_accent_foreground">#ffffffff</color>
   <color name="vzhi_color_positive">#ff16a34a</color>

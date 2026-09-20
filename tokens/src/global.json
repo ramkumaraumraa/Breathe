@@ -840,6 +840,18 @@
       "infoDark": {
         "value": "{color.sky.700}",
         "type": "color"
+      },
+      "supportive": {
+        "value": "{color.feedback.supportive.500}",
+        "type": "color"
+      },
+      "supportiveLight": {
+        "value": "{color.feedback.supportive.50}",
+        "type": "color"
+      },
+      "supportiveDark": {
+        "value": "{color.feedback.supportive.700}",
+        "type": "color"
       }
     },
     "feedback": {
@@ -1026,6 +1038,69 @@
         },
         "975": {
           "value": "#100406",
+          "type": "color"
+        }
+      },
+      "supportive": {
+        "25": {
+          "value": "#e5eefb",
+          "type": "color",
+          "comment": "Supportive — informational surfaces, links, secondary guidance. Verified on Kaayo with the team, now shared."
+        },
+        "50": {
+          "value": "#d4e2f8",
+          "type": "color"
+        },
+        "75": {
+          "value": "#c2d7f5",
+          "type": "color"
+        },
+        "100": {
+          "value": "#b1cbf2",
+          "type": "color"
+        },
+        "200": {
+          "value": "#8eb4ed",
+          "type": "color"
+        },
+        "300": {
+          "value": "#6b9de7",
+          "type": "color"
+        },
+        "400": {
+          "value": "#4986e2",
+          "type": "color"
+        },
+        "500": {
+          "value": "#266fdc",
+          "type": "color"
+        },
+        "600": {
+          "value": "#2461be",
+          "type": "color"
+        },
+        "700": {
+          "value": "#2254a0",
+          "type": "color"
+        },
+        "800": {
+          "value": "#204781",
+          "type": "color"
+        },
+        "900": {
+          "value": "#1e3963",
+          "type": "color"
+        },
+        "925": {
+          "value": "#1d3254",
+          "type": "color"
+        },
+        "950": {
+          "value": "#1c2c45",
+          "type": "color"
+        },
+        "975": {
+          "value": "#1b2536",
           "type": "color"
         }
       }

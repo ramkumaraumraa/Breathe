@@ -29,8 +29,8 @@ public class YakaizenTokens {
     public static let ykaiColorSecondary = UIColor(red: 0.929, green: 0.396, blue: 0.110, alpha: 1)
     public static let ykaiColorSecondaryForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
     public static let ykaiColorSuccess = UIColor(red: 0.086, green: 0.639, blue: 0.290, alpha: 1)
-    public static let ykaiColorTertiary = UIColor(red: 0.251, green: 0.667, blue: 0.831, alpha: 1)
-    public static let ykaiColorTertiaryForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
+    public static let ykaiColorSupportive = UIColor(red: 0.149, green: 0.435, blue: 0.863, alpha: 1) /** Informational / supporting accent. Not a brand colour — lives in the feedback family. */
+    public static let ykaiColorSupportiveForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
     public static let ykaiColorWarning = UIColor(red: 0.961, green: 0.620, blue: 0.043, alpha: 1)
     public static let ykaiFontSizeBase = 14 /** Smaller for watch - confirm at kickoff */
     public static let ykaiIconMd = 20

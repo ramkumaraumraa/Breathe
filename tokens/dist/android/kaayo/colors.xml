@@ -71,19 +71,4 @@
   <color name="kayo_palette_negative_925">#ff501e21</color>
   <color name="kayo_palette_negative_950">#ff401d20</color>
   <color name="kayo_palette_negative_975">#ff301c20</color>
-  <color name="kayo_palette_supportive_25">#ffe5eefb</color><!-- Kaayo-only ramp. Figma Kaayo/Colors > Supportive -->
-  <color name="kayo_palette_supportive_50">#ffd4e2f8</color>
-  <color name="kayo_palette_supportive_75">#ffc2d7f5</color>
-  <color name="kayo_palette_supportive_100">#ffb1cbf2</color>
-  <color name="kayo_palette_supportive_200">#ff8eb4ed</color>
-  <color name="kayo_palette_supportive_300">#ff6b9de7</color>
-  <color name="kayo_palette_supportive_400">#ff4986e2</color>
-  <color name="kayo_palette_supportive_500">#ff266fdc</color>
-  <color name="kayo_palette_supportive_600">#ff2461be</color>
-  <color name="kayo_palette_supportive_700">#ff2254a0</color>
-  <color name="kayo_palette_supportive_800">#ff204781</color>
-  <color name="kayo_palette_supportive_900">#ff1e3963</color>
-  <color name="kayo_palette_supportive_925">#ff1d3254</color>
-  <color name="kayo_palette_supportive_950">#ff1c2c45</color>
-  <color name="kayo_palette_supportive_975">#ff1b2536</color>
 </resources>

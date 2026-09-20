@@ -1,59 +1,187 @@
 {
   "vzhi": {
     "color": {
-      "primary":              { "value": "{color.emerald.400}",   "type": "color",
-                                "comment": "PLACEHOLDER — Vazhai (Smart Life-Style App) has no brand palette yet. Confirm at design kickoff." },
-      "primaryLight":         { "value": "{color.emerald.300}",   "type": "color" },
-      "primaryDark":          { "value": "{color.emerald.500}",   "type": "color" },
-      "primaryForeground":    { "value": "{color.neutral.white}", "type": "color" },
-      "secondary":            { "value": "{color.sky.500}",       "type": "color", "comment": "PLACEHOLDER" },
-      "secondaryForeground":  { "value": "{color.neutral.white}", "type": "color" },
-      "tertiary":             { "value": "{color.status.info}",    "type": "color" },
-      "tertiaryForeground":   { "value": "{color.neutral.white}", "type": "color" },
-      "accent":               { "value": "{color.status.warning}", "type": "color" },
-      "accentForeground":     { "value": "{color.neutral.white}", "type": "color" },
-      "positive":             { "value": "{color.status.success}", "type": "color" },
-      "positiveForeground":   { "value": "{color.neutral.white}", "type": "color" },
-      "negative":             { "value": "{color.status.danger}",  "type": "color" },
-      "negativeForeground":   { "value": "{color.neutral.white}", "type": "color" },
-      "background":           { "value": "{color.neutral.25}",    "type": "color" },
-      "backgroundSecondary":  { "value": "{color.neutral.50}",    "type": "color" },
-      "backgroundTertiary":   { "value": "{color.neutral.75}",    "type": "color" },
-      "foreground":           { "value": "{color.neutral.900}",   "type": "color" },
-      "foregroundSecondary":  { "value": "{color.neutral.500}",   "type": "color" },
-      "foregroundTertiary":   { "value": "{color.neutral.400}",   "type": "color" },
-      "border":               { "value": "{color.neutral.100}",   "type": "color" },
-      "borderHover":          { "value": "{color.neutral.200}",   "type": "color" },
-      "success":              { "value": "{color.status.success}", "type": "color" },
-      "warning":              { "value": "{color.status.warning}", "type": "color" },
-      "danger":               { "value": "{color.status.danger}",  "type": "color" },
-      "info":                 { "value": "{color.status.info}",    "type": "color" }
+      "primary": {
+        "value": "{color.emerald.400}",
+        "type": "color",
+        "comment": "PLACEHOLDER — Vazhai (Smart Life-Style App) has no brand palette yet. Confirm at design kickoff."
+      },
+      "primaryLight": {
+        "value": "{color.emerald.300}",
+        "type": "color"
+      },
+      "primaryDark": {
+        "value": "{color.emerald.500}",
+        "type": "color"
+      },
+      "primaryForeground": {
+        "value": "{color.neutral.white}",
+        "type": "color"
+      },
+      "secondary": {
+        "value": "{color.sky.500}",
+        "type": "color",
+        "comment": "PLACEHOLDER"
+      },
+      "secondaryForeground": {
+        "value": "{color.neutral.white}",
+        "type": "color"
+      },
+      "supportive": {
+        "value": "{color.status.supportive}",
+        "type": "color",
+        "comment": "Informational / supporting accent. Not a brand colour — lives in the feedback family."
+      },
+      "supportiveForeground": {
+        "value": "{color.neutral.white}",
+        "type": "color"
+      },
+      "accent": {
+        "value": "{color.status.warning}",
+        "type": "color"
+      },
+      "accentForeground": {
+        "value": "{color.neutral.white}",
+        "type": "color"
+      },
+      "positive": {
+        "value": "{color.status.success}",
+        "type": "color"
+      },
+      "positiveForeground": {
+        "value": "{color.neutral.white}",
+        "type": "color"
+      },
+      "negative": {
+        "value": "{color.status.danger}",
+        "type": "color"
+      },
+      "negativeForeground": {
+        "value": "{color.neutral.white}",
+        "type": "color"
+      },
+      "background": {
+        "value": "{color.neutral.25}",
+        "type": "color"
+      },
+      "backgroundSecondary": {
+        "value": "{color.neutral.50}",
+        "type": "color"
+      },
+      "backgroundTertiary": {
+        "value": "{color.neutral.75}",
+        "type": "color"
+      },
+      "foreground": {
+        "value": "{color.neutral.900}",
+        "type": "color"
+      },
+      "foregroundSecondary": {
+        "value": "{color.neutral.500}",
+        "type": "color"
+      },
+      "foregroundTertiary": {
+        "value": "{color.neutral.400}",
+        "type": "color"
+      },
+      "border": {
+        "value": "{color.neutral.100}",
+        "type": "color"
+      },
+      "borderHover": {
+        "value": "{color.neutral.200}",
+        "type": "color"
+      },
+      "success": {
+        "value": "{color.status.success}",
+        "type": "color"
+      },
+      "warning": {
+        "value": "{color.status.warning}",
+        "type": "color"
+      },
+      "danger": {
+        "value": "{color.status.danger}",
+        "type": "color"
+      },
+      "info": {
+        "value": "{color.status.info}",
+        "type": "color"
+      }
     },
     "font": {
-      "sizeBase":      { "value": "{font.size.base}",     "type": "dimension" },
-      "weightBody":    { "value": "{font.weight.normal}", "type": "fontWeight" },
-      "weightHeading": { "value": "{font.weight.medium}", "type": "fontWeight" }
+      "sizeBase": {
+        "value": "{font.size.base}",
+        "type": "dimension"
+      },
+      "weightBody": {
+        "value": "{font.weight.normal}",
+        "type": "fontWeight"
+      },
+      "weightHeading": {
+        "value": "{font.weight.medium}",
+        "type": "fontWeight"
+      }
     },
     "spacing": {
-      "pagePadding": { "value": "{spacing.4}", "type": "dimension" },
-      "cardPadding": { "value": "{spacing.4}", "type": "dimension" },
-      "sectionGap":  { "value": "{spacing.6}", "type": "dimension" }
+      "pagePadding": {
+        "value": "{spacing.4}",
+        "type": "dimension"
+      },
+      "cardPadding": {
+        "value": "{spacing.4}",
+        "type": "dimension"
+      },
+      "sectionGap": {
+        "value": "{spacing.6}",
+        "type": "dimension"
+      }
     },
     "radius": {
-      "default": { "value": "{radius.lg}",   "type": "dimension" },
-      "sm":      { "value": "{radius.md}",   "type": "dimension" },
-      "lg":      { "value": "{radius.xl}",   "type": "dimension" },
-      "pill":    { "value": "{radius.full}", "type": "dimension" }
+      "default": {
+        "value": "{radius.lg}",
+        "type": "dimension"
+      },
+      "sm": {
+        "value": "{radius.md}",
+        "type": "dimension"
+      },
+      "lg": {
+        "value": "{radius.xl}",
+        "type": "dimension"
+      },
+      "pill": {
+        "value": "{radius.full}",
+        "type": "dimension"
+      }
     },
     "shadow": {
-      "card":     { "value": "{shadow.sm}", "type": "shadow" },
-      "modal":    { "value": "{shadow.lg}", "type": "shadow" },
-      "dropdown": { "value": "{shadow.md}", "type": "shadow" }
+      "card": {
+        "value": "{shadow.sm}",
+        "type": "shadow"
+      },
+      "modal": {
+        "value": "{shadow.lg}",
+        "type": "shadow"
+      },
+      "dropdown": {
+        "value": "{shadow.md}",
+        "type": "shadow"
+      }
     },
     "icon": {
-      "sm": { "value": "{icon.sm}", "type": "dimension" },
-      "md": { "value": "{icon.md}", "type": "dimension" },
-      "lg": { "value": "{icon.lg}", "type": "dimension" }
+      "sm": {
+        "value": "{icon.sm}",
+        "type": "dimension"
+      },
+      "md": {
+        "value": "{icon.md}",
+        "type": "dimension"
+      },
+      "lg": {
+        "value": "{icon.lg}",
+        "type": "dimension"
+      }
     }
   }
 }

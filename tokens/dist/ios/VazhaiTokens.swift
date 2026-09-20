@@ -32,8 +32,8 @@ public class VazhaiTokens {
     public static let vzhiColorSecondary = UIColor(red: 0.251, green: 0.667, blue: 0.831, alpha: 1) /** PLACEHOLDER */
     public static let vzhiColorSecondaryForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
     public static let vzhiColorSuccess = UIColor(red: 0.086, green: 0.639, blue: 0.290, alpha: 1)
-    public static let vzhiColorTertiary = UIColor(red: 0.251, green: 0.667, blue: 0.831, alpha: 1)
-    public static let vzhiColorTertiaryForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
+    public static let vzhiColorSupportive = UIColor(red: 0.149, green: 0.435, blue: 0.863, alpha: 1) /** Informational / supporting accent. Not a brand colour — lives in the feedback family. */
+    public static let vzhiColorSupportiveForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
     public static let vzhiColorWarning = UIColor(red: 0.961, green: 0.620, blue: 0.043, alpha: 1)
     public static let vzhiFontSizeBase = 16
     public static let vzhiFontWeightBody = 400

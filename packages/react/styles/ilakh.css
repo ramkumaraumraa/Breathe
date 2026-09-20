@@ -12,8 +12,8 @@
   --primary-foreground: var(--ilkh-color-primary-foreground);
   --secondary: var(--ilkh-color-background-secondary);
   --secondary-foreground: var(--ilkh-color-foreground);
-  --accent: var(--ilkh-color-tertiary);
-  --accent-foreground: var(--ilkh-color-tertiary-foreground);
+  --accent: var(--ilkh-color-accent);
+  --accent-foreground: var(--ilkh-color-accent-foreground);
   --background: var(--ilkh-color-background);
   --foreground: var(--ilkh-color-foreground);
   --muted: var(--ilkh-color-background-tertiary);

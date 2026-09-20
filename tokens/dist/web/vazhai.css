@@ -198,6 +198,9 @@
   --color-status-info: #40aad4;
   --color-status-info-light: #d9eef6;
   --color-status-info-dark: #347c9a;
+  --color-status-supportive: #266fdc;
+  --color-status-supportive-light: #d4e2f8;
+  --color-status-supportive-dark: #2254a0;
   --color-feedback-positive-25: #e8f8ee;
   --color-feedback-positive-50: #d0eddb;
   --color-feedback-positive-75: #bbdfc8;
@@ -243,6 +246,21 @@
   --color-feedback-negative-925: #401d20;
   --color-feedback-negative-950: #280f11;
   --color-feedback-negative-975: #100406;
+  --color-feedback-supportive-25: #e5eefb; /** Supportive — informational surfaces, links, secondary guidance. Verified on Kaayo with the team, now shared. */
+  --color-feedback-supportive-50: #d4e2f8;
+  --color-feedback-supportive-75: #c2d7f5;
+  --color-feedback-supportive-100: #b1cbf2;
+  --color-feedback-supportive-200: #8eb4ed;
+  --color-feedback-supportive-300: #6b9de7;
+  --color-feedback-supportive-400: #4986e2;
+  --color-feedback-supportive-500: #266fdc;
+  --color-feedback-supportive-600: #2461be;
+  --color-feedback-supportive-700: #2254a0;
+  --color-feedback-supportive-800: #204781;
+  --color-feedback-supportive-900: #1e3963;
+  --color-feedback-supportive-925: #1d3254;
+  --color-feedback-supportive-950: #1c2c45;
+  --color-feedback-supportive-975: #1b2536;
   --color-pine-25: #f1f3f3; /** Maligai brand green. Figma Breathe/Color Primitives > color/pine. 500 is the logo green #183C38 */
   --color-pine-50: #e3e8e7;
   --color-pine-75: #d5dcdb;
@@ -341,8 +359,8 @@
   --vzhi-color-primary-foreground: #ffffff;
   --vzhi-color-secondary: #40aad4; /** PLACEHOLDER */
   --vzhi-color-secondary-foreground: #ffffff;
-  --vzhi-color-tertiary: #40aad4;
-  --vzhi-color-tertiary-foreground: #ffffff;
+  --vzhi-color-supportive: #266fdc; /** Informational / supporting accent. Not a brand colour — lives in the feedback family. */
+  --vzhi-color-supportive-foreground: #ffffff;
   --vzhi-color-accent: #f59e0b;
   --vzhi-color-accent-foreground: #ffffff;
   --vzhi-color-positive: #16a34a;

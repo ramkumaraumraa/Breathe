@@ -53,6 +53,12 @@ Repo is the source of truth. Per product: read Figma's variables, diff, correct 
   **Never** infer a collection from `get_variable_defs` on a node — that returns only what
   is bound to that node, and unbound swatch frames return `{}`.
 - Path is `Colors` collection → `Brand/<Ramp>/<stop>`.
+- **Watch for orphaned variables.** A variable can report a `variableCollectionId` and
+  still be absent from that collection's `variableIds` — deleted but still bound by nodes,
+  so it resolves on canvas yet never appears in the picker. Maligai had five
+  (`neutral/white`, `neutral/black`, `accent`, `success`, `danger`). Creating a replacement
+  does **not** rebind them: check `liveIds.has(boundVar.id)`, not the variable name, then
+  rebind and re-verify.
 - Gray/Slate are external library variables — not deletable, only unbindable node by node.
 - Figma MCP needs the desktop app; canvas-level queries need a live selection.
 
@@ -76,7 +82,7 @@ end rather than driving to near-black; do not "fix" that.
 |---|---|---|
 | Lemniscate | ✅ | 105 vars aligned, 0 drift. Colors page swatch board is still hardcoded fills showing old neutrals (6 slots vs 15); Gray/Slate still bound across ~35 pages. |
 | Kaayo | ✅ | [File](https://www.figma.com/design/doxyZziGKSHcBHKH1lzEH8/Kaayo) · Figma wins (team cross-checked against the product). 120 vars = 8 ramps × 15, repo matches all 105 brand stops. `NeutralWhite`/`NeutralBlack` collapsed into one `Neutral` ramp: 8,543 nodes rebound across 36 pages, both old ramps deleted. Colors page rebuilt from the variables. |
-| Maligai Manager | ✅ | [File](https://www.figma.com/design/QyvuegdHxbt0SO36u5hX0L/Maligai-Manager) · Best-built file of the set — two-tier `Breathe / Color Primitives` + `Maligai / Semantic Colors`, 134 + 33 vars, board fully variable-bound. Repo was a **placeholder** and now follows it. Brand ramps `pine`/`gold`/`earth` verified against the logo SVGs. Neutral forced to the Breathe cool ramp, info kept on `sky`. **Remaining:** no cards on the board for `warningForeground`/`infoForeground`; the Colors page still holds three legacy "Green" groups from an old palette (#8FAC72, #1E631B, #193C36) that contradict the current brand. |
+| Maligai Manager | ✅ | [File](https://www.figma.com/design/QyvuegdHxbt0SO36u5hX0L/Maligai-Manager) · Two-tier `Breathe / Color Primitives` (134) + `Maligai / Semantic Colors` (33). Repo was a **placeholder** and now follows it; `pine`/`gold`/`earth` verified against the logo SVGs. Neutral forced to the Breathe cool ramp, info kept on `sky`. Board fully verified: 33 vars = 33 cards, 113 bound swatches, 0 unbound, 0 orphans, 0 drift. **Remaining:** the Colors page still holds three legacy "Green" groups from an old palette (#8FAC72, #1E631B, #193C36) that contradict the brand. |
 | Aumraa | ⏳ | |
 | Technocracy | ⏳ | no Figma link yet; tokens are raw hex, not references — won't diff the same way |
 

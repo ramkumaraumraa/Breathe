@@ -75,6 +75,11 @@ const products = [
     prefix: 'kayo',
     platforms: ['web', 'reactNative', 'ios', 'android'],
   },
+  {
+    name: 'vazhai',
+    prefix: 'vzhi',
+    platforms: ['web', 'reactNative', 'ios', 'android'],
+  },
 ];
 
 for (const product of products) {

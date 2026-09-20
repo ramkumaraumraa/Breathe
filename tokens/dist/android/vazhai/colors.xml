@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Do not edit directly, this file was auto-generated.
+-->
+<resources>
+  <color name="vzhi_color_primary">#ff059669</color><!-- PLACEHOLDER — Vazhai (Smart Life-Style App) has no brand palette yet. Confirm at design kickoff. -->
+  <color name="vzhi_color_primary_light">#ff10b981</color>
+  <color name="vzhi_color_primary_dark">#ff047857</color>
+  <color name="vzhi_color_primary_foreground">#ffffffff</color>
+  <color name="vzhi_color_secondary">#ff40aad4</color><!-- PLACEHOLDER -->
+  <color name="vzhi_color_secondary_foreground">#ffffffff</color>
+  <color name="vzhi_color_tertiary">#ff40aad4</color>
+  <color name="vzhi_color_tertiary_foreground">#ffffffff</color>
+  <color name="vzhi_color_accent">#fff59e0b</color>
+  <color name="vzhi_color_accent_foreground">#ffffffff</color>
+  <color name="vzhi_color_positive">#ff16a34a</color>
+  <color name="vzhi_color_positive_foreground">#ffffffff</color>
+  <color name="vzhi_color_negative">#ffdc2626</color>
+  <color name="vzhi_color_negative_foreground">#ffffffff</color>
+  <color name="vzhi_color_background">#ffffffff</color>
+  <color name="vzhi_color_background_secondary">#fff8f8f8</color>
+  <color name="vzhi_color_background_tertiary">#fff0f1f1</color>
+  <color name="vzhi_color_foreground">#ff2a2c30</color>
+  <color name="vzhi_color_foreground_secondary">#ff757678</color>
+  <color name="vzhi_color_foreground_tertiary">#ff9fa0a2</color>
+  <color name="vzhi_color_border">#ffe8e8e9</color>
+  <color name="vzhi_color_border_hover">#ffd9dadb</color>
+  <color name="vzhi_color_success">#ff16a34a</color>
+  <color name="vzhi_color_warning">#fff59e0b</color>
+  <color name="vzhi_color_danger">#ffdc2626</color>
+  <color name="vzhi_color_info">#ff40aad4</color>
+</resources>

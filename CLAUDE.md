@@ -56,6 +56,11 @@ Repo is the source of truth. Per product: read Figma's variables, diff, correct 
 - Gray/Slate are external library variables — not deletable, only unbindable node by node.
 - Figma MCP needs the desktop app; canvas-level queries need a live selection.
 
+Where a new ramp goes: **hue-named** ramps (crimson, peach, navy, pine, gold, earth)
+live in `global.json` under `color.<hue>`, mirroring Figma's primitives. **Role-named**
+product-specific ramps (Kaayo's positive/alert/negative/supportive) live in the product
+file under `<prefix>.palette.*`, because they would collide in a hue namespace.
+
 Remap principle when a ramp changes: **semantic** tokens map by nearest L* (preserves
 appearance); **numbered palette** slices map 1:1 by stop (fixes ordering).
 
@@ -71,7 +76,7 @@ end rather than driving to near-black; do not "fix" that.
 |---|---|---|
 | Lemniscate | ✅ | 105 vars aligned, 0 drift. Colors page swatch board is still hardcoded fills showing old neutrals (6 slots vs 15); Gray/Slate still bound across ~35 pages. |
 | Kaayo | ✅ | [File](https://www.figma.com/design/doxyZziGKSHcBHKH1lzEH8/Kaayo) · Figma wins (team cross-checked against the product). 120 vars = 8 ramps × 15, repo matches all 105 brand stops. `NeutralWhite`/`NeutralBlack` collapsed into one `Neutral` ramp: 8,543 nodes rebound across 36 pages, both old ramps deleted. Colors page rebuilt from the variables. |
-| Maligai Manager | ⏳ | recently touched, expect closest to correct |
+| Maligai Manager | ✅ | [File](https://www.figma.com/design/QyvuegdHxbt0SO36u5hX0L/Maligai-Manager) · Best-built file of the set — two-tier `Breathe / Color Primitives` + `Maligai / Semantic Colors`, 134 + 33 vars, board fully variable-bound. Repo was a **placeholder** and now follows it. Brand ramps `pine`/`gold`/`earth` verified against the logo SVGs. Neutral forced to the Breathe cool ramp, info kept on `sky`. **Remaining:** no cards on the board for `warningForeground`/`infoForeground`; the Colors page still holds three legacy "Green" groups from an old palette (#8FAC72, #1E631B, #193C36) that contradict the current brand. |
 | Aumraa | ⏳ | |
 | Technocracy | ⏳ | no Figma link yet; tokens are raw hex, not references — won't diff the same way |
 

@@ -86,6 +86,20 @@ end rather than driving to near-black; do not "fix" that.
 | Aumraa | ✅ | [File](https://www.figma.com/design/22esrYWg3z1D95FRpGpemU/Aumraa-Design-System) · Was the least developed — 26 vars, no Colors page, no semantic layer. Rebuilt to the Maligai shape: `Breathe / Color Primitives` (135) + `Aumraa / Semantic Colors` (22), matching `aumraa.json` 22/22. Legacy `Gray/*` (Tailwind) deleted after rebinding 180 nodes across 26 pages; `Product/*` repurposed into `color/green/*`. **Remaining:** the file still has no Colors foundations page — Maligai's `796:1439` is the template. |
 | Technocracy | ⏳ | no Figma link yet; tokens are raw hex, not references — won't diff the same way |
 
+## Colour roles
+
+**`tertiary` means a real third brand colour.** It is not a slot for a blue.
+Kaayo (earth), Maligai (earth), Lemniscate (orange) and Technocracy (slate) have one.
+Aumraa, Ilakh, Vazhai and Yakaizen do not, and carry no `tertiary` token until one
+is designed — they previously aliased `color.status.info`, a feedback colour wearing
+a brand name.
+
+**`supportive` is feedback, not brand.** `color.feedback.supportive` (#266FDC at 500)
+sits alongside positive, warning and negative, with `status.supportive/Light/Dark`
+aliases. It covers informational surfaces, links and secondary guidance. One ramp for
+the whole family — do not give a product a private copy.
+
+
 ## Working rules
 
 - **Never cap a survey grep.** Count with `| wc -l` first, then read. A `head -40` once hid

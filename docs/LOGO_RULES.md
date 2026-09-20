@@ -158,28 +158,44 @@ Taken from the approved logo. These are the only colours the mark uses:
 
 | Role | Hex | Ramp step | Where it appears |
 |---|---|---|---|
-| Primary (teal) | `#183C38` | `primaryGreen/500` | the M, the wordmark |
+| Primary (teal) | `#183C38` | `pine/500` | the M, the wordmark |
 | Secondary (gold) | `#BB893A` | `gold/500` | the crown |
 | Tertiary (earth) | `#845E41` | `earth/500` | the two dots |
-| Plate dark | `#132F2C` | `primaryGreen/700` | `_Filled` backgrounds |
-| Surface | `#F7F5F0` | `neutral/50` | warm page background |
+| Plate dark | `#132F2C` | `pine/700` | `_Filled` backgrounds |
+| Surface | `#F8F8F8` | `neutral/50` | page background |
 
-Blue is **not** a Maligai brand colour. It exists only as `info` inside the feedback set.
+Blue is **not** a Maligai brand colour. It exists only inside the feedback set, as
+`info` and `supportive`.
+
+## 8. Lemniscate brand colours
+
+| Role | Hex | Ramp step | Where it appears |
+|---|---|---|---|
+| Primary (blue) | `#1C60C1` | `blue/500` | the mark, the wordmark |
+| Secondary (sky) | `#40AAD4` | `sky/500` | the loop highlight |
+| Tertiary (orange) | `#ED811C` | `orange/500` | the accent stroke |
+| Orange shadow | `#A9601D` | `orange/700` | the accent's shaded face |
+| Ink | `#191B1F` | — | wordmark on light |
+
+`orange/500` was `#ED651C` until it was re-anchored on the logo. Two SVGs
+(`Vertical`, `stacked_light`) carried that stray and have been normalised.
 
 ### Colour token structure
 
 Three layers, matching `tokens/src/global.json` → `tokens/src/<product>.json`:
 
 ```
-color/feedback/<positive|warning|negative|info>/<25…975>   primitive ramp, 15 steps
-  → color/status/<success|warning|danger|info>{,Light,Dark}   global semantic
-    → mlgm/color/<positive|negative|warning|info>              product semantic
+color/feedback/<positive|warning|negative|info|supportive>/<25…975>   primitive ramp, 15 steps
+  → color/status/<success|warning|danger|info|supportive>{,Light,Dark}   global semantic
+    → <prefix>/color/<positive|negative|warning|info|supportive>         product semantic
 ```
 
-Every ramp — `primaryGreen`, `gold`, `earth`, `neutral`, and all four feedback ramps — is
-**15 steps**: `25 50 75 100 200 300 400 500 600 700 800 900 925 950 975`. No ramp has extra
-or missing steps, and there are **no standalone `white` / `black` tokens**: `neutral/25` is
-`#FFFFFF` and `neutral/975` is `#000000`, so the ends of the ramp carry those roles.
+Every ramp is **15 steps**: `25 50 75 100 200 300 400 500 600 700 800 900 925 950 975`.
 
-Brand ramps are anchored at `500` by the approved logo. Primitives carry empty `scopes` so
-they stay out of Figma's pickers — bind the semantic layer, never a primitive.
+`neutral` additionally carries standalone `white` (#FFFFFF) and `black` (#000000)
+outside the ramp. They are needed because `neutral/975` is `#0D1014`, an adapted
+near-black for type — never `#000`. Black is for shadows and scrims only.
+
+Brand ramps are anchored at `500` by the approved logo. Primitives carry empty `scopes`
+so they stay out of Figma's pickers — bind the semantic layer, never a primitive. The
+`status/*` aliases are the exception: they are semantic and do carry scopes.

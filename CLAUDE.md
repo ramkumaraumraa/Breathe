@@ -102,6 +102,12 @@ the whole family — do not give a product a private copy.
 
 ## Working rules
 
+- **Swatch captions are not always a bare hex.** Maligai combines stop and value in one
+  text node (`"50  #D0EDDB"`), so an audit anchored on `/^#[0-9a-f]{6}$/` reports zero
+  drift while the board shows stale values. Match `/#[0-9a-f]{6}/` anywhere in the string
+  and rewrite in place. Always screenshot the board — the picture caught what the
+  audit missed.
+
 - **Never run a replace across a whole shared file.** ColorsPage holds every product;
   a global `.split(hex).join(hex)` meant for one section silently rewrote Lemniscate's
   Secondary ramp and relabelled seven products' gradients. Slice the section first

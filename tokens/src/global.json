@@ -1029,6 +1029,195 @@
           "type": "color"
         }
       }
+    },
+    "pine": {
+      "25": {
+        "value": "#f1f3f3",
+        "type": "color",
+        "comment": "Maligai brand green. Figma Breathe/Color Primitives > color/pine. 500 is the logo green #183C38"
+      },
+      "50": {
+        "value": "#e3e8e7",
+        "type": "color"
+      },
+      "75": {
+        "value": "#d5dcdb",
+        "type": "color"
+      },
+      "100": {
+        "value": "#c3cccb",
+        "type": "color"
+      },
+      "200": {
+        "value": "#a3b1af",
+        "type": "color"
+      },
+      "300": {
+        "value": "#798e8c",
+        "type": "color"
+      },
+      "400": {
+        "value": "#4b6764",
+        "type": "color"
+      },
+      "500": {
+        "value": "#183c38",
+        "type": "color"
+      },
+      "600": {
+        "value": "#163632",
+        "type": "color"
+      },
+      "700": {
+        "value": "#132f2c",
+        "type": "color"
+      },
+      "800": {
+        "value": "#0f2624",
+        "type": "color"
+      },
+      "900": {
+        "value": "#0c1e1c",
+        "type": "color"
+      },
+      "925": {
+        "value": "#0a1816",
+        "type": "color"
+      },
+      "950": {
+        "value": "#071110",
+        "type": "color"
+      },
+      "975": {
+        "value": "#040a09",
+        "type": "color"
+      }
+    },
+    "gold": {
+      "25": {
+        "value": "#fbf8f3",
+        "type": "color",
+        "comment": "Maligai brand gold. Figma > color/gold. 500 is the logo gold #BB893A"
+      },
+      "50": {
+        "value": "#f7f1e7",
+        "type": "color"
+      },
+      "75": {
+        "value": "#f3eadc",
+        "type": "color"
+      },
+      "100": {
+        "value": "#ede0cc",
+        "type": "color"
+      },
+      "200": {
+        "value": "#e4d0b0",
+        "type": "color"
+      },
+      "300": {
+        "value": "#d8bb8d",
+        "type": "color"
+      },
+      "400": {
+        "value": "#caa365",
+        "type": "color"
+      },
+      "500": {
+        "value": "#bb893a",
+        "type": "color"
+      },
+      "600": {
+        "value": "#a87b34",
+        "type": "color"
+      },
+      "700": {
+        "value": "#926b2d",
+        "type": "color"
+      },
+      "800": {
+        "value": "#785825",
+        "type": "color"
+      },
+      "900": {
+        "value": "#5e451d",
+        "type": "color"
+      },
+      "925": {
+        "value": "#4b3717",
+        "type": "color"
+      },
+      "950": {
+        "value": "#342610",
+        "type": "color"
+      },
+      "975": {
+        "value": "#1e1609",
+        "type": "color"
+      }
+    },
+    "earth": {
+      "25": {
+        "value": "#f8f5f4",
+        "type": "color",
+        "comment": "Maligai brand earth. Figma > color/earth. 500 is the logo brown #845E41"
+      },
+      "50": {
+        "value": "#f0ece8",
+        "type": "color"
+      },
+      "75": {
+        "value": "#e9e2dd",
+        "type": "color"
+      },
+      "100": {
+        "value": "#dfd5ce",
+        "type": "color"
+      },
+      "200": {
+        "value": "#cebfb3",
+        "type": "color"
+      },
+      "300": {
+        "value": "#b8a291",
+        "type": "color"
+      },
+      "400": {
+        "value": "#9f816b",
+        "type": "color"
+      },
+      "500": {
+        "value": "#845e41",
+        "type": "color"
+      },
+      "600": {
+        "value": "#77553b",
+        "type": "color"
+      },
+      "700": {
+        "value": "#674933",
+        "type": "color"
+      },
+      "800": {
+        "value": "#543c2a",
+        "type": "color"
+      },
+      "900": {
+        "value": "#422f21",
+        "type": "color"
+      },
+      "925": {
+        "value": "#35261a",
+        "type": "color"
+      },
+      "950": {
+        "value": "#251a12",
+        "type": "color"
+      },
+      "975": {
+        "value": "#150f0a",
+        "type": "color"
+      }
     }
   },
   "font": {

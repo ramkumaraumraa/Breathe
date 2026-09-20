@@ -243,6 +243,51 @@
   --color-feedback-negative-925: #401d20;
   --color-feedback-negative-950: #280f11;
   --color-feedback-negative-975: #100406;
+  --color-pine-25: #f1f3f3; /** Maligai brand green. Figma Breathe/Color Primitives > color/pine. 500 is the logo green #183C38 */
+  --color-pine-50: #e3e8e7;
+  --color-pine-75: #d5dcdb;
+  --color-pine-100: #c3cccb;
+  --color-pine-200: #a3b1af;
+  --color-pine-300: #798e8c;
+  --color-pine-400: #4b6764;
+  --color-pine-500: #183c38;
+  --color-pine-600: #163632;
+  --color-pine-700: #132f2c;
+  --color-pine-800: #0f2624;
+  --color-pine-900: #0c1e1c;
+  --color-pine-925: #0a1816;
+  --color-pine-950: #071110;
+  --color-pine-975: #040a09;
+  --color-gold-25: #fbf8f3; /** Maligai brand gold. Figma > color/gold. 500 is the logo gold #BB893A */
+  --color-gold-50: #f7f1e7;
+  --color-gold-75: #f3eadc;
+  --color-gold-100: #ede0cc;
+  --color-gold-200: #e4d0b0;
+  --color-gold-300: #d8bb8d;
+  --color-gold-400: #caa365;
+  --color-gold-500: #bb893a;
+  --color-gold-600: #a87b34;
+  --color-gold-700: #926b2d;
+  --color-gold-800: #785825;
+  --color-gold-900: #5e451d;
+  --color-gold-925: #4b3717;
+  --color-gold-950: #342610;
+  --color-gold-975: #1e1609;
+  --color-earth-25: #f8f5f4; /** Maligai brand earth. Figma > color/earth. 500 is the logo brown #845E41 */
+  --color-earth-50: #f0ece8;
+  --color-earth-75: #e9e2dd;
+  --color-earth-100: #dfd5ce;
+  --color-earth-200: #cebfb3;
+  --color-earth-300: #b8a291;
+  --color-earth-400: #9f816b;
+  --color-earth-500: #845e41;
+  --color-earth-600: #77553b;
+  --color-earth-700: #674933;
+  --color-earth-800: #543c2a;
+  --color-earth-900: #422f21;
+  --color-earth-925: #35261a;
+  --color-earth-950: #251a12;
+  --color-earth-975: #150f0a;
   --font-family-sans: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-family-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
   --font-family-source-sans: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /** Aumraa brand typeface */
@@ -290,32 +335,39 @@
   --duration-fast: 100ms;
   --duration-normal: 200ms;
   --duration-slow: 300ms;
-  --mlgm-color-primary: #4079cb; /** Placeholder — confirm at Maligai design kickoff */
-  --mlgm-color-primary-light: #6593d5;
-  --mlgm-color-primary-dark: #1c60c1;
+  --mlgm-color-logo-primary-green: #183c38; /** Logo lockup colours — exact hexes in public/assets/logos/maligai-manager */
+  --mlgm-color-logo-gold: #bb893a;
+  --mlgm-color-logo-earth: #845e41;
+  --mlgm-color-primary: #183c38;
+  --mlgm-color-primary-light: #c3cccb;
+  --mlgm-color-primary-dark: #132f2c;
   --mlgm-color-primary-foreground: #ffffff;
-  --mlgm-color-secondary: #ed651c;
-  --mlgm-color-secondary-foreground: #ffffff;
-  --mlgm-color-tertiary: #40aad4;
+  --mlgm-color-secondary: #bb893a;
+  --mlgm-color-secondary-foreground: #0c1e1c;
+  --mlgm-color-tertiary: #845e41;
   --mlgm-color-tertiary-foreground: #ffffff;
-  --mlgm-color-accent: #f59e0b;
-  --mlgm-color-accent-foreground: #ffffff;
+  --mlgm-color-accent: #bb893a; /** Not in Figma; consumed by components, kept as an alias of secondary */
+  --mlgm-color-accent-foreground: #0c1e1c; /** Not in Figma; see accent */
   --mlgm-color-positive: #16a34a;
   --mlgm-color-positive-foreground: #ffffff;
   --mlgm-color-negative: #dc2626;
   --mlgm-color-negative-foreground: #ffffff;
   --mlgm-color-background: #ffffff;
   --mlgm-color-background-secondary: #f8f8f8;
-  --mlgm-color-background-tertiary: #f0f1f1;
-  --mlgm-color-foreground: #2a2c30;
-  --mlgm-color-foreground-secondary: #757678;
-  --mlgm-color-foreground-tertiary: #9fa0a2;
-  --mlgm-color-border: #e8e8e9;
-  --mlgm-color-border-hover: #d9dadb;
-  --mlgm-color-success: #16a34a;
+  --mlgm-color-background-tertiary: #f1f3f3;
+  --mlgm-color-foreground: #132f2c;
+  --mlgm-color-foreground-secondary: #5f6163;
+  --mlgm-color-foreground-tertiary: #757678;
+  --mlgm-color-border: #d9dadb;
+  --mlgm-color-border-hover: #c3c4c5;
+  --mlgm-color-success: #16a34a; /** Not in Figma; consumed by components, duplicate of positive */
   --mlgm-color-warning: #f59e0b;
-  --mlgm-color-danger: #dc2626;
+  --mlgm-color-warning-foreground: #0c1e1c;
+  --mlgm-color-danger: #dc2626; /** Not in Figma; consumed by components, duplicate of negative */
   --mlgm-color-info: #40aad4;
+  --mlgm-color-info-foreground: #ffffff;
+  --mlgm-color-gradient-start: #183c38;
+  --mlgm-color-gradient-end: #132f2c;
   --mlgm-font-size-base: 16px; /** 16px for web, RN uses sp units — Style Dictionary handles conversion */
   --mlgm-font-weight-body: 400;
   --mlgm-font-weight-heading: 600; /** Semibold for mobile readability */

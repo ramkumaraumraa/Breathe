@@ -4,30 +4,37 @@
   Do not edit directly, this file was auto-generated.
 -->
 <resources>
-  <color name="mlgm_color_primary">#ff4079cb</color><!-- Placeholder — confirm at Maligai design kickoff -->
-  <color name="mlgm_color_primary_light">#ff6593d5</color>
-  <color name="mlgm_color_primary_dark">#ff1c60c1</color>
+  <color name="mlgm_color_logo_primary_green">#ff183c38</color><!-- Logo lockup colours — exact hexes in public/assets/logos/maligai-manager -->
+  <color name="mlgm_color_logo_gold">#ffbb893a</color>
+  <color name="mlgm_color_logo_earth">#ff845e41</color>
+  <color name="mlgm_color_primary">#ff183c38</color>
+  <color name="mlgm_color_primary_light">#ffc3cccb</color>
+  <color name="mlgm_color_primary_dark">#ff132f2c</color>
   <color name="mlgm_color_primary_foreground">#ffffffff</color>
-  <color name="mlgm_color_secondary">#ffed651c</color>
-  <color name="mlgm_color_secondary_foreground">#ffffffff</color>
-  <color name="mlgm_color_tertiary">#ff40aad4</color>
+  <color name="mlgm_color_secondary">#ffbb893a</color>
+  <color name="mlgm_color_secondary_foreground">#ff0c1e1c</color>
+  <color name="mlgm_color_tertiary">#ff845e41</color>
   <color name="mlgm_color_tertiary_foreground">#ffffffff</color>
-  <color name="mlgm_color_accent">#fff59e0b</color>
-  <color name="mlgm_color_accent_foreground">#ffffffff</color>
+  <color name="mlgm_color_accent">#ffbb893a</color><!-- Not in Figma; consumed by components, kept as an alias of secondary -->
+  <color name="mlgm_color_accent_foreground">#ff0c1e1c</color><!-- Not in Figma; see accent -->
   <color name="mlgm_color_positive">#ff16a34a</color>
   <color name="mlgm_color_positive_foreground">#ffffffff</color>
   <color name="mlgm_color_negative">#ffdc2626</color>
   <color name="mlgm_color_negative_foreground">#ffffffff</color>
   <color name="mlgm_color_background">#ffffffff</color>
   <color name="mlgm_color_background_secondary">#fff8f8f8</color>
-  <color name="mlgm_color_background_tertiary">#fff0f1f1</color>
-  <color name="mlgm_color_foreground">#ff2a2c30</color>
-  <color name="mlgm_color_foreground_secondary">#ff757678</color>
-  <color name="mlgm_color_foreground_tertiary">#ff9fa0a2</color>
-  <color name="mlgm_color_border">#ffe8e8e9</color>
-  <color name="mlgm_color_border_hover">#ffd9dadb</color>
-  <color name="mlgm_color_success">#ff16a34a</color>
+  <color name="mlgm_color_background_tertiary">#fff1f3f3</color>
+  <color name="mlgm_color_foreground">#ff132f2c</color>
+  <color name="mlgm_color_foreground_secondary">#ff5f6163</color>
+  <color name="mlgm_color_foreground_tertiary">#ff757678</color>
+  <color name="mlgm_color_border">#ffd9dadb</color>
+  <color name="mlgm_color_border_hover">#ffc3c4c5</color>
+  <color name="mlgm_color_success">#ff16a34a</color><!-- Not in Figma; consumed by components, duplicate of positive -->
   <color name="mlgm_color_warning">#fff59e0b</color>
-  <color name="mlgm_color_danger">#ffdc2626</color>
+  <color name="mlgm_color_warning_foreground">#ff0c1e1c</color>
+  <color name="mlgm_color_danger">#ffdc2626</color><!-- Not in Figma; consumed by components, duplicate of negative -->
   <color name="mlgm_color_info">#ff40aad4</color>
+  <color name="mlgm_color_info_foreground">#ffffffff</color>
+  <color name="mlgm_color_gradient_start">#ff183c38</color>
+  <color name="mlgm_color_gradient_end">#ff132f2c</color>
 </resources>

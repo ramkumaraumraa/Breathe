@@ -17,12 +17,12 @@ export function TechnocracyStatTile({
     <div
       style={{
         padding: '20px',
-        border: '1px solid rgba(255, 255, 255, 0.11)',
+        border: '1px solid var(--thcy-color-border)',
         borderRadius: '16px',
-        background: 'rgba(255, 255, 255, 0.035)',
+        background: 'var(--thcy-color-glass)',
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
-        fontFamily: "'Source Code Pro', ui-monospace, monospace",
+        fontFamily: "var(--thcy-font-family)",
       }}
     >
       <div
@@ -31,7 +31,7 @@ export function TechnocracyStatTile({
           alignItems: 'center',
           justifyContent: 'space-between',
           gap: '12px',
-          color: '#8b94a7',
+          color: 'var(--thcy-color-foreground-secondary)',
           textTransform: 'uppercase',
           letterSpacing: '0.06em',
           fontSize: '11px',
@@ -45,7 +45,7 @@ export function TechnocracyStatTile({
         style={{
           display: 'block',
           marginTop: '18px',
-          color: '#f2f5fa',
+          color: 'var(--thcy-color-foreground)',
           fontSize: '28px',
           fontWeight: 700,
           lineHeight: 1,
@@ -55,7 +55,7 @@ export function TechnocracyStatTile({
       </span>
 
       {detail && (
-        <div style={{ marginTop: '10px', color: '#8b94a7', fontSize: '11px' }}>
+        <div style={{ marginTop: '10px', color: 'var(--thcy-color-foreground-secondary)', fontSize: '11px' }}>
           {detail}
         </div>
       )}

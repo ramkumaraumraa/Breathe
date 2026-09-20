@@ -382,6 +382,13 @@
   --thcy-color-signal-red: #ff4444;
   --thcy-color-signal-blue: #4da6ff;
   --thcy-color-signal-muted: #8b94a7;
+  --thcy-color-primary-subtle: rgba(0, 220, 130, 0.08); /** Active nav row / selected state fill. */
+  --thcy-color-alert-warning-bg: rgba(240, 163, 10, 0.08);
+  --thcy-color-alert-critical-bg: rgba(255, 68, 68, 0.08);
+  --thcy-color-alert-info-bg: rgba(77, 166, 255, 0.08);
+  --thcy-color-diagnostic-border: rgba(255, 68, 68, 0.35);
+  --thcy-color-scrim: rgba(4, 6, 15, 0.78);
+  --thcy-color-well: rgba(0, 0, 0, 0.28); /** Progress track / recessed surface. */
   --thcy-font-family: 'Source Code Pro', ui-monospace, SFMono-Regular, Consolas, monospace; /** Technocracy telemetry monospace font */
   --thcy-font-size-base: 14px; /** 13px/14px - dense telemetry admin */
   --thcy-font-weight-body: 400;
@@ -405,7 +412,14 @@
   --thcy-palette-overlay-border: rgba(255, 255, 255, 0.11);
   --thcy-palette-overlay-border-strong: rgba(255, 255, 255, 0.22);
   --thcy-palette-overlay-sidebar: rgba(4, 6, 15, 0.72); /** Glass sidebar rail over the dot grid. */
+  --thcy-palette-overlay-scrim: rgba(4, 6, 15, 0.78); /** Modal backdrop over the dot grid. */
+  --thcy-palette-overlay-well: rgba(0, 0, 0, 0.28); /** Recessed track behind progress fills. */
   --thcy-palette-text-primary: #f2f5fa;
   --thcy-palette-text-secondary: #8b94a7;
   --thcy-palette-text-tertiary: #596174;
+  --thcy-palette-tint-green08: rgba(0, 220, 130, 0.08); /** 8% signal-green wash — active rows. */
+  --thcy-palette-tint-amber08: rgba(240, 163, 10, 0.08);
+  --thcy-palette-tint-red08: rgba(255, 68, 68, 0.08);
+  --thcy-palette-tint-blue08: rgba(77, 166, 255, 0.08);
+  --thcy-palette-tint-red35: rgba(255, 68, 68, 0.35); /** Diagnostic panel border. */
 }

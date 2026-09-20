@@ -22,8 +22,8 @@ export function TechnocracyTelemetryTable<T extends { id: string | number }>({
       style={{
         maxWidth: '100%',
         overflowX: 'auto',
-        border: '1px solid rgba(255, 255, 255, 0.11)',
-        fontFamily: "'Source Code Pro', ui-monospace, monospace",
+        border: '1px solid var(--thcy-color-border)',
+        fontFamily: "var(--thcy-font-family)",
       }}
     >
       <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
@@ -31,7 +31,7 @@ export function TechnocracyTelemetryTable<T extends { id: string | number }>({
           <caption
             style={{
               padding: '10px 12px',
-              color: '#8b94a7',
+              color: 'var(--thcy-color-foreground-secondary)',
               textAlign: 'left',
               textTransform: 'uppercase',
               letterSpacing: '0.06em',
@@ -48,9 +48,9 @@ export function TechnocracyTelemetryTable<T extends { id: string | number }>({
                 key={col.key}
                 style={{
                   padding: '9px 12px',
-                  borderTop: '1px solid rgba(255, 255, 255, 0.11)',
-                  borderRight: idx < columns.length - 1 ? '1px solid rgba(255, 255, 255, 0.11)' : 'none',
-                  color: '#8b94a7',
+                  borderTop: '1px solid var(--thcy-color-border)',
+                  borderRight: idx < columns.length - 1 ? '1px solid var(--thcy-color-border)' : 'none',
+                  color: 'var(--thcy-color-foreground-secondary)',
                   fontSize: '10px',
                   letterSpacing: '0.06em',
                   textTransform: 'uppercase',
@@ -70,9 +70,9 @@ export function TechnocracyTelemetryTable<T extends { id: string | number }>({
                   key={col.key}
                   style={{
                     padding: '9px 12px',
-                    borderTop: '1px solid rgba(255, 255, 255, 0.11)',
-                    borderRight: idx < columns.length - 1 ? '1px solid rgba(255, 255, 255, 0.11)' : 'none',
-                    color: '#f2f5fa',
+                    borderTop: '1px solid var(--thcy-color-border)',
+                    borderRight: idx < columns.length - 1 ? '1px solid var(--thcy-color-border)' : 'none',
+                    color: 'var(--thcy-color-foreground)',
                     fontSize: '12px',
                     whiteSpace: 'nowrap',
                   }}

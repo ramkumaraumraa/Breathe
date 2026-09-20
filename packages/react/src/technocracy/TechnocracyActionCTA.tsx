@@ -13,18 +13,18 @@ export interface TechnocracyActionCTAProps {
 
 const variantStyles: Record<TechnocracyActionVariant, CSSProperties> = {
   primary: {
-    color: '#02130d',
-    backgroundColor: '#00dc82',
+    color: 'var(--thcy-color-primary-foreground)',
+    backgroundColor: 'var(--thcy-color-signal-green)',
     borderColor: 'transparent',
   },
   secondary: {
-    color: '#f2f5fa',
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
-    borderColor: 'rgba(255, 255, 255, 0.22)',
+    color: 'var(--thcy-color-foreground)',
+    backgroundColor: 'var(--thcy-color-secondary)',
+    borderColor: 'var(--thcy-color-border-strong)',
   },
   danger: {
-    color: '#190303',
-    backgroundColor: '#ff4444',
+    color: 'var(--thcy-color-primary-foreground)',
+    backgroundColor: 'var(--thcy-color-signal-red)',
     borderColor: 'transparent',
   },
 }
@@ -57,7 +57,7 @@ export function TechnocracyActionCTA({
         color: vStyle.color,
         fontSize: '12px',
         fontWeight: 700,
-        fontFamily: "'Source Code Pro', ui-monospace, monospace",
+        fontFamily: "var(--thcy-font-family)",
         cursor: disabled ? 'not-allowed' : 'pointer',
         opacity: disabled ? 0.42 : 1,
         transition: 'transform 0.15s, filter 0.15s',

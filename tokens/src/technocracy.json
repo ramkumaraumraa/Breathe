@@ -106,6 +106,36 @@
       "signalMuted": {
         "value": "{color.signal.muted}",
         "type": "color"
+      },
+      "primarySubtle": {
+        "value": "{thcy.palette.tint.green08}",
+        "type": "color",
+        "comment": "Active nav row / selected state fill."
+      },
+      "alertWarningBg": {
+        "value": "{thcy.palette.tint.amber08}",
+        "type": "color"
+      },
+      "alertCriticalBg": {
+        "value": "{thcy.palette.tint.red08}",
+        "type": "color"
+      },
+      "alertInfoBg": {
+        "value": "{thcy.palette.tint.blue08}",
+        "type": "color"
+      },
+      "diagnosticBorder": {
+        "value": "{thcy.palette.tint.red35}",
+        "type": "color"
+      },
+      "scrim": {
+        "value": "{thcy.palette.overlay.scrim}",
+        "type": "color"
+      },
+      "well": {
+        "value": "{thcy.palette.overlay.well}",
+        "type": "color",
+        "comment": "Progress track / recessed surface."
       }
     },
     "font": {
@@ -222,6 +252,16 @@
           "value": "rgba(4, 6, 15, 0.72)",
           "type": "color",
           "comment": "Glass sidebar rail over the dot grid."
+        },
+        "scrim": {
+          "value": "rgba(4, 6, 15, 0.78)",
+          "type": "color",
+          "comment": "Modal backdrop over the dot grid."
+        },
+        "well": {
+          "value": "rgba(0, 0, 0, 0.28)",
+          "type": "color",
+          "comment": "Recessed track behind progress fills."
         }
       },
       "text": {
@@ -236,6 +276,30 @@
         "tertiary": {
           "value": "#596174",
           "type": "color"
+        }
+      },
+      "tint": {
+        "green08": {
+          "value": "rgba(0, 220, 130, 0.08)",
+          "type": "color",
+          "comment": "8% signal-green wash — active rows."
+        },
+        "amber08": {
+          "value": "rgba(240, 163, 10, 0.08)",
+          "type": "color"
+        },
+        "red08": {
+          "value": "rgba(255, 68, 68, 0.08)",
+          "type": "color"
+        },
+        "blue08": {
+          "value": "rgba(77, 166, 255, 0.08)",
+          "type": "color"
+        },
+        "red35": {
+          "value": "rgba(255, 68, 68, 0.35)",
+          "type": "color",
+          "comment": "Diagnostic panel border."
         }
       }
     }

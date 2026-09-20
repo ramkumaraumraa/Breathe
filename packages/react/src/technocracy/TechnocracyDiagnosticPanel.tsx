@@ -15,14 +15,14 @@ export function TechnocracyDiagnosticPanel({ items }: TechnocracyDiagnosticPanel
     <div
       style={{
         position: 'relative',
-        border: '1px solid rgba(255, 68, 68, 0.35)',
+        border: '1px solid var(--thcy-color-diagnostic-border)',
         borderRadius: '16px',
         overflow: 'hidden',
-        background: '#0b0e18',
-        fontFamily: "'Source Code Pro', ui-monospace, monospace",
+        background: 'var(--thcy-color-background-secondary)',
+        fontFamily: "var(--thcy-font-family)",
       }}
     >
-      <dl style={{ display: 'grid', gap: '1px', margin: 0, background: 'rgba(255, 255, 255, 0.11)' }}>
+      <dl style={{ display: 'grid', gap: '1px', margin: 0, background: 'var(--thcy-color-border)' }}>
         {items.map((item) => (
           <div
             key={item.key}
@@ -31,16 +31,16 @@ export function TechnocracyDiagnosticPanel({ items }: TechnocracyDiagnosticPanel
               gridTemplateColumns: 'minmax(100px, 0.35fr) 1fr',
               gap: '14px',
               padding: '9px 12px',
-              background: '#0b0e18',
+              background: 'var(--thcy-color-background-secondary)',
               fontSize: '12px',
             }}
           >
-            <dt style={{ color: '#8b94a7', textTransform: 'uppercase', fontSize: '11px' }}>{item.label}</dt>
-            <dd style={{ margin: 0, color: '#f2f5fa', overflowWrap: 'anywhere' }}>{item.value}</dd>
+            <dt style={{ color: 'var(--thcy-color-foreground-secondary)', textTransform: 'uppercase', fontSize: '11px' }}>{item.label}</dt>
+            <dd style={{ margin: 0, color: 'var(--thcy-color-foreground)', overflowWrap: 'anywhere' }}>{item.value}</dd>
           </div>
         ))}
       </dl>
-      <span style={{ position: 'absolute', right: '12px', bottom: '8px', color: '#e0575a', fontSize: '12px' }}>
+      <span style={{ position: 'absolute', right: '12px', bottom: '8px', color: 'var(--thcy-color-brand)', fontSize: '12px' }}>
         ✚
       </span>
     </div>

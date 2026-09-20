@@ -31,19 +31,19 @@ export function TechnocracySidebar({
         width: '200px',
         height: '100vh',
         padding: '18px 12px 12px',
-        borderRight: '1px solid rgba(255, 255, 255, 0.11)',
-        background: 'rgba(4, 6, 15, 0.72)',
+        borderRight: '1px solid var(--thcy-color-border)',
+        background: 'var(--thcy-color-sidebar)',
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
-        fontFamily: "'Source Code Pro', ui-monospace, monospace",
-        color: '#8b94a7',
+        fontFamily: "var(--thcy-font-family)",
+        color: 'var(--thcy-color-foreground-secondary)',
       }}
     >
       <div style={{ display: 'grid', padding: '4px 10px 20px' }}>
-        <strong style={{ color: '#e0575a', fontSize: '18px', fontWeight: 700, letterSpacing: '0.04em' }}>
+        <strong style={{ color: 'var(--thcy-color-brand)', fontSize: '18px', fontWeight: 700, letterSpacing: '0.04em' }}>
           {brandName}
         </strong>
-        <span style={{ color: '#8b94a7', fontSize: '9px', letterSpacing: '0.18em', marginTop: '2px' }}>
+        <span style={{ color: 'var(--thcy-color-foreground-secondary)', fontSize: '9px', letterSpacing: '0.18em', marginTop: '2px' }}>
           {brandSub}
         </span>
       </div>
@@ -62,8 +62,8 @@ export function TechnocracySidebar({
                   gap: '8px',
                   width: '100%',
                   padding: '9px 10px',
-                  color: item.active ? '#f2f5fa' : '#8b94a7',
-                  background: item.active ? 'rgba(0, 220, 130, 0.08)' : 'transparent',
+                  color: item.active ? 'var(--thcy-color-foreground)' : 'var(--thcy-color-foreground-secondary)',
+                  background: item.active ? 'var(--thcy-color-primary-subtle)' : 'transparent',
                   border: 0,
                   cursor: 'pointer',
                   textAlign: 'left',
@@ -81,11 +81,11 @@ export function TechnocracySidebar({
                       top: '6px',
                       bottom: '6px',
                       width: '2px',
-                      backgroundColor: '#00dc82',
+                      backgroundColor: 'var(--thcy-color-signal-green)',
                     }}
                   />
                 )}
-                <span style={{ color: '#00dc82', textAlign: 'center' }}>{item.glyph}</span>
+                <span style={{ color: 'var(--thcy-color-signal-green)', textAlign: 'center' }}>{item.glyph}</span>
                 <span>{item.label}</span>
               </button>
             </li>
@@ -94,7 +94,7 @@ export function TechnocracySidebar({
       </nav>
 
       {footer && (
-        <footer style={{ padding: '12px 10px 0', borderTop: '1px solid rgba(255, 255, 255, 0.11)', fontSize: '9px', lineHeight: 1.5 }}>
+        <footer style={{ padding: '12px 10px 0', borderTop: '1px solid var(--thcy-color-border)', fontSize: '9px', lineHeight: 1.5 }}>
           {footer}
         </footer>
       )}

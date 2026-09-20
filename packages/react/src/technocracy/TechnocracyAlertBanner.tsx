@@ -9,9 +9,9 @@ export interface TechnocracyAlertBannerProps {
 }
 
 const variantStyles: Record<TechnocracyAlertVariant, { borderLeft: string; bg: string }> = {
-  warning: { borderLeft: '#f0a30a', bg: 'rgba(240, 163, 10, 0.08)' },
-  critical: { borderLeft: '#ff4444', bg: 'rgba(255, 68, 68, 0.08)' },
-  info: { borderLeft: '#4da6ff', bg: 'rgba(77, 166, 255, 0.08)' },
+  warning: { borderLeft: 'var(--thcy-color-signal-amber)', bg: 'var(--thcy-color-alert-warning-bg)' },
+  critical: { borderLeft: 'var(--thcy-color-signal-red)', bg: 'var(--thcy-color-alert-critical-bg)' },
+  info: { borderLeft: 'var(--thcy-color-signal-blue)', bg: 'var(--thcy-color-alert-info-bg)' },
 }
 
 export function TechnocracyAlertBanner({
@@ -29,12 +29,12 @@ export function TechnocracyAlertBanner({
         alignItems: 'center',
         gap: '16px',
         padding: '12px 14px',
-        border: '1px solid rgba(255, 255, 255, 0.11)',
+        border: '1px solid var(--thcy-color-border)',
         borderLeft: `3px solid ${st.borderLeft}`,
         background: st.bg,
-        color: '#f2f5fa',
+        color: 'var(--thcy-color-foreground)',
         fontSize: '12px',
-        fontFamily: "'Source Code Pro', ui-monospace, monospace",
+        fontFamily: "var(--thcy-font-family)",
       }}
     >
       <div>{message}</div>
@@ -44,7 +44,7 @@ export function TechnocracyAlertBanner({
           onClick={onDismiss}
           style={{
             border: 0,
-            color: '#f2f5fa',
+            color: 'var(--thcy-color-foreground)',
             background: 'transparent',
             cursor: 'pointer',
             fontSize: '16px',

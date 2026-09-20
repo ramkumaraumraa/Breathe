@@ -9,11 +9,11 @@ export interface TechnocracySignalBadgeProps {
 }
 
 const colorMap: Record<TechnocracySignalColor, string> = {
-  green: '#00dc82',
-  amber: '#f0a30a',
-  red: '#ff4444',
-  blue: '#4da6ff',
-  muted: '#8b94a7',
+  green: 'var(--thcy-color-signal-green)',
+  amber: 'var(--thcy-color-signal-amber)',
+  red: 'var(--thcy-color-signal-red)',
+  blue: 'var(--thcy-color-signal-blue)',
+  muted: 'var(--thcy-color-signal-muted)',
 }
 
 export function TechnocracySignalBadge({
@@ -33,7 +33,7 @@ export function TechnocracySignalBadge({
         color: colorMap[color],
         whiteSpace: 'nowrap',
         textTransform: 'uppercase',
-        fontFamily: "'Source Code Pro', ui-monospace, monospace",
+        fontFamily: "var(--thcy-font-family)",
       }}
     >
       {icon || <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: colorMap[color] }} />}

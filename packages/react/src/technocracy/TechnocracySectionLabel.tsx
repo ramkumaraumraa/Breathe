@@ -19,10 +19,10 @@ export function TechnocracySectionLabel({
         alignItems: 'center',
         gap: '10px',
         marginBottom: '14px',
-        fontFamily: "'Source Code Pro', ui-monospace, monospace",
+        fontFamily: "var(--thcy-font-family)",
       }}
     >
-      <span style={{ color: '#00dc82', fontSize: '10px', fontWeight: 700 }}>
+      <span style={{ color: 'var(--thcy-color-signal-green)', fontSize: '10px', fontWeight: 700 }}>
         [{marker}]
       </span>
 
@@ -33,13 +33,13 @@ export function TechnocracySectionLabel({
           fontWeight: 700,
           letterSpacing: '0.04em',
           textTransform: 'uppercase',
-          color: '#f2f5fa',
+          color: 'var(--thcy-color-foreground)',
         }}
       >
         {title}
       </h2>
 
-      <div style={{ height: '1px', backgroundColor: 'rgba(255, 255, 255, 0.11)' }} />
+      <div style={{ height: '1px', backgroundColor: 'var(--thcy-color-border)' }} />
 
       {action && <div>{action}</div>}
     </div>

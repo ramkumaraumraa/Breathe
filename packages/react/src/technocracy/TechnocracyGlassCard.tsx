@@ -24,16 +24,16 @@ export function TechnocracyGlassCard({
         minWidth: 0,
         padding: '20px',
         overflow: 'hidden',
-        border: active ? '1px solid #00dc82' : '1px solid rgba(255, 255, 255, 0.11)',
+        border: active ? '1px solid var(--thcy-color-signal-green)' : '1px solid var(--thcy-color-border)',
         borderRadius: '16px',
-        background: 'rgba(255, 255, 255, 0.035)',
+        background: 'var(--thcy-color-glass)',
         boxShadow: active
-          ? 'inset 3px 0 #00dc82, inset 0 1px rgba(255,255,255,0.04)'
-          : 'inset 0 1px rgba(255,255,255,0.04)',
+          ? 'inset 3px 0 var(--thcy-color-signal-green), inset 0 1px var(--thcy-color-secondary)'
+          : 'inset 0 1px var(--thcy-color-secondary)',
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
-        color: '#f2f5fa',
-        fontFamily: "'Source Code Pro', ui-monospace, monospace",
+        color: 'var(--thcy-color-foreground)',
+        fontFamily: "var(--thcy-font-family)",
         cursor: onClick ? 'pointer' : 'default',
         transition: 'border-color 0.2s, box-shadow 0.2s',
         ...style,
@@ -46,7 +46,7 @@ export function TechnocracyGlassCard({
             position: 'absolute',
             right: '12px',
             bottom: '8px',
-            color: '#e0575a',
+            color: 'var(--thcy-color-brand)',
             fontSize: '12px',
             pointerEvents: 'none',
           }}

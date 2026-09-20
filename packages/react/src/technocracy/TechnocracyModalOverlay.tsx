@@ -24,9 +24,9 @@ export function TechnocracyModalOverlay({
         display: 'grid',
         placeItems: 'center',
         padding: '20px',
-        background: 'rgba(4, 6, 15, 0.78)',
+        background: 'var(--thcy-color-scrim)',
         backdropFilter: 'blur(8px)',
-        fontFamily: "'Source Code Pro', ui-monospace, monospace",
+        fontFamily: "var(--thcy-font-family)",
       }}
     >
       <div
@@ -35,19 +35,19 @@ export function TechnocracyModalOverlay({
           maxHeight: 'min(720px, 90vh)',
           padding: '20px',
           overflow: 'auto',
-          border: '1px solid rgba(255, 255, 255, 0.22)',
+          border: '1px solid var(--thcy-color-border-strong)',
           borderRadius: '16px',
-          background: '#0b0e18',
-          boxShadow: '0 24px 80px rgba(0,0,0,0.5)',
-          color: '#f2f5fa',
+          background: 'var(--thcy-color-background-secondary)',
+          boxShadow: 'var(--thcy-shadow-modal)',
+          color: 'var(--thcy-color-foreground)',
         }}
       >
         <header style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px', marginBottom: '16px' }}>
-          <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: '#f2f5fa' }}>{title}</h3>
+          <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: 'var(--thcy-color-foreground)' }}>{title}</h3>
           <button
             type="button"
             onClick={onClose}
-            style={{ border: 0, color: '#8b94a7', background: 'transparent', cursor: 'pointer', fontSize: '20px', lineHeight: 1 }}
+            style={{ border: 0, color: 'var(--thcy-color-foreground-secondary)', background: 'transparent', cursor: 'pointer', fontSize: '20px', lineHeight: 1 }}
           >
             ×
           </button>

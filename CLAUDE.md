@@ -70,7 +70,7 @@ end rather than driving to near-black; do not "fix" that.
 | Product | Figma | State |
 |---|---|---|
 | Lemniscate | ✅ | 105 vars aligned, 0 drift. Colors page swatch board is still hardcoded fills showing old neutrals (6 slots vs 15); Gray/Slate still bound across ~35 pages. |
-| Kaayo | ✅ | [File](https://www.figma.com/design/doxyZziGKSHcBHKH1lzEH8/Kaayo) · Figma wins (team cross-checked against the product). 8 ramps × 15, repo matches all 105 stops. Neutral replaced NeutralWhite/NeutralBlack. **Remaining:** 15 `NeutralBlack/*` variables survive as deprecated aliases into `Neutral/*` — correct on canvas, but the file-wide rebind sweep is unrun, so they cannot be deleted yet. |
+| Kaayo | ✅ | [File](https://www.figma.com/design/doxyZziGKSHcBHKH1lzEH8/Kaayo) · Figma wins (team cross-checked against the product). 120 vars = 8 ramps × 15, repo matches all 105 brand stops. `NeutralWhite`/`NeutralBlack` collapsed into one `Neutral` ramp: 8,543 nodes rebound across 36 pages, both old ramps deleted. Colors page rebuilt from the variables. |
 | Maligai Manager | ⏳ | recently touched, expect closest to correct |
 | Aumraa | ⏳ | |
 | Technocracy | ⏳ | no Figma link yet; tokens are raw hex, not references — won't diff the same way |

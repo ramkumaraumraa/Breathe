@@ -17,11 +17,11 @@
   <color name="kayo_color_foreground">#ff3a3b3f</color>
   <color name="kayo_color_foreground_secondary">#ff757678</color>
   <color name="kayo_color_border">#ff3a3b3f</color>
-  <color name="kayo_color_positive">#ff16a34a</color>
+  <color name="kayo_color_positive">#ff01971a</color><!-- Bespoke — Kaayo runs its own green, not color.status.success -->
   <color name="kayo_color_positive_foreground">#ffffffff</color>
   <color name="kayo_color_negative">#ffdc2626</color>
   <color name="kayo_color_negative_foreground">#ffffffff</color>
-  <color name="kayo_color_warning">#fff59e0b</color>
+  <color name="kayo_color_warning">#fff5590b</color><!-- Bespoke — Kaayo Alert, not color.status.warning -->
   <color name="kayo_color_gradient_start">#ff970103</color>
   <color name="kayo_color_gradient_end">#fffda581</color>
 </resources>

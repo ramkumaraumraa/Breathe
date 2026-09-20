@@ -14,11 +14,11 @@
       "foreground":          { "value": "{color.neutral.800}", "type": "color" },
       "foregroundSecondary": { "value": "{color.neutral.500}", "type": "color" },
       "border":              { "value": "{color.neutral.800}", "type": "color" },
-      "positive":            { "value": "{color.status.success}", "type": "color" },
+      "positive":            { "value": "#01971A", "type": "color", "comment": "Bespoke — Kaayo runs its own green, not color.status.success" },
       "positiveForeground":  { "value": "{color.neutral.white}", "type": "color" },
       "negative":            { "value": "{color.status.danger}", "type": "color" },
       "negativeForeground":  { "value": "{color.neutral.white}", "type": "color" },
-      "warning":             { "value": "{color.status.warning}", "type": "color" },
+      "warning":             { "value": "#F5590B", "type": "color", "comment": "Bespoke — Kaayo Alert, not color.status.warning" },
       "gradientStart":       { "value": "{color.crimson.500}", "type": "color" },
       "gradientEnd":         { "value": "{color.peach.500}", "type": "color" }
     },

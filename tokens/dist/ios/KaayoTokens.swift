@@ -18,7 +18,7 @@ public class KaayoTokens {
     public static let kayoColorGradientStart = UIColor(red: 0.592, green: 0.004, blue: 0.012, alpha: 1)
     public static let kayoColorNegative = UIColor(red: 0.863, green: 0.149, blue: 0.149, alpha: 1)
     public static let kayoColorNegativeForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
-    public static let kayoColorPositive = UIColor(red: 0.086, green: 0.639, blue: 0.290, alpha: 1)
+    public static let kayoColorPositive = UIColor(red: 0.004, green: 0.592, blue: 0.102, alpha: 1) /** Bespoke — Kaayo runs its own green, not color.status.success */
     public static let kayoColorPositiveForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
     public static let kayoColorPrimary = UIColor(red: 0.592, green: 0.004, blue: 0.012, alpha: 1)
     public static let kayoColorPrimaryDark = UIColor(red: 0.341, green: 0.000, blue: 0.004, alpha: 1)
@@ -28,7 +28,7 @@ public class KaayoTokens {
     public static let kayoColorSecondaryForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
     public static let kayoColorTertiary = UIColor(red: 0.216, green: 0.255, blue: 0.361, alpha: 1)
     public static let kayoColorTertiaryForeground = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1)
-    public static let kayoColorWarning = UIColor(red: 0.961, green: 0.620, blue: 0.043, alpha: 1)
+    public static let kayoColorWarning = UIColor(red: 0.961, green: 0.349, blue: 0.043, alpha: 1) /** Bespoke — Kaayo Alert, not color.status.warning */
     public static let kayoFontSizeBase = 16
     public static let kayoFontWeightBody = 400
     public static let kayoFontWeightHeading = 700

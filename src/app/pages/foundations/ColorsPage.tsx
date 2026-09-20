@@ -200,7 +200,7 @@ const brandPalettes: BrandPalette[] = [
       {
         name: 'Secondary',
         description: 'Sky Blue — Supports Primary. Used for highlights, hover states, secondary CTAs, and data visualisation accents.',
-        root: '#266FDC',
+        root: '#40AAD4',
         stops: [
           { stop: 25, hex: '#EBF7FB', textColor: '#0F172A' },
           { stop: 50, hex: '#D9EEF6', textColor: '#0F172A' },
@@ -209,7 +209,7 @@ const brandPalettes: BrandPalette[] = [
           { stop: 200, hex: '#9CD3E9', textColor: '#0F172A' },
           { stop: 300, hex: '#7DC5E2', textColor: '#0F172A' },
           { stop: 400, hex: '#5FB8DB', textColor: '#0F172A' },
-          { stop: 500, hex: '#266FDC', textColor: '#0F172A' },
+          { stop: 500, hex: '#40AAD4', textColor: '#0F172A' },
           { stop: 600, hex: '#3A93B7', textColor: '#fff' },
           { stop: 700, hex: '#347C9A', textColor: '#fff' },
           { stop: 800, hex: '#2D657D', textColor: '#fff' },
@@ -249,12 +249,12 @@ const brandPalettes: BrandPalette[] = [
       },
     ],
     gradients: [
-      { name: 'Brand Blend', token: 'gradient.brand-blend', stops: 'primary.500 → secondary.500', usage: 'Primary CTAs, hero backgrounds', gradient: 'linear-gradient(135deg, #1C60C1 0%, #266FDC 100%)' },
-      { name: 'Energy', token: 'gradient.energy', stops: 'secondary.500 → supportive.500', usage: 'Promotional banners, feature callouts', gradient: 'linear-gradient(135deg, #266FDC 0%, #ED651C 100%)' },
+      { name: 'Brand Blend', token: 'gradient.brand-blend', stops: 'primary.500 → secondary.500', usage: 'Primary CTAs, hero backgrounds', gradient: 'linear-gradient(135deg, #1C60C1 0%, #40AAD4 100%)' },
+      { name: 'Energy', token: 'gradient.energy', stops: 'secondary.500 → tertiary.500', usage: 'Promotional banners, feature callouts', gradient: 'linear-gradient(135deg, #40AAD4 0%, #ED651C 100%)' },
       { name: 'Arc', token: 'gradient.arc', stops: 'tertiary.500 → primary.500', usage: 'Illustrations, decorative brand moments', gradient: 'linear-gradient(135deg, #ED651C 0%, #1C60C1 100%)' },
       { name: 'Depth', token: 'gradient.depth', stops: 'primary.500 → neutral.900', usage: 'Dark hero sections, card overlays', gradient: 'linear-gradient(135deg, #1C60C1 0%, #2A2C30 100%)' },
-      { name: 'Horizon', token: 'gradient.horizon', stops: 'primary.700 → secondary.500', usage: 'Map UI overlays, premium feature panels', gradient: 'linear-gradient(135deg, #1B4A8D 0%, #266FDC 100%)' },
-      { name: 'Full Spectrum', token: 'gradient.full-spectrum', stops: 'tertiary.500 → primary.500 → secondary.500', usage: 'Brand-only — splash screens, launch assets', gradient: 'linear-gradient(135deg, #ED651C 0%, #1C60C1 50%, #266FDC 100%)' },
+      { name: 'Horizon', token: 'gradient.horizon', stops: 'primary.700 → secondary.500', usage: 'Map UI overlays, premium feature panels', gradient: 'linear-gradient(135deg, #1B4A8D 0%, #40AAD4 100%)' },
+      { name: 'Full Spectrum', token: 'gradient.full-spectrum', stops: 'tertiary.500 → primary.500 → secondary.500', usage: 'Brand-only — splash screens, launch assets', gradient: 'linear-gradient(135deg, #ED651C 0%, #1C60C1 50%, #40AAD4 100%)' },
     ],
   },
   {
@@ -431,7 +431,7 @@ const brandPalettes: BrandPalette[] = [
     ],
     gradients: [
       { name: 'Market', token: 'gradient.market', stops: 'primary.500 → secondary.500', usage: 'App header, category banners', gradient: 'linear-gradient(135deg, #183C38 0%, #BB893A 100%)' },
-      { name: 'Harvest', token: 'gradient.harvest', stops: 'primary.500 → supportive.500', usage: 'Promotional tiles, offer cards', gradient: 'linear-gradient(135deg, #183C38 0%, #845E41 100%)' },
+      { name: 'Harvest', token: 'gradient.harvest', stops: 'primary.500 → tertiary.500', usage: 'Promotional tiles, offer cards', gradient: 'linear-gradient(135deg, #183C38 0%, #845E41 100%)' },
       { name: 'Shelf', token: 'gradient.shelf', stops: 'primary.600 → secondary.500', usage: 'Empty state illustrations', gradient: 'linear-gradient(135deg, #163632 0%, #BB893A 100%)' },
     ],
   },
@@ -519,7 +519,7 @@ const brandPalettes: BrandPalette[] = [
     ],
     gradients: [
       { name: 'Explore', token: 'gradient.explore', stops: 'primary.500 → secondary.500', usage: 'Splash screen, hero banners', gradient: 'linear-gradient(135deg, #6D28D9 0%, #0E7490 100%)' },
-      { name: 'Discover', token: 'gradient.discover', stops: 'primary.500 → supportive.500', usage: 'Featured place cards', gradient: 'linear-gradient(135deg, #6D28D9 0%, #BE123C 100%)' },
+      { name: 'Discover', token: 'gradient.discover', stops: 'primary.500 → tertiary.500', usage: 'Featured place cards', gradient: 'linear-gradient(135deg, #6D28D9 0%, #BE123C 100%)' },
       { name: 'Nightlife', token: 'gradient.nightlife', stops: 'primary.800 → secondary.600', usage: 'Evening mode, dark category tiles', gradient: 'linear-gradient(135deg, #3B1678 0%, #155E75 100%)' },
     ],
   },
@@ -607,8 +607,8 @@ const brandPalettes: BrandPalette[] = [
     ],
     gradients: [
       { name: 'Goal', token: 'gradient.goal', stops: 'primary.500 → secondary.500', usage: 'Progress bars, achievement states', gradient: 'linear-gradient(135deg, #0369A1 0%, #047857 100%)' },
-      { name: 'Focus', token: 'gradient.focus', stops: 'primary.500 → supportive.500', usage: 'Dashboard headers, summary cards', gradient: 'linear-gradient(135deg, #0369A1 0%, #4338CA 100%)' },
-      { name: 'Milestone', token: 'gradient.milestone', stops: 'secondary.500 → supportive.500', usage: 'Celebration moments, streak UI', gradient: 'linear-gradient(135deg, #047857 0%, #4338CA 100%)' },
+      { name: 'Focus', token: 'gradient.focus', stops: 'primary.500 → tertiary.500', usage: 'Dashboard headers, summary cards', gradient: 'linear-gradient(135deg, #0369A1 0%, #4338CA 100%)' },
+      { name: 'Milestone', token: 'gradient.milestone', stops: 'secondary.500 → tertiary.500', usage: 'Celebration moments, streak UI', gradient: 'linear-gradient(135deg, #047857 0%, #4338CA 100%)' },
     ],
   },
   {
@@ -783,7 +783,7 @@ const brandPalettes: BrandPalette[] = [
     ],
     gradients: [
       { name: 'Streak', token: 'gradient.streak', stops: 'primary.500 → secondary.500', usage: 'Active habit rings, watch complications', gradient: 'linear-gradient(135deg, #334155 0%, #0E7490 100%)' },
-      { name: 'Record', token: 'gradient.record', stops: 'secondary.500 → supportive.500', usage: 'Personal best moments, achievement unlocks', gradient: 'linear-gradient(135deg, #0E7490 0%, #4D7C0F 100%)' },
+      { name: 'Record', token: 'gradient.record', stops: 'secondary.500 → tertiary.500', usage: 'Personal best moments, achievement unlocks', gradient: 'linear-gradient(135deg, #0E7490 0%, #4D7C0F 100%)' },
       { name: 'Night Mode', token: 'gradient.night-mode', stops: 'primary.900 → secondary.500', usage: 'Smartwatch face, dark dashboard', gradient: 'linear-gradient(135deg, #070B16 0%, #0E7490 100%)' },
     ],
   },
@@ -971,8 +971,8 @@ const brandPalettes: BrandPalette[] = [
     ],
     gradients: [
       { name: 'Tutor Collection', token: 'gradient.tutor-collection', stops: 'primary.500 → secondary.500', usage: 'Dashboards, payment status tiles', gradient: 'linear-gradient(135deg, #970103 0%, #FDA581 100%)' },
-      { name: 'Mastery', token: 'gradient.mastery', stops: 'primary.500 → supportive.500', usage: 'Feature badges, class headings', gradient: 'linear-gradient(135deg, #970103 0%, #37415C 100%)' },
-      { name: 'Zen', token: 'gradient.zen', stops: 'secondary.500 → supportive.500', usage: 'Attendance rings, wellness trackers', gradient: 'linear-gradient(135deg, #FDA581 0%, #37415C 100%)' },
+      { name: 'Mastery', token: 'gradient.mastery', stops: 'primary.500 → tertiary.500', usage: 'Feature badges, class headings', gradient: 'linear-gradient(135deg, #970103 0%, #37415C 100%)' },
+      { name: 'Zen', token: 'gradient.zen', stops: 'secondary.500 → tertiary.500', usage: 'Attendance rings, wellness trackers', gradient: 'linear-gradient(135deg, #FDA581 0%, #37415C 100%)' },
     ],
   },
 ];

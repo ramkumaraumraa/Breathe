@@ -7,7 +7,7 @@
       "primaryDark":         { "value": "{color.green.700}",      "type": "color" },
       "primaryForeground":   { "value": "{color.neutral.white}",  "type": "color" },
 
-      "secondary":           { "value": "{color.yellowGreen.400}","type": "color",
+      "secondary":           { "value": "{color.yellowGreen.500}","type": "color",
                                "comment": "Yellow-green — energy, momentum, optimism" },
       "secondaryForeground": { "value": "{color.green.forest}",   "type": "color" },
 

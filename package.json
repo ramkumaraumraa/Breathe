@@ -5,7 +5,7 @@
   "type": "module",
   "packageManager": "pnpm@10.34.5",
   "scripts": {
-    "build": "vite build",
+    "build": "node tokens/sd.config.js && node packages/react/scripts/build-styles.mjs && vite build",
     "dev": "vite",
     "tokens": "node tokens/sd.config.js",
     "tokens:watch": "node --watch tokens/sd.config.js",

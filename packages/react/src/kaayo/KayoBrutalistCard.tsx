@@ -1,6 +1,6 @@
 import { useState, ReactNode, CSSProperties } from 'react'
 
-export type KayoCardVariant = 'default' | 'elevated' | 'flat'
+export type KayoCardVariant = 'default' | 'elevated' | 'flat' | 'outlinedClay'
 
 export interface KayoBrutalistCardProps {
   variant?: KayoCardVariant
@@ -11,9 +11,10 @@ export interface KayoBrutalistCardProps {
 }
 
 const shadowMap: Record<KayoCardVariant, string> = {
-  default:  '2px 2px 0 #191b1f',
-  elevated: '4px 4px 0 #191b1f',
-  flat:     'none',
+  default:      'var(--kayo-shadow-sm, 2px 2px 0 var(--kayo-color-neutral-950, #17191D))',
+  elevated:     'var(--kayo-shadow-md, 4px 4px 0 var(--kayo-color-neutral-950, #17191D))',
+  flat:         'none',
+  outlinedClay: '2px 2px 0px 0px var(--kayo-color-secondary-700, #B47962), -2px -2px 0px 0px var(--kayo-color-secondary-200, #FED0BD), 8px 10px 22px 0px var(--kayo-color-secondary-200, #FED0BD)',
 }
 
 export function KayoBrutalistCard({
@@ -26,6 +27,7 @@ export function KayoBrutalistCard({
   const [pressed, setPressed] = useState(false)
   const isInteractive = !!onClick
   const isPressed = pressed && isInteractive
+  const isOutlinedClay = variant === 'outlinedClay'
 
   return (
     <div
@@ -34,8 +36,10 @@ export function KayoBrutalistCard({
       onMouseUp={() => setPressed(false)}
       onMouseLeave={() => setPressed(false)}
       style={{
-        border: '2px solid var(--kayo-color-border, #3b3d3f)',
-        borderRadius: '6px',
+        border: isOutlinedClay
+          ? '2px solid var(--kayo-color-secondary-975, #342C2B)'
+          : '2px solid var(--kayo-color-border-strong, var(--kayo-color-neutral-950, #17191D))',
+        borderRadius: isOutlinedClay ? '24px' : 'var(--kayo-radius-md, 8px)',
         background: 'var(--kayo-color-background, #ffffff)',
         boxShadow: isPressed ? 'none' : shadowMap[variant],
         transform: isPressed ? 'translate(2px, 2px)' : 'none',

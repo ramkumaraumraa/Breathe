@@ -1,4 +1,4 @@
-import { useState, useEffect, ReactNode } from 'react'
+import React, { useState, useEffect, ReactNode } from 'react'
 
 export type KayoButtonVariant = 'primary' | 'secondary' | 'destructive' | 'ghost'
 export type KayoButtonSize = 'sm' | 'md' | 'lg'
@@ -12,8 +12,21 @@ export interface KayoBrutalistButtonProps {
   disabled?: boolean
   loading?: boolean
   fullWidth?: boolean
+  /** v3 tonal brutalism: 1.5px outline in the variant's own 900 stop and hard shadow in its 975 stop */
+  tonal?: boolean
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
   onPress?: () => void
+}
+
+function tonalEdge(v: KayoButtonVariant): { border: string; shadow: string } {
+  switch (v) {
+    case 'primary':
+      return { border: 'var(--kayo-color-primary-900, #461215)', shadow: 'var(--kayo-color-primary-975, #28181C)' }
+    case 'destructive':
+      return { border: 'var(--kayo-color-negative-900, #5F1F22)', shadow: 'var(--kayo-color-negative-975, #301C20)' }
+    default:
+      return { border: 'var(--kayo-color-neutral-900, #2A2C30)', shadow: 'var(--kayo-color-neutral-975, #0D1014)' }
+  }
 }
 
 const variantColors: Record<KayoButtonVariant, { background: string; color: string }> = {
@@ -29,6 +42,16 @@ const sizeTokens: Record<KayoButtonSize, { pH: number; pV: number; minH: number;
   lg: { pH: 20, pV: 16, minH: 52, fs: 16 },
 }
 
+function renderButtonSlotIcon(icon: ReactNode) {
+  if (!icon) return null
+  if (React.isValidElement(icon)) return icon
+  if (typeof icon === 'function' || (typeof icon === 'object' && icon !== null && 'render' in icon)) {
+    const IconComp = icon as unknown as React.ComponentType<{ size?: number; strokeWidth?: number }>
+    return <IconComp size={16} strokeWidth={2} />
+  }
+  return icon
+}
+
 export function KayoBrutalistButton({
   label,
   variant = 'primary',
@@ -38,6 +61,7 @@ export function KayoBrutalistButton({
   disabled = false,
   loading = false,
   fullWidth = false,
+  tonal = false,
   onClick,
   onPress,
 }: KayoBrutalistButtonProps) {
@@ -58,6 +82,7 @@ export function KayoBrutalistButton({
   const { pH, pV, minH, fs } = sizeTokens[size]
   const isInteractive = !disabled && !loading
   const isPressed = pressed && isInteractive && !isGhost
+  const tone = tonal ? tonalEdge(variant) : null
 
   const style: React.CSSProperties = {
     display: 'inline-flex',
@@ -73,14 +98,20 @@ export function KayoBrutalistButton({
     paddingBottom: pV,
     minHeight: minH,
     borderRadius: 'var(--kayo-radius-default, 8px)',
-    border: '2px solid var(--kayo-color-border, #3b3d3f)',
-    background: disabled ? '#e5e7eb' : colors.background,
-    color: disabled ? '#a8a8aa' : colors.color,
+    border: disabled
+      ? '2px solid var(--kayo-color-border, #d9dadb)'
+      : tone
+        ? `1.5px solid ${tone.border}`
+        : '2px solid var(--kayo-color-border-strong, var(--kayo-color-neutral-950, #17191D))',
+    background: disabled ? 'var(--kayo-color-neutral-75, #f0f1f1)' : colors.background,
+    color: disabled ? 'var(--kayo-color-neutral-400, #9fa0a2)' : colors.color,
     boxShadow: disabled
       ? 'none'
       : isGhost || isPressed
         ? 'none'
-        : 'var(--kayo-shadow-sm, 2px 2px 0 #191b1f)',
+        : tone
+          ? `2px 2px 0 ${tone.shadow}`
+          : 'var(--kayo-shadow-sm, 2px 2px 0 var(--kayo-color-neutral-950, #17191D))',
     transform: isPressed ? 'translate(2px, 2px)' : 'none',
     transition: 'transform 80ms, box-shadow 80ms',
     cursor: disabled ? 'not-allowed' : loading ? 'default' : 'pointer',
@@ -122,9 +153,9 @@ export function KayoBrutalistButton({
         />
       ) : (
         <>
-          {iconLeft}
+          {renderButtonSlotIcon(iconLeft)}
           <span>{label}</span>
-          {iconRight}
+          {renderButtonSlotIcon(iconRight)}
         </>
       )}
     </button>

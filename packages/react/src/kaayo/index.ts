@@ -1,4 +1,4 @@
-// Kaayo-specific components (Neo-Brutalist). Import via '@aumraa/breathe-react/kaayo'.
+// Kaayo-specific components (Neo-Brutalist × Skeuomorphism 2.0). Import via '@aumraa/breathe-react/kaayo'.
 export * from './KayoBrutalistAccordion';
 export * from './KayoBrutalistAlert';
 export * from './KayoBrutalistAmountVisibilityToggle';
@@ -53,3 +53,17 @@ export * from './KayoBrutalistTabs';
 export * from './KayoBrutalistTextarea';
 export * from './KayoBrutalistTooltip';
 export * from './KayoBrutalistWhatsAppControls';
+
+// Neobrutalism × Skeuomorphism 2.0 Web Atoms & Molecules
+export * from './KayoStatusDot';
+export * from './KayoChip';
+export * from './KayoClayKnob';
+export * from './KayoClayGroove';
+export * from './KayoClayPill';
+export * from './KayoSegmentRing';
+export * from './KayoClayDial';
+export * from './KayoEnrollmentTag';
+export * from './KayoWarliVeil';
+export * from './KayoKhataFolder';
+export * from './KayoNotificationBanner';
+export * from './KayoPushedScreenHeader';

@@ -8,6 +8,18 @@ import { KayoBrutalistBranchTabs } from '@/app/components/custom/kaayo/KayoBruta
 import { KayoBrutalistFab, DEFAULT_KAAYO_DASHBOARD_ACTIONS } from '@/app/components/custom/kaayo/KayoBrutalistFab'
 import { KayoBrutalistKaayoLogo } from '@/app/components/custom/kaayo/KayoBrutalistKaayoLogo'
 import {
+  KayoStatusDot,
+  KayoChip,
+  KayoClayDial,
+  KayoEnrollmentTag,
+  KayoWarliVeil,
+  KayoKhataFolder,
+  KayoNotificationBanner,
+  KayoClayPill,
+  KayoBrutalistButton,
+  KayoBrutalistAmountVisibilityToggle,
+} from '@aumraa/breathe-react/kaayo'
+import {
   Home,
   Users,
   ClipboardList,
@@ -36,6 +48,7 @@ export function MenuLayoutsPage() {
   const [activeTab, setActiveTab] = useState('dashboard')
   const [activeAlertIdx, setActiveAlertIdx] = useState(0)
   const [selectedBranch, setSelectedBranch] = useState<string | null>(null)
+  const [paymentsPrivacyVisible, setPaymentsPrivacyVisible] = useState(false)
 
   useEffect(() => {
     const s = document.createElement('style')
@@ -108,127 +121,89 @@ export function MenuLayoutsPage() {
                 {/* Next Class Section inside canopy */}
                 <div style={{
                   backgroundColor: '#ffffff',
-                  border: '2px solid #3b3d3f',
-                  borderRadius: '8px',
+                  border: '2px solid #17191D',
+                  borderRadius: '12px',
                   padding: '12px',
-                  boxShadow: '4px 4px 0px #3b3d3f',
+                  boxShadow: '4px 4px 0px #17191D',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '8px'
+                  gap: '10px'
                 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'stretch', gap: '8px' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', flex: 1 }}>
-                      <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', color: '#6b7280', letterSpacing: '0.5px' }}>
-                        NEXT CLASS
-                      </span>
-                      
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '1px' }}>
-                        <span style={{ fontSize: '20px', fontWeight: 800, color: '#3b3d3f', lineHeight: 1 }}>19:00</span>
-                        <span style={{ padding: '1px 6px', backgroundColor: '#fff0f0', border: '1px solid #fca5a5', borderRadius: '4px', fontSize: '9px', fontWeight: 700, color: '#970103' }}>
-                          AD-HOC
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', flex: 1 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <span style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', color: '#6b7280', letterSpacing: '0.5px' }}>
+                          NEXT CLASS
                         </span>
+                        <KayoChip label="AD-HOC" tone="primary" size="sm" />
+                      </div>
+                      
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <span style={{ fontSize: '20px', fontWeight: 800, color: '#17191D', lineHeight: 1 }}>19:00</span>
+                        <KayoChip label="Starts in 25m" tone="secondary" size="sm" dot="live" />
                       </div>
 
-                      <span style={{ fontSize: '13px', fontWeight: 700, color: '#3b3d3f' }}>
+                      <span style={{ fontSize: '13px', fontWeight: 700, color: '#17191D' }}>
                         MMA Advanced · Main Branch
                       </span>
-                      
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: '#6b7280', marginTop: '2px' }}>
-                        <Clock size={12} />
-                        <span>Today</span>
-                        <span>·</span>
-                        <span>14 Enrolled</span>
-                      </div>
                     </div>
 
-                    {/* Batches Today Boxed Pill on right */}
-                    <div style={{
-                      minWidth: '82px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      padding: '8px 6px',
-                      border: '1.5px solid #3b3d3f',
-                      borderRadius: '8px',
-                      backgroundColor: '#fff0f0',
-                      flexShrink: 0
-                    }}>
-                      <span style={{ fontSize: '20px', fontWeight: 800, color: '#970103', lineHeight: 1 }}>3</span>
-                      <span style={{ fontSize: '9px', fontWeight: 700, color: '#6b7280', textAlign: 'center', marginTop: '3px', lineHeight: 1.1 }}>batches today</span>
+                    {/* Batches Today Clay Dial */}
+                    <div style={{ flexShrink: 0 }}>
+                      <KayoClayDial
+                        variant="inset"
+                        colors={['#01971A', '#01971A', '#F5590B']}
+                        value={3}
+                        caption="BATCHES"
+                      />
                     </div>
                   </div>
 
-                  <div style={{ display: 'flex', gap: '8px', marginTop: '4px' }}>
-                    <button style={{
-                      flex: 1,
-                      padding: '8px 12px',
-                      fontSize: '12px',
-                      fontWeight: 700,
-                      backgroundColor: '#970103',
-                      color: '#ffffff',
-                      border: '2px solid #3b3d3f',
-                      borderRadius: '6px',
-                      boxShadow: '2px 2px 0px #3b3d3f',
-                      cursor: 'pointer'
-                    }}>
-                      Mark Attendance
-                    </button>
-                    <button style={{
-                      padding: '8px 12px',
-                      fontSize: '12px',
-                      fontWeight: 700,
-                      backgroundColor: '#ffffff',
-                      color: '#6b7280',
-                      border: '2px solid #3b3d3f',
-                      borderRadius: '6px',
-                      boxShadow: '2px 2px 0px #3b3d3f',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '4px'
-                    }}>
-                      <X size={13} strokeWidth={2.5} />
-                      <span>Cancel class</span>
-                    </button>
+                  <div style={{ display: 'flex', gap: '8px', marginTop: '2px' }}>
+                    <div style={{ flex: 1 }}>
+                      <KayoBrutalistButton
+                        label="Mark Attendance"
+                        variant="primary"
+                        size="sm"
+                        tonal
+                        fullWidth
+                      />
+                    </div>
+                    <KayoBrutalistButton
+                      label="Cancel"
+                      variant="secondary"
+                      size="sm"
+                    />
                   </div>
                 </div>
               </KayoBrutalistBrandedScreenBackdrop>
 
               {/* Page content scrolling below the canopy */}
               <div style={{ padding: '16px 12px 24px 12px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {/* Notifications Carousel */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <div style={{
-                    backgroundColor: activeAlertIdx === 0 ? '#fff0f0' : activeAlertIdx === 1 ? '#fffbeb' : '#f0f9ff',
-                    border: '2px solid #3b3d3f',
-                    borderRadius: '8px',
-                    padding: '10px 12px',
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: '8px',
-                    boxShadow: '3px 3px 0px #3b3d3f',
-                    transition: 'all 0.2s ease',
-                  }}>
-                    <AlertTriangle
-                      size={18}
-                      color={activeAlertIdx === 0 ? '#970103' : activeAlertIdx === 1 ? '#d97706' : '#0284c7'}
-                      style={{ flexShrink: 0, marginTop: '1px' }}
-                    />
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: '11px', fontWeight: 700, color: '#3b3d3f', fontFamily: "'DM Sans', sans-serif" }}>
-                        {alerts[activeAlertIdx].title}
-                      </div>
-                      <div style={{ fontSize: '10px', color: '#6b7280', marginTop: '2px', fontFamily: "'DM Sans', sans-serif" }}>
-                        {alerts[activeAlertIdx].desc}
-                      </div>
-                    </div>
-                  </div>
+                {/* Notifications Carousel v3 */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <KayoNotificationBanner
+                    category={activeAlertIdx === 0 ? 'positive' : activeAlertIdx === 1 ? 'alert' : 'negative'}
+                    title={alerts[activeAlertIdx].title}
+                    message={alerts[activeAlertIdx].desc}
+                    dateLabel="TODAY 5:30 PM"
+                    actionLabel="Review"
+                    sticker={
+                      activeAlertIdx === 0 ? (
+                        <CheckCircle size={32} color="#01971A" />
+                      ) : activeAlertIdx === 1 ? (
+                        <AlertTriangle size={32} color="#F5590B" />
+                      ) : (
+                        <Bell size={32} color="#DC2626" />
+                      )
+                    }
+                  />
                   {/* Carousel navigation dots */}
                   <div style={{ display: 'flex', justifyContent: 'center', gap: '5px' }}>
                     {alerts.map((_, i) => (
                       <button
                         key={i}
+                        type="button"
                         onClick={() => setActiveAlertIdx(i)}
                         style={{
                           width: activeAlertIdx === i ? '16px' : '6px',
@@ -343,57 +318,34 @@ export function MenuLayoutsPage() {
                 />
               </div>
 
-              {/* Student Cards */}
+              {/* Student Cards with EnrollmentTag and StatusDot */}
               {[
-                { name: 'Aravind Swamy', batch: 'MMA Kids (Tue/Thu)', status: 'Active', active: true },
-                { name: 'Catherine D\'Souza', batch: 'Kickboxing Adults', status: 'Active', active: true },
-                { name: 'Bala Subramanian', batch: 'MMA Kids (Tue/Thu)', status: 'Inactive', active: false },
-                { name: 'Divya Rajasekar', batch: 'Karate Intermediate', status: 'Active', active: true },
-                { name: 'Eshwar Prasath', batch: 'Kickboxing Adults', status: 'Active', active: true },
+                { name: 'Aravind Swamy', branch: 'MAIN · MMA KIDS', dot: 'active', status: 'Active' },
+                { name: 'Catherine D\'Souza', branch: 'ANNEX · KICKBOXING', dot: 'live', status: 'In class' },
+                { name: 'Bala Subramanian', branch: 'MAIN · MMA KIDS', dot: 'inactive', status: 'Overdue' },
+                { name: 'Divya Rajasekar', branch: 'ANNEX · KARATE', dot: 'active', status: 'Active' },
+                { name: 'Eshwar Prasath', branch: 'MAIN · KICKBOXING', dot: 'pending', status: 'Pending' },
               ].map((stud, idx) => (
                 <div
                   key={idx}
                   style={{
                     backgroundColor: '#ffffff',
-                    border: '2px solid #3b3d3f',
-                    borderRadius: '8px',
+                    border: '2px solid #17191D',
+                    borderRadius: '10px',
                     padding: '10px 12px',
-                    boxShadow: '3px 3px 0px #3b3d3f',
+                    boxShadow: '2px 2px 0px #17191D',
                     display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center'
+                    flexDirection: 'column',
+                    gap: '6px'
                   }}
                 >
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <span style={{ fontSize: '13px', fontWeight: 700, color: '#3b3d3f' }}>{stud.name}</span>
-                      <span style={{
-                        fontSize: '9px',
-                        padding: '1px 5px',
-                        borderRadius: '3px',
-                        fontWeight: 700,
-                        border: '1px solid #3b3d3f',
-                        backgroundColor: stud.active ? '#e6f4ea' : '#f1f3f4',
-                        color: stud.active ? '#137333' : '#5f6368'
-                      }}>
-                        {stud.status}
-                      </span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <KayoStatusDot status={stud.dot as any} size={8} breathing={stud.dot === 'live'} />
+                      <span style={{ fontSize: '13px', fontWeight: 700, color: '#17191D' }}>{stud.name}</span>
                     </div>
-                    <span style={{ fontSize: '11px', color: '#6b7280' }}>{stud.batch}</span>
+                    <KayoEnrollmentTag label={stud.branch} tone="tertiary" />
                   </div>
-                  <button style={{
-                    width: '28px',
-                    height: '28px',
-                    borderRadius: '4px',
-                    border: '2px solid #3b3d3f',
-                    backgroundColor: '#ffffff',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer'
-                  }}>
-                    <Phone size={12} color="#3b3d3f" />
-                  </button>
                 </div>
               ))}
             </div>
@@ -502,76 +454,91 @@ export function MenuLayoutsPage() {
         return (
           <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
             <div style={{ paddingTop: '28px', backgroundColor: '#ffffff' }}>
-              <KayoBrutalistHeader variant="mobile" pageTitle="Payments" user={demoUser} />
+              <div style={{ padding: '8px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #17191D' }}>
+                <span style={{ fontSize: '18px', fontWeight: 800, color: '#17191D' }}>Payments</span>
+                <KayoBrutalistAmountVisibilityToggle
+                  visible={paymentsPrivacyVisible}
+                  onToggle={() => setPaymentsPrivacyVisible(!paymentsPrivacyVisible)}
+                />
+              </div>
             </div>
             <div style={{ flex: 1, overflowY: 'auto', padding: '12px', display: 'flex', flexDirection: 'column', gap: '12px', backgroundColor: '#fdfcfb' }} className="no-scrollbar">
-              {/* Mini metrics header */}
-              <div style={{
-                display: 'flex',
-                gap: '8px',
-                backgroundColor: '#ffffff',
-                border: '2px solid #3b3d3f',
-                borderRadius: '8px',
-                padding: '10px',
-                boxShadow: '3px 3px 0px #3b3d3f'
-              }}>
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', borderRight: '1px solid #e5e7eb' }}>
-                  <span style={{ fontSize: '9px', color: '#6b7280', fontWeight: 600 }}>Expected</span>
-                  <span style={{ fontSize: '13px', fontWeight: 700, color: '#3b3d3f' }}>₹42,500</span>
+              {/* KhataFolder Overview Card with WarliVeil */}
+              <KayoKhataFolder
+                tab="OCTOBER 2026 KHATA"
+                aside={<KayoChip label="4 overdue" tone="alert" size="sm" dot="pending" />}
+                bodyStyle={{ padding: '14px', display: 'flex', flexDirection: 'column', gap: '10px' }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div>
+                    <span style={{ fontSize: '10px', color: '#6b7280', fontWeight: 600, textTransform: 'uppercase' }}>Collected Total</span>
+                    <div style={{ fontSize: '20px', fontWeight: 800, color: '#01971A', marginTop: '2px' }}>
+                      <KayoWarliVeil value={31000} visible={paymentsPrivacyVisible} kind="amount" />
+                    </div>
+                  </div>
+                  <div style={{ textAlign: 'right' }}>
+                    <span style={{ fontSize: '10px', color: '#970103', fontWeight: 600, textTransform: 'uppercase' }}>Pending Fees</span>
+                    <div style={{ fontSize: '20px', fontWeight: 800, color: '#970103', marginTop: '2px' }}>
+                      <KayoWarliVeil value={11500} visible={paymentsPrivacyVisible} kind="amount" />
+                    </div>
+                  </div>
                 </div>
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', borderRight: '1px solid #e5e7eb' }}>
-                  <span style={{ fontSize: '9px', color: '#15803d', fontWeight: 600 }}>Collected</span>
-                  <span style={{ fontSize: '13px', fontWeight: 700, color: '#15803d' }}>₹31,000</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '6px', borderTop: '1px dashed #e5e7eb' }}>
+                  <span style={{ fontSize: '11px', color: '#6b7280' }}>
+                    Expected: <KayoWarliVeil value={42500} visible={paymentsPrivacyVisible} kind="amount" textStyle={{ fontSize: '11px', fontWeight: 600 }} />
+                  </span>
+                  <KayoClayPill label="Remind all" onClick={() => {}} />
                 </div>
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <span style={{ fontSize: '9px', color: '#970103', fontWeight: 600 }}>Pending</span>
-                  <span style={{ fontSize: '13px', fontWeight: 700, color: '#970103' }}>₹11,500</span>
-                </div>
-              </div>
+              </KayoKhataFolder>
 
               {/* Transactions Title */}
-              <span style={{ fontSize: '11px', fontWeight: 700, color: '#3b3d3f', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Recent Fees (July)
+              <span style={{ fontSize: '11px', fontWeight: 700, color: '#17191D', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                Recent Fees (October)
               </span>
 
-              {/* Payment entries */}
+              {/* Payment entries with WarliVeil and StatusDot */}
               {[
-                { name: 'Aravind Swamy', amount: '₹2,500', status: 'Paid', type: 'success' },
-                { name: 'Catherine D\'Souza', amount: '₹3,000', status: 'Overdue', type: 'danger' },
-                { name: 'Bala Subramanian', amount: '₹1,500', status: 'Partial', type: 'warning' },
-                { name: 'Divya Rajasekar', amount: '₹2,500', status: 'Paid', type: 'success' },
-                { name: 'Eshwar Prasath', amount: '₹2,500', status: 'Paid', type: 'success' },
+                { name: 'Aravind Swamy', amount: 2500, status: 'Paid', dot: 'active' },
+                { name: 'Catherine D\'Souza', amount: 3000, status: 'Overdue', dot: 'inactive' },
+                { name: 'Bala Subramanian', amount: 1500, status: 'Partial', dot: 'pending' },
+                { name: 'Divya Rajasekar', amount: 2500, status: 'Paid', dot: 'active' },
+                { name: 'Eshwar Prasath', amount: 2500, status: 'Paid', dot: 'active' },
               ].map((record, idx) => (
                 <div
                   key={idx}
                   style={{
                     backgroundColor: '#ffffff',
-                    border: '2px solid #3b3d3f',
+                    border: '2px solid #17191D',
                     borderRadius: '8px',
                     padding: '10px 12px',
-                    boxShadow: '3px 3px 0px #3b3d3f',
+                    boxShadow: '2px 2px 0px #17191D',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center'
                   }}
                 >
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
-                    <span style={{ fontSize: '12px', fontWeight: 700, color: '#3b3d3f' }}>{record.name}</span>
-                    <span style={{ fontSize: '11px', color: '#6b7280' }}>Due Date: July 10</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <KayoStatusDot status={record.dot as any} size={6} />
+                      <span style={{ fontSize: '12px', fontWeight: 700, color: '#17191D' }}>{record.name}</span>
+                    </div>
+                    <span style={{ fontSize: '10px', color: '#6b7280' }}>Due Date: Oct 10</span>
                   </div>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ fontSize: '13px', fontWeight: 700, color: '#3b3d3f' }}>{record.amount}</span>
+                    <div style={{ fontSize: '13px', fontWeight: 700, color: '#17191D' }}>
+                      <KayoWarliVeil value={record.amount} visible={paymentsPrivacyVisible} kind="amount" />
+                    </div>
                     <span style={{
                       fontSize: '9px',
                       padding: '1px 5px',
                       borderRadius: '3px',
                       fontWeight: 700,
-                      border: '1px solid #3b3d3f',
-                      backgroundColor: record.type === 'success' ? '#e6f4ea' : record.type === 'danger' ? '#fce8e6' : '#fff9db',
-                      color: record.type === 'success' ? '#137333' : record.type === 'danger' ? '#c5221f' : '#f59f00'
+                      border: '1px solid #17191D',
+                      backgroundColor: record.status === 'Paid' ? '#CCEAD1' : record.status === 'Overdue' ? '#F8D4D4' : '#FDDECE',
+                      color: record.status === 'Paid' ? '#096F1C' : record.status === 'Overdue' ? '#9E2224' : '#AF4511'
                     }}>
-                      {record.status}
+                      {record.status.toUpperCase()}
                     </span>
                   </div>
                 </div>

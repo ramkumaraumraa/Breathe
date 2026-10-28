@@ -53,6 +53,7 @@ interface BrandPalette {
   tagline: string;
   accentColor: string;
   core: ColorScale[];
+  feedback?: ColorScale[];
   gradients: GradientInfo[];
 }
 
@@ -132,6 +133,31 @@ const feedbackScales: ColorScale[] = [
     tokenPath: 'color.feedback.negative',
     cssPrefix: '--color-feedback-negative',
     keyStops: [500, 50, 700],
+  },
+  {
+    name: 'Supportive',
+    description: 'Informational surfaces, links, and secondary guidance. Fixed across all brands — part of the feedback family.',
+    root: '#266FDC',
+    stops: [
+      { stop: 25, hex: '#E5EEFB', textColor: '#0F172A' },
+      { stop: 50, hex: '#D4E2F8', textColor: '#0F172A' },
+      { stop: 75, hex: '#C2D7F5', textColor: '#0F172A' },
+      { stop: 100, hex: '#B1CBF2', textColor: '#0F172A' },
+      { stop: 200, hex: '#8EB4ED', textColor: '#0F172A' },
+      { stop: 300, hex: '#6B9DE7', textColor: '#0F172A' },
+      { stop: 400, hex: '#4986E2', textColor: '#0F172A' },
+      { stop: 500, hex: '#266FDC', textColor: '#fff' },
+      { stop: 600, hex: '#2461BE', textColor: '#fff' },
+      { stop: 700, hex: '#2254A0', textColor: '#fff' },
+      { stop: 800, hex: '#204781', textColor: '#fff' },
+      { stop: 900, hex: '#1E3963', textColor: '#fff' },
+      { stop: 925, hex: '#1D3254', textColor: '#fff' },
+      { stop: 950, hex: '#1C2C45', textColor: '#fff' },
+      { stop: 975, hex: '#1B2536', textColor: '#fff' },
+    ],
+    tokenPath: 'color.feedback.supportive',
+    cssPrefix: '--color-feedback-supportive',
+    keyStops: [500, 100, 700],
   },
 ];
 
@@ -868,9 +894,11 @@ const brandPalettes: BrandPalette[] = [
         cssPrefix: '--color-navy',
         keyStops: [500, 100, 700],
       },
+    ],
+    feedback: [
       {
         name: 'Positive',
-        description: 'Kaayo Green — Attendance marked, payment received, class confirmed. Kaayo-only; does not use the shared feedback ramp.',
+        description: 'Kaayo Green — Attendance marked, payment received, class confirmed. Kaayo-only; verified against shipped product.',
         root: '#01971A',
         stops: [
           { stop: 25, hex: '#E1F3E4', textColor: '#0F172A' },
@@ -987,6 +1015,7 @@ const semanticTokens = [
   { token: 'color.feedback.positive', references: 'color.feedback.positive.500', usage: 'Success messages, completed states, go actions' },
   { token: 'color.feedback.warning', references: 'color.feedback.warning.500', usage: 'Caution alerts, pending states, review needed' },
   { token: 'color.feedback.negative', references: 'color.feedback.negative.500', usage: 'Errors, destructive actions, critical alerts' },
+  { token: 'color.feedback.supportive', references: 'color.feedback.supportive.500', usage: 'Informational surfaces, links, secondary guidance' },
   { token: 'color.surface.page', references: 'color.neutral.25', usage: 'Main page / screen background' },
   { token: 'color.border.default', references: 'color.neutral.100', usage: 'Default borders, dividers' },
   { token: 'color.text.primary', references: 'color.neutral.900', usage: 'Body text, headings, primary labels' },
@@ -1159,7 +1188,7 @@ export function ColorsPage() {
     <div className="max-w-7xl px-6 lg:px-10 py-10">
       <PageHeader
         title="Colors"
-        description="Breathe's multi-brand color system with 7 scales per brand: 3 Core (brand-specific), 3 Feedback (shared), 1 Neutral (shared). Each scale has 15 stops with stop 500 as the root."
+        description="Breathe's multi-brand color system with 8 scales per brand: 3 Core (brand-specific), 4 Feedback (Positive, Warning/Alert, Negative, Supportive), 1 Neutral (shared). Each scale has 15 stops with stop 500 as the root."
         section="Foundations"
         badge="Multi-Brand"
         badgeColor="teal"
@@ -1191,10 +1220,12 @@ export function ColorsPage() {
           Group 2 — Feedback
         </h2>
         <p className="text-slate-500 dark:text-slate-400 mb-6 mt-1" style={{ fontFamily: 'var(--font-sans)', fontSize: '0.875rem' }}>
-          Shared across all brands. Fixed meanings: Positive = Green, Warning = Amber, Negative = Red.
+          {activeBrand.feedback
+            ? `${activeBrand.name}-specific feedback scales. Verified against shipped product.`
+            : 'Shared across all brands. Fixed meanings: Positive = Green, Warning = Amber, Negative = Red, Supportive = Blue.'}
         </p>
-        {feedbackScales.map(scale => (
-          <ScaleRow key={scale.name} scale={scale} locked />
+        {(activeBrand.feedback ?? feedbackScales).map(scale => (
+          <ScaleRow key={scale.name} scale={scale} locked={!activeBrand.feedback} />
         ))}
       </section>
 
@@ -1225,6 +1256,51 @@ export function ColorsPage() {
           ))}
         </div>
       </section>
+
+      {/* Kaayo Notifier Feedback Taxonomy */}
+      {activeBrand.id === 'kaayo' && (
+        <section className="mb-12">
+          <div className="flex items-center gap-3 mb-2">
+            <h2 className="text-slate-900 dark:text-white m-0" style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.25rem' }}>
+              Notifier Feedback Taxonomy
+            </h2>
+            <span className="px-2 py-0.5 text-xs font-bold rounded bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300">
+              Kaayo Notification System
+            </span>
+          </div>
+          <p className="text-slate-500 dark:text-slate-400 mb-6 mt-1 max-w-3xl" style={{ fontFamily: 'var(--font-sans)', fontSize: '0.875rem' }}>
+            Kaayo defines a complete 5-category notification and banner taxonomy. Each category coordinates a soft surface fill, ambient 60% tint overlay, sharp 1.5px border, and ink foreground.
+          </p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {[
+              { cat: 'Positive', surface: '#CCEAD1', tint: '#E1F3E4', border: '#01971A', fg: '#096F1C', role: 'Paid, class confirmed' },
+              { cat: 'Alert', surface: '#FDDECE', tint: '#FEEBE2', border: '#F5590B', fg: '#AF4511', role: 'Dues approaching, action needed' },
+              { cat: 'Negative', surface: '#F8D4D4', tint: '#FBE5E5', border: '#DC2626', fg: '#9E2224', role: 'Overdue, cancelled, failed' },
+              { cat: 'Supportive', surface: '#D4E2F8', tint: '#D4E2F8', border: '#266FDC', fg: '#2254A0', role: 'Tips, system links, guidance' },
+              { cat: 'Neutral', surface: '#F8F8F8', tint: '#F8F8F8', border: '#757678', fg: '#4C4E51', role: 'General logs, timestamps' },
+            ].map(item => (
+              <div
+                key={item.cat}
+                className="rounded-xl p-4 border flex flex-col justify-between min-h-[140px]"
+                style={{ backgroundColor: item.surface, borderColor: item.border }}
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="font-bold text-sm" style={{ color: item.fg }}>{item.cat}</span>
+                    <span className="w-3 h-3 rounded-full" style={{ backgroundColor: item.border }} />
+                  </div>
+                  <span className="text-xs block" style={{ color: item.fg }}>{item.role}</span>
+                </div>
+                <div className="mt-4 pt-2 border-t border-black/10 flex flex-col gap-1 text-[10px] font-mono" style={{ color: item.fg }}>
+                  <span>Surface: {item.surface}</span>
+                  <span>Tint: {item.tint}</span>
+                  <span>Border: {item.border}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Semantic Tokens */}
       <section className="mb-12">

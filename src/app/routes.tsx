@@ -46,6 +46,11 @@ const ProgressPage   = lazy_page(() => import('./pages/atoms/ProgressPage'))
 const SkeletonPage   = lazy_page(() => import('./pages/atoms/SkeletonPage'))
 const SpinnerPage    = lazy_page(() => import('./pages/atoms/SpinnerPage'))
 const LoaderPage     = lazy_page(() => import('./pages/atoms/LoaderPage'))
+const StatusDotPage     = lazy_page(() => import('./pages/atoms/StatusDotPage'))
+const ChipPage          = lazy_page(() => import('./pages/atoms/ChipPage'))
+const ClayControlsPage  = lazy_page(() => import('./pages/atoms/ClayControlsPage'))
+const WarliVeilPage     = lazy_page(() => import('./pages/atoms/WarliVeilPage'))
+const EnrollmentTagPage = lazy_page(() => import('./pages/atoms/EnrollmentTagPage'))
 
 // Form Elements under Atoms
 const TextInputPage     = lazy_page(() => import('./pages/atoms/form-elements/TextInputPage'))
@@ -81,6 +86,10 @@ const BreadcrumbPage   = lazy_page(() => import('./pages/molecules/BreadcrumbPag
 const PaginationPage   = lazy_page(() => import('./pages/molecules/PaginationPage'))
 const ScrollAreaPage   = lazy_page(() => import('./pages/molecules/ScrollAreaPage'))
 const SonnerPage       = lazy_page(() => import('./pages/molecules/SonnerPage'))
+const ClayDialPage           = lazy_page(() => import('./pages/molecules/ClayDialPage'))
+const KhataFolderPage        = lazy_page(() => import('./pages/molecules/KhataFolderPage'))
+const NotificationBannerPage = lazy_page(() => import('./pages/molecules/NotificationBannerPage'))
+const PushedScreenHeaderPage = lazy_page(() => import('./pages/molecules/PushedScreenHeaderPage'))
 
 // Organisms
 const DialogPage         = lazy_page(() => import('./pages/organisms/DialogPage'))
@@ -94,6 +103,7 @@ const NavigationMenuPage = lazy_page(() => import('./pages/organisms/NavigationM
 const HeaderPage         = lazy_page(() => import('./pages/molecules/HeaderPage'))
 const BottomNavPage      = lazy_page(() => import('./pages/molecules/BottomNavPage'))
 const MenuLayoutsPage    = lazy_page(() => import('./pages/organisms/MenuLayoutsPage'))
+const CanopyBandPage     = lazy_page(() => import('./pages/organisms/CanopyBandPage'))
 
 // Templates
 const StatGridPage    = lazy_page(() => import('./pages/templates/StatGridPage'))
@@ -165,6 +175,11 @@ export const router = createBrowserRouter([
       { path: 'atoms/spinner',                 Component: SpinnerPage },
       { path: 'atoms/loader',                  Component: LoaderPage },
       { path: 'atoms/amount-visibility-toggle', Component: AmountVisibilityTogglePage },
+      { path: 'atoms/chip',                    Component: ChipPage },
+      { path: 'atoms/clay-controls',           Component: ClayControlsPage },
+      { path: 'atoms/enrollment-tag',          Component: EnrollmentTagPage },
+      { path: 'atoms/status-dot',              Component: StatusDotPage },
+      { path: 'atoms/warli-veil',              Component: WarliVeilPage },
 
       // Form Elements under Atoms
       { path: 'atoms/form-elements/text-input',       Component: TextInputPage },
@@ -205,6 +220,10 @@ export const router = createBrowserRouter([
       { path: 'molecules/sonner',        Component: SonnerPage },
       { path: 'molecules/header',        Component: HeaderPage },
       { path: 'molecules/bottom-nav',    Component: BottomNavPage },
+      { path: 'molecules/clay-dial',           Component: ClayDialPage },
+      { path: 'molecules/khata-folder',        Component: KhataFolderPage },
+      { path: 'molecules/notification-banner', Component: NotificationBannerPage },
+      { path: 'molecules/pushed-screen-header', Component: PushedScreenHeaderPage },
 
       // Organisms
       { path: 'organisms/dialog',          Component: DialogPage },
@@ -216,6 +235,7 @@ export const router = createBrowserRouter([
       { path: 'organisms/sidebar',         Component: SidebarPage },
       { path: 'organisms/navigation-menu', Component: NavigationMenuPage },
       { path: 'organisms/menu-layouts',    Component: MenuLayoutsPage },
+      { path: 'organisms/canopy-band',     Component: CanopyBandPage },
 
       // Legacy/Reclassified redirects
       { path: 'organisms/header',          element: <Navigate to="/molecules/header" replace /> },

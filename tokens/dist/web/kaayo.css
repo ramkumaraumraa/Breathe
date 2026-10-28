@@ -363,14 +363,25 @@
   --kayo-color-primary-dark: #6f090c;
   --kayo-color-primary-foreground: #ffffff;
   --kayo-color-secondary: #fda581;
+  --kayo-color-secondary-light: #fec2a9;
+  --kayo-color-secondary-dark: #b47962;
   --kayo-color-secondary-foreground: #ffffff;
   --kayo-color-tertiary: #37415c;
   --kayo-color-tertiary-foreground: #ffffff;
-  --kayo-color-background: #ffffff;
+  --kayo-color-background: #f8f8f8; /** theme.surface.canvas (#F8F8F8) */
+  --kayo-color-background-card: #ffffff; /** theme.surface.card (#FFFFFF) */
   --kayo-color-background-secondary: #f8f8f8;
-  --kayo-color-foreground: #3a3b3f;
-  --kayo-color-foreground-secondary: #757678;
-  --kayo-color-border: #3a3b3f;
+  --kayo-color-background-sunken: #f0f1f1; /** theme.surface.sunken (#F0F1F1) */
+  --kayo-color-background-inverse: #17191d; /** theme.surface.inverse (#17191D) */
+  --kayo-color-foreground: #17191d; /** theme.text.primary (#17191D) */
+  --kayo-color-foreground-secondary: #3a3b3f; /** theme.text.secondary (#3A3B3F) */
+  --kayo-color-foreground-tertiary: #757678; /** theme.text.tertiary (#757678) */
+  --kayo-color-foreground-disabled: #9fa0a2; /** theme.text.disabled (#9FA0A2) */
+  --kayo-color-foreground-inverse: #ffffff; /** theme.text.inverse (#FFFFFF) */
+  --kayo-color-border: #17191d; /** theme.border.strong (2px hard brutalist border #17191D) */
+  --kayo-color-border-default: #d9dadb; /** theme.border.default (#D9DADB) */
+  --kayo-color-border-subtle: #f0f1f1; /** theme.border.subtle (#F0F1F1) */
+  --kayo-color-border-focus: #266fdc; /** theme.border.focus (#266FDC) */
   --kayo-color-positive: #01971a;
   --kayo-color-positive-foreground: #ffffff;
   --kayo-color-negative: #dc2626;
@@ -380,19 +391,125 @@
   --kayo-color-gradient-end: #fda581;
   --kayo-color-supportive: #266fdc;
   --kayo-color-supportive-foreground: #ffffff;
+  --kayo-border-width: 2px;
+  --kayo-border-width-hairline: 1px;
+  --kayo-font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --kayo-font-size-base: 16px;
   --kayo-font-weight-body: 400;
   --kayo-font-weight-heading: 700;
   --kayo-spacing-page-padding: 16px;
   --kayo-spacing-card-padding: 16px;
   --kayo-spacing-section-gap: 24px;
+  --kayo-radius-none: 0;
   --kayo-radius-default: 8px;
   --kayo-radius-sm: 4px;
-  --kayo-radius-pill: 9999px;
+  --kayo-radius-md: 8px;
+  --kayo-radius-lg: 12px; /** Neo-Brutalist constraint: max radius 12 except pill & clay 24 */
+  --kayo-radius-clay: 24px; /** Soft clay card surface radius */
+  --kayo-radius-pill: 999px;
+  --kayo-shadow-none: none;
   --kayo-shadow-sm: 2px 2px 0 #17191d; /** Neo-Brutalist hard offset — no blur */
   --kayo-shadow-md: 4px 4px 0 #17191d; /** Neo-Brutalist hard offset — no blur */
   --kayo-shadow-lg: 6px 6px 0 #17191d; /** Neo-Brutalist hard offset — no blur */
   --kayo-shadow-xl: 8px 8px 0 #17191d; /** Neo-Brutalist hard offset — no blur */
+  --kayo-shadow-drop: 0px 2px 0px 0px #17191d; /** Straight-down hard shadow for tracks and canopy edges */
+  --kayo-clay-raised-sm: -2px -2px 4px 0px #ffffff, 2px 3px 6px 0px #fed0bd; /** Soft clay raised small (warm peach shade + white light) */
+  --kayo-clay-raised-md: -4px -4px 10px 0px #ffffff, 5px 6px 14px 0px #fed0bd; /** Soft clay raised medium */
+  --kayo-clay-raised-lg: -6px -6px 14px 0px #ffffff, 8px 10px 22px 0px #fed0bd; /** Soft clay raised large */
+  --kayo-clay-inset-sm: inset 2px 2px 4px 0px #fed0bd, inset -2px -2px 4px 0px #ffffff; /** Soft clay inset small */
+  --kayo-clay-inset-md: inset 3px 3px 6px 0px #fed0bd, inset -3px -3px 6px 0px #ffffff; /** Soft clay inset medium */
+  --kayo-clay-inset-lg: inset 4px 4px 10px 0px #fed0bd, inset -4px -4px 8px 0px #ffffff; /** Soft clay inset large */
+  --kayo-clay-outlined: 2px 2px 0px 0px #b47962, -2px -2px 0px 0px #fed0bd, 8px 10px 22px 0px #fed0bd; /** Outlined clay card: hard rims (dark bottom-right, light top-left) + warm lift */
+  --kayo-motion-fast: 140ms; /** Icon swaps, toggles, snappy mechanical press */
+  --kayo-motion-base: 200ms; /** Menus, sheets, entrances */
+  --kayo-breakpoint-mobile-large: 640px;
+  --kayo-breakpoint-tablet: 768px;
+  --kayo-breakpoint-tablet-large: 1024px;
+  --kayo-breakpoint-desktop: 1280px;
+  --kayo-breakpoint-desktop-large: 1536px;
+  --kayo-typography-display-h1-font-size: 32px;
+  --kayo-typography-display-h1-line-height: 40px;
+  --kayo-typography-display-h1-font-weight: 700;
+  --kayo-typography-display-h1-letter-spacing: 0.32px;
+  --kayo-typography-heading-h1-font-size: 28px;
+  --kayo-typography-heading-h1-line-height: 36px;
+  --kayo-typography-heading-h1-font-weight: 700;
+  --kayo-typography-heading-h2-font-size: 24px;
+  --kayo-typography-heading-h2-line-height: 32px;
+  --kayo-typography-heading-h2-font-weight: 600;
+  --kayo-typography-heading-h3-font-size: 20px;
+  --kayo-typography-heading-h3-line-height: 28px;
+  --kayo-typography-heading-h3-font-weight: 600;
+  --kayo-typography-heading-h4-font-size: 18px;
+  --kayo-typography-heading-h4-line-height: 26px;
+  --kayo-typography-heading-h4-font-weight: 600;
+  --kayo-typography-body-lg-font-size: 18px;
+  --kayo-typography-body-lg-line-height: 26px;
+  --kayo-typography-body-lg-font-weight: 400;
+  --kayo-typography-body-base-font-size: 16px;
+  --kayo-typography-body-base-line-height: 24px;
+  --kayo-typography-body-base-font-weight: 400;
+  --kayo-typography-body-sm-font-size: 14px;
+  --kayo-typography-body-sm-line-height: 20px;
+  --kayo-typography-body-sm-font-weight: 400;
+  --kayo-typography-label-lg-font-size: 16px;
+  --kayo-typography-label-lg-line-height: 24px;
+  --kayo-typography-label-lg-font-weight: 500;
+  --kayo-typography-label-sm-font-size: 14px;
+  --kayo-typography-label-sm-line-height: 20px;
+  --kayo-typography-label-sm-font-weight: 600;
+  --kayo-typography-utility-badge-font-size: 12px;
+  --kayo-typography-utility-badge-line-height: 16px;
+  --kayo-typography-utility-badge-font-weight: 600;
+  --kayo-typography-utility-badge-letter-spacing: 0.6px;
+  --kayo-typography-utility-badge-text-transform: uppercase;
+  --kayo-typography-utility-badge-tiny-font-size: 10px;
+  --kayo-typography-utility-badge-tiny-line-height: 14px;
+  --kayo-typography-utility-badge-tiny-font-weight: 600;
+  --kayo-typography-utility-badge-tiny-letter-spacing: 0.5px;
+  --kayo-typography-utility-badge-tiny-text-transform: uppercase;
+  --kayo-typography-utility-badge-sentence-font-size: 12px;
+  --kayo-typography-utility-badge-sentence-line-height: 16px;
+  --kayo-typography-utility-badge-sentence-font-weight: 600;
+  --kayo-typography-utility-badge-sentence-letter-spacing: 0;
+  --kayo-typography-utility-badge-tiny-sentence-font-size: 10px;
+  --kayo-typography-utility-badge-tiny-sentence-line-height: 14px;
+  --kayo-typography-utility-badge-tiny-sentence-font-weight: 600;
+  --kayo-typography-utility-badge-tiny-sentence-letter-spacing: 0;
+  --kayo-typography-numeric-lg-font-size: 24px;
+  --kayo-typography-numeric-lg-line-height: 32px;
+  --kayo-typography-numeric-lg-font-weight: 600;
+  --kayo-typography-numeric-md-font-size: 20px;
+  --kayo-typography-numeric-md-line-height: 28px;
+  --kayo-typography-numeric-md-font-weight: 600;
+  --kayo-typography-table-header-font-size: 12px;
+  --kayo-typography-table-header-line-height: 16px;
+  --kayo-typography-table-header-font-weight: 600;
+  --kayo-typography-table-header-letter-spacing: 0.6px;
+  --kayo-typography-table-header-text-transform: uppercase;
+  --kayo-typography-table-cell-font-size: 14px;
+  --kayo-typography-table-cell-line-height: 20px;
+  --kayo-typography-table-cell-font-weight: 400;
+  --kayo-notifier-positive-tint: #e1f3e4;
+  --kayo-notifier-positive-surface: #ccead1;
+  --kayo-notifier-positive-border: #01971a;
+  --kayo-notifier-positive-foreground: #096f1c;
+  --kayo-notifier-negative-tint: #fbe5e5;
+  --kayo-notifier-negative-surface: #f8d4d4;
+  --kayo-notifier-negative-border: #dc2626;
+  --kayo-notifier-negative-foreground: #9e2224;
+  --kayo-notifier-alert-tint: #feebe2;
+  --kayo-notifier-alert-surface: #fddece;
+  --kayo-notifier-alert-border: #f5590b;
+  --kayo-notifier-alert-foreground: #af4511;
+  --kayo-notifier-supportive-tint: #d4e2f8;
+  --kayo-notifier-supportive-surface: #d4e2f8;
+  --kayo-notifier-supportive-border: #266fdc;
+  --kayo-notifier-supportive-foreground: #2254a0;
+  --kayo-notifier-neutral-tint: #f8f8f8;
+  --kayo-notifier-neutral-surface: #f8f8f8;
+  --kayo-notifier-neutral-border: #757678;
+  --kayo-notifier-neutral-foreground: #4c4e51;
   --kayo-icon-sm: 16px;
   --kayo-icon-md: 20px;
   --kayo-icon-lg: 24px;

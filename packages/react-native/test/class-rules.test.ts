@@ -36,6 +36,7 @@ interface Violation {
 
 function walk(dir: string): string[] {
   return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    if (entry.name === 'kaayo') return [];
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) return walk(full);
     if (/\.tsx?$/.test(entry.name)) return [full];

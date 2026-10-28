@@ -89,7 +89,7 @@ end rather than driving to near-black; do not "fix" that.
 ## Colour roles
 
 **`tertiary` means a real third brand colour.** It is not a slot for a blue.
-Kaayo (earth), Maligai (earth), Lemniscate (orange) and Technocracy (slate) have one.
+Kaayo (navy), Maligai (earth), Lemniscate (orange) and Technocracy (slate) have one.
 Aumraa, Ilakh, Vazhai and Yakaizen do not, and carry no `tertiary` token until one
 is designed — they previously aliased `color.status.info`, a feedback colour wearing
 a brand name.

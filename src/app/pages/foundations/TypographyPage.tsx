@@ -66,6 +66,27 @@ function makeScale(displayFont: FontFamily, bodyFont: FontFamily, isTechnocracy 
   ];
 }
 
+const kaayoCanonicalScale: TypeScaleEntry[] = [
+  { name: 'Display H1', size: '2rem (32px)', lineHeight: '2.5rem (40px)', weight: '700', tag: 'h1', sample: "Today's Academy Schedule" },
+  { name: 'Heading 1', size: '1.75rem (28px)', lineHeight: '2.25rem (36px)', weight: '700', tag: 'h1', sample: 'Class Operations' },
+  { name: 'Heading 2', size: '1.5rem (24px)', lineHeight: '2rem (32px)', weight: '600', tag: 'h2', sample: 'MMA Advanced · Main Branch' },
+  { name: 'Heading 3', size: '1.25rem (20px)', lineHeight: '1.75rem (28px)', weight: '600', tag: 'h3', sample: 'Attendance Roll Call' },
+  { name: 'Heading 4', size: '1.125rem (18px)', lineHeight: '1.625rem (26px)', weight: '600', tag: 'h4', sample: 'Payment Breakdown' },
+  { name: 'Body Large', size: '1.125rem (18px)', lineHeight: '1.625rem (26px)', weight: '400', tag: 'p', sample: 'Structured tuition management for academies.' },
+  { name: 'Body Base', size: '1rem (16px)', lineHeight: '1.5rem (24px)', weight: '400', tag: 'p', sample: 'Monthly enrollment cycle automatically scheduled.' },
+  { name: 'Body Small', size: '0.875rem (14px)', lineHeight: '1.25rem (20px)', weight: '400', tag: 'p', sample: 'Due date: 5th of every month.' },
+  { name: 'Label LG', size: '1rem (16px)', lineHeight: '1.5rem (24px)', weight: '500', tag: 'span', sample: 'Student Name' },
+  { name: 'Label SM', size: '0.875rem (14px)', lineHeight: '1.25rem (20px)', weight: '600', tag: 'span', sample: 'Mark Present' },
+  { name: 'Utility Badge (Uppercase)', size: '0.75rem (12px)', lineHeight: '1rem (16px)', weight: '600', tag: 'span', sample: 'PAID · ACTIVE (5% tracking)' },
+  { name: 'Utility Badge Tiny', size: '0.625rem (10px)', lineHeight: '0.875rem (14px)', weight: '600', tag: 'span', sample: 'STARTS IN 25M' },
+  { name: 'Utility Badge Sentence (Chip)', size: '0.75rem (12px)', lineHeight: '1rem (16px)', weight: '600', tag: 'span', sample: '6 not marked (0 tracking)' },
+  { name: 'Utility Badge Tiny Sentence (Chip)', size: '0.625rem (10px)', lineHeight: '0.875rem (14px)', weight: '600', tag: 'span', sample: 'Starts today' },
+  { name: 'Numeric LG', size: '1.5rem (24px)', lineHeight: '2rem (32px)', weight: '600', tag: 'span', sample: '₹1,24,500' },
+  { name: 'Numeric MD', size: '1.25rem (20px)', lineHeight: '1.75rem (28px)', weight: '600', tag: 'span', sample: '₹14,000' },
+  { name: 'Table Header', size: '0.75rem (12px)', lineHeight: '1rem (16px)', weight: '600', tag: 'th', sample: 'STUDENT NAME' },
+  { name: 'Table Cell', size: '0.875rem (14px)', lineHeight: '1.25rem (20px)', weight: '400', tag: 'td', sample: 'Rohit Sharma' },
+];
+
 const brands: BrandTypography[] = [
   {
     id: 'lemniscate',
@@ -208,10 +229,7 @@ const brands: BrandTypography[] = [
     displayFont: { name: 'DM Sans', token: '--font-display', use: 'Display & Headings', cssValue: "'DM Sans', sans-serif", googleFont: 'DM+Sans:wght@600;700;800' },
     bodyFont: { name: 'DM Sans', token: '--font-sans', use: 'Body & UI Labels', cssValue: "'DM Sans', sans-serif" },
     monoFont,
-    scale: makeScale(
-      { name: 'DM Sans', token: '--font-display', use: 'Display', cssValue: "'DM Sans', sans-serif" },
-      { name: 'DM Sans', token: '--font-sans',    use: 'Body',    cssValue: "'DM Sans', sans-serif" }
-    ),
+    scale: kaayoCanonicalScale,
     characterSample: 'Aa Bb Cc 0123',
     accentColor: '#970103',
     bgColor: '#FDF2F3',
@@ -370,6 +388,41 @@ export function TypographyPage() {
           <FontCard font={brand.monoFont} isDark={brand.isDark} />
         </div>
       </section>
+
+      {/* Chip vs. Badge Rule for Kaayo */}
+      {brand.id === 'kaayo' && (
+        <div className="mb-12 p-6 rounded-2xl border-2 border-rose-300 bg-rose-50/50 dark:bg-rose-950/20 dark:border-rose-900">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="font-bold text-rose-900 dark:text-rose-200 text-sm">Critical Distinction: Chip vs. Badge Typography</span>
+            <span className="px-2 py-0.5 text-[10px] font-bold rounded bg-rose-200 text-rose-900">Design Rule</span>
+          </div>
+          <p className="text-xs text-slate-600 dark:text-slate-400 mb-4 max-w-3xl">
+            Kaayo enforces a strict syntactic distinction between status badges and information chips to maintain hierarchy between urgent indicators and ambient metadata.
+          </p>
+          <div className="grid md:grid-cols-2 gap-4 text-xs text-slate-700 dark:text-slate-300">
+            <div className="p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
+              <span className="font-bold text-[#970103] block mb-1">Badge (Outlined Status)</span>
+              <code className="text-[11px] block text-slate-600 dark:text-slate-400 mb-2 font-mono">typography.utility_badge</code>
+              <p className="m-0 mb-3 text-slate-600 dark:text-slate-400">
+                <strong>UPPERCASE</strong>, 5% letter-spacing (0.6px tracking), bold font-weight 600. Used for high-contrast statuses like PAID, DUE, ATTENDANCE.
+              </p>
+              <div className="inline-block px-2.5 py-1 bg-emerald-50 text-emerald-800 border border-emerald-500 rounded text-[11px] font-bold uppercase tracking-wider">
+                PAID · ACTIVE
+              </div>
+            </div>
+            <div className="p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
+              <span className="font-bold text-[#FDA581] dark:text-[#fec2a9] block mb-1">Chip (Soft Inset Information)</span>
+              <code className="text-[11px] block text-slate-600 dark:text-slate-400 mb-2 font-mono">typography.utility_badge_sentence</code>
+              <p className="m-0 mb-3 text-slate-600 dark:text-slate-400">
+                <strong>Sentence case</strong>, 0 letter-spacing, font-weight 600. Used for ambient metadata, live time pill, and counts.
+              </p>
+              <div className="inline-block px-2.5 py-1 bg-[#FFF7F3] text-slate-800 rounded-full text-[11px] font-semibold shadow-[inset_2px_2px_4px_#fed0bd,inset_-2px_-2px_4px_#ffffff]">
+                6 not marked
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Type Scale */}
       <section className="mb-12" style={brand.isDark ? { background: brand.bgColor, borderRadius: '1rem', padding: '1.5rem' } : {}}>

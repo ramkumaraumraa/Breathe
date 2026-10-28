@@ -62,10 +62,8 @@
       "Bash(pnpm tsc *)"
     ],
     "additionalDirectories": [
-      "/Users/ramkumar.ganesh/Downloads/APOS pitch/Product Factory/Breathe Design system/docs/superpowers",
-      "/Users/ramkumar.ganesh/Downloads/APOS\\ pitch/Product\\ Factory/Breathe\\ Design\\ system/src/app/pages/molecules",
-      "/Users/ramkumar.ganesh/Downloads/APOS pitch/Product Factory/Lemniscate/Dev/lemniscate/src",
-      "/Users/ramkumar.ganesh/Downloads/APOS pitch/Product Factory/Lemniscate/Dev/lemniscate"
+      "D:/Aumraa/APOS pitch/1_Product Factory/00_Breathe Design system/docs/superpowers",
+      "D:/Aumraa/APOS pitch/1_Product Factory/00_Breathe Design system/src/app/pages/molecules"
     ]
   }
 }

@@ -14,15 +14,23 @@
         "type": "color"
       },
       "primaryForeground": {
-        "value": "{color.neutral.white}",
+        "value": "{color.neutral.25}",
         "type": "color"
       },
       "secondary": {
         "value": "{color.peach.500}",
         "type": "color"
       },
+      "secondaryLight": {
+        "value": "{color.peach.300}",
+        "type": "color"
+      },
+      "secondaryDark": {
+        "value": "{color.peach.700}",
+        "type": "color"
+      },
       "secondaryForeground": {
-        "value": "{color.neutral.white}",
+        "value": "{color.neutral.25}",
         "type": "color"
       },
       "tertiary": {
@@ -30,35 +38,84 @@
         "type": "color"
       },
       "tertiaryForeground": {
-        "value": "{color.neutral.white}",
+        "value": "{color.neutral.25}",
         "type": "color"
       },
       "background": {
-        "value": "{color.neutral.white}",
-        "type": "color"
+        "value": "{color.neutral.50}",
+        "type": "color",
+        "comment": "theme.surface.canvas (#F8F8F8)"
+      },
+      "backgroundCard": {
+        "value": "{color.neutral.25}",
+        "type": "color",
+        "comment": "theme.surface.card (#FFFFFF)"
       },
       "backgroundSecondary": {
         "value": "{color.neutral.50}",
         "type": "color"
       },
+      "backgroundSunken": {
+        "value": "{color.neutral.75}",
+        "type": "color",
+        "comment": "theme.surface.sunken (#F0F1F1)"
+      },
+      "backgroundInverse": {
+        "value": "{color.neutral.950}",
+        "type": "color",
+        "comment": "theme.surface.inverse (#17191D)"
+      },
       "foreground": {
-        "value": "{color.neutral.800}",
-        "type": "color"
+        "value": "{color.neutral.950}",
+        "type": "color",
+        "comment": "theme.text.primary (#17191D)"
       },
       "foregroundSecondary": {
+        "value": "{color.neutral.800}",
+        "type": "color",
+        "comment": "theme.text.secondary (#3A3B3F)"
+      },
+      "foregroundTertiary": {
         "value": "{color.neutral.500}",
-        "type": "color"
+        "type": "color",
+        "comment": "theme.text.tertiary (#757678)"
+      },
+      "foregroundDisabled": {
+        "value": "{color.neutral.400}",
+        "type": "color",
+        "comment": "theme.text.disabled (#9FA0A2)"
+      },
+      "foregroundInverse": {
+        "value": "{color.neutral.25}",
+        "type": "color",
+        "comment": "theme.text.inverse (#FFFFFF)"
       },
       "border": {
-        "value": "{color.neutral.800}",
-        "type": "color"
+        "value": "{color.neutral.950}",
+        "type": "color",
+        "comment": "theme.border.strong (2px hard brutalist border #17191D)"
+      },
+      "borderDefault": {
+        "value": "{color.neutral.200}",
+        "type": "color",
+        "comment": "theme.border.default (#D9DADB)"
+      },
+      "borderSubtle": {
+        "value": "{color.neutral.75}",
+        "type": "color",
+        "comment": "theme.border.subtle (#F0F1F1)"
+      },
+      "borderFocus": {
+        "value": "{color.feedback.supportive.500}",
+        "type": "color",
+        "comment": "theme.border.focus (#266FDC)"
       },
       "positive": {
         "value": "{kayo.palette.positive.500}",
         "type": "color"
       },
       "positiveForeground": {
-        "value": "{color.neutral.white}",
+        "value": "{color.neutral.25}",
         "type": "color"
       },
       "negative": {
@@ -66,7 +123,7 @@
         "type": "color"
       },
       "negativeForeground": {
-        "value": "{color.neutral.white}",
+        "value": "{color.neutral.25}",
         "type": "color"
       },
       "warning": {
@@ -83,15 +140,29 @@
         "type": "color"
       },
       "supportive": {
-        "value": "{color.status.supportive}",
+        "value": "{color.feedback.supportive.500}",
         "type": "color"
       },
       "supportiveForeground": {
-        "value": "{color.neutral.white}",
+        "value": "{color.neutral.25}",
         "type": "color"
       }
     },
+    "border": {
+      "width": {
+        "value": 2,
+        "type": "dimension"
+      },
+      "widthHairline": {
+        "value": 1,
+        "type": "dimension"
+      }
+    },
     "font": {
+      "family": {
+        "value": "DM Sans, -apple-system, BlinkMacSystemFont, sans-serif",
+        "type": "fontFamily"
+      },
       "sizeBase": {
         "value": "{font.size.base}",
         "type": "dimension"
@@ -120,6 +191,10 @@
       }
     },
     "radius": {
+      "none": {
+        "value": 0,
+        "type": "dimension"
+      },
       "default": {
         "value": "{radius.md}",
         "type": "dimension"
@@ -128,12 +203,30 @@
         "value": "{radius.sm}",
         "type": "dimension"
       },
+      "md": {
+        "value": "{radius.md}",
+        "type": "dimension"
+      },
+      "lg": {
+        "value": 12,
+        "type": "dimension",
+        "comment": "Neo-Brutalist constraint: max radius 12 except pill & clay 24"
+      },
+      "clay": {
+        "value": 24,
+        "type": "dimension",
+        "comment": "Soft clay card surface radius"
+      },
       "pill": {
-        "value": "{radius.full}",
+        "value": 999,
         "type": "dimension"
       }
     },
     "shadow": {
+      "none": {
+        "value": "none",
+        "type": "shadow"
+      },
       "sm": {
         "value": "2px 2px 0 {color.neutral.950}",
         "type": "shadow",
@@ -153,6 +246,204 @@
         "value": "8px 8px 0 {color.neutral.950}",
         "type": "shadow",
         "comment": "Neo-Brutalist hard offset — no blur"
+      },
+      "drop": {
+        "value": "0px 2px 0px 0px {color.neutral.950}",
+        "type": "shadow",
+        "comment": "Straight-down hard shadow for tracks and canopy edges"
+      }
+    },
+    "clay": {
+      "raised": {
+        "sm": {
+          "value": "-2px -2px 4px 0px {color.neutral.25}, 2px 3px 6px 0px {color.peach.200}",
+          "type": "shadow",
+          "comment": "Soft clay raised small (warm peach shade + white light)"
+        },
+        "md": {
+          "value": "-4px -4px 10px 0px {color.neutral.25}, 5px 6px 14px 0px {color.peach.200}",
+          "type": "shadow",
+          "comment": "Soft clay raised medium"
+        },
+        "lg": {
+          "value": "-6px -6px 14px 0px {color.neutral.25}, 8px 10px 22px 0px {color.peach.200}",
+          "type": "shadow",
+          "comment": "Soft clay raised large"
+        }
+      },
+      "inset": {
+        "sm": {
+          "value": "inset 2px 2px 4px 0px {color.peach.200}, inset -2px -2px 4px 0px {color.neutral.25}",
+          "type": "shadow",
+          "comment": "Soft clay inset small"
+        },
+        "md": {
+          "value": "inset 3px 3px 6px 0px {color.peach.200}, inset -3px -3px 6px 0px {color.neutral.25}",
+          "type": "shadow",
+          "comment": "Soft clay inset medium"
+        },
+        "lg": {
+          "value": "inset 4px 4px 10px 0px {color.peach.200}, inset -4px -4px 8px 0px {color.neutral.25}",
+          "type": "shadow",
+          "comment": "Soft clay inset large"
+        }
+      },
+      "outlined": {
+        "value": "2px 2px 0px 0px {color.peach.700}, -2px -2px 0px 0px {color.peach.200}, 8px 10px 22px 0px {color.peach.200}",
+        "type": "shadow",
+        "comment": "Outlined clay card: hard rims (dark bottom-right, light top-left) + warm lift"
+      }
+    },
+    "motion": {
+      "fast": {
+        "value": 140,
+        "type": "duration",
+        "comment": "Icon swaps, toggles, snappy mechanical press"
+      },
+      "base": {
+        "value": 200,
+        "type": "duration",
+        "comment": "Menus, sheets, entrances"
+      }
+    },
+    "breakpoint": {
+      "mobileLarge": { "value": 640, "type": "dimension" },
+      "tablet": { "value": 768, "type": "dimension" },
+      "tabletLarge": { "value": 1024, "type": "dimension" },
+      "desktop": { "value": 1280, "type": "dimension" },
+      "desktopLarge": { "value": 1536, "type": "dimension" }
+    },
+    "typography": {
+      "displayH1": {
+        "fontSize": { "value": 32, "type": "dimension" },
+        "lineHeight": { "value": 40, "type": "dimension" },
+        "fontWeight": { "value": "700", "type": "fontWeight" },
+        "letterSpacing": { "value": 0.32, "type": "dimension" }
+      },
+      "headingH1": {
+        "fontSize": { "value": 28, "type": "dimension" },
+        "lineHeight": { "value": 36, "type": "dimension" },
+        "fontWeight": { "value": "700", "type": "fontWeight" }
+      },
+      "headingH2": {
+        "fontSize": { "value": 24, "type": "dimension" },
+        "lineHeight": { "value": 32, "type": "dimension" },
+        "fontWeight": { "value": "600", "type": "fontWeight" }
+      },
+      "headingH3": {
+        "fontSize": { "value": 20, "type": "dimension" },
+        "lineHeight": { "value": 28, "type": "dimension" },
+        "fontWeight": { "value": "600", "type": "fontWeight" }
+      },
+      "headingH4": {
+        "fontSize": { "value": 18, "type": "dimension" },
+        "lineHeight": { "value": 26, "type": "dimension" },
+        "fontWeight": { "value": "600", "type": "fontWeight" }
+      },
+      "bodyLg": {
+        "fontSize": { "value": 18, "type": "dimension" },
+        "lineHeight": { "value": 26, "type": "dimension" },
+        "fontWeight": { "value": "400", "type": "fontWeight" }
+      },
+      "bodyBase": {
+        "fontSize": { "value": 16, "type": "dimension" },
+        "lineHeight": { "value": 24, "type": "dimension" },
+        "fontWeight": { "value": "400", "type": "fontWeight" }
+      },
+      "bodySm": {
+        "fontSize": { "value": 14, "type": "dimension" },
+        "lineHeight": { "value": 20, "type": "dimension" },
+        "fontWeight": { "value": "400", "type": "fontWeight" }
+      },
+      "labelLg": {
+        "fontSize": { "value": 16, "type": "dimension" },
+        "lineHeight": { "value": 24, "type": "dimension" },
+        "fontWeight": { "value": "500", "type": "fontWeight" }
+      },
+      "labelSm": {
+        "fontSize": { "value": 14, "type": "dimension" },
+        "lineHeight": { "value": 20, "type": "dimension" },
+        "fontWeight": { "value": "600", "type": "fontWeight" }
+      },
+      "utilityBadge": {
+        "fontSize": { "value": 12, "type": "dimension" },
+        "lineHeight": { "value": 16, "type": "dimension" },
+        "fontWeight": { "value": "600", "type": "fontWeight" },
+        "letterSpacing": { "value": 0.6, "type": "dimension" },
+        "textTransform": { "value": "uppercase", "type": "string" }
+      },
+      "utilityBadgeTiny": {
+        "fontSize": { "value": 10, "type": "dimension" },
+        "lineHeight": { "value": 14, "type": "dimension" },
+        "fontWeight": { "value": "600", "type": "fontWeight" },
+        "letterSpacing": { "value": 0.5, "type": "dimension" },
+        "textTransform": { "value": "uppercase", "type": "string" }
+      },
+      "utilityBadgeSentence": {
+        "fontSize": { "value": 12, "type": "dimension" },
+        "lineHeight": { "value": 16, "type": "dimension" },
+        "fontWeight": { "value": "600", "type": "fontWeight" },
+        "letterSpacing": { "value": 0, "type": "dimension" }
+      },
+      "utilityBadgeTinySentence": {
+        "fontSize": { "value": 10, "type": "dimension" },
+        "lineHeight": { "value": 14, "type": "dimension" },
+        "fontWeight": { "value": "600", "type": "fontWeight" },
+        "letterSpacing": { "value": 0, "type": "dimension" }
+      },
+      "numericLg": {
+        "fontSize": { "value": 24, "type": "dimension" },
+        "lineHeight": { "value": 32, "type": "dimension" },
+        "fontWeight": { "value": "600", "type": "fontWeight" }
+      },
+      "numericMd": {
+        "fontSize": { "value": 20, "type": "dimension" },
+        "lineHeight": { "value": 28, "type": "dimension" },
+        "fontWeight": { "value": "600", "type": "fontWeight" }
+      },
+      "tableHeader": {
+        "fontSize": { "value": 12, "type": "dimension" },
+        "lineHeight": { "value": 16, "type": "dimension" },
+        "fontWeight": { "value": "600", "type": "fontWeight" },
+        "letterSpacing": { "value": 0.6, "type": "dimension" },
+        "textTransform": { "value": "uppercase", "type": "string" }
+      },
+      "tableCell": {
+        "fontSize": { "value": 14, "type": "dimension" },
+        "lineHeight": { "value": 20, "type": "dimension" },
+        "fontWeight": { "value": "400", "type": "fontWeight" }
+      }
+    },
+    "notifier": {
+      "positive": {
+        "tint": { "value": "{kayo.palette.positive.25}", "type": "color" },
+        "surface": { "value": "{kayo.palette.positive.50}", "type": "color" },
+        "border": { "value": "{kayo.palette.positive.500}", "type": "color" },
+        "foreground": { "value": "{kayo.palette.positive.700}", "type": "color" }
+      },
+      "negative": {
+        "tint": { "value": "{kayo.palette.negative.25}", "type": "color" },
+        "surface": { "value": "{kayo.palette.negative.50}", "type": "color" },
+        "border": { "value": "{kayo.palette.negative.500}", "type": "color" },
+        "foreground": { "value": "{kayo.palette.negative.700}", "type": "color" }
+      },
+      "alert": {
+        "tint": { "value": "{kayo.palette.alert.25}", "type": "color" },
+        "surface": { "value": "{kayo.palette.alert.50}", "type": "color" },
+        "border": { "value": "{kayo.palette.alert.500}", "type": "color" },
+        "foreground": { "value": "{kayo.palette.alert.700}", "type": "color" }
+      },
+      "supportive": {
+        "tint": { "value": "{color.feedback.supportive.50}", "type": "color" },
+        "surface": { "value": "{color.feedback.supportive.50}", "type": "color" },
+        "border": { "value": "{color.feedback.supportive.500}", "type": "color" },
+        "foreground": { "value": "{color.feedback.supportive.700}", "type": "color" }
+      },
+      "neutral": {
+        "tint": { "value": "{color.neutral.50}", "type": "color" },
+        "surface": { "value": "{color.neutral.50}", "type": "color" },
+        "border": { "value": "{color.neutral.500}", "type": "color" },
+        "foreground": { "value": "{color.neutral.700}", "type": "color" }
       }
     },
     "icon": {

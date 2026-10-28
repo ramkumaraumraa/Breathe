@@ -178,6 +178,156 @@ export function ElevationPage() {
         </div>
       </section>
 
+      {/* Kaayo: Soft Clay & Brutalist Depth */}
+      <section className="mb-12">
+        <div className="flex items-center gap-3 mb-2">
+          <h2 className="text-slate-900 dark:text-white m-0" style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.25rem' }}>
+            Kaayo: Soft Clay &amp; Brutalist Depth
+          </h2>
+          <span className="px-2 py-0.5 text-xs font-bold rounded bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300">
+            Kaayo v1.8.0
+          </span>
+        </div>
+        <p className="text-slate-500 dark:text-slate-400 mb-8 mt-1 max-w-3xl" style={{ fontFamily: 'var(--font-sans)', fontSize: '0.875rem' }}>
+          Kaayo fuses <strong>Neo-Brutalism</strong> (hard offset shadows, ink boundaries, sharp mechanical feedback) with <strong>Skeuomorphism 2.0</strong> (soft clay surfaces, directional light sources, tactile inset grooves).
+        </p>
+
+        {/* 1. Hard Shadows */}
+        <div className="mb-8">
+          <h3 className="text-slate-800 dark:text-slate-200 text-base font-semibold mb-3">
+            Brutalist Hard Offset Shadows
+          </h3>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {[
+              { name: 'Hard SM', token: '--kayo-shadow-sm', css: '2px 2px 0 #17191D', desc: 'Cards, pills, tabs' },
+              { name: 'Hard MD', token: '--kayo-shadow-md', css: '4px 4px 0 #17191D', desc: 'Canopy cards, modals' },
+              { name: 'Hard LG', token: '--kayo-shadow-lg', css: '6px 6px 0 #17191D', desc: 'Floating FAB, dialogs' },
+              { name: 'Hard XL', token: '--kayo-shadow-xl', css: '8px 8px 0 #17191D', desc: 'Hero callouts' },
+              { name: 'Hard Drop', token: '--kayo-shadow-drop', css: '0px 2px 0px 0px #17191D', desc: 'Canopy edge, bottom bar' },
+            ].map(item => (
+              <div key={item.name} className="flex flex-col gap-2">
+                <div
+                  className="bg-white rounded-lg p-4 flex flex-col items-center justify-center min-h-[90px] border-2 border-[#17191D]"
+                  style={{ boxShadow: item.css }}
+                >
+                  <span className="text-[#17191D] font-bold text-sm">{item.name}</span>
+                </div>
+                <div>
+                  <code className="block text-rose-700 dark:text-rose-400 text-xs font-mono">{item.token}</code>
+                  <p className="text-slate-500 text-xs mt-0.5">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 2. Soft Clay Raised */}
+        <div className="mb-8">
+          <h3 className="text-slate-800 dark:text-slate-200 text-base font-semibold mb-3">
+            Soft Clay Raised (Dual Blurred Shadows, Top-Left Light)
+          </h3>
+          <div className="grid sm:grid-cols-3 gap-6">
+            {[
+              { name: 'Raised SM', token: '--kayo-clay-raised-sm', css: '-2px -2px 4px 0px #ffffff, 2px 3px 6px 0px #fed0bd', desc: 'Knobs, navigation buttons, small icons' },
+              { name: 'Raised MD', token: '--kayo-clay-raised-md', css: '-4px -4px 10px 0px #ffffff, 5px 6px 14px 0px #fed0bd', desc: 'Batches dial, summary cards' },
+              { name: 'Raised LG', token: '--kayo-clay-raised-lg', css: '-6px -6px 14px 0px #ffffff, 8px 10px 22px 0px #fed0bd', desc: 'Notification banner carousel cards' },
+            ].map(item => (
+              <div key={item.name} className="flex flex-col gap-2">
+                <div
+                  className="bg-[#FFF7F3] rounded-2xl p-6 flex flex-col items-center justify-center min-h-[110px]"
+                  style={{ boxShadow: item.css }}
+                >
+                  <span className="text-[#17191D] font-bold text-base">{item.name}</span>
+                  <span className="text-slate-500 text-xs mt-1">Light source top-left</span>
+                </div>
+                <div>
+                  <code className="block text-rose-700 dark:text-rose-400 text-xs font-mono">{item.token}</code>
+                  <p className="text-slate-500 text-xs mt-0.5">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 3. Soft Clay Inset */}
+        <div className="mb-8">
+          <h3 className="text-slate-800 dark:text-slate-200 text-base font-semibold mb-3">
+            Soft Clay Inset (Inner Warm Shade + Inner White Rim)
+          </h3>
+          <div className="grid sm:grid-cols-3 gap-6">
+            {[
+              { name: 'Inset SM', token: '--kayo-clay-inset-sm', css: 'inset 2px 2px 4px 0px #fed0bd, inset -2px -2px 4px 0px #ffffff', desc: 'Information chips, groove track, toggles' },
+              { name: 'Inset MD', token: '--kayo-clay-inset-md', css: 'inset 3px 3px 6px 0px #fed0bd, inset -3px -3px 6px 0px #ffffff', desc: 'Deep recessed trays, search wells' },
+              { name: 'Inset LG', token: '--kayo-clay-inset-lg', css: 'inset 4px 4px 10px 0px #fed0bd, inset -4px -4px 8px 0px #ffffff', desc: 'Sunken calendar matrix' },
+            ].map(item => (
+              <div key={item.name} className="flex flex-col gap-2">
+                <div
+                  className="bg-[#FFF7F3] rounded-2xl p-6 flex flex-col items-center justify-center min-h-[110px]"
+                  style={{ boxShadow: item.css }}
+                >
+                  <span className="text-[#17191D] font-bold text-base">{item.name}</span>
+                  <span className="text-slate-500 text-xs mt-1">Recessed into surface</span>
+                </div>
+                <div>
+                  <code className="block text-rose-700 dark:text-rose-400 text-xs font-mono">{item.token}</code>
+                  <p className="text-slate-500 text-xs mt-0.5">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 4. Outlined Clay & Interactive Press Demo */}
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="flex flex-col gap-3">
+            <h3 className="text-slate-800 dark:text-slate-200 text-base font-semibold">
+              Outlined Clay Card
+            </h3>
+            <div
+              className="bg-[#FFF7F3] rounded-3xl p-6 flex flex-col justify-between min-h-[140px] border-2 border-[#6C3E17]"
+              style={{ boxShadow: '2px 2px 0px 0px #b47962, -2px -2px 0px 0px #fed0bd, 8px 10px 22px 0px #fed0bd' }}
+            >
+              <div>
+                <span className="text-[#17191D] font-bold text-base block">Outlined Clay Surface</span>
+                <span className="text-slate-600 text-xs mt-1 block">
+                  Hard dual rims (#b47962 bottom-right, #fed0bd top-left) combined with 22px warm peach lift.
+                </span>
+              </div>
+              <code className="text-rose-700 dark:text-rose-400 text-xs font-mono">--kayo-clay-outlined</code>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <h3 className="text-slate-800 dark:text-slate-200 text-base font-semibold">
+              Interactive Mechanical Press Playground
+            </h3>
+            <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 flex items-center justify-around gap-4 min-h-[140px]">
+              {/* Brutalist Button */}
+              <div className="flex flex-col items-center gap-2">
+                <button
+                  type="button"
+                  className="px-4 py-2 font-bold text-sm text-white bg-[#970103] border-2 border-[#17191D] rounded-lg shadow-[2px_2px_0_#17191D] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all duration-75 cursor-pointer"
+                >
+                  Click Brutalist
+                </button>
+                <span className="text-xs text-slate-500 font-mono">translate(2px, 2px)</span>
+              </div>
+
+              {/* Soft Clay Knob */}
+              <div className="flex flex-col items-center gap-2">
+                <button
+                  type="button"
+                  className="w-12 h-12 rounded-full bg-[#FFF7F3] border border-[#FEC2A9] flex items-center justify-center font-bold text-[#17191D] shadow-[-2px_-2px_4px_#ffffff,2px_3px_6px_#fed0bd] active:scale-95 active:shadow-[inset_2px_2px_4px_#fed0bd,inset_-2px_-2px_4px_#ffffff] transition-all duration-100 cursor-pointer"
+                >
+                  1
+                </button>
+                <span className="text-xs text-slate-500 font-mono">scale(0.95) + inset</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section>
         <FoundationCodeCard
           title="Usage in CSS"

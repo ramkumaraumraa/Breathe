@@ -1,3 +1,4 @@
+require('react-native-gesture-handler/jestSetup');
 jest.mock('react-native-worklets', () => require('react-native-worklets/src/mock'));
 require('react-native-reanimated').setUpTests();
 
@@ -52,6 +53,48 @@ jest.mock('lucide-react-native/icons/chevron-left', () => ({
   __esModule: true,
   default: jest.requireMock('lucide-react-native').ChevronLeft,
 }));
+jest.mock('expo-local-authentication', () => ({
+  hasHardwareAsync: jest.fn().mockResolvedValue(false),
+  isEnrolledAsync: jest.fn().mockResolvedValue(false),
+  authenticateAsync: jest.fn().mockResolvedValue({ success: false }),
+  cancelAuthenticate: jest.fn().mockResolvedValue(undefined),
+  AuthenticationType: { FINGERPRINT: 1, FACIAL_RECOGNITION: 2, IRIS: 3 },
+}));
+
+jest.mock('@sentry/react-native', () => ({
+  captureException: jest.fn(),
+  wrap: (c: unknown) => c,
+  init: jest.fn(),
+}));
+
+jest.mock('expo-router', () => ({
+  router: {
+    push: jest.fn(),
+    replace: jest.fn(),
+    back: jest.fn(),
+    canGoBack: jest.fn(() => true),
+    setParams: jest.fn(),
+  },
+  useRouter: () => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    back: jest.fn(),
+  }),
+  useIsFocused: () => true,
+  Tabs: Object.assign(
+    ({ children }: { children: unknown }) => children,
+    { Screen: ({ children }: { children: unknown }) => children }
+  ),
+}));
+
+jest.mock('expo-image', () => {
+  const mockReact = require('react');
+  const { View: MockView } = require('react-native');
+  return {
+    Image: (props: object) => mockReact.createElement(MockView, { testID: 'expo-image', ...props }),
+  };
+});
+
 jest.mock('lucide-react-native/icons/chevron-right', () => ({
   __esModule: true,
   default: jest.requireMock('lucide-react-native').ChevronRight,
